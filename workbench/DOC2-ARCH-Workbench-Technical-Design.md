@@ -205,6 +205,11 @@ Ce principe garantit que :
 **Justification :** Optimisation VRAM et accélération des cycles répétitifs. Le modèle 32B reste disponible pour les décisions complexes.
 **Exigences adressées :** REQ-1.4
 
+> ⚠️ **LIMITATION MODE PROXY :** Les Boomerang Tasks ne sont pas supportées en Mode Proxy Gemini.
+> Le proxy est un endpoint unique partagé par toutes les instances Roo Code — les requêtes
+> concurrentes de l'agent principal et du sous-agent créent un conflit de presse-papiers (deadlock).
+> **Utiliser le Mode Local (Ollama) ou le Mode Cloud (Claude API) pour les tâches nécessitant des sous-agents.**
+
 ### DA-006 — FastAPI + asyncio pour le proxy
 **Décision :** FastAPI est choisi plutôt que Flask pour sa gestion native de l'asynchronisme (asyncio), indispensable pour maintenir la connexion HTTP ouverte pendant l'attente de l'intervention humaine (polling du presse-papiers) sans bloquer le serveur.
 **Justification :** Flask est synchrone par défaut — il bloquerait le serveur pendant le polling. FastAPI avec asyncio maintient le serveur réactif (endpoint `/health` répond pendant le polling).

@@ -274,6 +274,7 @@ Le système doit fournir un mécanisme automatique de détection des désynchron
 - Ce système ne vise PAS à gérer des projets multi-utilisateurs ou des environnements distribués.
 - Ce système ne vise PAS à supporter des modèles LLM autres que les trois modes documentés dans cette version 1.0.
 - Ce système ne vise PAS à remplacer un vrai outil de gestion de projet Agile (Jira, Linear, etc.) — il simule les rôles Agile pour le développement assisté par IA.
+- Le Mode Proxy Gemini ne supporte PAS les Boomerang Tasks (`new_task`) — deux instances Roo Code concurrentes partagent le même presse-papiers, créant un deadlock. Utiliser le Mode Local (Ollama) ou le Mode Cloud (Claude API) pour les tâches nécessitant des sous-agents.
 
 ### 5.3 Tableau Comparatif des 3 Modes LLM
 

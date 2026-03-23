@@ -1617,6 +1617,16 @@ POURQUOI CE PROTOCOLE :
   La Memory Bank garantit la continuité du contexte quel que soit le backend.
 ```
 
+> ⚠️ **LIMITATIONS CONNUES DU MODE PROXY GEMINI** (à documenter dans `activeContext.md` lors du basculement) :
+>
+> | Limitation | Détail | Alternative |
+> | :--- | :--- | :--- |
+> | **Boomerang Tasks (`new_task`) : NON SUPPORTÉ** | Deux instances Roo Code concurrentes partagent le même presse-papiers → deadlock immédiat | Utiliser Mode Local (Ollama) ou Mode Cloud (Claude API) |
+> | **Tâches longues (> 10 tours LLM) : DÉCONSEILLÉ** | Taille du presse-papiers explose, fatigue cognitive humaine | Découper en sous-tâches de < 10 tours, ou utiliser Claude API |
+> | **Utilisation parallèle du presse-papiers : IMPOSSIBLE** | Tout Ctrl+C pendant une session proxy écrase la réponse Gemini en attente | Ne pas utiliser le presse-papiers pour autre chose pendant une session |
+> | **Exécution sans surveillance : IMPOSSIBLE** | Présence humaine continue requise à chaque tour LLM | Utiliser Mode Local (Ollama) ou Mode Cloud (Claude API) |
+> | **Conversation Gemini : TOUJOURS nouvelle conversation** | Le proxy envoie déjà l'historique complet dans le presse-papiers — continuer une conversation existante duplique l'historique | Ouvrir une nouvelle conversation Gemini à chaque session proxy |
+
 > 📋 **PROMPT 9.4 — Test de basculement backend LLM**
 > **Mode Roo Code requis :** `scrum-master`
 > **Complexité :** 🟢 Simple — 1 envoi pour vérifier que le nouveau backend lit bien la Memory Bank

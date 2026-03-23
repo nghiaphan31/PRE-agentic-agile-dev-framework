@@ -4,7 +4,7 @@
 **Source review:** `plans/REVIEW-Gemini-Proxy-Path-Robustness.md` + `plans/REVIEW-Gemini-Proxy-Path-Robustness-Part2.md`  
 **Created:** 2026-03-23  
 **Last updated:** 2026-03-23
-**Status:** 🟡 2/12 fixes applied
+**Status:** 🟡 3/12 fixes applied
 
 ---
 
@@ -88,7 +88,7 @@ This file is the **single source of truth** for tracking the application of all 
 ---
 
 ### FIX-003 — Document Boomerang Tasks as unsupported in proxy mode
-- **Status:** [ ] PENDING
+- **Status:** [x] DONE
 - **Files to change:** `workbench/DOC1-PRD-Workbench-Requirements.md`, `workbench/DOC2-ARCH-Workbench-Technical-Design.md`, `workbench/DOC5-GUIDE-Project-Development-Process.md`
 - **Gap addressed:** GAP-003 (Boomerang Tasks broken in proxy mode — no warning exists)
 - **What to do:**
@@ -106,7 +106,7 @@ This file is the **single source of truth** for tracking the application of all 
      ```
   3. In [`DOC5-GUIDE`](workbench/DOC5-GUIDE-Project-Development-Process.md) section 9.4 "Protocole de Changement de Backend LLM", add a limitations block (see Part2 section 9 for exact text)
 - **Verification:** Search for "Boomerang" in all three docs — each should contain the limitation warning.
-- **Applied:** [ ] Date: ___________ | Commit: ___________
+- **Applied:** [x] Date: 2026-03-23 | Commit: _PENDING_
 
 ---
 
@@ -265,10 +265,10 @@ This file is the **single source of truth** for tracking the application of all 
 
 | Priority | Total | Done | Remaining |
 | :--- | :---: | :---: | :---: |
-| P0 — Blocking | 3 | 2 | 1 |
+| P0 — Blocking | 3 | 3 | 0 |
 | P1 — High | 5 | 0 | 5 |
 | P2 — Medium | 4 | 0 | 4 |
-| **TOTAL** | **12** | **2** | **10** |
+| **TOTAL** | **12** | **3** | **9** |
 
 ---
 
@@ -279,6 +279,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Initial review | Tracker created | — |
 | 2026-03-23 | Session 1 | FIX-001 — Console multi-ligne NOUVELLE conversation | fceb6fd |
 | 2026-03-23 | Session 2 | FIX-002 — SP-007 v1.1.0 replace_in_file + list_files | 62ea897 |
+| 2026-03-23 | Session 3 | FIX-003 — Boomerang Tasks limitation documentée (DOC1+DOC2+DOC5) | _PENDING_ |
 
 ---
 

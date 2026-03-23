@@ -7,7 +7,7 @@
 
 **Created:** 2026-03-23
 **Last updated:** 2026-03-23
-**Status:** ✅ 12/12 fixes from Review 1 applied | ⚠️ 7 new fixes from Review 2 pending (2 blocking)
+**Status:** ✅ 12/12 fixes from Review 1 applied | ⚠️ 5 new fixes from Review 2 pending (0 blocking)
 
 ---
 
@@ -322,12 +322,12 @@ This file is the **single source of truth** for tracking the application of all 
 ---
 
 ### FIX-014 — Proxy: make short-content check blocking + raise threshold to 100 chars
-- **Status:** [ ] PENDING
+- **Status:** [x] DONE
 - **File to change:** `template/proxy.py`
 - **Gap addressed:** REG-001 (FIX-006 warns but still injects short/garbage content into Roo Code)
 - **What to do:** In [`_wait_clipboard()`](template/proxy.py), replace the current non-blocking check (threshold 20, non-blocking) with a blocking version (threshold 100, `initial_hash = _hash(current)` then `continue`). Also update proxy version to `2.0.6` and add changelog entry.
 - **Verification:** Copy a 50-char string (e.g., a URL) while proxy is polling — proxy should print warning and continue polling (NOT inject the URL into Roo Code).
-- **Applied:** [ ] Date: — | Commit: —
+- **Applied:** [x] Date: 2026-03-23 | Commit: ee32665
 
 ---
 
@@ -392,10 +392,10 @@ This file is the **single source of truth** for tracking the application of all 
 | **Review 1 — P0 Blocking** | 3 | 3 | 0 |
 | **Review 1 — P1 High** | 5 | 5 | 0 |
 | **Review 1 — P2 Medium** | 4 | 4 | 0 |
-| **Review 2 - P0 Blocking** | 2 | 1 | **1** |
+| **Review 2 - P0 Blocking** | 2 | 2 | **0** |
 | **Review 2 - P1 High** | 2 | 0 | **2** |
 | **Review 2 - P2 Medium** | 3 | 0 | **3** |
-| **TOTAL** | **19** | **13** | **6** |
+| **TOTAL** | **19** | **14** | **5** |
 
 ---
 
@@ -405,6 +405,7 @@ This file is the **single source of truth** for tracking the application of all 
 | :--- | :--- | :--- | :--- |
 | 2026-03-23 | Review 2 | REVIEW2 written - 3 regressions + 6 new gaps identified (FIX-013 to FIX-019 added) | -- |
 | 2026-03-23 | Session 13 | FIX-013 — SP-007 v1.4.0 format exact diff SEARCH/REPLACE pour replace_in_file + Regle 10 — DEPLOIEMENT MANUEL REQUIS | 9cd8707 |
+| 2026-03-23 | Session 14 | FIX-014 — Verification longueur minimale BLOQUANTE (seuil 100 chars) dans _wait_clipboard() — proxy v2.0.6 (REG-001) | ee32665 |
 
 ---
 

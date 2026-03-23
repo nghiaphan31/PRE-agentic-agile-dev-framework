@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-le workbench Proxy v2.1.1 — Pont Roo Code <-> Gemini Chrome
+le workbench Proxy v2.2.0 — Pont Roo Code <-> Gemini Chrome
 Supporte stream=true (SSE) et stream=false (JSON complet).
 Exigences: REQ-2.1.1 a REQ-2.4.4
 
@@ -17,6 +17,8 @@ Changelog:
   v2.0.9 - 2026-03-23 : FIX-017 — asyncio.Lock() pour serialisation du presse-papiers (GAP R1-004)
   v2.1.0 - 2026-03-23 : FIX-018 — Suppression "ou effacer l'historique existant" — TOUJOURS NOUVELLE conversation (GAP R1-001)
   v2.1.1 - 2026-03-23 : FIX-019 — Force UTF-8 stdout sur Windows pour eviter UnicodeEncodeError cp1252
+  v2.2.0 - 2026-03-23 : FIX-020 — Validation XML bloquante (Gemini texte libre bloque comme <new_task>) (GAP R2-001)
+                         FIX-021 — Detection balises XML echappees markdown (\<read_file\>) avec message specifique (GAP R2-002)
 """
 import asyncio, hashlib, json, os, sys, time, uuid
 from datetime import datetime
@@ -63,7 +65,7 @@ class ChatRequest(BaseModel):
     max_tokens: Optional[int] = None
     stream: Optional[bool] = False
 
-app = FastAPI(title="le workbench Proxy", version="2.1.1")
+app = FastAPI(title="le workbench Proxy", version="2.2.0")
 
 def _hash(text: str) -> str:
     return hashlib.md5(text.encode("utf-8")).hexdigest()
@@ -125,9 +127,16 @@ def _format_prompt(messages: List[MessageContent]) -> str:
         return truncated
     return full
 
+# FIX-021: Balises XML echappees markdown — Gemini echappe parfois les < > en \< \> (GAP R2-002)
+ROO_XML_TAGS_ESCAPED = [tag.replace("<", r"\<").replace(">", r"\>") for tag in ROO_XML_TAGS]
+
 def _validate_response(text: str) -> bool:
     """Verifie la presence de balises XML Roo Code. REQ-2.3.4"""
     return any(tag in text for tag in ROO_XML_TAGS)
+
+def _has_escaped_xml(text: str) -> bool:
+    """Detecte les balises XML echappees markdown (ex: \<read_file\>). FIX-021"""
+    return any(tag in text for tag in ROO_XML_TAGS_ESCAPED)
 
 def _build_json_response(content: str, model: str) -> dict:
     """Construit une reponse JSON OpenAI. REQ-2.4.2"""
@@ -183,8 +192,25 @@ async def _wait_clipboard(initial_hash: str, ts: str) -> str:
                 print(f"[{ts}]    Copiez la reponse corrigee (sans <new_task>) pour continuer.")
                 initial_hash = _hash(current)
                 continue
+            # FIX-020: Validation XML BLOQUANTE — Gemini en texte libre est bloque comme <new_task> (GAP R2-001)
+            # Avant: avertissement non-bloquant => Roo Code recevait du texte libre => boucle infinie de requetes
+            # Apres: le proxy continue de poller et demande a l'utilisateur de reformuler
             if not _validate_response(current):
-                print(f"[{ts}] AVERTISSEMENT : Aucune balise XML Roo Code detectee.")
+                # FIX-021: Detection specifique des balises echappees markdown \<tag\> (GAP R2-002)
+                if _has_escaped_xml(current):
+                    print(f"[{ts}] 🚫 ERREUR : Balises XML echappees detectees (ex: \\<read_file\\> au lieu de <read_file>)")
+                    print(f"[{ts}]    Gemini a echappe les balises XML avec des backslashes (rendu Markdown).")
+                    print(f"[{ts}]    ACTION REQUISE : Dans Gemini, demandez : 'Reformule ta reponse en texte brut")
+                    print(f"[{ts}]    sans echapper les balises XML (pas de backslash devant < et >)'")
+                    print(f"[{ts}]    Puis Ctrl+A Ctrl+C pour copier la reponse corrigee.")
+                else:
+                    print(f"[{ts}] 🚫 ERREUR : Aucune balise XML Roo Code detectee — reponse en texte libre.")
+                    print(f"[{ts}]    Gemini a repondu en langage naturel au lieu d'utiliser les balises XML.")
+                    print(f"[{ts}]    ACTION REQUISE : Dans Gemini, demandez : 'Reformule ta reponse en utilisant")
+                    print(f"[{ts}]    les balises XML Roo Code (ex: <read_file>, <attempt_completion>, etc.)'")
+                    print(f"[{ts}]    Puis Ctrl+A Ctrl+C pour copier la reponse corrigee.")
+                initial_hash = _hash(current)
+                continue
             return current
         if time.time() - start > TIMEOUT_SECONDS:
             raise HTTPException(status_code=408, detail="Timeout: Relancez votre requete dans Roo Code.")
@@ -230,8 +256,8 @@ async def list_models():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "proxy": "le workbench", "version": "2.1.1", "gem_mode": USE_GEM_MODE}
+    return {"status": "ok", "proxy": "le workbench", "version": "2.2.0", "gem_mode": USE_GEM_MODE}
 
 if __name__ == "__main__":
-    print(f"{'='*60}\n  le workbench PROXY v2.1.1 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
+    print(f"{'='*60}\n  le workbench PROXY v2.2.0 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
     uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="warning")

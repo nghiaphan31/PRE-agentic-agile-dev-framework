@@ -8,12 +8,19 @@
 Phase 8 — Configuration du commutateur 3 modes LLM dans Roo Code.
 
 ## Dernier résultat
-Phases 0 à 7 complètes. Phase 8 en cours.
-- Étape 8.1 : Profil "ollama_local" à créer dans Roo Code (Ollama, http://calypso:11434, uadf-agent)
-- Étape 8.2 : Profil "gemini_proxy" à créer dans Roo Code (OpenAI Compatible, http://localhost:8000/v1, gemini-manual)
-- FIX-019 appliqué : proxy.py v2.1.1 — force UTF-8 stdout Windows (UnicodeEncodeError cp1252 corrigé)
+FIX-020 + FIX-021 appliqués : proxy.py v2.2.0
+
+**Problème diagnostiqué :** Gemini répondait en texte libre (sans balises XML) ou avec des balises XML échappées markdown (`\<read_file\>`), causant une boucle infinie de requêtes dans Roo Code.
+
+**Corrections apportées :**
+- **FIX-020** : Validation XML maintenant BLOQUANTE — si Gemini répond sans balises XML, le proxy continue de poller et affiche un message d'action clair pour l'utilisateur (comme le garde `<new_task>`)
+- **FIX-021** : Détection spécifique des balises XML échappées markdown (`\<read_file\>`) avec message d'erreur dédié
+- **SP-007 v1.6.0** : Règles 11 et 12 ajoutées — interdiction explicite d'échapper les balises XML et d'utiliser du texte libre sans balise XML
 
 ## Prochain(s) pas
+- [ ] Redémarrer le proxy (proxy.py v2.2.0)
+- [ ] Mettre à jour le Gem Gemini manuellement avec SP-007 v1.6.0 (DEPLOIEMENT MANUEL REQUIS)
+- [ ] Tester : envoyer "Dis bonjour en une phrase." → Gemini doit répondre avec `<attempt_completion>`
 - [ ] Créer profil "ollama_local" dans Roo Code Settings > Providers
 - [ ] Créer profil "gemini_proxy" dans Roo Code Settings > Providers
 - [ ] Tester Mode 1 Ollama (envoyer message depuis Roo Code, vérifier logs Ollama sur calypso)
@@ -21,7 +28,7 @@ Phases 0 à 7 complètes. Phase 8 en cours.
 - [ ] Mettre à jour memory-bank/techContext.md avec URLs réelles (étape 8.4)
 
 ## Blocages / Questions ouvertes
-Aucun blocage actif.
+⚠️ DEPLOIEMENT MANUEL REQUIS : Mettre à jour le Gem Gemini avec SP-007 v1.6.0 (template/prompts/SP-007-gem-gemini-roo-agent.md)
 
 ## Dernier commit Git
-193a7b1 — fix(proxy): v2.1.1 FIX-019 — force UTF-8 stdout Windows pour eviter UnicodeEncodeError cp1252
+[à mettre à jour après commit]

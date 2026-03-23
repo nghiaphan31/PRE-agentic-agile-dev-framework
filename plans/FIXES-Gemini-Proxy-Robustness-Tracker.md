@@ -7,7 +7,7 @@
 
 **Created:** 2026-03-23
 **Last updated:** 2026-03-23
-**Status:** ✅ 12/12 fixes from Review 1 applied | ⚠️ 5 new fixes from Review 2 pending (0 blocking)
+**Status:** ✅ 12/12 fixes from Review 1 applied | ⚠️ 4 new fixes from Review 2 pending (0 blocking)
 
 ---
 
@@ -344,12 +344,12 @@ This file is the **single source of truth** for tracking the application of all 
 ---
 
 ### FIX-016 — Proxy: fix `_format_prompt()` truncation fallback for single-message overflow
-- **Status:** [ ] PENDING
+- **Status:** [x] DONE
 - **File to change:** `template/proxy.py`
 - **Gap addressed:** REG-002 (FIX-008 truncation returns raw mid-message content when a single message exceeds `MAX_HISTORY_CHARS`)
 - **What to do:** In [`_format_prompt()`](template/proxy.py), add an `else` branch to the truncation block: when `boundary = truncated.find("[USER]")` returns -1 (no `[USER]` found), use `full.rfind("[USER]")` to find the last user message and keep it intact with a truncation header. This ensures Gemini always receives a complete, context-headed message even when a single message exceeds the limit.
 - **Verification:** Send a conversation where a single user message exceeds 40,000 chars (e.g., inject a large file content) — proxy should keep the full last `[USER]` message intact with the truncation header, not return a raw mid-message string.
-- **Applied:** [ ] Date: — | Commit: —
+- **Applied:** [x] Date: 2026-03-23 | Commit: —
 
 ---
 
@@ -393,9 +393,9 @@ This file is the **single source of truth** for tracking the application of all 
 | **Review 1 — P1 High** | 5 | 5 | 0 |
 | **Review 1 — P2 Medium** | 4 | 4 | 0 |
 | **Review 2 - P0 Blocking** | 2 | 2 | **0** |
-| **Review 2 - P1 High** | 2 | 1 | **1** |
+| **Review 2 - P1 High** | 2 | 2 | **0** |
 | **Review 2 - P2 Medium** | 3 | 0 | **3** |
-| **TOTAL** | **19** | **15** | **4** |
+| **TOTAL** | **19** | **16** | **3** |
 
 ---
 
@@ -407,6 +407,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 13 | FIX-013 — SP-007 v1.4.0 format exact diff SEARCH/REPLACE pour replace_in_file + Regle 10 — DEPLOIEMENT MANUEL REQUIS | 9cd8707 |
 | 2026-03-23 | Session 14 | FIX-014 — Verification longueur minimale BLOQUANTE (seuil 100 chars) dans _wait_clipboard() — proxy v2.0.6 (REG-001) | 411bce3 |
 | 2026-03-23 | Session 15 | FIX-015 — Garde runtime <new_task> bloquant dans _wait_clipboard() — proxy v2.0.7 (GAP R1-003) | 20e1485 |
+| 2026-03-23 | Session 16 | FIX-016 — Fallback troncature _format_prompt() pour message unique > MAX_HISTORY_CHARS — proxy v2.0.8 (REG-002) | — |
 
 ---
 

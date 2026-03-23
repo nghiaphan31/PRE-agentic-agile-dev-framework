@@ -12,6 +12,7 @@ Changelog:
   v2.0.5 - 2026-03-23 : FIX-008 — Troncature automatique de l'historique via MAX_HISTORY_CHARS (GAP-001)
   v2.0.6 - 2026-03-23 : FIX-014 — Verification longueur minimale BLOQUANTE (seuil 100 chars) pour eviter injection de contenu parasite (REG-001)
   v2.0.7 - 2026-03-23 : FIX-015 — Garde runtime <new_task> dans _wait_clipboard() pour eviter deadlock (GAP R1-003)
+  v2.0.8 - 2026-03-23 : FIX-016 — Fallback troncature dans _format_prompt() quand un seul message depasse MAX_HISTORY_CHARS (REG-002)
 """
 import asyncio, hashlib, json, os, time, uuid
 from datetime import datetime
@@ -49,7 +50,7 @@ class ChatRequest(BaseModel):
     max_tokens: Optional[int] = None
     stream: Optional[bool] = False
 
-app = FastAPI(title="le workbench Proxy", version="2.0.7")
+app = FastAPI(title="le workbench Proxy", version="2.0.8")
 
 def _hash(text: str) -> str:
     return hashlib.md5(text.encode("utf-8")).hexdigest()
@@ -95,6 +96,18 @@ def _format_prompt(messages: List[MessageContent]) -> str:
         boundary = truncated.find("[USER]")
         if boundary > 0:
             truncated = "[...HISTORIQUE TRONQUE...]\n\n---\n\n" + truncated[boundary:]
+        else:
+            # FIX-016: Fallback quand un seul message depasse MAX_HISTORY_CHARS (REG-002)
+            # boundary == -1 signifie qu'aucun [USER] n'existe dans les derniers MAX_HISTORY_CHARS chars
+            # => un seul message depasse la limite. On cherche le dernier [USER] dans le texte complet
+            # pour garantir que Gemini recoit toujours un message complet avec en-tete de contexte.
+            last_user = full.rfind("[USER]")
+            if last_user >= 0:
+                truncated = "[...HISTORIQUE TRONQUE...]\n\n---\n\n" + full[last_user:]
+            else:
+                # Aucun [USER] dans tout le texte (ex: uniquement des messages [ASSISTANT])
+                # On retourne le texte brut tronque avec l'en-tete de contexte
+                truncated = "[...HISTORIQUE TRONQUE...]\n\n---\n\n" + truncated
         print(f"  AVERTISSEMENT: Historique tronque ({len(full)} -> {len(truncated)} chars)")
         return truncated
     return full
@@ -197,8 +210,8 @@ async def list_models():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "proxy": "le workbench", "version": "2.0.7", "gem_mode": USE_GEM_MODE}
+    return {"status": "ok", "proxy": "le workbench", "version": "2.0.8", "gem_mode": USE_GEM_MODE}
 
 if __name__ == "__main__":
-    print(f"{'='*60}\n  le workbench PROXY v2.0.7 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
+    print(f"{'='*60}\n  le workbench PROXY v2.0.8 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
     uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="warning")

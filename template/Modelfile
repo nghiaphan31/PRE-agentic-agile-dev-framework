@@ -1,4 +1,4 @@
-FROM mychen76/qwen3_cline_roocode:32b
+FROM mychen76/qwen3_cline_roocode:14b
 
 # Parametres de determinisme (anti-hallucination) — REQ-1.3
 PARAMETER temperature 0.15

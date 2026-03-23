@@ -7,6 +7,7 @@ Changelog:
   v2.0.0 - 2026-03-23 : Creation initiale (DA-006, DA-007, DA-008, DA-009, DA-014)
   v2.0.1 - 2026-03-23 : FIX-001 — Console multi-ligne avec avertissement NOUVELLE conversation (GAP-006)
   v2.0.2 - 2026-03-23 : FIX-004 — try/except autour de pyperclip.paste() pour eviter crash si presse-papiers verrouille (P-003)
+  v2.0.3 - 2026-03-23 : FIX-005 — Compteur de requetes dans la console pour distinguer les requetes concurrentes (P-002)
 """
 import asyncio, hashlib, json, os, time, uuid
 from datetime import datetime
@@ -21,6 +22,9 @@ USE_GEM_MODE = os.getenv("USE_GEM_MODE", "true").lower() == "true"
 POLLING_INTERVAL = float(os.getenv("POLLING_INTERVAL", "1.0"))
 TIMEOUT_SECONDS = int(os.getenv("TIMEOUT_SECONDS", "300"))
 PORT = int(os.getenv("PROXY_PORT", "8000"))
+
+# FIX-005: Compteur de requetes pour distinguer les requetes concurrentes dans la console (P-002)
+_request_counter = 0
 
 ROO_XML_TAGS = [
     "<write_to_file>", "<read_file>", "<execute_command>",
@@ -39,7 +43,7 @@ class ChatRequest(BaseModel):
     max_tokens: Optional[int] = None
     stream: Optional[bool] = False
 
-app = FastAPI(title="le workbench Proxy", version="2.0.2")
+app = FastAPI(title="le workbench Proxy", version="2.0.3")
 
 def _hash(text: str) -> str:
     return hashlib.md5(text.encode("utf-8")).hexdigest()
@@ -128,8 +132,12 @@ async def _wait_clipboard(initial_hash: str, ts: str) -> str:
 @app.post("/v1/chat/completions")
 async def chat_completions(request: ChatRequest):
     """Point d'entree principal. REQ-2.1.1, REQ-2.1.2"""
+    # FIX-005: Increment global request counter to distinguish concurrent requests (P-002)
+    global _request_counter
+    _request_counter += 1
+    req_num = _request_counter
     ts = datetime.now().strftime("%H:%M:%S")
-    print(f"\n{'='*60}\n[{ts}] REQUETE | modele: {request.model} | stream: {request.stream}")
+    print(f"\n{'='*60}\n[{ts}] REQUETE #{req_num} | modele: {request.model} | stream: {request.stream}")
     formatted = _format_prompt(request.messages)
     pyperclip.copy(formatted)
     initial_hash = _hash(formatted)
@@ -155,8 +163,8 @@ async def list_models():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "proxy": "le workbench", "version": "2.0.2", "gem_mode": USE_GEM_MODE}
+    return {"status": "ok", "proxy": "le workbench", "version": "2.0.3", "gem_mode": USE_GEM_MODE}
 
 if __name__ == "__main__":
-    print(f"{'='*60}\n  le workbench PROXY v2.0.2 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
+    print(f"{'='*60}\n  le workbench PROXY v2.0.3 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
     uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="warning")

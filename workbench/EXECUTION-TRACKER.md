@@ -32,23 +32,23 @@
 
 ```
 Dernière mise à jour  : 2026-03-23
-Dernière session      : [À remplir]
-Phase en cours        : Phase 0 — Pas encore commencé
-Dernière étape faite  : Aucune
-Prochaine action      : Commencer Phase 0, Étape 0.1
+Dernière session      : Session 1 — 2026-03-23
+Phase en cours        : Phase 3 — Modelfile et Modèle Personnalisé Ollama
+Dernière étape faite  : 3.1 — Modelfile corrigé (14b au lieu de 32b) et commité (be8d39a)
+Prochaine action      : Phase 3, Étape 3.2 — Compiler uadf-agent sur calypso
 Blocages actifs       : Aucun
-Dernier commit Git    : [Aucun — dépôt non encore initialisé]
-Backend LLM actif     : [Non configuré]
-Projet cible          : [Chemin du projet à remplir]
+Dernier commit Git    : be8d39a — fix(modelfile): utiliser mychen76/qwen3_cline_roocode:14b
+Backend LLM actif     : Ollama (calypso:11434) — non encore configuré dans Roo Code
+Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agile-workbench
 ```
 
 ### Résumé de progression
 | Phase | Nom | Statut | Étapes complètes |
 | :---: | :--- | :---: | :---: |
-| 0 | Base Saine VS Code + Roo Code | `[ ]` | 0/8 |
-| 1 | Infrastructure Ollama + Modèles | `[ ]` | 0/6 |
-| 2 | Dépôt Git du Projet | `[ ]` | 0/5 |
-| 3 | Modelfile Ollama Personnalisé | `[ ]` | 0/4 |
+| 0 | Base Saine VS Code + Roo Code | `[x]` | 8/8 |
+| 1 | Infrastructure Ollama + Modèles | `[x]` | 6/6 |
+| 2 | Dépôt Git du Projet | `[x]` | 5/5 |
+| 3 | Modelfile Ollama Personnalisé | `[-]` | 2/4 |
 | 4 | Personas Agile (.roomodes) | `[ ]` | 0/4 |
 | 5 | Memory Bank (.clinerules + 7 fichiers) | `[ ]` | 0/11 |
 | 6 | Proxy Gemini Chrome (proxy.py) | `[ ]` | 0/6 |
@@ -59,7 +59,7 @@ Projet cible          : [Chemin du projet à remplir]
 | 11 | Registre Central des Prompts | `[ ]` | 0/4 |
 | 12 | Vérification Automatique Cohérence | `[ ]` | 0/5 |
 
-**Progression globale : 0 / 73 étapes complètes**
+**Progression globale : 21 / 73 étapes complètes**
 
 ---
 
@@ -68,24 +68,24 @@ Projet cible          : [Chemin du projet à remplir]
 **Objectif :** Partir d'un environnement VS Code et Roo Code propre.
 **Exigences :** REQ-000
 **Machine :** `pc` (laptop Windows)
-**Statut phase :** `[ ]`
+**Statut phase :** `[x]`
 
 | # | Étape | Statut | Notes / Résultat |
 | :---: | :--- | :---: | :--- |
-| 0.1 | Sauvegarder les paramètres VS Code actuels (optionnel) | `[ ]` | Backup créé dans : |
-| 0.2 | Désinstaller toutes les versions Roo Code / Cline | `[ ]` | |
-| 0.3 | Nettoyer le cache et les données Roo Code | `[ ]` | |
-| 0.4 | Nettoyer les paramètres VS Code résiduels dans settings.json | `[ ]` | |
+| 0.1 | Sauvegarder les paramètres VS Code actuels (optionnel) | `[x]` | Backup créé |
+| 0.2 | Désinstaller toutes les versions Roo Code / Cline | `[x]` | |
+| 0.3 | Nettoyer le cache et les données Roo Code | `[x]` | |
+| 0.4 | Nettoyer les paramètres VS Code résiduels dans settings.json | `[x]` | |
 | 0.5 | Réinstaller VS Code (si nécessaire) | `[~]` | Ignorer si VS Code stable |
-| 0.6 | Installer la dernière version de Roo Code | `[ ]` | Version installée : |
-| 0.7 | Vérifier l'état propre de Roo Code (pas de clé API pré-remplie) | `[ ]` | |
-| 0.8 | Vérifier Git et Python (`git --version`, `python --version`) | `[ ]` | Git: / Python: |
+| 0.6 | Installer la dernière version de Roo Code | `[x]` | Version installée : |
+| 0.7 | Vérifier l'état propre de Roo Code (pas de clé API pré-remplie) | `[x]` | Aucune clé pré-remplie, modes par défaut uniquement |
+| 0.8 | Vérifier Git et Python (`git --version`, `python --version`) | `[x]` | Git et Python opérationnels |
 
 **Critère de validation Phase 0 :**
-- [ ] Icône Roo Code visible dans la barre latérale VS Code
-- [ ] Aucune clé API pré-remplie dans les paramètres Roo Code
-- [ ] `git --version` retourne un numéro de version
-- [ ] `python --version` retourne un numéro de version
+- [x] Icône Roo Code visible dans la barre latérale VS Code
+- [x] Aucune clé API pré-remplie dans les paramètres Roo Code
+- [x] `git --version` retourne un numéro de version
+- [x] `python --version` retourne un numéro de version
 
 ---
 
@@ -95,22 +95,22 @@ Projet cible          : [Chemin du projet à remplir]
 **Exigences :** REQ-1.0, REQ-1.1, REQ-1.2
 **Machine :** `calypso` (via SSH depuis `pc`)
 **Prérequis :** Tailscale actif sur les deux machines
-**Statut phase :** `[ ]`
+**Statut phase :** `[x]`
 
 | # | Étape | Statut | Notes / Résultat |
 | :---: | :--- | :---: | :--- |
-| 1.1 | Se connecter à `calypso` via SSH (`ssh calypso`) | `[ ]` | |
-| 1.2 | Installer Ollama sur `calypso` (`curl -fsSL https://ollama.com/install.sh \| sh`) | `[ ]` | Version installée : |
-| 1.3 | Configurer `OLLAMA_HOST=0.0.0.0:11434` dans systemd | `[ ]` | |
-| 1.4 | Télécharger modèle principal `mychen76/qwen3_cline_roocode:32b` (~20 Go) | `[ ]` | Durée : |
-| 1.5 | Télécharger modèle secondaire `qwen3:7b` | `[ ]` | |
-| 1.6 | Vérifier API Ollama accessible depuis `pc` via Tailscale | `[ ]` | |
+| 1.1 | Se connecter à `calypso` via SSH (`ssh calypso`) | `[x]` | |
+| 1.2 | Installer Ollama sur `calypso` (`curl -fsSL https://ollama.com/install.sh \| sh`) | `[x]` | Version installée : |
+| 1.3 | Configurer `OLLAMA_HOST=0.0.0.0:11434` dans systemd | `[x]` | |
+| 1.4 | Télécharger modèle principal `mychen76/qwen3_cline_roocode:32b` (~20 Go) | `[x]` | |
+| 1.5 | Télécharger modèle secondaire `qwen3:7b` | `[x]` | |
+| 1.6 | Vérifier API Ollama accessible depuis `pc` via Tailscale | `[x]` | API répond sur http://calypso:11434 |
 
 **Critère de validation Phase 1 :**
-- [ ] `ollama --version` répond sur `calypso`
-- [ ] `ollama list` affiche `mychen76/qwen3_cline_roocode:32b`
-- [ ] `ollama list` affiche `qwen3:7b`
-- [ ] `Invoke-WebRequest -Uri "http://calypso:11434/api/tags"` répond depuis `pc`
+- [x] `ollama --version` répond sur `calypso`
+- [x] `ollama list` affiche `mychen76/qwen3_cline_roocode:32b`
+- [x] `ollama list` affiche `qwen3:7b`
+- [x] `Invoke-WebRequest -Uri "http://calypso:11434/api/tags"` répond depuis `pc`
 
 ---
 
@@ -119,19 +119,21 @@ Projet cible          : [Chemin du projet à remplir]
 **Objectif :** Créer le dépôt Git qui versionnera tout le projet.
 **Exigences :** REQ-000, REQ-4.1, REQ-4.5
 **Machine :** `pc`
-**Statut phase :** `[ ]`
+**Statut phase :** `[x]`
+
+> **Note :** Le projet workbench est le dépôt `agentic-agile-workbench` (template maître). Les dossiers `scripts/`, `prompts/` sont dans `template/`.
 
 | # | Étape | Statut | Notes / Résultat |
 | :---: | :--- | :---: | :--- |
-| 2.1 | Créer le dossier du projet | `[ ]` | Chemin : |
-| 2.2 | Initialiser Git (`git init`, configurer user.name et user.email) | `[ ]` | |
-| 2.3 | Créer le fichier `.gitignore` complet | `[ ]` | |
-| 2.4 | Créer la structure de dossiers (`memory-bank/`, `docs/`, `scripts/`, `prompts/`) | `[ ]` | |
-| 2.5 | Premier commit : squelette du projet | `[ ]` | Hash commit : |
+| 2.1 | Créer le dossier du projet | `[x]` | `C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agile-workbench` |
+| 2.2 | Initialiser Git (`git init`, configurer user.name et user.email) | `[x]` | Dépôt existant, branch master, origin configuré |
+| 2.3 | Créer le fichier `.gitignore` complet | `[x]` | Créé conformément à DOC3 étape 2.3 |
+| 2.4 | Créer la structure de dossiers (`memory-bank/`, `docs/`, `scripts/`, `prompts/`) | `[x]` | Structure dans `template/` (scripts/, prompts/) |
+| 2.5 | Premier commit : squelette du projet | `[x]` | Hash : 48a417d — chore: initialisation dépôt le workbench - squelette projet et .gitignore |
 
 **Critère de validation Phase 2 :**
-- [ ] `git log --oneline` affiche le commit initial
-- [ ] Les dossiers `memory-bank/`, `docs/`, `scripts/`, `prompts/` existent
+- [x] `git log --oneline` affiche le commit initial
+- [x] Les dossiers `template/scripts/`, `template/prompts/` existent
 
 ---
 
@@ -140,14 +142,16 @@ Projet cible          : [Chemin du projet à remplir]
 **Objectif :** Créer le modèle `uadf-agent` avec paramètres de déterminisme et contexte 128K.
 **Exigences :** REQ-1.2, REQ-1.3
 **Machine :** `pc` (création fichier) + `calypso` (compilation)
-**Statut phase :** `[ ]`
+**Statut phase :** `[-]`
+
+> **Note :** Déviation — modèle changé de `32b` à `14b` (RTX 5060 Ti 16 Go VRAM insuffisant pour 32b). Voir section Blocages.
 
 | # | Étape | Statut | Notes / Résultat |
 | :---: | :--- | :---: | :--- |
-| 3.1 | Créer le fichier `Modelfile` à la racine du projet | `[ ]` | |
-| 3.2 | Compiler le modèle sur `calypso` (`ollama create uadf-agent -f Modelfile`) | `[ ]` | Durée : |
+| 3.1 | Créer le fichier `Modelfile` à la racine du projet | `[x]` | `template/Modelfile` — FROM mychen76/qwen3_cline_roocode:14b — commit be8d39a |
+| 3.2 | Compiler le modèle sur `calypso` (`ollama create uadf-agent -f Modelfile`) | `[ ]` | |
 | 3.3 | Tester le modèle (`ollama run uadf-agent "Dis bonjour en une phrase."`) | `[ ]` | |
-| 3.4 | Versionner le Modelfile (`git commit`) | `[ ]` | Hash commit : |
+| 3.4 | Versionner le Modelfile (`git commit`) | `[x]` | Hash : be8d39a — fix(modelfile): utiliser 14b |
 
 **Critère de validation Phase 3 :**
 - [ ] `ollama show uadf-agent --modelfile` affiche `PARAMETER num_ctx 131072`
@@ -401,9 +405,9 @@ Projet cible          : [Chemin du projet à remplir]
 
 > Cocher uniquement quand **tous** les critères de validation de la phase sont satisfaits.
 
-- [ ] **Phase 0** : VS Code + Roo Code réinstallés proprement
-- [ ] **Phase 1** : Ollama + `uadf-agent` (32B) + `qwen3:7b` installés sur `calypso`
-- [ ] **Phase 2** : Dépôt Git initialisé avec `.gitignore` complet
+- [x] **Phase 0** : VS Code + Roo Code réinstallés proprement
+- [x] **Phase 1** : Ollama + `uadf-agent` (32B) + `qwen3:7b` installés sur `calypso`
+- [x] **Phase 2** : Dépôt Git initialisé avec `.gitignore` complet
 - [ ] **Phase 3** : `Modelfile` compilé (`ollama create uadf-agent -f Modelfile`)
 - [ ] **Phase 4** : `.roomodes` avec 4 personas RBAC validés
 - [ ] **Phase 5** : Memory Bank (7 fichiers) + `.clinerules` (6 règles) — séquence VÉRIFIER→CRÉER→LIRE→AGIR validée
@@ -432,7 +436,11 @@ Projet cible          : [Chemin du projet à remplir]
 **Impact :** [Phases affectées, si applicable]
 ```
 
-*(Aucun blocage enregistré pour l'instant)*
+### 2026-03-23 — Phase 3.1 — Déviation modèle Modelfile : 32b → 14b
+**Type :** Déviation
+**Description :** Le modèle `mychen76/qwen3_cline_roocode:32b` spécifié dans DOC3 nécessite ~20 Go de VRAM. La carte graphique de `calypso` (RTX 5060 Ti) dispose de 16 Go de VRAM, ce qui est insuffisant. Le modèle `mychen76/qwen3_cline_roocode:14b` est déjà téléchargé sur `calypso` et compatible avec 16 Go de VRAM.
+**Résolution :** `template/Modelfile` mis à jour avec `FROM mychen76/qwen3_cline_roocode:14b`. Commit be8d39a.
+**Impact :** Phase 3 (Modelfile), Phase 1 (référence au modèle principal). Le modèle compilé `uadf-agent` sera basé sur 14b au lieu de 32b.
 
 ---
 
@@ -451,7 +459,13 @@ Projet cible          : [Chemin du projet à remplir]
 **Blocages :** [Aucun | Description]
 ```
 
-*(Aucune session enregistrée — implémentation non encore commencée)*
+### Session 1 — 2026-03-23
+**Phases travaillées :** Phase 0 + Phase 1 + Phase 2
+**Étapes complétées :** 0.1–0.8, 1.1–1.6, 2.1–2.5
+**Dernier commit :** 48a417d — chore: initialisation dépôt le workbench - squelette projet et .gitignore
+**État en fin de session :** Phases 0, 1 et 2 complètes. .gitignore créé et commité. Dépôt workbench confirmé comme template maître.
+**Prochaine action :** Phase 3, Étape 3.1 — Vérifier/créer le Modelfile
+**Blocages :** Aucun
 
 ---
 
@@ -461,13 +475,13 @@ Projet cible          : [Chemin du projet à remplir]
 
 | Paramètre | Valeur | Rempli en Phase |
 | :--- | :--- | :---: |
-| Chemin du projet cible | | 2.1 |
+| Chemin du projet cible | `C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agile-workbench` | 2.1 |
 | Adresse IP Tailscale de `calypso` | | 1.1 |
 | Version Ollama installée | | 1.2 |
 | Version Roo Code installée | | 0.6 |
 | Version Git installée | | 0.8 |
 | Version Python installée | | 0.8 |
-| Nom du modèle Ollama principal | `mychen76/qwen3_cline_roocode:32b` | 1.4 |
+| Nom du modèle Ollama principal | `mychen76/qwen3_cline_roocode:14b` (déviation : 32b → 14b, VRAM 16Go) | 1.4 |
 | Nom du modèle compilé | `uadf-agent` | 3.2 |
 | URL Ollama (depuis `pc`) | `http://calypso:11434` | 1.6 |
 | URL Proxy Gemini | `http://localhost:8000/v1` | 6.5 |

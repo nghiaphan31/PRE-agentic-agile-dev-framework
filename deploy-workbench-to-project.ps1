@@ -1,24 +1,24 @@
 <#
 .SYNOPSIS
-    agentic-agile-workbench — Script de déploiement de l'établi vers un projet applicatif.
+    agentic-agile-workbench — Déploie l'établi vers un projet applicatif.
 
 .DESCRIPTION
     Copie les fichiers template/ de l'établi vers un projet cible.
-    En mode -Update, ne copie que les fichiers modifiés depuis la version précédente.
+    En mode -Update, met à jour un projet existant depuis une nouvelle version de l'établi.
     Écrit .workbench-version dans le projet cible pour traçabilité.
 
     Ce script est le script CANONIQUE de l'établi. Il doit être exécuté depuis
     la racine du dépôt agentic-agile-workbench.
 
-    Une copie de référence est déployée dans scripts/deploy-to-project.ps1 de chaque
-    projet applicatif. Cette copie sert de rappel : pour mettre à jour un projet,
-    il faut toujours revenir ici (dans l'établi) et relancer ce script.
+    Un script de rappel (update-workbench.ps1) est déployé dans scripts/ de chaque
+    projet applicatif. Ce script de rappel redirige vers ce script canonique pour
+    toute mise à jour ultérieure.
 
 .PARAMETER ProjectPath
     Chemin absolu vers le dossier racine du projet applicatif cible.
 
 .PARAMETER Update
-    Mode mise à jour : affiche un diff avant de copier, demande confirmation.
+    Mode mise à jour : met à jour un projet existant depuis la nouvelle version de l'établi.
 
 .PARAMETER DryRun
     Simule le déploiement sans rien copier. Affiche ce qui serait fait.
@@ -29,17 +29,17 @@
     #   ├── agentic-agile-workbench\   (l'établi — ce dépôt)
     #   └── PROJECTS\mon-nouveau-projet\   (le projet applicatif)
     $Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-nouveau-projet"
-    .\deploy-to-project.ps1 -ProjectPath $Projet
+    .\deploy-workbench-to-project.ps1 -ProjectPath $Projet
 
 .EXAMPLE
     # Mise à jour d'un projet existant après une nouvelle version de l'établi
     $Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-projet"
-    .\deploy-to-project.ps1 -ProjectPath $Projet -Update
+    .\deploy-workbench-to-project.ps1 -ProjectPath $Projet -Update
 
 .EXAMPLE
     # Simulation sans modification
     $Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-projet"
-    .\deploy-to-project.ps1 -ProjectPath $Projet -DryRun
+    .\deploy-workbench-to-project.ps1 -ProjectPath $Projet -DryRun
 #>
 
 param(

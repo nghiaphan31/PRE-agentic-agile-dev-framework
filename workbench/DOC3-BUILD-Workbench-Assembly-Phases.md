@@ -991,7 +991,7 @@ git commit -m "feat(workbench): Memory Bank (7 fichiers) + .clinerules (6 règle
 
 ---
 
-## PHASE 6 : Proxy Gemini Chrome — `template/proxy.py` v2.0 avec SSE
+## PHASE 6 : Proxy Gemini Chrome — `template/proxy.py` v2.1.0 avec SSE
 
 **Objectif :** Créer le serveur proxy Python FastAPI qui relaie les requêtes Roo Code vers Gemini Chrome via le presse-papiers Windows, avec support SSE transparent.
 **Exigences adressées :** REQ-2.1.1 à REQ-2.4.4
@@ -1025,9 +1025,23 @@ pip freeze > requirements.txt
 
 ---
 
-### Étape 6.3 — Créer `template/proxy.py` v2.0
+### Étape 6.3 — Créer `template/proxy.py` v2.1.0
 
 Créez `template/proxy.py` à la racine du projet. Source canonique : [`SP-007-gem-gemini-roo-agent.md`](../prompts/SP-007-gem-gemini-roo-agent.md) pour le system prompt du Gem associé.
+
+> **Note de version :** Le fichier `template/proxy.py` dans ce dépôt est à la version **v2.1.0** (10 correctifs de robustesse appliqués depuis la v2.0 initiale). Le code ci-dessous est la version de référence v2.0 originale. Pour la version complète avec tous les correctifs, consultez directement [`template/proxy.py`](../template/proxy.py).
+>
+> **Changelog v2.0 → v2.1.0 :**
+> - `v2.0.1` — FIX-001 : Console multi-ligne avec avertissement NOUVELLE conversation (GAP-006)
+> - `v2.0.2` — FIX-004 : `try/except` autour de `pyperclip.paste()` pour éviter crash si presse-papiers verrouillé (P-003)
+> - `v2.0.3` — FIX-005 : Compteur de requêtes dans la console pour distinguer les requêtes concurrentes (P-002)
+> - `v2.0.4` — FIX-006 : Vérification longueur minimale du contenu collé (GAP-005)
+> - `v2.0.5` — FIX-008 : Troncature automatique de l'historique via `MAX_HISTORY_CHARS` (GAP-001)
+> - `v2.0.6` — FIX-014 : Vérification longueur minimale BLOQUANTE (seuil 100 chars) pour éviter injection de contenu parasite (REG-001)
+> - `v2.0.7` — FIX-015 : Garde runtime `<new_task>` dans `_wait_clipboard()` pour éviter deadlock (GAP R1-003)
+> - `v2.0.8` — FIX-016 : Fallback troncature dans `_format_prompt()` quand un seul message dépasse `MAX_HISTORY_CHARS` (REG-002)
+> - `v2.0.9` — FIX-017 : `asyncio.Lock()` pour sérialisation du presse-papiers (GAP R1-004)
+> - `v2.1.0` — FIX-018 : Suppression "ou effacer l'historique existant" — TOUJOURS NOUVELLE conversation (GAP R1-001)
 
 ```python
 """
@@ -1703,9 +1717,9 @@ git commit -m "feat(prompts): initialisation registre SP canoniques (SP-001 à S
 
 ---
 
-### Étape 12.1 — Créer `template/template/scripts/check-prompts-sync.ps1`
+### Étape 12.1 — Créer `template/scripts/check-prompts-sync.ps1`
 
-Créez `template/template/scripts/check-prompts-sync.ps1` et collez **exactement** ce code :
+Créez `template/scripts/check-prompts-sync.ps1` et collez **exactement** ce code :
 
 ```powershell
 <#
@@ -1891,7 +1905,7 @@ $hookContent = @'
 #!/bin/sh
 # le workbench — Hook pre-commit : vérification cohérence prompts (REQ-8.2, DA-013)
 echo "le workbench pre-commit : vérification cohérence prompts..."
-powershell.exe -ExecutionPolicy Bypass -File "template/scripts/check-prompts-sync.ps1"
+powershell.exe -ExecutionPolicy Bypass -File "scripts/check-prompts-sync.ps1"
 if [ $? -ne 0 ]; then
     echo "COMMIT BLOQUÉ : Désynchronisation détectée dans les prompts."
     echo "Corrigez les désynchronisations avant de commiter."
@@ -1913,7 +1927,7 @@ Set-Content -Path $hookPath -Value $hookContent -Encoding UTF8 -NoNewline
 ```powershell
 # Tester manuellement le script
 .\venv\Scripts\Activate.ps1  # Si nécessaire pour l'environnement
-powershell.exe -ExecutionPolicy Bypass -File "template/scripts/check-prompts-sync.ps1"
+powershell.exe -ExecutionPolicy Bypass -File "scripts/check-prompts-sync.ps1"
 ```
 
 **Sortie attendue (tout synchronisé) :**
@@ -1964,7 +1978,7 @@ git checkout .clinerules
 ### Étape 12.5 — Versionner les Scripts et le Hook
 
 ```powershell
-git add template/scripts/check-prompts-sync.ps1
+git add scripts/check-prompts-sync.ps1
 git commit -m "feat(prompts): check-prompts-sync.ps1 + hook pre-commit — vérification cohérence automatique"
 ```
 
@@ -1973,7 +1987,7 @@ git commit -m "feat(prompts): check-prompts-sync.ps1 + hook pre-commit — véri
 ---
 
 **Critère de validation Phase 12 :**
-- `template/template/scripts/check-prompts-sync.ps1` s'exécute sans erreur et affiche `6 PASS | 0 FAIL`
+- `scripts/check-prompts-sync.ps1` s'exécute sans erreur et affiche `6 PASS | 0 FAIL`
 - Un commit avec `.clinerules` modifié est bloqué par le hook pre-commit
 - La restauration de `.clinerules` débloque le commit
 

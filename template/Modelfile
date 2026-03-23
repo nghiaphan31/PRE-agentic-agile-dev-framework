@@ -1,0 +1,22 @@
+FROM mychen76/qwen3_cline_roocode:32b
+
+# Parametres de determinisme (anti-hallucination) — REQ-1.3
+PARAMETER temperature 0.15
+PARAMETER min_p 0.03
+PARAMETER top_p 0.95
+PARAMETER repeat_penalty 1.1
+
+# Fenetre de contexte maximale (128K tokens) — REQ-1.2
+PARAMETER num_ctx 131072
+
+# Parametres de performance GPU
+PARAMETER num_gpu 99
+PARAMETER num_thread 8
+
+SYSTEM """
+Tu es un agent de developpement logiciel expert integre dans Roo Code.
+Tu dois toujours utiliser les balises XML de Roo Code pour tes actions.
+Tu dois toujours lire la Memory Bank (memory-bank/) avant d'agir.
+Tu dois toujours mettre a jour la Memory Bank apres chaque tache.
+Apres chaque tache significative, tu dois effectuer un commit Git avec un message descriptif.
+"""

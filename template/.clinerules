@@ -1,39 +1,3 @@
----
-id: SP-002
-name: Directives Globales Roo Code (.clinerules)
-version: 2.0.0
-last_updated: 2026-03-23
-status: active
-
-target_type: roo_clinerules
-target_file: .clinerules
-target_field: "Fichier entier — remplacer tout le contenu"
-target_location: >
-  Fichier `.clinerules` a la racine du projet.
-  Ce fichier est automatiquement lu par Roo Code et injecte au-dessus
-  de chaque prompt utilisateur, pour toutes les sessions et tous les modes.
-  Aucune action manuelle requise apres modification (Roo Code relit a chaque session).
-
-depends_on:
-  - SP-005: "Les regles Git de REGLE 5 supposent que le Developer connait le protocole de commit defini dans SP-005"
-  - SP-007: "Les balises XML listees dans REGLE 6 doivent etre identiques a celles listees dans SP-007"
-
-changelog:
-  - version: 2.0.0
-    date: 2026-03-23
-    change: "Arbitrage v2.0 — REGLE 1 mise a jour avec sequence explicite VERIFIER->CREER->LIRE->AGIR (4 etapes numerotees). Remplace l'ancienne formulation implicite."
-  - version: 1.0.0
-    date: 2026-03-23
-    change: Creation initiale — 6 regles (Memory Bank x4, Git, Coherence Prompts)
----
-
-# SP-002 — Directives Globales Roo Code (.clinerules)
-
-## Contenu du Prompt
-
-> Copier exactement ce texte comme contenu complet du fichier `.clinerules`.
-
-```markdown
 # PROTOCOLE UADF — DIRECTIVES IMPERATIVES (TOUTES SESSIONS, TOUS MODES)
 
 ## REGLE 1 : LECTURE OBLIGATOIRE AU DEMARRAGE DE CHAQUE SESSION
@@ -179,17 +143,3 @@ tu DOIS verifier si le changement impacte un system prompt dans prompts/.
 ## Legende
 - [ ] A faire  |  [-] En cours  |  [x] Termine
 ---
-```
-
-## Notes de Deploiement
-
-1. Ouvrir `.clinerules` a la racine du projet
-2. Remplacer **tout le contenu** par le texte ci-dessus (section "Contenu du Prompt")
-3. Sauvegarder le fichier
-4. Roo Code relit `.clinerules` automatiquement a chaque nouvelle session — aucune action supplementaire requise
-
-## Impact sur les Autres Prompts
-
-- Si REGLE 5 est modifiee : verifier SP-005 (Developer) et SP-004 (Scrum Master) pour coherence
-- Si REGLE 6 est modifiee : aucun autre prompt impacte
-- Si les balises XML dans REGLE 6 changent : verifier SP-007 (Gem Gemini) pour coherence

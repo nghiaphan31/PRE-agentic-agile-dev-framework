@@ -106,7 +106,7 @@ This file is the **single source of truth** for tracking the application of all 
      ```
   3. In [`DOC5-GUIDE`](workbench/DOC5-GUIDE-Project-Development-Process.md) section 9.4 "Protocole de Changement de Backend LLM", add a limitations block (see Part2 section 9 for exact text)
 - **Verification:** Search for "Boomerang" in all three docs — each should contain the limitation warning.
-- **Applied:** [x] Date: 2026-03-23 | Commit: _PENDING_
+- **Applied:** [x] Date: 2026-03-23 | Commit: 51bf71a
 
 ---
 
@@ -279,7 +279,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Initial review | Tracker created | — |
 | 2026-03-23 | Session 1 | FIX-001 — Console multi-ligne NOUVELLE conversation | fceb6fd |
 | 2026-03-23 | Session 2 | FIX-002 — SP-007 v1.1.0 replace_in_file + list_files | 62ea897 |
-| 2026-03-23 | Session 3 | FIX-003 — Boomerang Tasks limitation documentée (DOC1+DOC2+DOC5) | _PENDING_ |
+| 2026-03-23 | Session 3 | FIX-003 — Boomerang Tasks limitation documentée (DOC1+DOC2+DOC5) | 51bf71a |
 
 ---
 

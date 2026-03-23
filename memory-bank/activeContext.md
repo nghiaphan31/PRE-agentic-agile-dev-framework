@@ -8,17 +8,18 @@
 Phase 8 — Configuration du commutateur 3 modes LLM dans Roo Code.
 
 ## Dernier résultat
-FIX-022 appliqué : proxy.py v2.3.0
+FIX-023 appliqué : proxy.py v2.4.0
 
-**Problème diagnostiqué :** En GEM MODE, le proxy envoyait l'historique complet des messages à Gemini. Gemini continuait alors le contexte de la conversation précédente au lieu de traiter la nouvelle demande indépendamment. Exemple : "Dis bonjour en une phrase." retournait le résumé de la tâche précédente (FIX-020/FIX-021) au lieu de "Bonjour".
+**Problème diagnostiqué :** Le proxy envoyait les blocs `<environment_details>` injectés par Roo Code dans le contenu des messages. Ces blocs (fichiers ouverts, onglets VSCode, heure, coût, mode actif, liste des reminders) noyaient le vrai message utilisateur. Exemple : "Dis bonjour en une seule phrase." → Gemini ne recevait que `[USER]\n<environment_details>...</environment_details>` sans le texte réel.
 
 **Corrections apportées :**
-- **FIX-022** : En GEM MODE, `_format_prompt()` n'envoie plus que le **dernier message [USER]** (pas l'historique complet). Le Gem Gemini a ses propres instructions et chaque conversation est nouvelle — l'historique n'est pas nécessaire et cause une contamination de contexte.
-- Le MODE COMPLET (non-GEM) conserve le comportement précédent avec historique complet + troncature.
+- **FIX-023** : `_strip_roo_injected_blocks()` supprime via regex les blocs `<environment_details>`, `<SYSTEM>`, `<task>`, `<feedback>` du contenu de chaque message avant envoi à Gemini.
+- Appliqué dans `_clean_content()` pour les messages string ET list.
+- Import `re` ajouté.
 
 ## Prochain(s) pas
-- [ ] Redémarrer le proxy (proxy.py v2.3.0)
-- [ ] Tester : envoyer "Dis bonjour en une phrase." → Gemini doit répondre avec `<attempt_completion><result>Bonjour !</result></attempt_completion>`
+- [ ] Redémarrer le proxy (proxy.py v2.4.0)
+- [ ] Tester : envoyer "Dis bonjour en une seule phrase." → Gemini doit recevoir uniquement `[USER]\nDis bonjour en une seule phrase.` et répondre avec `<attempt_completion><result>Bonjour !</result></attempt_completion>`
 - [ ] Créer profil "ollama_local" dans Roo Code Settings > Providers
 - [ ] Créer profil "gemini_proxy" dans Roo Code Settings > Providers
 - [ ] Tester Mode 1 Ollama
@@ -29,4 +30,4 @@ FIX-022 appliqué : proxy.py v2.3.0
 Aucun blocage actif.
 
 ## Dernier commit Git
-17a6561 — fix(proxy): v2.3.0 FIX-022 — GEM MODE envoie uniquement le dernier message USER pour eviter contamination de contexte
+[à mettre à jour après commit]

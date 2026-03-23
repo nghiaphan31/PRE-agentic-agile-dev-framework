@@ -162,7 +162,7 @@ This file is the **single source of truth** for tracking the application of all 
       print(f"[{ts}] Verifiez que vous avez copie la reponse Gemini complete (Ctrl+A puis Ctrl+C)")
   ```
 - **Verification:** Copy a 5-char string while proxy is polling — warning should appear but response still transmitted (non-blocking by design).
-- **Applied:** [x] Date: 2026-03-23 | Commit: 84caf72
+- **Applied:** [x] Date: 2026-03-23 | Commit: 713403c
 
 ---
 
@@ -282,7 +282,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 3 | FIX-003 — Boomerang Tasks limitation documentée (DOC1+DOC2+DOC5) | 51bf71a |
 | 2026-03-23 | Session 4 | FIX-004 — try/except pyperclip.paste() dans _wait_clipboard() | 10a4c81 |
 | 2026-03-23 | Session 5 | FIX-005 — Compteur de requetes #N dans la console (P-002) | 521baa9 |
-| 2026-03-23 | Session 6 | FIX-006 — Verification longueur minimale contenu colle (GAP-005) | 84caf72 |
+| 2026-03-23 | Session 6 | FIX-006 — Verification longueur minimale contenu colle (GAP-005) | 713403c |
 
 ---
 

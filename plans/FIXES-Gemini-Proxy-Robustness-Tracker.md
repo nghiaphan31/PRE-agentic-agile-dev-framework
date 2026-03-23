@@ -371,7 +371,7 @@ This file is the **single source of truth** for tracking the application of all 
 - **Gap addressed:** GAP R1-001 (clearing history in existing Gemini conversation may not reload Gem system prompt â€” only "NOUVELLE conversation" is safe)
 - **What to do:** In [`chat_completions()`](template/proxy.py), replace the line `"2. ⚠️  NOUVELLE conversation (ou effacer l'historique existant)"` with `"2. ⚠️  TOUJOURS ouvrir une NOUVELLE conversation Gemini"`.
 - **Verification:** Console output no longer mentions "effacer l'historique".
-- **Applied:** [x] Date: 2026-03-23 | Commit: TBD
+- **Applied:** [x] Date: 2026-03-23 | Commit: b61d1ef
 
 ---
 
@@ -409,7 +409,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 15 | FIX-015 — Garde runtime <new_task> bloquant dans _wait_clipboard() — proxy v2.0.7 (GAP R1-003) | 20e1485 |
 | 2026-03-23 | Session 16 | FIX-016 — Fallback troncature _format_prompt() pour message unique > MAX_HISTORY_CHARS — proxy v2.0.8 (REG-002) | 2542856 |
 | 2026-03-23 | Session 17 | FIX-017 — asyncio.Lock() serialisation presse-papiers + avertissement file d'attente — proxy v2.0.9 (GAP R1-004) | 610afdc |
-| 2026-03-23 | Session 18 | FIX-018 — Suppression "ou effacer l'historique existant" → TOUJOURS NOUVELLE conversation — proxy v2.1.0 (GAP R1-001) | TBD |
+| 2026-03-23 | Session 18 | FIX-018 — Suppression "ou effacer l'historique existant" → TOUJOURS NOUVELLE conversation — proxy v2.1.0 (GAP R1-001) | b61d1ef |
 
 ---
 

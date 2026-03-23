@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 le workbench Proxy v2.0 — Pont Roo Code <-> Gemini Chrome
 Supporte stream=true (SSE) et stream=false (JSON complet).
@@ -15,10 +16,15 @@ Changelog:
   v2.0.8 - 2026-03-23 : FIX-016 — Fallback troncature dans _format_prompt() quand un seul message depasse MAX_HISTORY_CHARS (REG-002)
   v2.0.9 - 2026-03-23 : FIX-017 — asyncio.Lock() pour serialisation du presse-papiers (GAP R1-004)
   v2.1.0 - 2026-03-23 : FIX-018 — Suppression "ou effacer l'historique existant" — TOUJOURS NOUVELLE conversation (GAP R1-001)
+  v2.1.1 - 2026-03-23 : FIX-019 — Force UTF-8 stdout sur Windows pour eviter UnicodeEncodeError cp1252
 """
-import asyncio, hashlib, json, os, time, uuid
+import asyncio, hashlib, json, os, sys, time, uuid
 from datetime import datetime
 from typing import AsyncGenerator, List, Optional, Union
+
+# FIX-019: Force UTF-8 stdout sur Windows (cp1252 ne supporte pas les caracteres Unicode etendus)
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 import pyperclip, uvicorn
 from fastapi import FastAPI, HTTPException

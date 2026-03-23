@@ -4,7 +4,7 @@
 **Source review:** `plans/REVIEW-Gemini-Proxy-Path-Robustness.md` + `plans/REVIEW-Gemini-Proxy-Path-Robustness-Part2.md`  
 **Created:** 2026-03-23  
 **Last updated:** 2026-03-23
-**Status:** 🟡 1/12 fixes applied
+**Status:** 🟡 2/12 fixes applied
 
 ---
 
@@ -53,7 +53,7 @@ This file is the **single source of truth** for tracking the application of all 
 ---
 
 ### FIX-002 — SP-007: add `replace_in_file` and `list_files` to Gem instructions
-- **Status:** [ ] PENDING
+- **Status:** [x] DONE
 - **File to change:** `template/prompts/SP-007-gem-gemini-roo-agent.md` + **MANUAL DEPLOYMENT to Gemini Web**
 - **Gap addressed:** SP-007 Issue 1 (missing critical XML tags — forces full file rewrites instead of surgical edits)
 - **What to do:**
@@ -83,7 +83,7 @@ This file is the **single source of truth** for tracking the application of all 
   5. **MANUALLY deploy to Gemini Web** (gemini.google.com > Gems > "Roo Code Agent" > Edit > paste new instructions > Save)
   6. Commit with message: `chore(prompts): SP-007 v1.1.0 - add replace_in_file + list_files - DEPLOIEMENT MANUEL EFFECTUE`
 - **Verification:** In Gemini Gem, send "Modifie la ligne 5 du fichier src/app.py" — Gemini should respond with `<replace_in_file>` not `<write_to_file>`.
-- **Applied:** [ ] Date: ___________ | Commit: ___________
+- **Applied:** [x] Date: 2026-03-23 | Commit: PENDING
 
 ---
 
@@ -265,10 +265,10 @@ This file is the **single source of truth** for tracking the application of all 
 
 | Priority | Total | Done | Remaining |
 | :--- | :---: | :---: | :---: |
-| P0 — Blocking | 3 | 1 | 2 |
+| P0 — Blocking | 3 | 2 | 1 |
 | P1 — High | 5 | 0 | 5 |
 | P2 — Medium | 4 | 0 | 4 |
-| **TOTAL** | **12** | **1** | **11** |
+| **TOTAL** | **12** | **2** | **10** |
 
 ---
 
@@ -278,6 +278,7 @@ This file is the **single source of truth** for tracking the application of all 
 | :--- | :--- | :--- | :--- |
 | 2026-03-23 | Initial review | Tracker created | — |
 | 2026-03-23 | Session 1 | FIX-001 — Console multi-ligne NOUVELLE conversation | fceb6fd |
+| 2026-03-23 | Session 2 | FIX-002 — SP-007 v1.1.0 replace_in_file + list_files | PENDING |
 
 ---
 

@@ -7,6 +7,49 @@
 
 ---
 
+## Distinction Fondamentale : System Prompts vs User Prompts
+
+Ce depot contient deux categories de prompts qui ont des roles radicalement differents.
+Il est essentiel de ne pas les confondre.
+
+### System Prompts (ce dossier `prompts/`)
+
+Les fichiers SP-XXX de ce dossier sont des **System Prompts** : ils configurent
+l'identite, les regles de comportement et les permissions des agents IA.
+
+- **Qui les ecrit ?** Le Developer ou le Scrum Master (maintenance du systeme)
+- **Qui les lit ?** L'agent IA (automatiquement, au demarrage de chaque session)
+- **Quand sont-ils actifs ?** En permanence, en arriere-plan, pour toutes les sessions
+- **Ou sont-ils deployes ?** Dans des fichiers de configuration techniques :
+  `.clinerules`, `.roomodes`, `Modelfile`, ou l'interface web Gemini
+- **Exemple :** SP-002 definit les 6 regles imperatives que l'agent doit toujours respecter
+
+### User Prompts (blocs PROMPT dans `workbench/DOC5-GUIDE-Project-Development-Process.md`)
+
+Les blocs `PROMPT` de DOC5 sont des **User Prompts** : ce sont des instructions
+operationnelles que l'humain copie-colle dans Roo Code pour declencher une etape
+specifique du workflow Agile.
+
+- **Qui les ecrit ?** L'humain (copier-coller depuis DOC5)
+- **Qui les lit ?** L'agent IA (a la reception du message de l'humain)
+- **Quand sont-ils actifs ?** Uniquement lors de l'envoi, pour une tache precise
+- **Ou sont-ils utilises ?** Dans l'interface de chat de Roo Code
+- **Exemple :** PROMPT 4.2 declenche le Sprint Planning d'un sprint specifique
+
+### Tableau Comparatif
+
+| Critere | System Prompts (SP-XXX) | User Prompts (PROMPT DOC5) |
+| :--- | :--- | :--- |
+| **Role** | Configurer l'agent | Declencher une action |
+| **Auteur** | Mainteneur du systeme | Utilisateur final |
+| **Frequence** | Une fois (puis maintenance) | A chaque etape du workflow |
+| **Cible** | Fichiers de config techniques | Interface chat Roo Code |
+| **Portee** | Toutes les sessions | Une session / une tache |
+| **Versionnement** | Git + changelog SP-XXX | Integre dans DOC5 (versionne avec DOC5) |
+| **Modification** | Procedure formelle (REGLE 6) | Editer DOC5 directement |
+
+---
+
 ## Principe Fondamental
 
 Ce dossier `prompts/` est la **source de verite unique** pour tous les system prompts du systeme UADF.

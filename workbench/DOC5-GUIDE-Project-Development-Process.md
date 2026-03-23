@@ -40,6 +40,20 @@ Les blocs `📋 PROMPT` sont des **prompts prêts à copier-coller dans Roo Code
 
 *→ Artifact produit : `chemin/fichier.md`*
 
+### Distinction : User Prompts (ce document) vs System Prompts (`template/prompts/`)
+
+Ce document contient des **User Prompts** — des instructions opérationnelles que **l'humain envoie à l'agent** pour déclencher une étape précise du workflow Agile (Sprint Planning, développement d'une User Story, etc.).
+
+Ils sont distincts des **System Prompts** stockés dans `template/prompts/` (fichiers SP-001 à SP-007), qui configurent l'identité et les règles de comportement des agents IA. Ces derniers sont déployés dans des fichiers techniques (`.clinerules`, `.roomodes`, `Modelfile`) et s'appliquent en permanence, en arrière-plan, pour toutes les sessions.
+
+| | User Prompts (ce document) | System Prompts (`template/prompts/`) |
+| :--- | :--- | :--- |
+| **Rôle** | Déclencher une action workflow | Configurer l'identité et les règles de l'agent |
+| **Utilisé par** | L'humain (copier-coller dans Roo Code) | L'agent IA (automatiquement, en arrière-plan) |
+| **Portée** | Une tâche précise, une session | Toutes les sessions, tous les modes |
+| **Cible** | Interface chat de Roo Code | `.clinerules`, `.roomodes`, `Modelfile`, Gemini Gem |
+| **Fréquence** | À chaque étape du workflow | Une fois déployés, puis maintenance |
+
 ---
 
 ## Table des Matières

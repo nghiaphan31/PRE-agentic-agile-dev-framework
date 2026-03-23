@@ -4,7 +4,7 @@
 **Source review:** `plans/REVIEW-Gemini-Proxy-Path-Robustness.md` + `plans/REVIEW-Gemini-Proxy-Path-Robustness-Part2.md`  
 **Created:** 2026-03-23  
 **Last updated:** 2026-03-23
-**Status:** 🟡 5/12 fixes applied
+**Status:** 🟡 6/12 fixes applied
 
 ---
 
@@ -152,7 +152,7 @@ This file is the **single source of truth** for tracking the application of all 
 ---
 
 ### FIX-006 — Proxy: add minimum content length check
-- **Status:** [ ] PENDING
+- **Status:** [x] DONE
 - **File to change:** `template/proxy.py`
 - **Gap addressed:** GAP-005 (accidental clipboard overwrite with short content silently corrupts response)
 - **What to do:** In [`_wait_clipboard()`](template/proxy.py), after detecting hash change, add:
@@ -162,7 +162,7 @@ This file is the **single source of truth** for tracking the application of all 
       print(f"[{ts}] Verifiez que vous avez copie la reponse Gemini complete (Ctrl+A puis Ctrl+C)")
   ```
 - **Verification:** Copy a 5-char string while proxy is polling — warning should appear but response still transmitted (non-blocking by design).
-- **Applied:** [ ] Date: ___________ | Commit: ___________
+- **Applied:** [x] Date: 2026-03-23 | Commit: 84caf72
 
 ---
 
@@ -266,9 +266,9 @@ This file is the **single source of truth** for tracking the application of all 
 | Priority | Total | Done | Remaining |
 | :--- | :---: | :---: | :---: |
 | P0 — Blocking | 3 | 3 | 0 |
-| P1 — High | 5 | 2 | 3 |
+| P1 — High | 5 | 3 | 2 |
 | P2 — Medium | 4 | 0 | 4 |
-| **TOTAL** | **12** | **5** | **7** |
+| **TOTAL** | **12** | **6** | **6** |
 
 ---
 
@@ -282,6 +282,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 3 | FIX-003 — Boomerang Tasks limitation documentée (DOC1+DOC2+DOC5) | 51bf71a |
 | 2026-03-23 | Session 4 | FIX-004 — try/except pyperclip.paste() dans _wait_clipboard() | 10a4c81 |
 | 2026-03-23 | Session 5 | FIX-005 — Compteur de requetes #N dans la console (P-002) | 521baa9 |
+| 2026-03-23 | Session 6 | FIX-006 — Verification longueur minimale contenu colle (GAP-005) | 84caf72 |
 
 ---
 

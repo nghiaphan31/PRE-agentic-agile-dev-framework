@@ -8,6 +8,7 @@ Changelog:
   v2.0.1 - 2026-03-23 : FIX-001 — Console multi-ligne avec avertissement NOUVELLE conversation (GAP-006)
   v2.0.2 - 2026-03-23 : FIX-004 — try/except autour de pyperclip.paste() pour eviter crash si presse-papiers verrouille (P-003)
   v2.0.3 - 2026-03-23 : FIX-005 — Compteur de requetes dans la console pour distinguer les requetes concurrentes (P-002)
+  v2.0.4 - 2026-03-23 : FIX-006 — Verification longueur minimale du contenu colle (GAP-005)
 """
 import asyncio, hashlib, json, os, time, uuid
 from datetime import datetime
@@ -43,7 +44,7 @@ class ChatRequest(BaseModel):
     max_tokens: Optional[int] = None
     stream: Optional[bool] = False
 
-app = FastAPI(title="le workbench Proxy", version="2.0.3")
+app = FastAPI(title="le workbench Proxy", version="2.0.4")
 
 def _hash(text: str) -> str:
     return hashlib.md5(text.encode("utf-8")).hexdigest()
@@ -123,6 +124,10 @@ async def _wait_clipboard(initial_hash: str, ts: str) -> str:
         if _hash(current) != initial_hash:
             elapsed = time.time() - start
             print(f"[{ts}] REPONSE DETECTEE ! {len(current)} chars en {elapsed:.1f}s")
+            # FIX-006: Verification longueur minimale pour detecter copie accidentelle (GAP-005)
+            if len(current) < 20:
+                print(f"[{ts}] AVERTISSEMENT: Contenu trop court ({len(current)} chars): {repr(current[:50])}")
+                print(f"[{ts}] Verifiez que vous avez copie la reponse Gemini complete (Ctrl+A puis Ctrl+C)")
             if not _validate_response(current):
                 print(f"[{ts}] AVERTISSEMENT : Aucune balise XML Roo Code detectee.")
             return current
@@ -163,8 +168,8 @@ async def list_models():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "proxy": "le workbench", "version": "2.0.3", "gem_mode": USE_GEM_MODE}
+    return {"status": "ok", "proxy": "le workbench", "version": "2.0.4", "gem_mode": USE_GEM_MODE}
 
 if __name__ == "__main__":
-    print(f"{'='*60}\n  le workbench PROXY v2.0.3 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
+    print(f"{'='*60}\n  le workbench PROXY v2.0.4 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
     uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="warning")

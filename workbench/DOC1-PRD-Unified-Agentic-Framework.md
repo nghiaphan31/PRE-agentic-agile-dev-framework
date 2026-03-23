@@ -288,3 +288,97 @@ Le système doit fournir un mécanisme automatique de détection des désynchron
 | **Streaming** | Natif Ollama | SSE en un seul chunk (proxy) | Natif Anthropic |
 | **Configuration Roo Code** | Provider: Ollama | Provider: OpenAI Compatible | Provider: Anthropic |
 | **Exigences PRD** | REQ-1.x | REQ-2.x, REQ-5.x | REQ-6.x |
+
+---
+
+## Annexe A — Table des Références
+
+| Réf. | Type | Titre / Identifiant | Description |
+| :--- | :--- | :--- | :--- |
+| [DOC1] | Document interne | `workbench/DOC1-PRD-Unified-Agentic-Framework.md` | Ce document — Product Requirements Document v2.0 |
+| [DOC2] | Document interne | `workbench/DOC2-Architecture-Solution-Stack.md` | Architecture, Solution et Stack Technique v2.0 |
+| [DOC3] | Document interne | `workbench/DOC3-Plan-Implementation-COMPLETE.md` | Plan d'Implémentation Séquentiel Complet v3.0 (Phases 0–12) |
+| [DOC4] | Document interne | `workbench/DOC4-Guide-Deploiement-Atelier.md` | Guide de Déploiement de l'Atelier sur projets nouveaux et existants |
+| [SP-001] | System Prompt | `template/prompts/SP-001-ollama-modelfile-system.md` | System prompt du Modelfile Ollama (bloc SYSTEM) |
+| [SP-002] | System Prompt | `template/prompts/SP-002-clinerules-global.md` | Contenu canonique du fichier `.clinerules` (6 règles impératives) |
+| [SP-003] | System Prompt | `template/prompts/SP-003-persona-product-owner.md` | `roleDefinition` du persona Product Owner dans `.roomodes` |
+| [SP-004] | System Prompt | `template/prompts/SP-004-persona-scrum-master.md` | `roleDefinition` du persona Scrum Master dans `.roomodes` |
+| [SP-005] | System Prompt | `template/prompts/SP-005-persona-developer.md` | `roleDefinition` du persona Developer dans `.roomodes` |
+| [SP-006] | System Prompt | `template/prompts/SP-006-persona-qa-engineer.md` | `roleDefinition` du persona QA Engineer dans `.roomodes` |
+| [SP-007] | System Prompt | `template/prompts/SP-007-gem-gemini-roo-agent.md` | Instructions du Gem Gemini "Roo Code Agent" (déploiement manuel, hors Git) |
+| [LAAW] | Source externe | Blueprint LAAW — mychen76 | Blueprint "Local Agentic Agile Workflow" — source d'inspiration principale pour la Memory Bank et les personas Agile |
+| [PROXY] | Source externe | Proxy API Gemini Chrome | Mécanisme de pont réseau-presse-papiers permettant à Roo Code d'utiliser Gemini Web gratuitement |
+| [OLLAMA] | Outil externe | https://ollama.com | Moteur d'inférence LLM local, gère les modèles Qwen3 |
+| [ANTHROPIC] | API externe | https://api.anthropic.com | API officielle Anthropic pour Claude Sonnet |
+| [GEMINI] | Interface externe | https://gemini.google.com | Interface web Gemini de Google, utilisée en mode Proxy Chrome |
+| [ROOCODE] | Extension VS Code | Roo Code (extension VS Code) | Moteur d'exécution agentique central — orchestre tous les composants |
+| [OPENAI-FMT] | Standard | Format OpenAI Chat Completions | Standard d'API `/v1/chat/completions` émulé par le proxy pour compatibilité Roo Code |
+| [SEMVER] | Standard | Semantic Versioning (semver.org) | Convention de versionnement MAJOR.MINOR.PATCH utilisée pour les fichiers SP et le workbench |
+
+---
+
+## Annexe B — Table des Abréviations
+
+| Abréviation | Forme complète | Explication |
+| :--- | :--- | :--- |
+| **ADR** | Architecture Decision Record | Enregistrement horodaté d'une décision d'architecture avec contexte, décision prise et conséquences. Stocké dans `memory-bank/decisionLog.md`. |
+| **API** | Application Programming Interface | Interface de programmation permettant à deux logiciels de communiquer. Ici : API Ollama (locale), API Anthropic (cloud), API OpenAI (format émulé). |
+| **ASGI** | Asynchronous Server Gateway Interface | Standard Python pour les serveurs web asynchrones. Uvicorn est un serveur ASGI utilisé par FastAPI. |
+| **DA** | Décision d'Architecture | Identifiant des décisions d'architecture dans DOC2 (ex: DA-001, DA-014). Chaque DA justifie un choix technique et référence les exigences PRD adressées. |
+| **GEM** | Gem Gemini | Profil personnalisé dans l'interface Gemini Web (gemini.google.com > Gems) contenant un system prompt dédié. Ici : "Roo Code Agent" avec SP-007. |
+| **Git** | — (nom propre) | Système de contrôle de version distribué. Utilisé pour versionner le code source, la Memory Bank et les fichiers de configuration. |
+| **GPU** | Graphics Processing Unit | Processeur graphique utilisé pour accélérer l'inférence des modèles LLM locaux via Ollama. |
+| **HTTP** | HyperText Transfer Protocol | Protocole de communication web. Le proxy écoute sur HTTP (localhost:8000). L'API Anthropic utilise HTTPS. |
+| **HTTPS** | HTTP Secure | Version chiffrée de HTTP. Utilisée pour les connexions à l'API Anthropic et à Gemini Web. |
+| **JSON** | JavaScript Object Notation | Format de données texte structuré. Utilisé pour `.roomodes`, les réponses API OpenAI, et les requêtes du proxy. |
+| **LAAW** | Local Agentic Agile Workflow | Blueprint de développement agentique local créé par mychen76, source d'inspiration principale pour la Memory Bank et les personas Agile de l'UADF. |
+| **LLM** | Large Language Model | Grand modèle de langage. Exemples : Qwen3-32B (local via Ollama), Gemini Pro (cloud Google), Claude Sonnet (cloud Anthropic). |
+| **MD5** | Message Digest 5 | Algorithme de hachage utilisé par le proxy pour détecter les changements dans le presse-papiers (comparaison de hash avant/après). |
+| **MCP** | Model Context Protocol | Protocole d'extension de Roo Code permettant d'intégrer des outils externes. Accessible uniquement au persona Developer. |
+| **NTFS** | New Technology File System | Système de fichiers Windows utilisé pour stocker la Memory Bank et les fichiers de configuration. |
+| **PO** | Product Owner | Persona Agile responsable de la vision produit, des User Stories et du backlog. Correspond au mode `product-owner` dans `.roomodes`. |
+| **PRD** | Product Requirements Document | Document d'exigences produit. Ce document (DOC1) définit toutes les exigences atomiques du système UADF. |
+| **RBAC** | Role-Based Access Control | Contrôle d'accès basé sur les rôles. Chaque persona Agile a une matrice de permissions précise définissant ce qu'il peut lire, écrire et exécuter. |
+| **REQ** | Requirement (Exigence) | Identifiant des exigences dans ce PRD (ex: REQ-000, REQ-2.1.4). Format : REQ-{domaine}.{sous-domaine}. |
+| **REST** | Representational State Transfer | Style d'architecture pour les API web. Ollama expose une API REST sur localhost:11434. |
+| **SM** | Scrum Master | Persona Agile facilitateur pur : gère la Memory Bank et les commits Git, mais ne code pas et n'exécute pas de tests. |
+| **SP** | System Prompt | Fichier canonique du registre `template/prompts/` contenant un prompt système avec métadonnées YAML (id, version, cible, changelog). |
+| **SSE** | Server-Sent Events | Protocole de streaming HTTP unidirectionnel (serveur → client). Le proxy retourne les réponses Gemini en SSE quand `stream: true`. |
+| **UADF** | Unified Agentic Development Framework | Nom du système décrit dans ce document. Combine Roo Code, Ollama, le proxy Gemini Chrome et l'API Anthropic dans un environnement de développement agentique unifié. |
+| **VRAM** | Video Random Access Memory | Mémoire de la carte graphique. Le modèle Qwen3-32B nécessite 8+ Go de VRAM pour une inférence GPU optimale. |
+| **VS Code** | Visual Studio Code | Éditeur de code Microsoft, environnement de développement principal de l'UADF. |
+| **YAML** | YAML Ain't Markup Language | Format de sérialisation de données lisible par l'humain. Utilisé pour les en-têtes des fichiers SP canoniques. |
+
+---
+
+## Annexe C — Glossaire
+
+| Terme | Définition |
+| :--- | :--- |
+| **Agent agentique** | Programme IA capable d'exécuter des actions autonomes (lire/écrire des fichiers, exécuter des commandes, appeler des APIs) en réponse à des instructions en langage naturel, sans intervention humaine à chaque étape. |
+| **Atelier (Workbench)** | Ce dépôt (`agentic-agile-workbench`). Contient les outils, règles et processus réutilisables pour développer des projets applicatifs. S'oppose au "projet" qui contient le code métier. |
+| **Balises XML Roo Code** | Syntaxe spéciale utilisée par Roo Code pour déclencher des actions : `<write_to_file>`, `<read_file>`, `<execute_command>`, `<attempt_completion>`, etc. Tout LLM connecté à Roo Code doit répondre avec ces balises. |
+| **Boomerang Tasks** | Mécanisme de Roo Code permettant à l'agent principal (32B) de déléguer une sous-tâche à un modèle secondaire (7B), puis de récupérer le résultat dans sa propre boucle de décision. |
+| **Clipboard / Presse-papiers** | Zone mémoire temporaire de Windows (Ctrl+C / Ctrl+V). Le proxy utilise le presse-papiers comme canal de communication entre Roo Code et Gemini Web. |
+| **Commit Git** | Instantané versionné de l'état du dépôt. Chaque modification significative (code, Memory Bank, configuration) doit faire l'objet d'un commit avec un message descriptif au format Conventional Commits. |
+| **Conventional Commits** | Convention de messages de commit : `type(scope): description`. Types utilisés : `feat`, `fix`, `docs`, `chore`, `refactor`, `test`. |
+| **Déterminisme** | Propriété d'un modèle LLM à produire des réponses stables et reproductibles. Obtenu en fixant `temperature 0.15`, `min_p 0.03`, `top_p 0.95`, `repeat_penalty 1.1` dans le Modelfile. |
+| **Fenêtre de contexte** | Nombre maximum de tokens qu'un LLM peut traiter simultanément. Fixée à 128K tokens (`num_ctx 131072`) pour permettre le chargement du code source ET de la Memory Bank. |
+| **Fine-tuning** | Entraînement supplémentaire d'un modèle LLM sur des données spécifiques. `mychen76/qwen3_cline_roocode:32b` est fine-tuné pour le Tool Calling de Roo Code. |
+| **Gem Gemini** | Profil personnalisé dans l'interface Gemini Web contenant un system prompt permanent. Le Gem "Roo Code Agent" contient SP-007 et répond exclusivement avec des balises XML Roo Code. |
+| **Hook Git pre-commit** | Script exécuté automatiquement par Git avant chaque commit. Utilisé pour vérifier la cohérence des prompts (REQ-8.2) et bloquer le commit si désynchronisation détectée. |
+| **Memory Bank** | Système de 7 fichiers Markdown dans `memory-bank/` qui persistent le contexte entre les sessions Roo Code. Remplace la mémoire volatile du LLM par une mémoire durable et auditable. |
+| **Modelfile** | Fichier de configuration Ollama définissant le modèle de base, les paramètres d'inférence et le system prompt. Compilé avec `ollama create uadf-agent -f Modelfile`. |
+| **Mode Cloud** | Configuration Roo Code utilisant l'API Anthropic directe (`claude-sonnet-4-6`). Entièrement automatisé, payant à l'usage, nécessite une clé API. |
+| **Mode Local** | Configuration Roo Code utilisant Ollama en local (`mychen76/qwen3_cline_roocode:32b`). Gratuit, souverain, fonctionne hors ligne. |
+| **Mode Proxy** | Configuration Roo Code utilisant le proxy FastAPI local qui relaie les requêtes vers Gemini Web via le presse-papiers. Gratuit, nécessite une intervention humaine (copier-coller). |
+| **Persona Agile** | Mode Roo Code simulant un rôle Scrum : Product Owner, Scrum Master, Developer, QA Engineer. Chaque persona a un `roleDefinition` (comportement) et des `groups` (permissions RBAC). |
+| **Polling** | Technique de vérification périodique d'un état. Le proxy vérifie le presse-papiers toutes les secondes (`asyncio.sleep(1.0)`) pour détecter la réponse Gemini. |
+| **Proxy** | Intermédiaire réseau. Ici : serveur FastAPI local (`proxy.py`) qui intercepte les requêtes Roo Code, les relaie vers Gemini Web via le presse-papiers, et retourne la réponse à Roo Code. |
+| **Registre de prompts** | Répertoire `template/prompts/` contenant les versions canoniques et versionnées de tous les system prompts du workbench. Source de vérité unique. |
+| **Séquence VÉRIFIER→CRÉER→LIRE→AGIR** | Protocole obligatoire au démarrage de chaque session Roo Code : (1) vérifier l'existence des fichiers Memory Bank, (2) les créer si absents, (3) les lire, (4) agir sur la demande. Défini dans REGLE 1 de `.clinerules`. |
+| **SemVer** | Semantic Versioning. Format MAJOR.MINOR.PATCH : MAJOR = rupture de compatibilité, MINOR = nouvelle fonctionnalité rétrocompatible, PATCH = correction de bug. |
+| **System Prompt** | Instructions permanentes données à un LLM avant toute interaction utilisateur. Définit le comportement, les règles et les contraintes de l'agent. |
+| **Token** | Unité de traitement d'un LLM. Environ 0,75 mot en français. La fenêtre de 128K tokens ≈ 96 000 mots ≈ un roman de taille moyenne. |
+| **Tool Calling** | Capacité d'un LLM à appeler des fonctions/outils externes en générant des requêtes structurées (JSON ou XML). `mychen76/qwen3_cline_roocode:32b` est fine-tuné pour le Tool Calling de Roo Code. |
+| **VS Code SecretStorage** | Mécanisme de stockage chiffré intégré à VS Code. Utilisé pour stocker la clé API Anthropic de manière sécurisée, sans jamais l'écrire dans un fichier. |

@@ -2043,3 +2043,90 @@ git commit -m "feat(prompts): check-prompts-sync.ps1 + hook pre-commit — véri
 - [ ] Phase 12 : `check-prompts-sync.ps1` → 6 PASS | 0 FAIL, hook pre-commit actif
 
 **Le système UADF est opérationnel quand toutes les cases sont cochées.**
+
+---
+
+## Annexe A — Table des Références
+
+| Réf. | Type | Titre / Identifiant | Description |
+| :--- | :--- | :--- | :--- |
+| [DOC1] | Document interne | `workbench/DOC1-PRD-Unified-Agentic-Framework.md` | Product Requirements Document v2.0 — source de toutes les exigences REQ-xxx implémentées dans ce plan |
+| [DOC2] | Document interne | `workbench/DOC2-Architecture-Solution-Stack.md` | Architecture, Solution et Stack Technique v2.0 — justifie les choix techniques de chaque phase |
+| [DOC3] | Document interne | `workbench/DOC3-Plan-Implementation-COMPLETE.md` | Ce document — Plan d'Implémentation Séquentiel Complet v3.0 (Phases 0–12) |
+| [DOC4] | Document interne | `workbench/DOC4-Guide-Deploiement-Atelier.md` | Guide de Déploiement de l'Atelier sur projets nouveaux et existants |
+| [SP-001] | System Prompt | `template/prompts/SP-001-ollama-modelfile-system.md` | System prompt du Modelfile Ollama — déployé en Phase 3 |
+| [SP-002] | System Prompt | `template/prompts/SP-002-clinerules-global.md` | Contenu canonique du fichier `.clinerules` — déployé en Phase 5 |
+| [SP-003] | System Prompt | `template/prompts/SP-003-persona-product-owner.md` | `roleDefinition` Product Owner — déployé en Phase 4 |
+| [SP-004] | System Prompt | `template/prompts/SP-004-persona-scrum-master.md` | `roleDefinition` Scrum Master — déployé en Phase 4 |
+| [SP-005] | System Prompt | `template/prompts/SP-005-persona-developer.md` | `roleDefinition` Developer — déployé en Phase 4 |
+| [SP-006] | System Prompt | `template/prompts/SP-006-persona-qa-engineer.md` | `roleDefinition` QA Engineer — déployé en Phase 4 |
+| [SP-007] | System Prompt | `template/prompts/SP-007-gem-gemini-roo-agent.md` | Instructions du Gem Gemini "Roo Code Agent" — déployé manuellement en Phase 7 |
+| [OLLAMA-DL] | Téléchargement | https://ollama.com/download/windows | Installateur Ollama pour Windows — utilisé en Phase 1 |
+| [QWEN3-32B] | Modèle LLM | `mychen76/qwen3_cline_roocode:32b` sur Ollama Hub | Modèle principal fine-tuné Tool Calling Roo Code — téléchargé en Phase 1 |
+| [QWEN3-7B] | Modèle LLM | `qwen3:7b` sur Ollama Hub | Modèle secondaire pour Boomerang Tasks — téléchargé en Phase 1 |
+| [ROOCODE-EXT] | Extension VS Code | Roo Code (marketplace VS Code) | Extension agentique — installée en Phase 0 |
+| [FASTAPI] | Bibliothèque Python | `pip install fastapi uvicorn pyperclip` | Dépendances du proxy — installées en Phase 6 |
+| [ANTHROPIC-KEY] | Documentation | https://console.anthropic.com | Console Anthropic pour générer la clé API — utilisée en Phase 10 |
+| [ANTHROPIC-MODELS] | Documentation | https://docs.anthropic.com/en/docs/about-claude/models | Liste des modèles Claude disponibles — à consulter pour mettre à jour `claude-sonnet-4-6` |
+| [GEMINI-GEMS] | Interface | https://gemini.google.com > Gems | Interface de création des Gems Gemini — utilisée en Phase 7 |
+| [GIT-HOOKS] | Documentation | https://git-scm.com/docs/githooks | Documentation des hooks Git — utilisée en Phase 12 |
+| [SEMVER] | Standard | Semantic Versioning (semver.org) | Convention MAJOR.MINOR.PATCH pour les fichiers SP et le workbench |
+
+---
+
+## Annexe B — Table des Abréviations
+
+| Abréviation | Forme complète | Explication |
+| :--- | :--- | :--- |
+| **ADR** | Architecture Decision Record | Enregistrement horodaté d'une décision d'architecture. Stocké dans `memory-bank/decisionLog.md`. |
+| **API** | Application Programming Interface | Interface de programmation. Trois APIs dans l'UADF : Ollama REST (locale), OpenAI-compatible (proxy), Anthropic HTTPS (cloud). |
+| **ASGI** | Asynchronous Server Gateway Interface | Standard Python pour serveurs web asynchrones. FastAPI + Uvicorn = pile ASGI du proxy (Phase 6). |
+| **DA** | Décision d'Architecture | Identifiant des décisions dans DOC2 (DA-001 à DA-014). Référencé dans les phases pour justifier les choix. |
+| **GEM** | Gem Gemini | Profil personnalisé Gemini Web avec system prompt permanent. Créé en Phase 7 avec SP-007. |
+| **GPU** | Graphics Processing Unit | Processeur graphique. `num_gpu 99` dans le Modelfile délègue l'inférence au GPU (Phase 3). |
+| **HTTP** | HyperText Transfer Protocol | Protocole de communication. Le proxy écoute sur HTTP `localhost:8000` (Phase 6). |
+| **JSON** | JavaScript Object Notation | Format de données structuré. Utilisé pour `.roomodes` (Phase 4) et les réponses API. |
+| **LAAW** | Local Agentic Agile Workflow | Blueprint mychen76 — source d'inspiration pour la Memory Bank et les personas Agile. |
+| **LLM** | Large Language Model | Grand modèle de langage. Trois modes dans l'UADF : Qwen3-32B, Gemini Pro, Claude Sonnet. |
+| **MCP** | Model Context Protocol | Protocole d'extension Roo Code. Accessible uniquement au persona Developer. |
+| **MD5** | Message Digest 5 | Algorithme de hachage. Utilisé par le proxy pour détecter les changements de presse-papiers (Phase 6). |
+| **PO** | Product Owner | Persona Agile — vision produit, User Stories, backlog. Mode `product-owner` dans `.roomodes`. |
+| **PRD** | Product Requirements Document | Document d'exigences produit. DOC1 est le PRD de l'UADF. |
+| **RBAC** | Role-Based Access Control | Contrôle d'accès par rôles. Matrice définie en Phase 4 et dans DOC1 section 4.1. |
+| **REQ** | Requirement (Exigence) | Identifiant des exigences dans DOC1. Chaque phase de ce document référence les REQ qu'elle implémente. |
+| **SM** | Scrum Master | Persona Agile facilitateur pur — Memory Bank + Git uniquement, sans code ni tests. |
+| **SP** | System Prompt | Fichier canonique du registre `template/prompts/` avec métadonnées YAML. |
+| **SSE** | Server-Sent Events | Protocole de streaming HTTP serveur→client. Implémenté dans `proxy.py` v2.0 (Phase 6). |
+| **UADF** | Unified Agentic Development Framework | Nom du système décrit dans ce document. |
+| **VRAM** | Video Random Access Memory | Mémoire GPU. Qwen3-32B nécessite 8+ Go de VRAM (Phase 1, prérequis). |
+| **YAML** | YAML Ain't Markup Language | Format de sérialisation lisible. Utilisé pour les en-têtes des fichiers SP (Phase 11). |
+
+---
+
+## Annexe C — Glossaire
+
+| Terme | Définition |
+| :--- | :--- |
+| **Atelier (Workbench)** | Ce dépôt (`agentic-agile-workbench`). Contient les outils, règles et processus réutilisables. Ce plan d'implémentation décrit comment installer l'atelier sur une machine. |
+| **Balises XML Roo Code** | Syntaxe d'action de Roo Code : `<write_to_file>`, `<read_file>`, `<execute_command>`, `<attempt_completion>`, etc. Validées en Phase 9 (tests end-to-end). |
+| **Boomerang Tasks** | Mécanisme Roo Code de délégation de sous-tâches au modèle 7B. Configuré en Phase 8, testé en Phase 9. |
+| **Commit Git** | Instantané versionné du dépôt. Chaque phase se termine par un commit avec message au format Conventional Commits. |
+| **Conventional Commits** | Convention de messages de commit : `type(scope): description`. Types : `feat`, `fix`, `docs`, `chore`, `refactor`, `test`. |
+| **Déterminisme** | Stabilité des réponses LLM. Obtenu via `temperature 0.15`, `min_p 0.03`, `top_p 0.95`, `repeat_penalty 1.1` dans le Modelfile (Phase 3). |
+| **Fenêtre de contexte** | Capacité maximale de traitement simultané d'un LLM. Fixée à 128K tokens (`num_ctx 131072`) dans le Modelfile (Phase 3). |
+| **Fine-tuning** | Entraînement spécialisé d'un LLM. `mychen76/qwen3_cline_roocode:32b` est fine-tuné pour le Tool Calling Roo Code (Phase 1). |
+| **Gem Gemini** | Profil Gemini Web avec system prompt permanent (SP-007). Créé manuellement en Phase 7 — non versionné dans Git. |
+| **Hook pre-commit** | Script Git exécuté avant chaque commit. Créé en Phase 12 — appelle `check-prompts-sync.ps1` et bloque si désynchronisation. |
+| **Memory Bank** | 7 fichiers Markdown dans `memory-bank/` persistant le contexte entre sessions. Créés en Phase 5, utilisés dès Phase 9. |
+| **Modelfile** | Fichier de configuration Ollama. Créé en Phase 3, compilé avec `ollama create uadf-agent -f Modelfile`. |
+| **Mode Cloud** | Roo Code → API Anthropic directe (`claude-sonnet-4-6`). Configuré en Phase 10. |
+| **Mode Local** | Roo Code → Ollama `localhost:11434` → Qwen3-32B. Configuré en Phase 8. |
+| **Mode Proxy** | Roo Code → proxy FastAPI `localhost:8000` → presse-papiers → Gemini Web. Configuré en Phase 8. |
+| **Persona Agile** | Mode Roo Code simulant un rôle Scrum. Défini dans `.roomodes` en Phase 4. |
+| **Polling** | Vérification périodique du presse-papiers toutes les secondes dans `proxy.py` (Phase 6). |
+| **Proxy** | Serveur FastAPI local (`proxy.py`) créé en Phase 6. Intercepte les requêtes Roo Code et les relaie vers Gemini Web. |
+| **Registre de prompts** | Répertoire `template/prompts/` créé en Phase 11. Source de vérité unique pour tous les system prompts. |
+| **Séquence VÉRIFIER→CRÉER→LIRE→AGIR** | Protocole obligatoire au démarrage de session. Défini dans REGLE 1 de `.clinerules` (Phase 5), validé en Phase 9. |
+| **Token** | Unité de traitement LLM ≈ 0,75 mot. La fenêtre 128K tokens ≈ 96 000 mots. |
+| **Tool Calling** | Capacité LLM à appeler des outils via balises XML. Qwen3-32B est fine-tuné pour le Tool Calling Roo Code. |
+| **VS Code SecretStorage** | Stockage chiffré VS Code pour la clé API Anthropic. Configuré en Phase 10 — jamais dans Git. |

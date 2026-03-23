@@ -179,7 +179,7 @@ This file is the **single source of truth** for tracking the application of all 
      -> Action corrective : [FILL IN AFTER TESTING]
      ```
 - **Verification:** Behavior documented in DOC5 with actual observed Roo Code response.
-- **Applied:** [x] Date: 2026-03-23 | Commit: TBD
+- **Applied:** [x] Date: 2026-03-23 | Commit: 8bfc3d1
 
 ---
 
@@ -283,7 +283,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 4 | FIX-004 — try/except pyperclip.paste() dans _wait_clipboard() | 10a4c81 |
 | 2026-03-23 | Session 5 | FIX-005 — Compteur de requetes #N dans la console (P-002) | 521baa9 |
 | 2026-03-23 | Session 6 | FIX-006 — Verification longueur minimale contenu colle (GAP-005) | 713403c |
-| 2026-03-23 | Session 7 | FIX-007 — Comportement HTTP 408 documenté dans DOC5 section 9.6 (GAP-004) | TBD |
+| 2026-03-23 | Session 7 | FIX-007 — Comportement HTTP 408 documenté dans DOC5 section 9.6 (GAP-004) | 8bfc3d1 |
 
 ---
 

@@ -244,11 +244,11 @@ This file is the **single source of truth** for tracking the application of all 
 ---
 
 ### FIX-011 — DOC5: add proxy mode limitations to section 9.4
-- **Status:** [ ] PENDING
+- **Status:** [x] DONE
 - **File to change:** `workbench/DOC5-GUIDE-Project-Development-Process.md`
 - **Gap addressed:** GAP-003, GAP-006, GAP-007 (undocumented limitations)
 - **What to do:** Add "LIMITATIONS CONNUES DU MODE PROXY GEMINI" block to section 9.4 (see Part2 section 9 for exact text).
-- **Applied:** [ ] Date: ___________ | Commit: ___________
+- **Applied:** [x] Date: 2026-03-23 | Commit: PENDING
 
 ---
 

@@ -1615,6 +1615,16 @@ POURQUOI CE PROTOCOLE :
   - Proxy Gemini : haute qualité, nécessite copier-coller humain
   - Claude API : haute qualité, entièrement automatique, payant
   La Memory Bank garantit la continuité du contexte quel que soit le backend.
+
+LIMITATIONS CONNUES DU MODE PROXY GEMINI (a documenter dans activeContext.md) :
+  - Boomerang Tasks (new_task) : NON SUPPORTE — utiliser Claude API pour les taches
+    necessitant des sous-agents
+  - Taches longues (> 10 tours LLM) : DECONSEILLE — decouper en sous-taches ou
+    utiliser Claude API
+  - Utilisation parallele du presse-papiers : IMPOSSIBLE pendant une session proxy
+  - Execution sans surveillance : IMPOSSIBLE — presence humaine continue requise
+  - Conversation Gemini : TOUJOURS utiliser une NOUVELLE conversation a chaque session
+    (ne pas continuer une conversation existante — le proxy envoie deja l'historique complet)
 ```
 
 > ⚠️ **LIMITATIONS CONNUES DU MODE PROXY GEMINI** (à documenter dans `activeContext.md` lors du basculement) :

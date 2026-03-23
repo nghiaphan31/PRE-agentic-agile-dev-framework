@@ -4,7 +4,7 @@
 **Source review:** `plans/REVIEW-Gemini-Proxy-Path-Robustness.md` + `plans/REVIEW-Gemini-Proxy-Path-Robustness-Part2.md`
 **Created:** 2026-03-23
 **Last updated:** 2026-03-23
-**Status:** 🟡 8/12 fixes applied
+**Status:** 🟡 9/12 fixes applied
 
 ---
 
@@ -226,11 +226,11 @@ This file is the **single source of truth** for tracking the application of all 
 ## P2 — Medium Priority Fixes (quality improvements)
 
 ### FIX-009 — DOC5: add task chunking guidance for proxy mode
-- **Status:** [ ] PENDING
+- **Status:** [x] DONE
 - **File to change:** `workbench/DOC5-GUIDE-Project-Development-Process.md`
 - **Gap addressed:** GAP-007 (cognitive load fatigue on long tasks)
 - **What to do:** Add a new subsection 9.4.1 "Stratégie de découpage des tâches en Mode Proxy" with guidance on keeping tasks under 10 LLM turns.
-- **Applied:** [ ] Date: ___________ | Commit: ___________
+- **Applied:** [x] Date: 2026-03-23 | Commit: 22e51aa
 
 ---
 
@@ -267,8 +267,8 @@ This file is the **single source of truth** for tracking the application of all 
 | :--- | :---: | :---: | :---: |
 | P0 — Blocking | 3 | 3 | 0 |
 | P1 — High | 5 | 5 | 0 |
-| P2 — Medium | 4 | 0 | 4 |
-| **TOTAL** | **12** | **8** | **4** |
+| P2 — Medium | 4 | 1 | 3 |
+| **TOTAL** | **12** | **9** | **3** |
 
 ---
 
@@ -285,6 +285,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 6 | FIX-006 — Verification longueur minimale contenu colle (GAP-005) | 713403c |
 | 2026-03-23 | Session 7 | FIX-007 — Comportement HTTP 408 documenté dans DOC5 section 9.6 (GAP-004) | 8bfc3d1 |
 | 2026-03-23 | Session 8 | FIX-008 — MAX_HISTORY_CHARS troncature historique dans _format_prompt() (GAP-001) | dbd43d7 |
+| 2026-03-23 | Session 9 | FIX-009 — Subsection 9.4.1 découpage tâches Mode Proxy dans DOC5 (GAP-007) | 22e51aa |
 
 ---
 

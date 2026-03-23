@@ -1643,6 +1643,105 @@ Lis memory-bank/activeContext.md et résume en 5 points :
 
 ---
 
+### 9.4.1 Stratégie de Découpage des Tâches en Mode Proxy
+
+> **Règle d'or du Mode Proxy :** Garder chaque tâche sous **10 tours LLM** (10 allers-retours presse-papiers). Au-delà, la taille du presse-papiers explose et la fatigue cognitive humaine dégrade la qualité.
+
+#### Pourquoi découper ?
+
+En Mode Proxy Gemini, chaque tour LLM représente :
+- **~30 à 60 secondes** d'attention humaine active (copier-coller)
+- **Une croissance du presse-papiers** : l'historique complet est envoyé à chaque tour
+- **Un risque d'erreur humaine** qui augmente avec la fatigue
+
+Une tâche de 20 tours = ~15–20 minutes d'attention continue + risque de corruption du presse-papiers.
+
+#### Règles de découpage
+
+| Taille de tâche | Tours LLM estimés | Verdict | Action |
+| :--- | :---: | :---: | :--- |
+| Tâche simple (1 fichier, 1 action) | 1–3 | ✅ Idéal | Lancer directement |
+| Tâche moyenne (2–3 fichiers, logique simple) | 4–7 | ✅ Acceptable | Lancer directement |
+| Tâche complexe (architecture, multi-fichiers) | 8–10 | ⚠️ Limite | Découper si possible |
+| Tâche longue (US complète, refactoring) | 10–20 | ❌ Trop long | **Découper obligatoirement** |
+| Tâche très longue (sprint entier, migration) | 20+ | ❌ Impossible | Utiliser Claude API |
+
+#### Comment découper une tâche longue
+
+**Principe :** Identifier les **points de livraison intermédiaires** — des états stables où le code fonctionne et peut être commité.
+
+```
+TÂCHE LONGUE : "Implémenter la User Story US-042 (authentification JWT)"
+  Estimée à 15–20 tours LLM
+
+DÉCOUPAGE EN SOUS-TÂCHES PROXY :
+
+  Sous-tâche A (3–4 tours) :
+  "Crée le modèle User et les migrations de base de données.
+   Commite quand c'est fait."
+
+  Sous-tâche B (3–4 tours) :
+  "Implémente l'endpoint POST /auth/login avec génération JWT.
+   Utilise le modèle User créé précédemment. Commite."
+
+  Sous-tâche C (3–4 tours) :
+  "Implémente le middleware de vérification JWT pour les routes protégées.
+   Commite."
+
+  Sous-tâche D (2–3 tours) :
+  "Écris les tests unitaires pour les 3 composants précédents. Commite."
+```
+
+#### Signaux d'alerte pendant une session proxy
+
+Si vous observez l'un de ces signaux, **terminez la sous-tâche en cours et commencez une nouvelle session** :
+
+- Le presse-papiers contient > 30 000 caractères (vérifiable dans la console proxy)
+- Vous avez effectué > 8 allers-retours presse-papiers
+- La réponse Gemini commence à être tronquée ou incohérente
+- Vous avez du mal à suivre ce que l'agent est en train de faire
+- Vous avez utilisé le presse-papiers pour autre chose par erreur
+
+#### Protocole de clôture d'une sous-tâche
+
+Avant de terminer une sous-tâche et d'en commencer une nouvelle :
+
+```
+1. Demander à l'agent de commiter l'état actuel :
+   "Commite tout ce qui a été fait avec un message descriptif."
+
+2. Demander à l'agent de mettre à jour activeContext.md :
+   "Mets à jour memory-bank/activeContext.md avec l'état actuel
+    et la prochaine sous-tâche à faire."
+
+3. Commiter la Memory Bank :
+   "git add memory-bank/ && git commit -m 'docs(memory): état intermédiaire [description]'"
+
+4. Ouvrir une nouvelle session Roo Code (nouvelle conversation Gemini)
+   et reprendre avec la sous-tâche suivante.
+```
+
+> 📋 **PROMPT 9.4.1 — Découpage d'une tâche longue**
+> **Mode Roo Code requis :** `scrum-master`
+> **Complexité :** 🟢 Simple — 1 envoi pour obtenir un plan de découpage avant de commencer
+> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [DESCRIPTION DE LA TÂCHE] :**
+
+```markdown
+Je vais utiliser le Mode Proxy Gemini pour la tâche suivante :
+[DESCRIPTION DE LA TÂCHE]
+
+Avant de commencer, décompose cette tâche en sous-tâches de maximum 5 tours LLM chacune.
+Pour chaque sous-tâche :
+- Décris ce qui doit être fait
+- Identifie le point de livraison intermédiaire (état commitable)
+- Estime le nombre de tours LLM nécessaires
+
+Présente le plan sous forme de liste numérotée.
+Je lancerai chaque sous-tâche dans une session proxy séparée.
+```
+
+---
+
 ### 9.5 Protocole de Gestion des Conflits Git
 
 **Utiliser ce protocole si des conflits Git apparaissent (rare mais possible).**

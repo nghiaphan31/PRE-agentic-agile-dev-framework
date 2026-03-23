@@ -3,11 +3,12 @@
 
 **Source reviews:**
 - Review 1: `plans/REVIEW-Gemini-Proxy-Path-Robustness.md` + `plans/REVIEW-Gemini-Proxy-Path-Robustness-Part2.md`
-- Review 2: `plans/REVIEW2-Gemini-Proxy-Path-Robustness-After-Fixes.md` ← **POST-FIX VERIFICATION**
+- Review 2: `plans/REVIEW2-Gemini-Proxy-Path-Robustness-After-Fixes.md` — POST-FIX VERIFICATION (FIX-001 to FIX-012)
+- Review 3: `plans/REVIEW3-Gemini-Proxy-Path-Robustness-After-Review2-Fixes.md` ← **POST-FIX VERIFICATION (FIX-013 to FIX-019)**
 
 **Created:** 2026-03-23
 **Last updated:** 2026-03-23
-**Status:** ✅ 12/12 fixes from Review 1 applied | ✅ 7/7 fixes from Review 2 applied (0 pending)
+**Status:** ✅ 12/12 fixes from Review 1 applied | ✅ 7/7 fixes from Review 2 applied | ⏳ 3/3 fixes from Review 3 pending (FIX-020, FIX-021, FIX-022)
 
 ---
 
@@ -392,10 +393,11 @@ This file is the **single source of truth** for tracking the application of all 
 | **Review 1 — P0 Blocking** | 3 | 3 | 0 |
 | **Review 1 — P1 High** | 5 | 5 | 0 |
 | **Review 1 — P2 Medium** | 4 | 4 | 0 |
-| **Review 2 - P0 Blocking** | 2 | 2 | **0** |
-| **Review 2 - P1 High** | 2 | 2 | **0** |
-| **Review 2 - P2 Medium** | 3 | 3 | **0** |
-| **TOTAL** | **19** | **19** | **0** |
+| **Review 2 — P0 Blocking** | 2 | 2 | 0 |
+| **Review 2 — P1 High** | 2 | 2 | 0 |
+| **Review 2 — P2 Medium** | 3 | 3 | 0 |
+| **Review 3 — P2 Medium** | 3 | 0 | **3** |
+| **TOTAL** | **22** | **19** | **3** |
 
 ---
 
@@ -411,16 +413,96 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 17 | FIX-017 — asyncio.Lock() serialisation presse-papiers + avertissement file d'attente — proxy v2.0.9 (GAP R1-004) | 610afdc |
 | 2026-03-23 | Session 18 | FIX-018 — Suppression "ou effacer l'historique existant" → TOUJOURS NOUVELLE conversation — proxy v2.1.0 (GAP R1-001) | b61d1ef |
 | 2026-03-23 | Session 19 | FIX-019 — SP-007 v1.5.0 exemples browser_action separes par type d'action — DEPLOIEMENT MANUEL REQUIS (GAP R1-006) | 642110d |
+| 2026-03-23 | Review 3 | REVIEW3 written — 1 minor regression + 5 residual gaps — FIX-020 to FIX-022 identified (0 blocking, 0 high, 3 medium) | bae81f2 |
 
 ---
 
-## How to Start the Next Session (Review 2 Fixes)
+## REVIEW 3 FIXES — From `plans/REVIEW3-Gemini-Proxy-Path-Robustness-After-Review2-Fixes.md`
 
-Copy this prompt into Roo Code (any mode) to resume work on Review 2 fixes:
+> These fixes address the minor regression and low-priority gaps found during Review 3.
+> All are P2 (medium/quality improvements) — no blocking or high-priority gaps remain.
+> Apply in order: FIX-020 → FIX-021 → FIX-022.
+
+---
+
+## P2 — Medium Priority (Review 3)
+
+### FIX-020 — Proxy: update version strings to v2.1.0
+- **Status:** [ ] PENDING
+- **File to change:** `template/proxy.py`
+- **Gap addressed:** REG-001 (FIX-018 updated changelog comment to v2.1.0 but forgot to update the version strings in startup banner, /health endpoint, and FastAPI app version — all still show v2.0.9)
+- **What to do:** In [`proxy.py`](template/proxy.py), update three version strings:
+  1. Line 60: `app = FastAPI(title="le workbench Proxy", version="2.0.9")` → `version="2.1.0"`
+  2. Line 227: `return {"status": "ok", "proxy": "le workbench", "version": "2.0.9", ...}` → `"version": "2.1.0"`
+  3. Line 230: `print(f"{'='*60}\n  le workbench PROXY v2.0.9 | ...")` → `v2.1.0`
+  4. Add changelog entry: `v2.1.0 - 2026-03-23 : FIX-020 — Correction des chaines de version (v2.0.9 -> v2.1.0) dans banner, /health et FastAPI app`
+- **Verification:** Start proxy, confirm startup banner shows `v2.1.0`. Call `/health` endpoint, confirm `"version": "2.1.0"`.
+- **Applied:** [ ] Date: — | Commit: —
+
+---
+
+### FIX-021 — SP-007: add explicit "7 dashes" note to Rule 10
+- **Status:** [ ] PENDING
+- **File to change:** `template/prompts/SP-007-gem-gemini-roo-agent.md` + **MANUAL DEPLOYMENT to Gemini Web**
+- **Gap addressed:** GAP R2-001 (SP-007 diff format does not explicitly state the dash count for the `-------` separator — Gemini may generate 6 or 8 dashes instead of 7, causing `apply_diff` to fail)
+- **What to do:**
+  1. In [`SP-007-gem-gemini-roo-agent.md`](template/prompts/SP-007-gem-gemini-roo-agent.md), update Rule 10 to add: "Le separateur est exactement **7 tirets** : `-------` (sept tirets, ni plus ni moins)."
+  2. Also update the "REGLES DU FORMAT DIFF" block to add: "- Le separateur entre SEARCH et REPLACE est exactement 7 tirets : `-------`"
+  3. Increment SP-007 version from `1.5.0` to `1.6.0`
+  4. Add changelog entry
+  5. **MANUALLY deploy to Gemini Web** (gemini.google.com > Gems > "Roo Code Agent" > Edit > paste new instructions > Save)
+  6. Commit with message: `chore(prompts): SP-007 v1.6.0 - separateur 7 tirets explicite dans Regle 10 - DEPLOIEMENT MANUEL REQUIS`
+- **Verification:** In Gemini Gem, send "Modifie la ligne 5 du fichier src/app.py" — Gemini should respond with exactly 7 dashes in the diff separator.
+- **Applied:** [ ] Date: — | Commit: —
+
+---
+
+### FIX-022 — SP-007: add `ask_followup_question` template
+- **Status:** [ ] PENDING
+- **File to change:** `template/prompts/SP-007-gem-gemini-roo-agent.md` + **MANUAL DEPLOYMENT to Gemini Web**
+- **Gap addressed:** GAP R2-005 (`ask_followup_question` not documented in SP-007 FORMAT DE REPONSE OBLIGATOIRE — Gemini may use free text instead of the tag when asking clarifying questions)
+- **What to do:**
+  1. In [`SP-007-gem-gemini-roo-agent.md`](template/prompts/SP-007-gem-gemini-roo-agent.md), add to the "FORMAT DE REPONSE OBLIGATOIRE" section (after `attempt_completion`, before `browser_action`):
+     ```
+     Pour poser une question de clarification :
+     <ask_followup_question>
+     <question>La question a poser</question>
+     <follow_up>
+     <suggest>Suggestion de reponse 1</suggest>
+     <suggest>Suggestion de reponse 2</suggest>
+     </follow_up>
+     </ask_followup_question>
+     ```
+  2. Increment SP-007 version from `1.6.0` to `1.7.0` (or from `1.5.0` to `1.6.0` if FIX-021 not yet applied — apply FIX-021 first)
+  3. Add changelog entry
+  4. **MANUALLY deploy to Gemini Web**
+  5. Commit with message: `chore(prompts): SP-007 v1.7.0 - ajout template ask_followup_question - DEPLOIEMENT MANUEL REQUIS`
+- **Verification:** In Gemini Gem, send "J'ai besoin d'une clarification sur le projet" — Gemini should respond with `<ask_followup_question>` tag, not free text.
+- **Applied:** [ ] Date: — | Commit: —
+
+---
+
+## How to Start the Next Session (Review 3 Fixes)
+
+Copy this prompt into Roo Code (any mode) to resume work on Review 3 fixes:
 
 ```
 Lis le fichier plans/FIXES-Gemini-Proxy-Robustness-Tracker.md.
 Identifie le prochain fix PENDING dans la section "REVIEW 2 FIXES", ordre P0 -> P1 -> P2.
 Applique ce fix selon les instructions detaillees dans le tracker.
 Une fois applique, mets a jour le tracker (checkbox + date + commit hash) et commite les deux fichiers ensemble.
+```
+
+---
+
+## How to Start the Next Session (Review 3 Fixes)
+
+Copy this prompt into Roo Code (any mode) to resume work on Review 3 fixes:
+
+```
+Lis le fichier plans/FIXES-Gemini-Proxy-Robustness-Tracker.md.
+Identifie le prochain fix PENDING dans la section "REVIEW 3 FIXES", ordre FIX-020 -> FIX-021 -> FIX-022.
+Applique ce fix selon les instructions detaillees dans le tracker.
+Une fois applique, mets a jour le tracker (checkbox + date + commit hash) et commite les deux fichiers ensemble.
+Note: FIX-021 et FIX-022 modifient SP-007 et necessitent un DEPLOIEMENT MANUEL sur Gemini Web.
 ```

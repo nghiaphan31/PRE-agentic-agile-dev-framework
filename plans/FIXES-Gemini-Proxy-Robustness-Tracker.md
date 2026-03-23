@@ -219,7 +219,7 @@ This file is the **single source of truth** for tracking the application of all 
       return full
   ```
 - **Verification:** Send a conversation with 20+ turns — clipboard content stays under 40,000 chars with truncation notice.
-- **Applied:** [x] Date: 2026-03-23 | Commit: 2e23b9a
+- **Applied:** [x] Date: 2026-03-23 | Commit: dbd43d7
 
 ---
 
@@ -284,7 +284,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 5 | FIX-005 — Compteur de requetes #N dans la console (P-002) | 521baa9 |
 | 2026-03-23 | Session 6 | FIX-006 — Verification longueur minimale contenu colle (GAP-005) | 713403c |
 | 2026-03-23 | Session 7 | FIX-007 — Comportement HTTP 408 documenté dans DOC5 section 9.6 (GAP-004) | 8bfc3d1 |
-| 2026-03-23 | Session 8 | FIX-008 — MAX_HISTORY_CHARS troncature historique dans _format_prompt() (GAP-001) | 2e23b9a |
+| 2026-03-23 | Session 8 | FIX-008 — MAX_HISTORY_CHARS troncature historique dans _format_prompt() (GAP-001) | dbd43d7 |
 
 ---
 

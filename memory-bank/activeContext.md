@@ -31,4 +31,4 @@ FIX-020 + FIX-021 appliqués : proxy.py v2.2.0
 ⚠️ DEPLOIEMENT MANUEL REQUIS : Mettre à jour le Gem Gemini avec SP-007 v1.6.0 (template/prompts/SP-007-gem-gemini-roo-agent.md)
 
 ## Dernier commit Git
-[à mettre à jour après commit]
+248f2a3 — fix(proxy): v2.2.0 FIX-020+FIX-021 — validation XML bloquante + detection balises echappees markdown - DEPLOIEMENT MANUEL REQUIS : mettre a jour le Gem Gemini avec SP-007 v1.6.0

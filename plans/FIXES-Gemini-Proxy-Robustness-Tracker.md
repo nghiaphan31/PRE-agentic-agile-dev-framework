@@ -339,7 +339,7 @@ This file is the **single source of truth** for tracking the application of all 
 - **Gap addressed:** GAP R1-003 (`<new_task>` not blocked at runtime — causes deadlock if Gemini ignores SP-007 Rule 9)
 - **What to do:** In [`_wait_clipboard()`](template/proxy.py), after the length check and before `_validate_response()`, add a check: if `"<new_task>" in current`, print a critical error message, reset `initial_hash = _hash(current)`, and `continue` polling. This forces the human to copy a corrected response without `<new_task>`.
 - **Verification:** Manually copy a string containing `<new_task>` while proxy is polling — proxy should print the error and continue polling (NOT inject into Roo Code).
-- **Applied:** [x] Date: 2026-03-23 | Commit: ea0e921
+- **Applied:** [x] Date: 2026-03-23 | Commit: 20e1485
 
 ---
 
@@ -406,7 +406,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Review 2 | REVIEW2 written - 3 regressions + 6 new gaps identified (FIX-013 to FIX-019 added) | -- |
 | 2026-03-23 | Session 13 | FIX-013 — SP-007 v1.4.0 format exact diff SEARCH/REPLACE pour replace_in_file + Regle 10 — DEPLOIEMENT MANUEL REQUIS | 9cd8707 |
 | 2026-03-23 | Session 14 | FIX-014 — Verification longueur minimale BLOQUANTE (seuil 100 chars) dans _wait_clipboard() — proxy v2.0.6 (REG-001) | 411bce3 |
-| 2026-03-23 | Session 15 | FIX-015 — Garde runtime <new_task> bloquant dans _wait_clipboard() — proxy v2.0.7 (GAP R1-003) | ea0e921 |
+| 2026-03-23 | Session 15 | FIX-015 — Garde runtime <new_task> bloquant dans _wait_clipboard() — proxy v2.0.7 (GAP R1-003) | 20e1485 |
 
 ---
 

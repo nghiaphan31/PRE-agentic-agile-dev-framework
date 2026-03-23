@@ -1684,6 +1684,7 @@ DIAGNOSTIC :
      - Incohérence avec la Memory Bank (ignore les conventions)
      - Dépassement de contexte (oublie le début de la conversation)
      - Erreur de permission RBAC (tente une action hors périmètre)
+     - Timeout proxy (HTTP 408 — aucune réponse copiée dans le délai imparti)
 
 CORRECTION SELON LE TYPE :
 
@@ -1707,6 +1708,24 @@ CORRECTION SELON LE TYPE :
   -> Vérifier que .roomodes est à la racine du projet
   -> Si le persona tente une action hors périmètre, il doit refuser
      et suggérer le persona approprié
+
+  Timeout proxy (HTTP 408) :
+  -> Comportement observé de Roo Code : Roo Code reçoit une erreur HTTP 408
+     et affiche un message d'erreur dans l'interface ("Request Timeout" ou
+     "Error communicating with the API"). Il N'effectue PAS de retry automatique
+     — la tâche en cours est interrompue et l'agent attend une nouvelle instruction.
+  -> Cause : L'humain n'a pas copié la réponse Gemini dans le délai TIMEOUT_SECONDS
+     (défaut : 300s), ou a utilisé le presse-papiers pour autre chose pendant l'attente.
+  -> Action corrective :
+     1. Vérifier dans la console proxy le numéro de la requête qui a expiré (#N)
+     2. Retourner dans Gemini et copier la réponse si elle est encore disponible
+        (Ctrl+A puis Ctrl+C sur la réponse Gemini)
+     3. Si la réponse Gemini n'est plus disponible : relancer la même demande
+        dans Roo Code — le proxy renverra un nouveau prompt à Gemini
+     4. Si les timeouts sont fréquents : augmenter TIMEOUT_SECONDS dans proxy.py
+        (ex: TIMEOUT_SECONDS = 600 pour 10 minutes)
+  -> Prévention : Ne jamais utiliser le presse-papiers pour autre chose pendant
+     qu'une requête proxy est en attente (voir limitations section 9.4).
 ```
 
 ---

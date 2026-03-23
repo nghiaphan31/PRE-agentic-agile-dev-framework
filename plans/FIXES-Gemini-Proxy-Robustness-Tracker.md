@@ -4,7 +4,7 @@
 **Source review:** `plans/REVIEW-Gemini-Proxy-Path-Robustness.md` + `plans/REVIEW-Gemini-Proxy-Path-Robustness-Part2.md`  
 **Created:** 2026-03-23  
 **Last updated:** 2026-03-23
-**Status:** 🟡 6/12 fixes applied
+**Status:** 🟡 7/12 fixes applied
 
 ---
 
@@ -167,7 +167,7 @@ This file is the **single source of truth** for tracking the application of all 
 ---
 
 ### FIX-007 — Test and document HTTP 408 behavior in Roo Code
-- **Status:** [ ] PENDING
+- **Status:** [x] DONE
 - **Files to change:** `workbench/DOC5-GUIDE-Project-Development-Process.md` section 9.6
 - **Gap addressed:** GAP-004 (timeout recovery undefined)
 - **What to do:**
@@ -179,7 +179,7 @@ This file is the **single source of truth** for tracking the application of all 
      -> Action corrective : [FILL IN AFTER TESTING]
      ```
 - **Verification:** Behavior documented in DOC5 with actual observed Roo Code response.
-- **Applied:** [ ] Date: ___________ | Commit: ___________
+- **Applied:** [x] Date: 2026-03-23 | Commit: TBD
 
 ---
 
@@ -266,9 +266,9 @@ This file is the **single source of truth** for tracking the application of all 
 | Priority | Total | Done | Remaining |
 | :--- | :---: | :---: | :---: |
 | P0 — Blocking | 3 | 3 | 0 |
-| P1 — High | 5 | 3 | 2 |
+| P1 — High | 5 | 4 | 1 |
 | P2 — Medium | 4 | 0 | 4 |
-| **TOTAL** | **12** | **6** | **6** |
+| **TOTAL** | **12** | **7** | **5** |
 
 ---
 
@@ -283,6 +283,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 4 | FIX-004 — try/except pyperclip.paste() dans _wait_clipboard() | 10a4c81 |
 | 2026-03-23 | Session 5 | FIX-005 — Compteur de requetes #N dans la console (P-002) | 521baa9 |
 | 2026-03-23 | Session 6 | FIX-006 — Verification longueur minimale contenu colle (GAP-005) | 713403c |
+| 2026-03-23 | Session 7 | FIX-007 — Comportement HTTP 408 documenté dans DOC5 section 9.6 (GAP-004) | TBD |
 
 ---
 

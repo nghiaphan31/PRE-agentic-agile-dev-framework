@@ -4,7 +4,7 @@
 **Source review:** `plans/REVIEW-Gemini-Proxy-Path-Robustness.md` + `plans/REVIEW-Gemini-Proxy-Path-Robustness-Part2.md`
 **Created:** 2026-03-23
 **Last updated:** 2026-03-23
-**Status:** 🟡 10/12 fixes applied
+**Status:** 🟡 11/12 fixes applied
 
 ---
 
@@ -248,7 +248,7 @@ This file is the **single source of truth** for tracking the application of all 
 - **File to change:** `workbench/DOC5-GUIDE-Project-Development-Process.md`
 - **Gap addressed:** GAP-003, GAP-006, GAP-007 (undocumented limitations)
 - **What to do:** Add "LIMITATIONS CONNUES DU MODE PROXY GEMINI" block to section 9.4 (see Part2 section 9 for exact text).
-- **Applied:** [x] Date: 2026-03-23 | Commit: PENDING
+- **Applied:** [x] Date: 2026-03-23 | Commit: 3e9805f
 
 ---
 
@@ -267,8 +267,8 @@ This file is the **single source of truth** for tracking the application of all 
 | :--- | :---: | :---: | :---: |
 | P0 — Blocking | 3 | 3 | 0 |
 | P1 — High | 5 | 5 | 0 |
-| P2 — Medium | 4 | 2 | 2 |
-| **TOTAL** | **12** | **10** | **2** |
+| P2 — Medium | 4 | 3 | 1 |
+| **TOTAL** | **12** | **11** | **1** |
 
 ---
 
@@ -287,6 +287,7 @@ This file is the **single source of truth** for tracking the application of all 
 | 2026-03-23 | Session 8 | FIX-008 — MAX_HISTORY_CHARS troncature historique dans _format_prompt() (GAP-001) | dbd43d7 |
 | 2026-03-23 | Session 9 | FIX-009 — Subsection 9.4.1 découpage tâches Mode Proxy dans DOC5 (GAP-007) | 3a6c694 |
 | 2026-03-23 | Session 10 | FIX-010 — SP-007 v1.2.0 contexte projet agnostique (Memory Bank) — DEPLOIEMENT MANUEL REQUIS | 7c38b41 |
+| 2026-03-23 | Session 11 | FIX-011 — LIMITATIONS CONNUES DU MODE PROXY GEMINI ajoutées dans DOC5 section 9.4 (GAP-003, GAP-006, GAP-007) | 3e9805f |
 
 ---
 

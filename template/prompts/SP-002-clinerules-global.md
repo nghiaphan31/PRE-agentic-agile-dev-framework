@@ -1,7 +1,7 @@
 ---
 id: SP-002
 name: Global Roo Code Directives (.clinerules)
-version: 2.1.0
+version: 2.2.0
 last_updated: 2026-03-24
 status: active
 hors_git: false
@@ -20,6 +20,9 @@ depends_on:
   - SP-007: "The XML tags listed in RULE 6 must be identical to those listed in SP-007"
 
 changelog:
+  - version: 2.2.0
+    date: 2026-03-24
+    change: "Added RULE 7 — large file generation chunking protocol"
   - version: 2.1.0
     date: 2026-03-24
     change: "i18n — Full translation to English. All French prose translated; technical identifiers and commit format prefixes unchanged."
@@ -129,6 +132,29 @@ you MUST check whether the change impacts a system prompt in prompts/.
 ### 6.3 — Example commit with prompt update
   git add proxy.py prompts/SP-007-gem-gemini-roo-agent.md
   git commit -m "chore(prompts): mise a jour SP-007 suite modification proxy.py - DEPLOIEMENT MANUEL REQUIS"
+
+## RULE 7: LARGE FILE GENERATION — MANDATORY CHUNKING PROTOCOL
+This rule applies to all modes that generate or write large files (>500 lines).
+
+### 7.1 — When this rule applies
+Whenever a file to be written exceeds approximately 500 lines, you MUST use the chunking protocol instead of attempting a single write_to_file call.
+
+### 7.2 — Chunking protocol
+1. Split the content into logical chunks of 400-500 lines each
+2. Write each chunk to a numbered temp file: `_temp_chunk_01.md`, `_temp_chunk_02.md`, etc.
+3. Verify each temp file was written successfully before proceeding
+4. Assemble the final file using PowerShell:
+   ```powershell
+   Get-Content _temp_chunk_01.md, _temp_chunk_02.md, _temp_chunk_03.md | Set-Content target-file.md -Encoding UTF8
+   ```
+5. Verify the assembled file (line count, spot-check content)
+6. Delete all temp chunk files:
+   ```powershell
+   Remove-Item _temp_chunk_*.md
+   ```
+
+### 7.3 — Why this protocol is mandatory
+Single write_to_file calls on large files frequently fail silently or produce truncated output. The chunking protocol guarantees complete and correct file generation regardless of file size.
 
 ## MEMORY BANK FILE TEMPLATES
 

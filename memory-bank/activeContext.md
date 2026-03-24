@@ -13,11 +13,12 @@
 - **Backend LLM** : Test en cours avec `mistral-large-latest` pour évaluer sa fiabilité et sa compatibilité avec le workflow Agile.
 
 ## Prochain(s) pas
-- [ ] **Phase 8 - Étape 8.1** : Configurer le profil `ollama_local` dans Roo Code (Settings > Providers > Ollama).
-- [ ] **Phase 8 - Étape 8.2** : Configurer le profil `gemini_proxy` dans Roo Code (Settings > Providers > OpenAI Compatible).
-- [ ] **Phase 8 - Étape 8.4** : Documenter la configuration dans [`memory-bank/techContext.md`](memory-bank/techContext.md) et commiter.
-- [ ] **Phase 9 - Préparation** : Préparer les scénarios de test end-to-end pour valider les 3 modes LLM.
-- [ ] **Product Backlog** : Définir **US-003** pour la bascule automatique entre backends LLM.
+- [x] **Phase 8 - Étape 8.1** : Configurer le profil `ollama_local` dans Roo Code (Settings > Providers > Ollama).
+- [x] **Phase 8 - Étape 8.2** : Configurer le profil `gemini_proxy` dans Roo Code (Settings > Providers > OpenAI Compatible).
+- [-] **Phase 8 - Étape 8.4** : Documenter la configuration dans [`memory-bank/techContext.md`](memory-bank/techContext.md) et commiter.
+- [ ] **Phase 9 - Préparation** : Préparer les scénarios de test end-to-end pour valider les 3 modes LLM (Ollama, Gemini Proxy, Claude API).
+- [x] **Product Backlog** : Définir **US-003** pour le calcul de factorielle dans [`memory-bank/productContext.md`](memory-bank/productContext.md).
+- [ ] **Proxy Gemini** : Retirer les logs DIAG et préparer la version `v2.8.1` de [`proxy.py`](proxy.py).
 
 ## Blocages / Questions ouvertes
 - **Proxy Gemini** : Le débogage du flux downlink est **en pause**. La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle pour les tests de base. Les logs DIAG seront retirés ultérieurement.

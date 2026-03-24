@@ -1,49 +1,49 @@
 # Tech Context
 
-## Stack Technique
-- Langage principal : [ex: Python 3.11]
-- Framework : [ex: FastAPI 0.110]
-- Base de données : [ex: SQLite / PostgreSQL]
-- Tests : [ex: pytest]
+## Tech Stack
+- Main language: [e.g.: Python 3.11]
+- Framework: [e.g.: FastAPI 0.110]
+- Database: [e.g.: SQLite / PostgreSQL]
+- Tests: [e.g.: pytest]
 
-## Commandes Essentielles
+## Essential Commands
 ```bash
 pip install -r requirements.txt
 python main.py
 pytest tests/
 ```
 
-## Variables d'Environnement Requises
-- `[VAR_NAME]` : [Description et valeur par défaut]
+## Required Environment Variables
+- `[VAR_NAME]`: [Description and default value]
 
-## Dépendances Critiques et Versions
-| Package | Version | Raison |
+## Critical Dependencies and Versions
+| Package | Version | Reason |
 | :--- | :--- | :--- |
-| [package] | [version] | [raison] |
+| [package] | [version] | [reason] |
 
-## Configuration des Backends LLM (Commutateur le workbench)
+## LLM Backend Configuration (le workbench Switcher)
 
-### Mode 1 : Local Ollama (Souverain et Gratuit — via Tailscale)
-- **API Provider** : Ollama
-- **Base URL** : `http://calypso:11434`
-- **Model** : `uadf-agent`
-- **Nom du profil Roo Code** : `ollama_local`
-- **Statut** : `[x] Configuré et testé`
-- **Prérequis** : Tailscale actif sur `pc` et `calypso`, Ollama en cours d'exécution sur `calypso`
+### Mode 1: Local Ollama (Sovereign and Free — via Tailscale)
+- **API Provider**: Ollama
+- **Base URL**: `http://calypso:11434`
+- **Model**: `uadf-agent`
+- **Roo Code profile name**: `ollama_local`
+- **Status**: `[x] Configured and tested`
+- **Prerequisites**: Tailscale active on `pc` and `calypso`, Ollama running on `calypso`
 
-### Mode 2 : Proxy Gemini Chrome (Cloud Gratuit + Copier-Coller)
-- **API Provider** : OpenAI Compatible
-- **Base URL** : `http://localhost:8000/v1`
-- **API Key** : `sk-fake-key-uadf`
-- **Model** : `gemini-manual`
-- **Nom du profil Roo Code** : `gemini_proxy`
-- **Statut** : `[x] Configuré et testé`
-- **Prérequis** : proxy.py v2.8.0 démarré + Chrome ouvert sur Gem "Roo Code Agent"
+### Mode 2: Gemini Chrome Proxy (Free Cloud + Copy-Paste)
+- **API Provider**: OpenAI Compatible
+- **Base URL**: `http://localhost:8000/v1`
+- **API Key**: `sk-fake-key-uadf`
+- **Model**: `gemini-manual`
+- **Roo Code profile name**: `gemini_proxy`
+- **Status**: `[x] Configured and tested`
+- **Prerequisites**: proxy.py v2.8.0 started + Chrome open on Gem "Roo Code Agent"
 
-### Mode 3 : Cloud Direct Claude Sonnet (Payant et Entièrement Automatique)
-- **API Provider** : Anthropic
-- **Model** : `claude-sonnet-4-6`
-- **Nom du profil Roo Code** : `claude_api`
-- **Statut** : `[~] Reporté à Phase 10`
-- **API Key** : [stockée dans VS Code SecretStorage — ne jamais noter ici]
-- **Prérequis** : Connexion Internet + crédit Anthropic disponible
+### Mode 3: Direct Cloud Claude Sonnet (Paid and Fully Automatic)
+- **API Provider**: Anthropic
+- **Model**: `claude-sonnet-4-6`
+- **Roo Code profile name**: `claude_api`
+- **Status**: `[~] Deferred to Phase 10`
+- **API Key**: [stored in VS Code SecretStorage — never write here]
+- **Prerequisites**: Internet connection + Anthropic credit available

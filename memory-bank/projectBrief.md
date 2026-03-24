@@ -1,20 +1,20 @@
 # Project Brief
 
-## Vision du Projet
-[Décrivez ici la vision globale de votre projet en 2-3 phrases]
+## Project Vision
+[Describe the overall vision of your project in 2-3 sentences]
 
-## Objectifs Principaux
-1. [Objectif 1]
-2. [Objectif 2]
-3. [Objectif 3]
+## Main Objectives
+1. [Objective 1]
+2. [Objective 2]
+3. [Objective 3]
 
-## Non-Goals (Ce que ce projet NE fait PAS)
+## Non-Goals (What this project does NOT do)
 - [Non-goal 1]
 - [Non-goal 2]
 
-## Contraintes
-- [Contrainte technique ou métier]
+## Constraints
+- [Technical or business constraint]
 
-## Parties Prenantes
-- Product Owner : [Nom]
-- Utilisateurs cibles : [Description]
+## Stakeholders
+- Product Owner: [Name]
+- Target users: [Description]

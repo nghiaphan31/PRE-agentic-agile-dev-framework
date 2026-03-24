@@ -1,17 +1,17 @@
 # System Patterns
 
-## Architecture des Dossiers
-[Collez ici l'arborescence de votre projet]
+## Directory Architecture
+[Paste your project directory tree here]
 
-## Conventions de Nommage
-- Fichiers : [convention, ex: kebab-case]
-- Variables : [convention, ex: camelCase]
-- Classes : [convention, ex: PascalCase]
-- Constantes : [convention, ex: UPPER_SNAKE_CASE]
+## Naming Conventions
+- Files: [convention, e.g.: kebab-case]
+- Variables: [convention, e.g.: camelCase]
+- Classes: [convention, e.g.: PascalCase]
+- Constants: [convention, e.g.: UPPER_SNAKE_CASE]
 
-## Patterns Techniques Adoptés
-- [Pattern 1 : ex: Repository Pattern pour l'accès aux données]
-- [Pattern 2 : ex: Service Layer pour la logique métier]
+## Adopted Technical Patterns
+- [Pattern 1: e.g.: Repository Pattern for data access]
+- [Pattern 2: e.g.: Service Layer for business logic]
 
-## Anti-Patterns à Éviter
+## Anti-Patterns to Avoid
 - [Anti-pattern 1]

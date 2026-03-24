@@ -38,7 +38,9 @@ Roo Code ne parsait pas les balises XML quand role+content arrivaient ensemble.
 - [ ] Continuer Phase 8 : créer profils "ollama_local" et "gemini_proxy" dans Roo Code Settings > Providers
 
 ## Blocages / Questions ouvertes
-Aucun blocage actif.
+- **Proxy Gemini** : Le débogage du flux downlink est **en pause**. La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle pour les tests de base (exécution de `<attempt_completion>` sans erreur). Les logs DIAG seront retirés ultérieurement.
+- **Backend LLM** : Test en cours avec `mistral-large-latest` pour évaluer sa fiabilité et sa compatibilité avec le workflow Agile.
 
 ## Dernier commit Git
-078c0aa — fix(proxy): v2.8.0 FIX-028 — correction format SSE streaming pour compatibilite Roo Code (GAP R2-009)
+078c0aa — fix(proxy): v2.8.0 FIX-028 — correction format SSE streaming pour compatibilité Roo Code (GAP R2-009)
+**Prochain commit attendu** : `feat(roo): configuration commutateur 3 modes LLM (Phase 8)`

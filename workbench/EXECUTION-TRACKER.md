@@ -279,8 +279,8 @@ Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 
 | # | Étape | Statut | Notes / Résultat |
 | :---: | :--- | :---: | :--- |
-| 8.1 | Configurer Mode 1 : Ollama Local (`http://calypso:11434`, `uadf-agent`) | `[ ]` | |
-| 8.2 | Configurer Mode 2 : Proxy Gemini (`http://localhost:8000/v1`, `gemini-manual`) | `[ ]` | |
+| 8.1 | Configurer Mode 1 : Ollama Local (`http://calypso:11434`, `uadf-agent`) | `[-]` | **En cours** — À configurer dans Roo Code Settings > Providers > Ollama |
+| 8.2 | Configurer Mode 2 : Proxy Gemini (`http://localhost:8000/v1`, `gemini-manual`) | `[ ]` | À configurer après validation du Mode 1 |
 | 8.3 | Configurer Mode 3 : API Anthropic Claude (voir Phase 10) | `[~]` | Reporté à Phase 10 |
 | 8.4 | Documenter le commutateur dans `memory-bank/techContext.md` + commit | `[ ]` | Hash commit : |
 
@@ -501,7 +501,8 @@ Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 | Modèle Proxy Gemini | `gemini-manual` | 8.2 |
 | Modèle Anthropic | `claude-sonnet-4-6` | 10.2 |
 | URL Gem Gemini | | 7.1 |
-| Hash du dernier commit | 77a25fd | En cours |
+| Hash du dernier commit | 078c0aa | En cours |
+| Backend LLM actif (test) | `mistral-large-latest` | Session 3 |
 
 ---
 

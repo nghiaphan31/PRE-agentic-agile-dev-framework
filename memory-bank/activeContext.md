@@ -36,4 +36,4 @@ Le bouton "copier" de Gemini Chrome produit du Markdown échappé :
 Aucun blocage actif.
 
 ## Dernier commit Git
-(à mettre à jour après commit)
+c7fca7f — fix(proxy): v2.7.0 FIX-027 — desechappement Markdown automatique reponse Gemini (GAP R2-008)

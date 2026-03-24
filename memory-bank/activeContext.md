@@ -41,4 +41,4 @@ REMINDERS
 Aucun blocage actif.
 
 ## Dernier commit Git
-2135623 — fix(proxy): v2.5.0 FIX-024 — extraction texte utilisateur pur avant premier tag injecte Roo Code (remplace regex strip FIX-023)
+7856592 — fix(proxy): correction SyntaxWarning invalid escape sequence \\< dans docstrings

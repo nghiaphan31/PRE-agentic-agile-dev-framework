@@ -5,11 +5,10 @@
 **Backend LLM actif :** mistral-large-latest
 
 ## Tâche en cours
-**Phase 9.3 — Test RBAC Complet** — Validation des 4 personas Agile avec `mistral-large-latest`.
-Décision stratégique : tous les backends LLM (Ollama, Gemini Proxy, Claude API) sont mis en pause. Seul `mistral-large-latest` est utilisé pour finaliser l'implémentation du workbench.
+**Phase 9.4 — Versionner les résultats des tests** — Phase 9.3 RBAC complètement validée (7/7 scénarios). Prochaine étape : Phase 11 (Registre des prompts).
 
 ## Dernier résultat
-### Tests RBAC exécutés (Phase 9.3)
+### Tests RBAC exécutés (Phase 9.3) — COMPLET ✅
 
 | Mode | Demande | Attendu | Résultat |
 | :--- | :--- | :--- | :--- |
@@ -17,20 +16,16 @@ Décision stratégique : tous les backends LLM (Ollama, Gemini Proxy, Claude API
 | Product Owner | "Crée une User Story" | Accepté | ✅ PASS — US-003 créée dans `memory-bank/productContext.md` |
 | Scrum Master | "Lance pytest" | Refus | ✅ PASS — Refus confirmé (commande non autorisée pour Scrum Master) |
 | Scrum Master | "Quel est l'état des tests ?" | Accepté | ✅ PASS — Lu `docs/qa/` : aucun rapport disponible (dossier vide) |
-| Developer | "Modifie src/hello.py" | Accepté | ⏳ À tester |
-| QA Engineer | "Modifie src/hello.py" | Refus | ⏳ À tester |
-| QA Engineer | "Lance pytest" | Accepté | ⏳ À tester |
+| Developer | "Modifie src/hello.py" | Accepté | ✅ PASS — Fichier modifié et commité (`feat(src): mise a jour hello.py`) |
+| QA Engineer | "Modifie src/hello.py" | Refus | ✅ PASS — Refus confirmé (hors périmètre QA Engineer) |
+| QA Engineer | "Lance pytest" | Accepté | ✅ PASS — `pytest src/test_hello.py` : 1 passed in 0.03s |
 
-**Résultat partiel : 4/7 scénarios validés (Product Owner : 2 PASS, Scrum Master : 2 PASS)**
+**Résultat final : 7/7 scénarios RBAC validés ✅**
 
 ## Prochain(s) pas
-- [x] **Phase 8 - Étape 8.1** : Profil `ollama_local` configuré dans Roo Code.
-- [x] **Phase 8 - Étape 8.2** : Profil `gemini_proxy` configuré dans Roo Code.
-- [x] **Phase 8 - Étape 8.4** : Configuration documentée dans [`memory-bank/techContext.md`](memory-bank/techContext.md).
-- [x] **Phase 9.3 - RBAC Product Owner** : 2 scénarios validés (refus code + création US).
-- [x] **Phase 9.3 - RBAC Scrum Master** : 2 scénarios validés (refus pytest + lecture état tests).
-- [x] **Phase 9.3 - RBAC Developer** : Tester "Modifie src/hello.py" (accepté).
-- [x] **Phase 9.3 - RBAC QA Engineer** : Tester "Modifie src/hello.py" (refus) et "Lance pytest" (accepté).
+- [x] **Phase 8** : Commutateur 3 modes LLM configuré et documenté.
+- [x] **Phase 9.3 - RBAC complet** : 7/7 scénarios validés.
+- [ ] **Phase 9.4** : Versionner les résultats des tests (commit final Phase 9).
 - [ ] **Phase 11** : Vérifier la cohérence des SP canoniques vs artefacts déployés.
 - [ ] **Phase 12** : Créer `scripts/check-prompts-sync.ps1` et le hook Git pre-commit.
 
@@ -39,4 +34,4 @@ Décision stratégique : tous les backends LLM (Ollama, Gemini Proxy, Claude API
 - **Proxy Gemini** : La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle. Les logs DIAG seront retirés en version `v2.8.1` ultérieurement.
 
 ## Dernier commit Git
-eefb6de — docs(tracker): mise a jour EXECUTION-TRACKER.md — Phase 9.3 RBAC Product Owner valide (2/7 scenarios)
+62730ed — test(src): ajout test_hello.py pour validation pytest

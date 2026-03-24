@@ -1,0 +1,27 @@
+#!/bin/sh
+# Git pre-commit hook pour vérifier la cohérence des System Prompts
+
+# Vérifier si PowerShell Core (pwsh) est disponible
+if ! command -v pwsh &> /dev/null; then
+    echo "⚠️  pwsh (PowerShell Core) non trouvé - vérification SP désactivée"
+    echo "    Installez PowerShell Core pour activer la vérification automatique :"
+    echo "    https://github.com/PowerShell/PowerShell/releases"
+    exit 0
+fi
+
+# Exécuter le script PowerShell
+pwsh -Command "& { .\scripts\check-prompts-sync.ps1; exit $LASTEXITCODE }"
+
+# Capturer le code de sortie
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+    echo "❌ Désynchronisations de prompts détectées - commit annulé"
+    echo "  Veuillez corriger les écarts avant de commiter :"
+    echo "  1. Exécutez : pwsh scripts/check-prompts-sync.ps1"
+    echo "  2. Corrigez les fichiers indiqués dans docs/qa/SP-COHERENCE-*.md"
+    echo "  3. Recommitez"
+    exit 1
+fi
+
+exit 0

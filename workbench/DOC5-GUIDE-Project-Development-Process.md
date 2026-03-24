@@ -1,789 +1,788 @@
-﻿# Document 5 : Manuel du Processus Agile Applicatif
-## Comment développer un projet applicatif avec l'Agentic Agile Workbench
+# Document 5: Application Agile Process Manual
+## How to develop an application project with the Agentic Agile Workbench
 
-**Nom du Projet :** Agentic Agile Workbench
-**Version :** 2.0
-**Date :** 2026-03-23
-**Références :** DOC1-PRD v2.0, DOC2-Architecture v2.0, DOC3-Plan v3.0, DOC4-Guide-Deploiement v1.0
+**Project Name:** Agentic Agile Workbench
+**Version:** 2.0
+**Date:** 2026-03-23
+**References:** DOC1-PRD v2.0, DOC2-Architecture v2.0, DOC3-Plan v3.0, DOC4-Guide-Deploiement v1.0
 
 ---
 
-## Préambule : Pourquoi ce Document ?
+## Preamble: Why This Document?
 
-Les documents DOC1 à DOC4 décrivent **l'atelier lui-même** : ses exigences, son architecture, son installation, son déploiement. Ils ne décrivent pas **comment travailler avec l'atelier** pour produire un logiciel applicatif ou métier.
+Documents DOC1 to DOC4 describe **the workbench itself**: its requirements, its architecture, its installation, its deployment. They do not describe **how to work with the workbench** to produce application or business software.
 
-Ce document répond à la question : **"J'ai l'atelier opérationnel. Comment je développe mon projet ?"**
+This document answers the question: **"I have the workbench operational. How do I develop my project?"**
 
-Il couvre :
-1. Le **processus Agile** adapté au développement agentique
-2. La **nomenclature et les templates** de tous les artifacts d'un projet applicatif
-3. Les **mécanismes anti-risques** spécifiques au développement agentique (perte de mémoire, hallucination, multi-sessions sur plusieurs mois)
-4. La **phase amont ouverte** : comment transformer des idées narratives non-structurées en artifacts structurés
-5. La **traçabilité et le versionnement** de tout le processus
+It covers:
+1. The **Agile process** adapted to agentic development
+2. The **nomenclature and templates** of all artifacts in an application project
+3. The **anti-risk mechanisms** specific to agentic development (memory loss, hallucination, multi-sessions over several months)
+4. The **open upstream phase**: how to transform unstructured narrative ideas into structured artifacts
+5. The **traceability and versioning** of the entire process
 
-### Convention : Prompts Prêts à Copier-Coller
+### Convention: Ready-to-Copy-Paste Prompts
 
-Ce document utilise une convention visuelle pour distinguer les explications des actions opérationnelles.
+This document uses a visual convention to distinguish explanations from operational actions.
 
-Les blocs `📋 PROMPT` sont des **prompts prêts à copier-coller dans Roo Code**. Chaque bloc est **auto-portant** : vous pouvez le copier-coller sans avoir lu le reste du document, et l'agent exécutera l'étape complète de manière autonome.
+`PROMPT` blocks are **prompts ready to copy-paste into Roo Code**. Each block is **self-contained**: you can copy-paste it without having read the rest of the document, and the agent will execute the complete step autonomously.
 
-**Format d'un bloc PROMPT :**
+**Format of a PROMPT block:**
 
-> 📋 **PROMPT [X.Y] — [Titre]**
-> **Mode Roo Code requis :** `[slug-du-mode]`
-> **Complexité :** 🟢 Simple (1 envoi, agent autonome) | 🔄 Itératif (dialogue humain/agent) | 🔵 Séquentiel (plusieurs prompts à enchaîner)
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT [X.Y] — [Title]**
+> **Required Roo Code mode:** `[mode-slug]`
+> **Complexity:** [Simple (1 send, autonomous agent) | Iterative (human/agent dialogue) | Sequential (several prompts to chain)]
+> **Copy-paste the block below as-is:**
 
 ```markdown
-[Texte du prompt — auto-portant, prêt à coller dans Roo Code]
+[Prompt text — self-contained, ready to paste into Roo Code]
 ```
 
-*→ Artifact produit : `chemin/fichier.md`*
+*-> Artifact produced: `path/file.md`*
 
-### Distinction : User Prompts (ce document) vs System Prompts (`template/prompts/`)
+### Distinction: User Prompts (this document) vs System Prompts (`template/prompts/`)
 
-Ce document contient des **User Prompts** — des instructions opérationnelles que **l'humain envoie à l'agent** pour déclencher une étape précise du workflow Agile (Sprint Planning, développement d'une User Story, etc.).
+This document contains **User Prompts** — operational instructions that **the human sends to the agent** to trigger a precise step of the Agile workflow (Sprint Planning, User Story development, etc.).
 
-Ils sont distincts des **System Prompts** stockés dans `template/prompts/` (fichiers SP-001 à SP-007), qui configurent l'identité et les règles de comportement des agents IA. Ces derniers sont déployés dans des fichiers techniques (`.clinerules`, `.roomodes`, `Modelfile`) et s'appliquent en permanence, en arrière-plan, pour toutes les sessions.
+They are distinct from the **System Prompts** stored in `template/prompts/` (files SP-001 to SP-007), which configure the identity and behavioral rules of the AI agents. The latter are deployed in technical files (`.clinerules`, `.roomodes`, `Modelfile`) and apply permanently, in the background, for all sessions.
 
-| | User Prompts (ce document) | System Prompts (`template/prompts/`) |
+| | User Prompts (this document) | System Prompts (`template/prompts/`) |
 | :--- | :--- | :--- |
-| **Rôle** | Déclencher une action workflow | Configurer l'identité et les règles de l'agent |
-| **Utilisé par** | L'humain (copier-coller dans Roo Code) | L'agent IA (automatiquement, en arrière-plan) |
-| **Portée** | Une tâche précise, une session | Toutes les sessions, tous les modes |
-| **Cible** | Interface chat de Roo Code | `.clinerules`, `.roomodes`, `Modelfile`, Gemini Gem |
-| **Fréquence** | À chaque étape du workflow | Une fois déployés, puis maintenance |
+| **Role** | Trigger a workflow action | Configure the agent's identity and rules |
+| **Used by** | The human (copy-paste into Roo Code) | The AI agent (automatically, in the background) |
+| **Scope** | One precise task, one session | All sessions, all modes |
+| **Target** | Roo Code chat interface | `.clinerules`, `.roomodes`, `Modelfile`, Gemini Gem |
+| **Frequency** | At each workflow step | Once deployed, then maintenance |
 
 ---
 
-## Table des Matières
+## Table of Contents
 
-1. Vue d'Ensemble du Processus
-2. Phase 0 - Amont Ouvert : De l'Idée aux Artifacts
-3. Phase 1 - Cadrage : Initialisation du Projet
-4. Phase 2 - Sprints de Développement
-5. Phase 3 - Livraison et Maintenance
-6. Nomenclature des Artifacts
-7. Templates des Artifacts
-8. Mécanismes Anti-Risques Agentiques
-9. Protocoles de Session
-10. Tableau de Bord du Projet
+1. Process Overview
+2. Phase 0 - Open Upstream: From Idea to Artifacts
+3. Phase 1 - Framing: Project Initialization
+4. Phase 2 - Development Sprints
+5. Phase 3 - Delivery and Maintenance
+6. Artifact Nomenclature
+7. Artifact Templates
+8. Agentic Anti-Risk Mechanisms
+9. Session Protocols
+10. Project Dashboard
 
 ---
 
-## 1. Vue d'Ensemble du Processus
+## 1. Process Overview
 
-### 1.1 Principes Fondamentaux
+### 1.1 Fundamental Principles
 
-Le processus repose sur **quatre principes non-négociables** :
+The process rests on **four non-negotiable principles**:
 
-| Principe | Description | Mécanisme de l'Atelier |
+| Principle | Description | Workbench Mechanism |
 | :--- | :--- | :--- |
-| **Mémoire Persistante** | Tout contexte est écrit, jamais supposé mémorisé | Memory Bank (7 fichiers `.md`) |
-| **Traçabilité Totale** | Tout artifact est versionné avec son historique | Git + Conventional Commits |
-| **Convergence Progressive** | Les entrées narratives mûrissent vers des artifacts structurés | Phase 0 → Phase 1 → Phase 2 |
-| **Défense en Profondeur** | Chaque règle est redondante (`.clinerules` + `roleDefinition` + protocoles) | `.clinerules` + `.roomodes` |
+| **Persistent Memory** | All context is written, never assumed to be memorized | Memory Bank (7 `.md` files) |
+| **Total Traceability** | Every artifact is versioned with its history | Git + Conventional Commits |
+| **Progressive Convergence** | Narrative inputs mature toward structured artifacts | Phase 0 -> Phase 1 -> Phase 2 |
+| **Defense in Depth** | Each rule is redundant (`.clinerules` + `roleDefinition` + protocols) | `.clinerules` + `.roomodes` |
 
-### 1.2 Carte du Processus
+### 1.2 Process Map
 
 ```
 +-------------------------------------------------------------------------+
-|                    PHASE 0 - AMONT OUVERT                               |
+|                    PHASE 0 - OPEN UPSTREAM                              |
 |                                                                          |
-|  Entrées narratives, non-structurées, désordonnées                      |
-|  (emails, notes, conversations, code existant, idées vagues)            |
+|  Narrative, unstructured, disorganized inputs                           |
+|  (emails, notes, conversations, existing code, vague ideas)             |
 |                                                                          |
-|  -> Artifact : BRIEF-001 (Vision Narrative Brute)                       |
-|  -> Artifact : BRIEF-002 (Synthèse Structurée)                          |
-|  -> Artifact : BRIEF-003 (Décision de Lancement)                        |
+|  -> Artifact: BRIEF-001 (Raw Narrative Vision)                          |
+|  -> Artifact: BRIEF-002 (Structured Synthesis)                          |
+|  -> Artifact: BRIEF-003 (Launch Decision)                               |
 +----------------------------------+--------------------------------------+
                                    | Convergence
                                    v
 +-------------------------------------------------------------------------+
-|                    PHASE 1 - CADRAGE                                     |
+|                    PHASE 1 - FRAMING                                     |
 |                                                                          |
-|  Initialisation du projet, Memory Bank, backlog initial                 |
+|  Project initialization, Memory Bank, initial backlog                   |
 |                                                                          |
-|  -> Artifact : PRJ-001 (Project Brief)                                  |
-|  -> Artifact : PRJ-002 (Architecture Initiale)                          |
-|  -> Artifact : PRJ-003 (Backlog Initial)                                |
-|  -> Artifact : PRJ-004 (Tech Context)                                   |
+|  -> Artifact: PRJ-001 (Project Brief)                                   |
+|  -> Artifact: PRJ-002 (Initial Architecture)                            |
+|  -> Artifact: PRJ-003 (Initial Backlog)                                 |
+|  -> Artifact: PRJ-004 (Tech Context)                                    |
 +----------------------------------+--------------------------------------+
-                                   | Itération
+                                   | Iteration
                                    v
 +-------------------------------------------------------------------------+
-|                    PHASE 2 - SPRINTS (répétée N fois)                   |
+|                    PHASE 2 - SPRINTS (repeated N times)                 |
 |                                                                          |
-|  Sprint Planning -> Développement -> Tests -> Review -> Rétrospective   |
+|  Sprint Planning -> Development -> Tests -> Review -> Retrospective     |
 |                                                                          |
-|  -> Artifact : SPR-XXX-001 (Sprint Backlog)                             |
-|  -> Artifact : SPR-XXX-002 (User Stories)                               |
-|  -> Artifact : SPR-XXX-003 (Code Source)                                |
-|  -> Artifact : SPR-XXX-004 (Rapport de Tests)                           |
-|  -> Artifact : SPR-XXX-005 (Sprint Review)                              |
-|  -> Artifact : SPR-XXX-006 (Rétrospective)                              |
+|  -> Artifact: SPR-XXX-001 (Sprint Backlog)                              |
+|  -> Artifact: SPR-XXX-002 (User Stories)                                |
+|  -> Artifact: SPR-XXX-003 (Source Code)                                 |
+|  -> Artifact: SPR-XXX-004 (Test Report)                                 |
+|  -> Artifact: SPR-XXX-005 (Sprint Review)                               |
+|  -> Artifact: SPR-XXX-006 (Retrospective)                               |
 +----------------------------------+--------------------------------------+
-                                   | Livraison
+                                   | Delivery
                                    v
 +-------------------------------------------------------------------------+
-|                    PHASE 3 - LIVRAISON & MAINTENANCE                    |
+|                    PHASE 3 - DELIVERY & MAINTENANCE                     |
 |                                                                          |
-|  -> Artifact : REL-XXX-001 (Release Notes)                              |
-|  -> Artifact : REL-XXX-002 (Documentation Utilisateur)                  |
-|  -> Artifact : REL-XXX-003 (Runbook de Déploiement)                     |
+|  -> Artifact: REL-XXX-001 (Release Notes)                               |
+|  -> Artifact: REL-XXX-002 (User Documentation)                          |
+|  -> Artifact: REL-XXX-003 (Deployment Runbook)                          |
 +-------------------------------------------------------------------------+
 ```
 
-### 1.3 Rôles et Responsabilités par Phase
+### 1.3 Roles and Responsibilities by Phase
 
-| Phase | Persona Principal | Personas Secondaires | Livrables |
+| Phase | Primary Persona | Secondary Personas | Deliverables |
 | :--- | :--- | :--- | :--- |
-| Phase 0 - Amont | Product Owner | Developer | BRIEF-001, BRIEF-002, BRIEF-003 |
-| Phase 1 - Cadrage | Product Owner | Developer, Scrum Master | PRJ-001 à PRJ-004 |
+| Phase 0 - Upstream | Product Owner | Developer | BRIEF-001, BRIEF-002, BRIEF-003 |
+| Phase 1 - Framing | Product Owner | Developer, Scrum Master | PRJ-001 to PRJ-004 |
 | Phase 2 - Sprint Planning | Product Owner | Scrum Master | SPR-XXX-001, SPR-XXX-002 |
-| Phase 2 - Développement | Developer | — | SPR-XXX-003 |
+| Phase 2 - Development | Developer | — | SPR-XXX-003 |
 | Phase 2 - Tests | QA Engineer | Developer | SPR-XXX-004 |
 | Phase 2 - Review | Product Owner | Scrum Master | SPR-XXX-005 |
-| Phase 2 - Rétrospective | Scrum Master | Tous | SPR-XXX-006 |
-| Phase 3 - Livraison | Developer | QA Engineer | REL-XXX-001 à REL-XXX-003 |
+| Phase 2 - Retrospective | Scrum Master | All | SPR-XXX-006 |
+| Phase 3 - Delivery | Developer | QA Engineer | REL-XXX-001 to REL-XXX-003 |
 
 ---
 
-## 2. Phase 0 - Amont Ouvert : De l'Idée aux Artifacts
+## 2. Phase 0 - Open Upstream: From Idea to Artifacts
 
-### 2.1 Pourquoi une Phase Amont Ouverte ?
+### 2.1 Why an Open Upstream Phase?
 
-Le développement logiciel commence rarement par un cahier des charges structuré. Il commence par :
-- Un email de 3 lignes : "Il faudrait un outil pour gérer nos commandes clients"
-- Une conversation : "Le problème c'est que les commerciaux saisissent les données deux fois"
-- Un code existant sans documentation : "Voilà ce qu'on a, il faut le refaire proprement"
-- Des notes désordonnées sur plusieurs documents
-- Une idée vague qui évolue au fil des discussions
+Software development rarely starts with a structured specification. It starts with:
+- A 3-line email: "We need a tool to manage our customer orders"
+- A conversation: "The problem is that sales reps enter data twice"
+- Existing code without documentation: "Here's what we have, it needs to be redone properly"
+- Disorganized notes across multiple documents
+- A vague idea that evolves through discussions
 
-**L'atelier doit accepter ces entrées telles quelles** et les transformer progressivement en artifacts structurés. C'est le rôle de la Phase 0.
+**The workbench must accept these inputs as-is** and progressively transform them into structured artifacts. That is the role of Phase 0.
 
-> **Règle d'or de la Phase 0 :** Ne jamais forcer une structure prématurée. Laisser la compréhension mûrir avant de structurer.
+> **Golden rule of Phase 0:** Never force a premature structure. Let understanding mature before structuring.
 
-### 2.2 Entrées Acceptées en Phase 0
+### 2.2 Inputs Accepted in Phase 0
 
-| Type d'Entrée | Exemple | Traitement |
+| Input Type | Example | Processing |
 | :--- | :--- | :--- |
-| **Texte narratif libre** | Email, note, compte-rendu de réunion | Copier tel quel dans BRIEF-001 |
-| **Code existant** | Dépôt legacy, scripts, prototypes | Audit Developer → BRIEF-002 |
-| **Conversation orale** | Retranscription, notes de réunion | Copier tel quel dans BRIEF-001 |
-| **Document Word/PDF** | Cahier des charges partiel, spec fonctionnelle | Extraire le texte → BRIEF-001 |
-| **Maquettes/Wireframes** | Images, captures d'écran | Décrire en texte → BRIEF-001 |
-| **Idée vague** | "Je veux quelque chose comme Trello mais pour..." | Dialogue Product Owner → BRIEF-001 |
+| **Free narrative text** | Email, note, meeting minutes | Copy as-is into BRIEF-001 |
+| **Existing code** | Legacy repository, scripts, prototypes | Developer audit -> BRIEF-002 |
+| **Oral conversation** | Transcription, meeting notes | Copy as-is into BRIEF-001 |
+| **Word/PDF document** | Partial specification, functional spec | Extract text -> BRIEF-001 |
+| **Mockups/Wireframes** | Images, screenshots | Describe in text -> BRIEF-001 |
+| **Vague idea** | "I want something like Trello but for..." | Product Owner dialogue -> BRIEF-001 |
 
-### 2.3 Processus de Maturation Phase 0
+### 2.3 Phase 0 Maturation Process
 
 ---
 
-#### Étape 0.1 — Collecte des entrées brutes
+#### Step 0.1 — Collect raw inputs
 
-> 📋 **PROMPT 0.1 — Collecte des entrées brutes**
-> **Mode Roo Code requis :** `product-owner`
-> **Complexité :** 🟢 Simple — 1 envoi, remplacer [ENTREES BRUTES] par vos données avant d'envoyer
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [ENTREES BRUTES] :**
+> **PROMPT 0.1 — Collect raw inputs**
+> **Required Roo Code mode:** `product-owner`
+> **Complexity:** Simple — 1 send, replace [RAW INPUTS] with your data before sending
+> **Copy-paste the block below as-is, then replace [RAW INPUTS]:**
 
 ```markdown
-Crée le fichier docs/brief/BRIEF-001-vision-narrative.md avec le contenu suivant,
-copié exactement tel quel sans reformuler :
+Create the file docs/brief/BRIEF-001-vision-narrative.md with the following content,
+copied exactly as-is without reformulating:
 
 ---
-# BRIEF-001 - Vision Narrative Brute
-**Date de création :** [DATE]
-**Créé par :** Product Owner
-**Statut :** Brouillon
+# BRIEF-001 - Raw Narrative Vision
+**Creation date:** [DATE]
+**Created by:** Product Owner
+**Status:** Draft
 
-## Entrées Brutes
+## Raw Inputs
 
-### Entrée 1 - [Source : email / réunion / note / code existant]
-**Date :** [DATE]
-**Auteur :** [NOM]
+### Input 1 - [Source: email / meeting / note / existing code]
+**Date:** [DATE]
+**Author:** [NAME]
 
-[ENTREES BRUTES — coller ici emails, notes, conversations, descriptions telles quelles]
+[RAW INPUTS -- paste here emails, notes, conversations, descriptions as-is]
 
-## Historique des Ajouts
-| Date | Source | Résumé |
+## Addition History
+| Date | Source | Summary |
 | :--- | :--- | :--- |
-| [DATE] | [SOURCE] | [RESUME EN 1 LIGNE] |
+| [DATE] | [SOURCE] | [SUMMARY IN 1 LINE] |
 ---
 
-Commite avec : 'docs(brief): vision narrative initiale - phase amont'
+Commit with: 'docs(brief): initial narrative vision - upstream phase'
 ```
 
-*→ Artifact produit : `docs/brief/BRIEF-001-vision-narrative.md`*
+*-> Artifact produced: `docs/brief/BRIEF-001-vision-narrative.md`*
 
 ---
 
-#### Étape 0.2 — Analyse structurée
+#### Step 0.2 — Structured analysis
 
-> 📋 **PROMPT 0.2 — Analyse structurée des entrées brutes**
-> **Mode Roo Code requis :** `developer`
-> **Complexité :** 🟢 Simple — 1 envoi, l'agent produit BRIEF-002 en autonomie
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT 0.2 — Structured analysis of raw inputs**
+> **Required Roo Code mode:** `developer`
+> **Complexity:** Simple — 1 send, the agent produces BRIEF-002 autonomously
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Lis docs/brief/BRIEF-001-vision-narrative.md.
-Identifie et liste dans docs/brief/BRIEF-002-synthese-structuree.md :
-- Les fonctionnalités mentionnées (même implicitement)
-- Les utilisateurs cibles identifiables
-- Les contraintes techniques ou métier
-- Les ambiguïtés et questions ouvertes
-- Ce qui est hors périmètre apparent
-Ne prends aucune décision. Documente seulement ce que tu comprends.
-Commite avec : 'docs(brief): synthèse structurée phase amont'
+Read docs/brief/BRIEF-001-vision-narrative.md.
+Identify and list in docs/brief/BRIEF-002-synthese-structuree.md:
+- The mentioned features (even implicitly)
+- The identifiable target users
+- The technical or business constraints
+- The ambiguities and open questions
+- What is apparently out of scope
+Do not make any decisions. Only document what you understand.
+Commit with: 'docs(brief): structured synthesis upstream phase'
 ```
 
-*→ Artifact produit : `docs/brief/BRIEF-002-synthese-structuree.md`*
+*-> Artifact produced: `docs/brief/BRIEF-002-synthese-structuree.md`*
 
 ---
 
-#### Étape 0.3 — Clarification des ambiguïtés
+#### Step 0.3 — Clarification of ambiguities
 
-> 📋 **PROMPT 0.3 — Clarification des ambiguïtés**
-> **Mode Roo Code requis :** `product-owner`
-> **Complexité :** 🔄 Itératif — dialogue question/réponse jusqu'à résolution de toutes les ambiguïtés critiques
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT 0.3 — Clarification of ambiguities**
+> **Required Roo Code mode:** `product-owner`
+> **Complexity:** Iterative — question/answer dialogue until all critical ambiguities are resolved
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Lis docs/brief/BRIEF-002-synthese-structuree.md.
-Pour chaque ambiguïté listée dans la section "Ambiguïtés et Questions Ouvertes",
-pose-moi une question précise.
-Attends ma réponse avant de passer à la suivante.
-Mets à jour BRIEF-002 avec chaque réponse obtenue en marquant la question comme "Résolue".
+Read docs/brief/BRIEF-002-synthese-structuree.md.
+For each ambiguity listed in the "Ambiguities and Open Questions" section,
+ask me one precise question.
+Wait for my answer before moving to the next one.
+Update BRIEF-002 with each answer obtained, marking the question as "Resolved".
 ```
 
-*→ Dialogue itératif jusqu'à résolution des ambiguïtés critiques. BRIEF-002 mis à jour.*
+*-> Iterative dialogue until critical ambiguities are resolved. BRIEF-002 updated.*
 
 ---
 
-#### Étape 0.4 — Décision de lancement GO/NO-GO
+#### Step 0.4 — GO/NO-GO launch decision
 
-> 📋 **PROMPT 0.4 — Décision de lancement GO/NO-GO**
-> **Mode Roo Code requis :** `product-owner`
-> **Complexité :** 🟢 Simple — 1 envoi, l'agent crée BRIEF-003 et commite les 3 artifacts
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT 0.4 — GO/NO-GO launch decision**
+> **Required Roo Code mode:** `product-owner`
+> **Complexity:** Simple — 1 send, the agent creates BRIEF-003 and commits the 3 artifacts
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Sur la base de docs/brief/BRIEF-001-vision-narrative.md et
+Based on docs/brief/BRIEF-001-vision-narrative.md and
 docs/brief/BRIEF-002-synthese-structuree.md,
-crée docs/brief/BRIEF-003-decision-lancement.md avec :
-- La décision GO / NO-GO / ATTENTE
-- Les conditions de lancement si ATTENTE
-- La date de décision
-- Les risques identifiés et leur mitigation
-- Le périmètre validé pour le lancement
+create docs/brief/BRIEF-003-decision-lancement.md with:
+- The GO / NO-GO / HOLD decision
+- The launch conditions if HOLD
+- The decision date
+- The identified risks and their mitigation
+- The validated scope for launch
 
-Commite les 3 fichiers BRIEF avec le message :
-'docs(brief): phase amont complète - décision [GO/NO-GO]'
+Commit the 3 BRIEF files with the message:
+'docs(brief): upstream phase complete - decision [GO/NO-GO]'
 ```
 
-*→ Artifact produit : `docs/brief/BRIEF-003-decision-lancement.md`*
-*→ Commit Git des 3 artifacts BRIEF*
+*-> Artifact produced: `docs/brief/BRIEF-003-decision-lancement.md`*
+*-> Git commit of the 3 BRIEF artifacts*
 
 ---
 
-### 2.4 Critère de Sortie de Phase 0
+### 2.4 Phase 0 Exit Criteria
 
-La Phase 0 est terminée quand :
-- [ ] BRIEF-001 existe et contient toutes les entrées brutes
-- [ ] BRIEF-002 existe et liste fonctionnalités, utilisateurs, contraintes, ambiguïtés
-- [ ] Toutes les ambiguïtés critiques sont résolues (ou documentées comme acceptées)
-- [ ] BRIEF-003 contient une décision GO
-- [ ] Les 3 fichiers sont commités dans Git
+Phase 0 is complete when:
+- [ ] BRIEF-001 exists and contains all raw inputs
+- [ ] BRIEF-002 exists and lists features, users, constraints, ambiguities
+- [ ] All critical ambiguities are resolved (or documented as accepted)
+- [ ] BRIEF-003 contains a GO decision
+- [ ] The 3 files are committed in Git
 
-> **Si la décision est NO-GO ou ATTENTE :** Archiver les fichiers BRIEF dans `docs/brief/archive/` et commiter. Le projet peut reprendre plus tard en repartant de ces artifacts.
-
----
-
-## 3. Phase 1 - Cadrage : Initialisation du Projet
-
-### 3.1 Objectif
-
-Transformer la décision GO de la Phase 0 en une base de projet structurée et opérationnelle : Memory Bank remplie, architecture initiale définie, backlog initial créé.
-
-### 3.2 Séquence de Cadrage
+> **If the decision is NO-GO or HOLD:** Archive the BRIEF files in `docs/brief/archive/` and commit. The project can resume later starting from these artifacts.
 
 ---
 
-#### Étape 1.1 — Initialisation de la Memory Bank
+## 3. Phase 1 - Framing: Project Initialization
 
-> 📋 **PROMPT 1.1 — Initialisation de la Memory Bank**
-> **Mode Roo Code requis :** `product-owner`
-> **Complexité :** 🟢 Simple — 1 envoi, l'agent remplit projectBrief.md et productContext.md
-> **Copier-coller le bloc ci-dessous tel quel :**
+### 3.1 Objective
+
+Transform the GO decision from Phase 0 into a structured and operational project base: Memory Bank filled, initial architecture defined, initial backlog created.
+
+### 3.2 Framing Sequence
+
+---
+
+#### Step 1.1 — Memory Bank Initialization
+
+> **PROMPT 1.1 — Memory Bank Initialization**
+> **Required Roo Code mode:** `product-owner`
+> **Complexity:** Simple — 1 send, the agent fills projectBrief.md and productContext.md
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Lis docs/brief/BRIEF-002-synthese-structuree.md et
+Read docs/brief/BRIEF-002-synthese-structuree.md and
 docs/brief/BRIEF-003-decision-lancement.md.
 
-Remplis les fichiers Memory Bank suivants :
+Fill the following Memory Bank files:
 
-1. memory-bank/projectBrief.md :
-   - Vision du projet (2-3 phrases synthétiques)
-   - Objectifs principaux (mesurables)
-   - Non-Goals explicites
-   - Contraintes identifiées
-   - Parties prenantes
+1. memory-bank/projectBrief.md:
+   - Project vision (2-3 synthetic sentences)
+   - Main objectives (measurable)
+   - Explicit Non-Goals
+   - Identified constraints
+   - Stakeholders
 
-2. memory-bank/productContext.md :
-   - Personas utilisateurs identifiés
-   - Premières User Stories (format standard)
-   - Backlog initial priorisé
+2. memory-bank/productContext.md:
+   - Identified user personas
+   - First User Stories (standard format)
+   - Prioritized initial backlog
 
-Commite avec : 'feat(memory): initialisation Memory Bank depuis phase amont'
+Commit with: 'feat(memory): Memory Bank initialization from upstream phase'
 ```
 
-*→ Artifacts mis à jour : `memory-bank/projectBrief.md`, `memory-bank/productContext.md`*
+*-> Artifacts updated: `memory-bank/projectBrief.md`, `memory-bank/productContext.md`*
 
 ---
 
-#### Étape 1.2 — Architecture Initiale
+#### Step 1.2 — Initial Architecture
 
-> 📋 **PROMPT 1.2 — Architecture initiale du projet**
-> **Mode Roo Code requis :** `developer`
-> **Complexité :** 🟢 Simple — 1 envoi, l'agent propose l'architecture et met à jour la Memory Bank
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT 1.2 — Initial project architecture**
+> **Required Roo Code mode:** `developer`
+> **Complexity:** Simple — 1 send, the agent proposes the architecture and updates the Memory Bank
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Lis memory-bank/projectBrief.md et memory-bank/productContext.md.
+Read memory-bank/projectBrief.md and memory-bank/productContext.md.
 
-Propose une architecture initiale dans docs/architecture/PRJ-002-architecture-initiale.md :
-- Stack technique recommandée (avec justification)
-- Structure des dossiers du projet
-- Patterns architecturaux retenus
-- Décisions d'architecture (ADR format)
-- Dépendances externes identifiées
+Propose an initial architecture in docs/architecture/PRJ-002-architecture-initiale.md:
+- Recommended technical stack (with justification)
+- Project folder structure
+- Retained architectural patterns
+- Architecture decisions (ADR format)
+- Identified external dependencies
 
-Mets à jour memory-bank/systemPatterns.md et memory-bank/techContext.md.
-Mets à jour memory-bank/decisionLog.md avec les ADR.
-Commite avec : 'feat(architecture): architecture initiale + Memory Bank mise à jour'
+Update memory-bank/systemPatterns.md and memory-bank/techContext.md.
+Update memory-bank/decisionLog.md with the ADRs.
+Commit with: 'feat(architecture): initial architecture + Memory Bank updated'
 ```
 
-*→ Artifact produit : `docs/architecture/PRJ-002-architecture-initiale.md`*
-*→ Artifacts mis à jour : `memory-bank/systemPatterns.md`, `memory-bank/techContext.md`, `memory-bank/decisionLog.md`*
+*-> Artifact produced: `docs/architecture/PRJ-002-architecture-initiale.md`*
+*-> Artifacts updated: `memory-bank/systemPatterns.md`, `memory-bank/techContext.md`, `memory-bank/decisionLog.md`*
 
 ---
 
-#### Étape 1.3 — Validation de l'Architecture
+#### Step 1.3 — Architecture Validation
 
-> 📋 **PROMPT 1.3 — Validation de l'architecture par le Product Owner**
-> **Mode Roo Code requis :** `product-owner`
-> **Complexité :** 🔄 Itératif — l'agent liste les incohérences éventuelles, dialogue si corrections nécessaires
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT 1.3 — Architecture validation by the Product Owner**
+> **Required Roo Code mode:** `product-owner`
+> **Complexity:** Iterative — the agent lists any inconsistencies, dialogue if corrections needed
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Lis docs/architecture/PRJ-002-architecture-initiale.md.
-Vérifie que l'architecture proposée est cohérente avec :
-- La vision dans memory-bank/projectBrief.md
-- Les contraintes identifiées
-- Les Non-Goals
+Read docs/architecture/PRJ-002-architecture-initiale.md.
+Verify that the proposed architecture is consistent with:
+- The vision in memory-bank/projectBrief.md
+- The identified constraints
+- The Non-Goals
 
-Si des incohérences existent, liste-les.
-Si l'architecture est validée, mets à jour docs/brief/BRIEF-003-decision-lancement.md
-avec la mention 'Architecture validée le [DATE]' et commite.
+If inconsistencies exist, list them.
+If the architecture is validated, update docs/brief/BRIEF-003-decision-lancement.md
+with the mention 'Architecture validated on [DATE]' and commit.
 ```
 
-*→ Artifact mis à jour : `docs/brief/BRIEF-003-decision-lancement.md` (mention de validation)*
+*-> Artifact updated: `docs/brief/BRIEF-003-decision-lancement.md` (validation mention)*
 
 ---
 
-#### Étape 1.4 — Backlog Initial Structuré
+#### Step 1.4 — Structured Initial Backlog
 
-> 📋 **PROMPT 1.4 — Création du backlog initial MoSCoW**
-> **Mode Roo Code requis :** `product-owner`
-> **Complexité :** 🟢 Simple — 1 envoi, l'agent crée le backlog structuré avec priorisation MoSCoW
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT 1.4 — Creation of the initial MoSCoW backlog**
+> **Required Roo Code mode:** `product-owner`
+> **Complexity:** Simple — 1 send, the agent creates the structured backlog with MoSCoW prioritization
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Sur la base de memory-bank/productContext.md et de l'architecture validée,
-crée docs/backlog/PRJ-003-backlog-initial.md avec :
+Based on memory-bank/productContext.md and the validated architecture,
+create docs/backlog/PRJ-003-backlog-initial.md with:
 
-- Les Epics identifiées (regroupements fonctionnels)
-- Les User Stories de chaque Epic (format standard)
-- La priorisation MoSCoW (Must/Should/Could/Won't)
-- Les dépendances entre User Stories
-- L'estimation de complexité (T-shirt sizing : XS/S/M/L/XL)
+- The identified Epics (functional groupings)
+- The User Stories of each Epic (standard format)
+- The MoSCoW prioritization (Must/Should/Could/Won't)
+- The dependencies between User Stories
+- The complexity estimate (T-shirt sizing: XS/S/M/L/XL)
 
-Mets à jour memory-bank/productContext.md avec le backlog structuré.
-Commite avec : 'feat(backlog): backlog initial structuré avec priorisation MoSCoW'
+Update memory-bank/productContext.md with the structured backlog.
+Commit with: 'feat(backlog): structured initial backlog with MoSCoW prioritization'
 ```
 
-*→ Artifact produit : `docs/backlog/PRJ-003-backlog-initial.md`*
-*→ Artifact mis à jour : `memory-bank/productContext.md`*
+*-> Artifact produced: `docs/backlog/PRJ-003-backlog-initial.md`*
+*-> Artifact updated: `memory-bank/productContext.md`*
 
 ---
 
-### 3.3 Critère de Sortie de Phase 1
+### 3.3 Phase 1 Exit Criteria
 
-- [ ] `memory-bank/projectBrief.md` rempli et validé
-- [ ] `memory-bank/productContext.md` contient le backlog initial
-- [ ] `memory-bank/systemPatterns.md` contient l'architecture initiale
-- [ ] `memory-bank/techContext.md` contient la stack et les commandes
-- [ ] `docs/architecture/PRJ-002-architecture-initiale.md` existe
-- [ ] `docs/backlog/PRJ-003-backlog-initial.md` existe avec priorisation MoSCoW
-- [ ] Tous les fichiers commités dans Git
+- [ ] `memory-bank/projectBrief.md` filled and validated
+- [ ] `memory-bank/productContext.md` contains the initial backlog
+- [ ] `memory-bank/systemPatterns.md` contains the initial architecture
+- [ ] `memory-bank/techContext.md` contains the stack and commands
+- [ ] `docs/architecture/PRJ-002-architecture-initiale.md` exists
+- [ ] `docs/backlog/PRJ-003-backlog-initial.md` exists with MoSCoW prioritization
+- [ ] All files committed in Git
 
 ---
 
-## 4. Phase 2 - Sprints de Développement
+## 4. Phase 2 - Development Sprints
 
-### 4.1 Structure d'un Sprint
+### 4.1 Sprint Structure
 
-Un sprint dure **1 à 2 semaines**. Il suit le cycle Scrum standard adapté au développement agentique :
+A sprint lasts **1 to 2 weeks**. It follows the standard Scrum cycle adapted to agentic development:
 
 ```
-SPRINT PLANNING (Début de sprint)
-  Durée : 1-2 heures
-  Personas : Product Owner + Scrum Master
-  Artifact : SPR-XXX-001 (Sprint Backlog)
+SPRINT PLANNING (Start of sprint)
+  Duration: 1-2 hours
+  Personas: Product Owner + Scrum Master
+  Artifact: SPR-XXX-001 (Sprint Backlog)
 
-DÉVELOPPEMENT (Corps du sprint)
-  Durée : 80% du sprint
-  Persona : Developer
-  Artifact : SPR-XXX-003 (Code Source + commits)
-  Règle : 1 User Story = N commits = 1 livraison
+DEVELOPMENT (Sprint body)
+  Duration: 80% of the sprint
+  Persona: Developer
+  Artifact: SPR-XXX-003 (Source Code + commits)
+  Rule: 1 User Story = N commits = 1 delivery
 
-TESTS (Fin de développement)
-  Durée : 15% du sprint
-  Persona : QA Engineer
-  Artifact : SPR-XXX-004 (Rapport de Tests)
+TESTS (End of development)
+  Duration: 15% of the sprint
+  Persona: QA Engineer
+  Artifact: SPR-XXX-004 (Test Report)
 
-SPRINT REVIEW (Fin de sprint)
-  Durée : 1 heure
-  Personas : Product Owner + Scrum Master
-  Artifact : SPR-XXX-005 (Sprint Review)
+SPRINT REVIEW (End of sprint)
+  Duration: 1 hour
+  Personas: Product Owner + Scrum Master
+  Artifact: SPR-XXX-005 (Sprint Review)
 
-RÉTROSPECTIVE (Après la review)
-  Durée : 30 minutes
-  Persona : Scrum Master
-  Artifact : SPR-XXX-006 (Rétrospective)
+RETROSPECTIVE (After the review)
+  Duration: 30 minutes
+  Persona: Scrum Master
+  Artifact: SPR-XXX-006 (Retrospective)
 
-MISE À JOUR MEMORY BANK (Obligatoire avant clôture)
-  Persona : Scrum Master
-  Fichiers : activeContext.md, progress.md
-  Commit : 'docs(memory): clôture sprint XXX'
+MEMORY BANK UPDATE (Mandatory before closing)
+  Persona: Scrum Master
+  Files: activeContext.md, progress.md
+  Commit: 'docs(memory): sprint XXX closure'
 ```
 
 ### 4.2 Sprint Planning
 
-> 📋 **PROMPT 4.2 — Sprint Planning**
-> **Mode Roo Code requis :** `product-owner`
-> **Complexité :** 🟢 Simple — 1 envoi, remplacer [NNN] par le numéro du sprint (ex: 001)
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [NNN] :**
+> **PROMPT 4.2 — Sprint Planning**
+> **Required Roo Code mode:** `product-owner`
+> **Complexity:** Simple — 1 send, replace [NNN] with the sprint number (e.g.: 001)
+> **Copy-paste the block below as-is, then replace [NNN]:**
 
 ```markdown
-Lis memory-bank/productContext.md et memory-bank/progress.md.
+Read memory-bank/productContext.md and memory-bank/progress.md.
 
-Crée docs/sprints/sprint-[NNN]/SPR-[NNN]-001-sprint-backlog.md avec :
-- L'objectif du sprint (Sprint Goal - 1 phrase)
-- Les User Stories sélectionnées du backlog (avec leur ID)
-- La capacité estimée (en points ou en jours)
-- Les critères d'acceptation de chaque US
-- Les dépendances techniques identifiées
+Create docs/sprints/sprint-[NNN]/SPR-[NNN]-001-sprint-backlog.md with:
+- The sprint objective (Sprint Goal - 1 sentence)
+- The User Stories selected from the backlog (with their ID)
+- The estimated capacity (in points or days)
+- The acceptance criteria of each US
+- The identified technical dependencies
 
-Mets à jour memory-bank/activeContext.md avec le Sprint Goal.
-Commite avec : 'feat(sprint-[NNN]): sprint planning - [Sprint Goal]'
+Update memory-bank/activeContext.md with the Sprint Goal.
+Commit with: 'feat(sprint-[NNN]): sprint planning - [Sprint Goal]'
 ```
 
-*→ Artifact produit : `docs/sprints/sprint-[NNN]/SPR-[NNN]-001-sprint-backlog.md`*
-*→ Artifact mis à jour : `memory-bank/activeContext.md`*
+*-> Artifact produced: `docs/sprints/sprint-[NNN]/SPR-[NNN]-001-sprint-backlog.md`*
+*-> Artifact updated: `memory-bank/activeContext.md`*
 
 ---
 
-### 4.3 Développement d'une User Story
+### 4.3 User Story Development
 
-**Protocole obligatoire en 5 étapes :**
+**Mandatory 5-step protocol:**
 
 ```
-ÉTAPE D.1 - LECTURE MEMORY BANK (obligatoire)
-  Lire : activeContext.md, systemPatterns.md, techContext.md
+STEP D.1 - MEMORY BANK READING (mandatory)
+  Read: activeContext.md, systemPatterns.md, techContext.md
 
-ÉTAPE D.2 - COMPRÉHENSION DE LA USER STORY
-  Lire : docs/sprints/sprint-[NNN]/SPR-[NNN]-001-sprint-backlog.md
-  Identifier : critères d'acceptation, dépendances
+STEP D.2 - USER STORY UNDERSTANDING
+  Read: docs/sprints/sprint-[NNN]/SPR-[NNN]-001-sprint-backlog.md
+  Identify: acceptance criteria, dependencies
 
-ÉTAPE D.3 - IMPLÉMENTATION
-  Coder la User Story
-  Commiter après chaque sous-tâche significative
-  Format commit : 'feat(US-XXX): [description]'
+STEP D.3 - IMPLEMENTATION
+  Code the User Story
+  Commit after each significant sub-task
+  Commit format: 'feat(US-XXX): [description]'
 
-ÉTAPE D.4 - MISE À JOUR MEMORY BANK
-  Mettre à jour : activeContext.md (état courant)
-  Si décision d'architecture : mettre à jour decisionLog.md
+STEP D.4 - MEMORY BANK UPDATE
+  Update: activeContext.md (current state)
+  If architecture decision: update decisionLog.md
 
-ÉTAPE D.5 - COMMIT FINAL
+STEP D.5 - FINAL COMMIT
   git add .
-  git commit -m 'feat(US-XXX): implémentation complète - [description]'
+  git commit -m 'feat(US-XXX): complete implementation - [description]'
 ```
 
-> 📋 **PROMPT 4.3 — Développement d'une User Story**
-> **Mode Roo Code requis :** `developer`
-> **Complexité :** 🟢 Simple — 1 envoi, remplacer [NNN] et [XXX] avant d'envoyer
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [NNN] et [XXX] :**
+> **PROMPT 4.3 — User Story Development**
+> **Required Roo Code mode:** `developer`
+> **Complexity:** Simple — 1 send, replace [NNN] and [XXX] before sending
+> **Copy-paste the block below as-is, then replace [NNN] and [XXX]:**
 
 ```markdown
-Lis memory-bank/activeContext.md, memory-bank/systemPatterns.md
-et memory-bank/techContext.md.
+Read memory-bank/activeContext.md, memory-bank/systemPatterns.md
+and memory-bank/techContext.md.
 
-Implémente la User Story US-[XXX] définie dans
+Implement User Story US-[XXX] defined in
 docs/sprints/sprint-[NNN]/SPR-[NNN]-001-sprint-backlog.md.
 
-Respecte les conventions de memory-bank/systemPatterns.md.
-Commite après chaque sous-tâche avec le format 'feat(US-XXX): [description]'.
-Mets à jour memory-bank/activeContext.md après chaque sous-tâche.
-Avant de clôturer, commite memory-bank/ avec 'docs(memory): US-XXX implémentée'.
+Respect the conventions from memory-bank/systemPatterns.md.
+Commit after each sub-task with the format 'feat(US-XXX): [description]'.
+Update memory-bank/activeContext.md after each sub-task.
+Before closing, commit memory-bank/ with 'docs(memory): US-XXX implemented'.
 ```
 
-*→ Artifact produit : code source dans `src/` (commits successifs)*
-*→ Artifact mis à jour : `memory-bank/activeContext.md`*
+*-> Artifact produced: source code in `src/` (successive commits)*
+*-> Artifact updated: `memory-bank/activeContext.md`*
 
 ---
 
 ### 4.4 Tests
 
-> 📋 **PROMPT 4.4 — Rapport de Tests du Sprint**
-> **Mode Roo Code requis :** `qa-engineer`
-> **Complexité :** 🔵 Séquentiel — l'agent teste chaque US du sprint et documente les résultats
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [NNN] :**
+> **PROMPT 4.4 — Sprint Test Report**
+> **Required Roo Code mode:** `qa-engineer`
+> **Complexity:** Sequential — the agent tests each US of the sprint and documents the results
+> **Copy-paste the block below as-is, then replace [NNN]:**
 
 ```markdown
-Lis docs/sprints/sprint-[NNN]/SPR-[NNN]-001-sprint-backlog.md
-pour connaître les critères d'acceptation de chaque US.
+Read docs/sprints/sprint-[NNN]/SPR-[NNN]-001-sprint-backlog.md
+to know the acceptance criteria of each US.
 
-Pour chaque User Story du sprint :
-1. Exécute les tests automatisés existants
-2. Vérifie chaque critère d'acceptation
-3. Documente les résultats dans
+For each User Story in the sprint:
+1. Run the existing automated tests
+2. Verify each acceptance criterion
+3. Document the results in
    docs/sprints/sprint-[NNN]/SPR-[NNN]-004-rapport-tests.md
 
-Commite avec : 'test(sprint-[NNN]): rapport de tests - [NNN] US testées'
+Commit with: 'test(sprint-[NNN]): test report - [NNN] US tested'
 ```
 
-*→ Artifact produit : `docs/sprints/sprint-[NNN]/SPR-[NNN]-004-rapport-tests.md`*
+*-> Artifact produced: `docs/sprints/sprint-[NNN]/SPR-[NNN]-004-rapport-tests.md`*
 
 ---
 
 ### 4.5 Sprint Review
 
-> 📋 **PROMPT 4.5 — Sprint Review**
-> **Mode Roo Code requis :** `product-owner`
-> **Complexité :** 🟢 Simple — 1 envoi, l'agent crée la review et met à jour le backlog
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [NNN] :**
+> **PROMPT 4.5 — Sprint Review**
+> **Required Roo Code mode:** `product-owner`
+> **Complexity:** Simple — 1 send, the agent creates the review and updates the backlog
+> **Copy-paste the block below as-is, then replace [NNN]:**
 
 ```markdown
-Lis docs/sprints/sprint-[NNN]/SPR-[NNN]-004-rapport-tests.md.
+Read docs/sprints/sprint-[NNN]/SPR-[NNN]-004-rapport-tests.md.
 
-Crée docs/sprints/sprint-[NNN]/SPR-[NNN]-005-sprint-review.md avec :
-- Les US livrées (validées par les tests)
-- Les US non livrées (avec raison)
-- La vélocité du sprint (points livrés / points planifiés)
-- Les feedbacks sur les fonctionnalités livrées
-- Les ajustements du backlog (nouvelles US, repriorisation)
+Create docs/sprints/sprint-[NNN]/SPR-[NNN]-005-sprint-review.md with:
+- The delivered US (validated by tests)
+- The undelivered US (with reason)
+- The sprint velocity (delivered points / planned points)
+- Feedback on the delivered features
+- Backlog adjustments (new US, re-prioritization)
 
-Mets à jour memory-bank/productContext.md avec les ajustements backlog.
-Commite avec : 'docs(sprint-[NNN]): sprint review - vélocité [X]%'
+Update memory-bank/productContext.md with the backlog adjustments.
+Commit with: 'docs(sprint-[NNN]): sprint review - velocity [X]%'
 ```
 
-*→ Artifact produit : `docs/sprints/sprint-[NNN]/SPR-[NNN]-005-sprint-review.md`*
-*→ Artifact mis à jour : `memory-bank/productContext.md`*
+*-> Artifact produced: `docs/sprints/sprint-[NNN]/SPR-[NNN]-005-sprint-review.md`*
+*-> Artifact updated: `memory-bank/productContext.md`*
 
 ---
 
-### 4.6 Rétrospective
+### 4.6 Retrospective
 
-> 📋 **PROMPT 4.6 — Rétrospective du Sprint**
-> **Mode Roo Code requis :** `scrum-master`
-> **Complexité :** 🟢 Simple — 1 envoi, l'agent crée la rétro et clôture le sprint dans la Memory Bank
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [NNN] :**
+> **PROMPT 4.6 — Sprint Retrospective**
+> **Required Roo Code mode:** `scrum-master`
+> **Complexity:** Simple — 1 send, the agent creates the retro and closes the sprint in the Memory Bank
+> **Copy-paste the block below as-is, then replace [NNN]:**
 
 ```markdown
-Lis docs/sprints/sprint-[NNN]/SPR-[NNN]-005-sprint-review.md
-et memory-bank/activeContext.md.
+Read docs/sprints/sprint-[NNN]/SPR-[NNN]-005-sprint-review.md
+and memory-bank/activeContext.md.
 
-Crée docs/sprints/sprint-[NNN]/SPR-[NNN]-006-retrospective.md avec :
-- Ce qui a bien fonctionné (Keep)
-- Ce qui doit être amélioré (Improve)
-- Ce qui doit être arrêté (Stop)
-- Les actions concrètes pour le prochain sprint
-- Les impediments identifiés et leur résolution
+Create docs/sprints/sprint-[NNN]/SPR-[NNN]-006-retrospective.md with:
+- What worked well (Keep)
+- What needs to be improved (Improve)
+- What needs to be stopped (Stop)
+- Concrete actions for the next sprint
+- Identified impediments and their resolution
 
-Mets à jour memory-bank/progress.md (cocher les US terminées).
-Mets à jour memory-bank/activeContext.md (état fin de sprint).
+Update memory-bank/progress.md (check off completed US).
+Update memory-bank/activeContext.md (end-of-sprint state).
 
-
-Commite avec : 'docs(memory): clôture sprint [NNN] - [X] US livrées'
+Commit with: 'docs(memory): sprint [NNN] closure - [X] US delivered'
 ```
 
-*→ Artifact produit : `docs/sprints/sprint-[NNN]/SPR-[NNN]-006-retrospective.md`*
-*→ Artifacts mis à jour : `memory-bank/progress.md`, `memory-bank/activeContext.md`*
+*-> Artifact produced: `docs/sprints/sprint-[NNN]/SPR-[NNN]-006-retrospective.md`*
+*-> Artifacts updated: `memory-bank/progress.md`, `memory-bank/activeContext.md`*
 
 ---
 
-## 5. Phase 3 - Livraison et Maintenance
+## 5. Phase 3 - Delivery and Maintenance
 
-### 5.1 Préparation d'une Release
+### 5.1 Release Preparation
 
-> 📋 **PROMPT 5.1 — Release Notes**
-> **Mode Roo Code requis :** `developer`
-> **Complexité :** 🟢 Simple — 1 envoi, remplacer [VERSION] par le numéro SemVer (ex: 1.0.0)
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [VERSION] :**
+> **PROMPT 5.1 — Release Notes**
+> **Required Roo Code mode:** `developer`
+> **Complexity:** Simple — 1 send, replace [VERSION] with the SemVer number (e.g.: 1.0.0)
+> **Copy-paste the block below as-is, then replace [VERSION]:**
 
 ```markdown
-Lis memory-bank/progress.md pour identifier les features livrées
-depuis la dernière release.
+Read memory-bank/progress.md to identify the features delivered
+since the last release.
 
-Crée docs/releases/REL-[VERSION]-001-release-notes.md avec :
-- La version (format SemVer : MAJOR.MINOR.PATCH)
-- La date de release
-- Les nouvelles fonctionnalités (avec référence aux US)
-- Les corrections de bugs
-- Les changements breaking (si MAJOR)
-- Les instructions de migration (si applicable)
+Create docs/releases/REL-[VERSION]-001-release-notes.md with:
+- The version (SemVer format: MAJOR.MINOR.PATCH)
+- The release date
+- The new features (with reference to the US)
+- The bug fixes
+- The breaking changes (if MAJOR)
+- The migration instructions (if applicable)
 
-Commite avec : 'docs(release): release notes v[VERSION]'
+Commit with: 'docs(release): release notes v[VERSION]'
 ```
 
-*→ Artifact produit : `docs/releases/REL-[VERSION]-001-release-notes.md`*
+*-> Artifact produced: `docs/releases/REL-[VERSION]-001-release-notes.md`*
 
 ---
 
-### 5.2 Documentation Utilisateur
+### 5.2 User Documentation
 
-> 📋 **PROMPT 5.2 — Documentation Utilisateur**
-> **Mode Roo Code requis :** `developer`
-> **Complexité :** 🟢 Simple — 1 envoi, remplacer [VERSION] avant d'envoyer
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [VERSION] :**
+> **PROMPT 5.2 — User Documentation**
+> **Required Roo Code mode:** `developer`
+> **Complexity:** Simple — 1 send, replace [VERSION] before sending
+> **Copy-paste the block below as-is, then replace [VERSION]:**
 
 ```markdown
-Sur la base des features livrées dans docs/releases/REL-[VERSION]-001-release-notes.md,
-crée ou mets à jour docs/releases/REL-[VERSION]-002-documentation-utilisateur.md.
+Based on the features delivered in docs/releases/REL-[VERSION]-001-release-notes.md,
+create or update docs/releases/REL-[VERSION]-002-documentation-utilisateur.md.
 
-La documentation doit couvrir :
-- Guide de démarrage rapide
-- Description de chaque fonctionnalité
-- Exemples d'utilisation
+The documentation must cover:
+- Quick start guide
+- Description of each feature
+- Usage examples
 - FAQ
 
-Commite avec : 'docs(release): documentation utilisateur v[VERSION]'
+Commit with: 'docs(release): user documentation v[VERSION]'
 ```
 
-*→ Artifact produit : `docs/releases/REL-[VERSION]-002-documentation-utilisateur.md`*
+*-> Artifact produced: `docs/releases/REL-[VERSION]-002-documentation-utilisateur.md`*
 
 ---
 
-### 5.3 Runbook de Déploiement
+### 5.3 Deployment Runbook
 
-> 📋 **PROMPT 5.3 — Runbook de Déploiement**
-> **Mode Roo Code requis :** `developer`
-> **Complexité :** 🟢 Simple — 1 envoi, remplacer [VERSION] avant d'envoyer
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [VERSION] :**
+> **PROMPT 5.3 — Deployment Runbook**
+> **Required Roo Code mode:** `developer`
+> **Complexity:** Simple — 1 send, replace [VERSION] before sending
+> **Copy-paste the block below as-is, then replace [VERSION]:**
 
 ```markdown
-Crée docs/releases/REL-[VERSION]-003-runbook-deploiement.md avec :
-- Les prérequis système
-- Les étapes de déploiement (numérotées, précises)
-- Les variables d'environnement requises
-- Les commandes de vérification post-déploiement
-- La procédure de rollback
+Create docs/releases/REL-[VERSION]-003-runbook-deploiement.md with:
+- System prerequisites
+- Deployment steps (numbered, precise)
+- Required environment variables
+- Post-deployment verification commands
+- Rollback procedure
 
-Commite avec : 'docs(release): runbook déploiement v[VERSION]'
+Commit with: 'docs(release): deployment runbook v[VERSION]'
 ```
 
-*→ Artifact produit : `docs/releases/REL-[VERSION]-003-runbook-deploiement.md`*
+*-> Artifact produced: `docs/releases/REL-[VERSION]-003-runbook-deploiement.md`*
 
 ---
 
-## 6. Nomenclature des Artifacts
+## 6. Artifact Nomenclature
 
-### 6.1 Convention de Nommage
+### 6.1 Naming Convention
 
-**Format général :** `[CATEGORIE]-[NUMERO]-[DESCRIPTION-COURTE].[ext]`
+**General format:** `[CATEGORY]-[NUMBER]-[SHORT-DESCRIPTION].[ext]`
 
-**Catégories :**
+**Categories:**
 
-| Préfixe | Catégorie | Phase | Emplacement |
+| Prefix | Category | Phase | Location |
 | :--- | :--- | :--- | :--- |
-| `BRIEF` | Artifacts de phase amont | Phase 0 | `docs/brief/` |
-| `PRJ` | Artifacts de cadrage projet | Phase 1 | `docs/architecture/`, `docs/backlog/` |
-| `SPR` | Artifacts de sprint | Phase 2 | `docs/sprints/sprint-[NNN]/` |
-| `QA` | Rapports de tests | Phase 2 | `docs/sprints/sprint-[NNN]/` ou `docs/qa/` |
-| `REL` | Artifacts de release | Phase 3 | `docs/releases/` |
-| `ADR` | Architecture Decision Records | Toutes | `memory-bank/decisionLog.md` |
+| `BRIEF` | Upstream phase artifacts | Phase 0 | `docs/brief/` |
+| `PRJ` | Project framing artifacts | Phase 1 | `docs/architecture/`, `docs/backlog/` |
+| `SPR` | Sprint artifacts | Phase 2 | `docs/sprints/sprint-[NNN]/` |
+| `QA` | Test reports | Phase 2 | `docs/sprints/sprint-[NNN]/` or `docs/qa/` |
+| `REL` | Release artifacts | Phase 3 | `docs/releases/` |
+| `ADR` | Architecture Decision Records | All | `memory-bank/decisionLog.md` |
 | `US` | User Stories | Phase 1-2 | `memory-bank/productContext.md` |
 
-### 6.2 Nomenclature Complète des Artifacts
+### 6.2 Complete Artifact Nomenclature
 
-#### Artifacts Phase 0 - Amont
+#### Phase 0 Artifacts - Upstream
 
-| ID Artifact | Nom du Fichier | Description | Persona Responsable |
+| Artifact ID | File Name | Description | Responsible Persona |
 | :--- | :--- | :--- | :--- |
-| `BRIEF-001` | `BRIEF-001-vision-narrative.md` | Entrées brutes non-structurées | Product Owner |
-| `BRIEF-002` | `BRIEF-002-synthese-structuree.md` | Analyse structurée des entrées | Developer |
-| `BRIEF-003` | `BRIEF-003-decision-lancement.md` | Décision GO/NO-GO avec conditions | Product Owner |
+| `BRIEF-001` | `BRIEF-001-vision-narrative.md` | Unstructured raw inputs | Product Owner |
+| `BRIEF-002` | `BRIEF-002-synthese-structuree.md` | Structured analysis of inputs | Developer |
+| `BRIEF-003` | `BRIEF-003-decision-lancement.md` | GO/NO-GO decision with conditions | Product Owner |
 
-#### Artifacts Phase 1 - Cadrage
+#### Phase 1 Artifacts - Framing
 
-| ID Artifact | Nom du Fichier | Description | Persona Responsable |
+| Artifact ID | File Name | Description | Responsible Persona |
 | :--- | :--- | :--- | :--- |
-| `PRJ-001` | `memory-bank/projectBrief.md` | Vision, objectifs, Non-Goals | Product Owner |
-| `PRJ-002` | `PRJ-002-architecture-initiale.md` | Architecture, stack, ADR initiaux | Developer |
-| `PRJ-003` | `PRJ-003-backlog-initial.md` | Epics, US, priorisation MoSCoW | Product Owner |
-| `PRJ-004` | `memory-bank/techContext.md` | Stack, commandes, variables d'env | Developer |
+| `PRJ-001` | `memory-bank/projectBrief.md` | Vision, objectives, Non-Goals | Product Owner |
+| `PRJ-002` | `PRJ-002-architecture-initiale.md` | Architecture, stack, initial ADRs | Developer |
+| `PRJ-003` | `PRJ-003-backlog-initial.md` | Epics, US, MoSCoW prioritization | Product Owner |
+| `PRJ-004` | `memory-bank/techContext.md` | Stack, commands, env variables | Developer |
 
-#### Artifacts Phase 2 - Sprint
+#### Phase 2 Artifacts - Sprint
 
-| ID Artifact | Nom du Fichier | Description | Persona Responsable |
+| Artifact ID | File Name | Description | Responsible Persona |
 | :--- | :--- | :--- | :--- |
-| `SPR-[NNN]-001` | `SPR-[NNN]-001-sprint-backlog.md` | US sélectionnées, Sprint Goal | Product Owner |
-| `SPR-[NNN]-002` | `SPR-[NNN]-002-user-stories.md` | Détail des US (si non dans backlog) | Product Owner |
-| `SPR-[NNN]-003` | Code source dans `src/` | Implémentation des US | Developer |
-| `SPR-[NNN]-004` | `SPR-[NNN]-004-rapport-tests.md` | Résultats des tests, bugs | QA Engineer |
-| `SPR-[NNN]-005` | `SPR-[NNN]-005-sprint-review.md` | Vélocité, US livrées, feedbacks | Product Owner |
+| `SPR-[NNN]-001` | `SPR-[NNN]-001-sprint-backlog.md` | Selected US, Sprint Goal | Product Owner |
+| `SPR-[NNN]-002` | `SPR-[NNN]-002-user-stories.md` | US detail (if not in backlog) | Product Owner |
+| `SPR-[NNN]-003` | Source code in `src/` | US implementation | Developer |
+| `SPR-[NNN]-004` | `SPR-[NNN]-004-rapport-tests.md` | Test results, bugs | QA Engineer |
+| `SPR-[NNN]-005` | `SPR-[NNN]-005-sprint-review.md` | Velocity, delivered US, feedback | Product Owner |
 | `SPR-[NNN]-006` | `SPR-[NNN]-006-retrospective.md` | Keep/Improve/Stop, actions | Scrum Master |
 
-#### Artifacts Phase 3 - Release
+#### Phase 3 Artifacts - Release
 
-| ID Artifact | Nom du Fichier | Description | Persona Responsable |
+| Artifact ID | File Name | Description | Responsible Persona |
 | :--- | :--- | :--- | :--- |
-| `REL-[VER]-001` | `REL-[VER]-001-release-notes.md` | Changelog, nouvelles features | Developer |
-| `REL-[VER]-002` | `REL-[VER]-002-documentation-utilisateur.md` | Guide utilisateur | Developer |
-| `REL-[VER]-003` | `REL-[VER]-003-runbook-deploiement.md` | Procédure de déploiement | Developer |
+| `REL-[VER]-001` | `REL-[VER]-001-release-notes.md` | Changelog, new features | Developer |
+| `REL-[VER]-002` | `REL-[VER]-002-documentation-utilisateur.md` | User guide | Developer |
+| `REL-[VER]-003` | `REL-[VER]-003-runbook-deploiement.md` | Deployment procedure | Developer |
 
-#### Artifacts Memory Bank (Persistants)
+#### Memory Bank Artifacts (Persistent)
 
-| Fichier | Fréquence de Mise à Jour | Persona Responsable |
+| File | Update Frequency | Responsible Persona |
 | :--- | :--- | :--- |
-| `memory-bank/projectBrief.md` | Rare (changement de vision) | Product Owner |
-| `memory-bank/productContext.md` | Chaque sprint (backlog) | Product Owner |
-| `memory-bank/systemPatterns.md` | Après décision d'architecture | Developer |
-| `memory-bank/techContext.md` | Après changement de stack | Developer |
-| `memory-bank/activeContext.md` | **À chaque session** | Tous |
-| `memory-bank/progress.md` | **À chaque fin de sprint** | Scrum Master |
-| `memory-bank/decisionLog.md` | Après chaque ADR | Developer |
+| `memory-bank/projectBrief.md` | Rare (vision change) | Product Owner |
+| `memory-bank/productContext.md` | Each sprint (backlog) | Product Owner |
+| `memory-bank/systemPatterns.md` | After architecture decision | Developer |
+| `memory-bank/techContext.md` | After stack change | Developer |
+| `memory-bank/activeContext.md` | **Every session** | All |
+| `memory-bank/progress.md` | **Every end of sprint** | Scrum Master |
+| `memory-bank/decisionLog.md` | After each ADR | Developer |
 
-### 6.3 Structure des Dossiers d'un Projet Applicatif
+### 6.3 Application Project Folder Structure
 
 ```
-[RACINE DU PROJET]
-|-- .clinerules                    # Règles atelier (copie depuis workbench)
-|-- .gitignore                     # Exclusions Git
-|-- .roomodes                      # Personas Agile (copie depuis workbench)
-|-- .workbench-version             # Version de l'atelier déployée
-|-- Modelfile                      # Config Ollama (si Mode Local)
-|-- proxy.py                       # Proxy Gemini (si Mode Proxy)
-|-- requirements.txt               # Dépendances Python proxy
+[PROJECT ROOT]
+|-- .clinerules                    # Workbench rules (copy from workbench)
+|-- .gitignore                     # Git exclusions
+|-- .roomodes                      # Agile personas (copy from workbench)
+|-- .workbench-version             # Deployed workbench version
+|-- Modelfile                      # Ollama config (if Local Mode)
+|-- proxy.py                       # Gemini proxy (if Proxy Mode)
+|-- requirements.txt               # Python proxy dependencies
 |
-|-- docs/                          # Tous les artifacts documentaires
-|   |-- brief/                     # Phase 0 - Amont
+|-- docs/                          # All documentary artifacts
+|   |-- brief/                     # Phase 0 - Upstream
 |   |   |-- BRIEF-001-vision-narrative.md
 |   |   |-- BRIEF-002-synthese-structuree.md
 |   |   |-- BRIEF-003-decision-lancement.md
-|   |   +-- archive/               # Projets NO-GO archivés
+|   |   +-- archive/               # Archived NO-GO projects
 |   |
-|   |-- architecture/              # Phase 1 - Cadrage
+|   |-- architecture/              # Phase 1 - Framing
 |   |   +-- PRJ-002-architecture-initiale.md
 |   |
 |   |-- backlog/                   # Phase 1 - Backlog
@@ -798,7 +797,7 @@ Commite avec : 'docs(release): runbook déploiement v[VERSION]'
 |   |   +-- sprint-002/
 |   |       +-- ...
 |   |
-|   |-- qa/                        # Rapports QA (écrits par QA Engineer)
+|   |-- qa/                        # QA reports (written by QA Engineer)
 |   |   +-- .gitkeep
 |   |
 |   +-- releases/                  # Phase 3 - Releases
@@ -806,7 +805,7 @@ Commite avec : 'docs(release): runbook déploiement v[VERSION]'
 |       |-- REL-1.0.0-002-documentation-utilisateur.md
 |       +-- REL-1.0.0-003-runbook-deploiement.md
 |
-|-- memory-bank/                   # Memory Bank - 7 fichiers persistants
+|-- memory-bank/                   # Memory Bank - 7 persistent files
 |   |-- activeContext.md
 |   |-- decisionLog.md
 |   |-- productContext.md
@@ -815,1241 +814,1239 @@ Commite avec : 'docs(release): runbook déploiement v[VERSION]'
 |   |-- systemPatterns.md
 |   +-- techContext.md
 |
-|-- prompts/                       # Registre prompts (copie depuis workbench)
+|-- prompts/                       # Prompts registry (copy from workbench)
 |   |-- README.md
-|   +-- SP-001 à SP-007
+|   +-- SP-001 to SP-007
 |
-|-- scripts/                       # Scripts utilitaires (copie depuis workbench)
+|-- scripts/                       # Utility scripts (copy from workbench)
 |   |-- check-prompts-sync.ps1
 |   +-- start-proxy.ps1
 |
-+-- src/                           # Code source applicatif
-    +-- [structure spécifique au projet]
++-- src/                           # Application source code
+    +-- [project-specific structure]
 ```
 
 ---
 
-## 7. Templates des Artifacts
+## 7. Artifact Templates
 
-### 7.1 Template BRIEF-001 - Vision Narrative
+### 7.1 Template BRIEF-001 - Narrative Vision
 
 ```markdown
-# BRIEF-001 - Vision Narrative Brute
-**Date de création :** [DATE]
-**Créé par :** Product Owner
-**Statut :** Brouillon
+# BRIEF-001 - Raw Narrative Vision
+**Creation date:** [DATE]
+**Created by:** Product Owner
+**Status:** Draft
 
 ---
 
-## Entrées Brutes
+## Raw Inputs
 
-> Ce fichier contient les entrées TELLES QUELLES, sans reformulation.
-> Ne pas modifier le contenu original. Ajouter de nouvelles entrées à la suite.
+> This file contains inputs AS-IS, without reformulation.
+> Do not modify the original content. Add new inputs below.
 
-### Entrée 1 - [Source : email / réunion / note / code existant]
-**Date :** [DATE]
-**Auteur :** [NOM]
+### Input 1 - [Source: email / meeting / note / existing code]
+**Date:** [DATE]
+**Author:** [NAME]
 
-[COLLER ICI LE TEXTE BRUT SANS MODIFICATION]
-
----
-
-### Entrée 2 - [Source]
-**Date :** [DATE]
-
-[COLLER ICI]
+[PASTE RAW TEXT HERE WITHOUT MODIFICATION]
 
 ---
 
-## Historique des Ajouts
-| Date | Source | Résumé |
+### Input 2 - [Source]
+**Date:** [DATE]
+
+[PASTE HERE]
+
+---
+
+## Addition History
+| Date | Source | Summary |
 | :--- | :--- | :--- |
-| [DATE] | [SOURCE] | [RESUME EN 1 LIGNE] |
+| [DATE] | [SOURCE] | [SUMMARY IN 1 LINE] |
 ```
 
-### 7.2 Template BRIEF-002 - Synthèse Structurée
+### 7.2 Template BRIEF-002 - Structured Synthesis
 
 ```markdown
-# BRIEF-002 - Synthèse Structurée
-**Date de création :** [DATE]
-**Basé sur :** BRIEF-001-vision-narrative.md
-**Statut :** En cours d'analyse
+# BRIEF-002 - Structured Synthesis
+**Creation date:** [DATE]
+**Based on:** BRIEF-001-vision-narrative.md
+**Status:** Under analysis
 
 ---
 
-## Fonctionnalités Identifiées
+## Identified Features
 
-### Fonctionnalités Explicites (mentionnées clairement)
+### Explicit Features (clearly mentioned)
 - [F-001] [Description]
 - [F-002] [Description]
 
-### Fonctionnalités Implicites (déduites du contexte)
-- [F-I-001] [Description] - *Déduit de : "[citation de BRIEF-001]"*
+### Implicit Features (inferred from context)
+- [F-I-001] [Description] - *Inferred from: "[quote from BRIEF-001]"*
 
 ---
 
-## Utilisateurs Cibles Identifiés
+## Identified Target Users
 
-| Persona | Description | Besoins Principaux |
+| Persona | Description | Main Needs |
 | :--- | :--- | :--- |
-| [Nom] | [Description] | [Besoins] |
+| [Name] | [Description] | [Needs] |
 
 ---
 
-## Contraintes Identifiées
+## Identified Constraints
 
-### Contraintes Techniques
+### Technical Constraints
 - [CT-001] [Description]
 
-### Contraintes Métier / Légales
+### Business / Legal Constraints
 - [CM-001] [Description]
 
 ---
 
-## Périmètre Apparent
+## Apparent Scope
 
-### Dans le Périmètre
+### In Scope
 - [Description]
 
-### Hors Périmètre (apparent)
+### Out of Scope (apparent)
 - [Description]
 
 ---
 
-## Ambiguïtés et Questions Ouvertes
+## Ambiguities and Open Questions
 
-| ID | Question | Criticité | Statut |
+| ID | Question | Criticality | Status |
 | :--- | :--- | :--- | :--- |
-| [Q-001] | [Question précise] | CRITIQUE / HAUTE / BASSE | Ouverte / Résolue |
+| [Q-001] | [Precise question] | CRITICAL / HIGH / LOW | Open / Resolved |
 
-### Réponses aux Questions
-**Q-001 :** [Réponse obtenue le DATE]
+### Answers to Questions
+**Q-001:** [Answer obtained on DATE]
 
 ---
 
-## Risques Identifiés
-- [R-001] [Description du risque] - Probabilité : [H/M/B] - Impact : [H/M/B]
+## Identified Risks
+- [R-001] [Risk description] - Probability: [H/M/L] - Impact: [H/M/L]
 ```
 
-### 7.3 Template BRIEF-003 - Décision de Lancement
+### 7.3 Template BRIEF-003 - Launch Decision
 
 ```markdown
-# BRIEF-003 - Décision de Lancement
-**Date de décision :** [DATE]
-**Décideur :** [NOM]
+# BRIEF-003 - Launch Decision
+**Decision date:** [DATE]
+**Decision maker:** [NAME]
 
 ---
 
-## Décision
+## Decision
 
-**[ ] GO** - Le projet est lancé
-**[ ] NO-GO** - Le projet est abandonné
-**[ ] ATTENTE** - Le projet est suspendu jusqu'à [CONDITION]
+**[ ] GO** - The project is launched
+**[ ] NO-GO** - The project is abandoned
+**[ ] HOLD** - The project is suspended until [CONDITION]
 
 ---
 
 ## Justification
-[Pourquoi cette décision ?]
+[Why this decision?]
 
 ---
 
-## Conditions de Lancement (si ATTENTE)
+## Launch Conditions (if HOLD)
 - [ ] [Condition 1]
 - [ ] [Condition 2]
 
 ---
 
-## Risques Acceptés
-- [R-001] [Description] - Mitigation : [Plan]
+## Accepted Risks
+- [R-001] [Description] - Mitigation: [Plan]
 
 ---
 
-## Périmètre Validé pour le Lancement
-[Description du périmètre initial validé]
+## Validated Scope for Launch
+[Description of the initial validated scope]
 
 ---
 
-## Historique
-| Date | Décision | Raison |
+## History
+| Date | Decision | Reason |
 | :--- | :--- | :--- |
-| [DATE] | [GO/NO-GO/ATTENTE] | [Raison] |
+| [DATE] | [GO/NO-GO/HOLD] | [Reason] |
 ```
 
 ### 7.4 Template SPR-[NNN]-001 - Sprint Backlog
 
 ```markdown
 # SPR-[NNN]-001 - Sprint [NNN] Backlog
-**Sprint :** [NNN]
-**Dates :** [DATE DEBUT] -> [DATE FIN]
-**Sprint Goal :** [UNE PHRASE DÉCRIVANT L'OBJECTIF DU SPRINT]
-**Capacité :** [X] points / [Y] jours
+**Sprint:** [NNN]
+**Dates:** [START DATE] -> [END DATE]
+**Sprint Goal:** [ONE SENTENCE DESCRIBING THE SPRINT OBJECTIVE]
+**Capacity:** [X] points / [Y] days
 
 ---
 
-## User Stories Sélectionnées
+## Selected User Stories
 
-### US-[XXX] - [Titre]
-**Epic :** [Nom de l'Epic]
-**Priorité :** Must / Should / Could
-**Complexité :** XS / S / M / L / XL ([X] points)
-**Assigné à :** Developer
+### US-[XXX] - [Title]
+**Epic:** [Epic Name]
+**Priority:** Must / Should / Could
+**Complexity:** XS / S / M / L / XL ([X] points)
+**Assigned to:** Developer
 
-**En tant que** [persona]
-**Je veux** [action]
-**Afin de** [bénéfice]
+**As a** [persona]
+**I want** [action]
+**So that** [benefit]
 
-**Critères d'Acceptation :**
-- [ ] [CA-001] [Critère mesurable]
-- [ ] [CA-002] [Critère mesurable]
+**Acceptance Criteria:**
+- [ ] [CA-001] [Measurable criterion]
+- [ ] [CA-002] [Measurable criterion]
 
-**Dépendances :** [US-XXX ou Aucune]
-**Notes techniques :** [Contraintes d'implémentation]
+**Dependencies:** [US-XXX or None]
+**Technical notes:** [Implementation constraints]
 
 ---
 
-## Récapitulatif
+## Summary
 
-| US | Titre | Points | Statut |
+| US | Title | Points | Status |
 | :--- | :--- | :--- | :--- |
-| US-[XXX] | [Titre] | [X] | À faire / En cours / Terminé |
+| US-[XXX] | [Title] | [X] | To do / In progress / Done |
 
-**Total points planifiés :** [X]
-**Total points livrés :** [Y] *(mis à jour en fin de sprint)*
-**Vélocité :** [Y/X * 100]% *(mis à jour en fin de sprint)*
+**Total planned points:** [X]
+**Total delivered points:** [Y] *(updated at end of sprint)*
+**Velocity:** [Y/X * 100]% *(updated at end of sprint)*
 ```
 
-### 7.5 Template SPR-[NNN]-004 - Rapport de Tests
+### 7.5 Template SPR-[NNN]-004 - Test Report
 
 ```markdown
-# SPR-[NNN]-004 - Rapport de Tests Sprint [NNN]
-**Sprint :** [NNN]
-**Date de test :** [DATE]
-**QA Engineer :** [Mode QA Engineer - Roo Code]
-**Backend LLM utilisé :** [Ollama / Proxy Gemini / Claude API]
+# SPR-[NNN]-004 - Sprint [NNN] Test Report
+**Sprint:** [NNN]
+**Test date:** [DATE]
+**QA Engineer:** [QA Engineer Mode - Roo Code]
+**LLM backend used:** [Ollama / Proxy Gemini / Claude API]
 
 ---
 
-## Résumé Exécutif
+## Executive Summary
 
-| Métrique | Valeur |
+| Metric | Value |
 | :--- | :--- |
-| US testées | [X] / [Y] planifiées |
-| Tests passés | [X] |
-| Tests échoués | [X] |
-| Bugs critiques | [X] |
-| Bugs mineurs | [X] |
-| Couverture de code | [X]% |
+| US tested | [X] / [Y] planned |
+| Tests passed | [X] |
+| Tests failed | [X] |
+| Critical bugs | [X] |
+| Minor bugs | [X] |
+| Code coverage | [X]% |
 
 ---
 
-## Résultats par User Story
+## Results by User Story
 
-### US-[XXX] - [Titre]
-**Statut global :** VALIDÉE / REJETÉE / PARTIELLE
+### US-[XXX] - [Title]
+**Overall status:** VALIDATED / REJECTED / PARTIAL
 
-| Critère d'Acceptation | Résultat | Notes |
+| Acceptance Criterion | Result | Notes |
 | :--- | :--- | :--- |
-| CA-001 : [Description] | PASS / FAIL | [Notes] |
-| CA-002 : [Description] | PASS / FAIL | [Notes] |
+| CA-001: [Description] | PASS / FAIL | [Notes] |
+| CA-002: [Description] | PASS / FAIL | [Notes] |
 
-**Commande de test exécutée :** `[commande]`
+**Test command executed:** `[command]`
 
-**Sortie :** `[sortie de la commande]`
-
----
-
-## Bugs Identifiés
-
-### BUG-[NNN]-001 - [Titre]
-**Sévérité :** CRITIQUE / HAUTE / MOYENNE / BASSE
-**US concernée :** US-[XXX]
-**Steps de reproduction :**
-1. [Étape 1]
-2. [Étape 2]
-**Comportement attendu :** [Description]
-**Comportement observé :** [Description]
-**Statut :** Ouvert / Corrigé / Accepté
+**Output:** `[command output]`
 
 ---
 
-## Recommandation QA
-**[ ] Sprint validé** - Toutes les US critiques passent les tests
-**[ ] Sprint rejeté** - Des bugs critiques bloquent la livraison
-**[ ] Livraison partielle** - [X] US validées sur [Y]
+## Identified Bugs
+
+### BUG-[NNN]-001 - [Title]
+**Severity:** CRITICAL / HIGH / MEDIUM / LOW
+**Related US:** US-[XXX]
+**Reproduction steps:**
+1. [Step 1]
+2. [Step 2]
+**Expected behavior:** [Description]
+**Observed behavior:** [Description]
+**Status:** Open / Fixed / Accepted
+
+---
+
+## QA Recommendation
+**[ ] Sprint validated** - All critical US pass the tests
+**[ ] Sprint rejected** - Critical bugs block delivery
+**[ ] Partial delivery** - [X] US validated out of [Y]
 ```
 
 ### 7.6 Template SPR-[NNN]-005 - Sprint Review
 
 ```markdown
-# SPR-[NNN]-005 - Sprint Review Sprint [NNN]
-**Sprint :** [NNN]
-**Date :** [DATE]
-**Participants :** Product Owner, Scrum Master
+# SPR-[NNN]-005 - Sprint [NNN] Review
+**Sprint:** [NNN]
+**Date:** [DATE]
+**Participants:** Product Owner, Scrum Master
 
 ---
 
 ## Sprint Goal
-[Rappel du Sprint Goal]
-**Atteint :** OUI / NON / PARTIELLEMENT
+[Sprint Goal reminder]
+**Achieved:** YES / NO / PARTIALLY
 
 ---
 
-## User Stories Livrées
+## Delivered User Stories
 
-| US | Titre | Points | Validée par QA |
+| US | Title | Points | Validated by QA |
 | :--- | :--- | :--- | :--- |
-| US-[XXX] | [Titre] | [X] | OUI / NON |
+| US-[XXX] | [Title] | [X] | YES / NO |
 
-**Vélocité :** [X] points livrés / [Y] points planifiés = [Z]%
+**Velocity:** [X] delivered points / [Y] planned points = [Z]%
 
 ---
 
-## User Stories Non Livrées
+## Undelivered User Stories
 
-| US | Titre | Raison | Action |
+| US | Title | Reason | Action |
 | :--- | :--- | :--- | :--- |
-| US-[XXX] | [Titre] | [Raison] | Reporter sprint suivant / Abandonner |
+| US-[XXX] | [Title] | [Reason] | Carry over to next sprint / Abandon |
 
 ---
 
-## Feedbacks sur les Fonctionnalités
-[Observations sur les fonctionnalités livrées]
+## Feedback on Features
+[Observations on the delivered features]
 
 ---
 
-## Ajustements du Backlog
-- [US-XXX] : Repriorisée de Should -> Must (raison : [])
-- [US-YYY] : Nouvelle US ajoutée (raison : [])
-- [US-ZZZ] : Abandonnée (raison : [])
+## Backlog Adjustments
+- [US-XXX]: Re-prioritized from Should -> Must (reason: [])
+- [US-YYY]: New US added (reason: [])
+- [US-ZZZ]: Abandoned (reason: [])
 
 ---
 
-## Décision de Release
-**[ ] Release planifiée** pour la version [X.Y.Z]
-**[ ] Pas de release** - Continuer les sprints
+## Release Decision
+**[ ] Release planned** for version [X.Y.Z]
+**[ ] No release** - Continue sprints
 ```
 
-### 7.7 Template SPR-[NNN]-006 - Rétrospective
+### 7.7 Template SPR-[NNN]-006 - Retrospective
 
 ```markdown
-# SPR-[NNN]-006 - Rétrospective Sprint [NNN]
-**Sprint :** [NNN]
-**Date :** [DATE]
-**Facilité par :** Scrum Master
+# SPR-[NNN]-006 - Sprint [NNN] Retrospective
+**Sprint:** [NNN]
+**Date:** [DATE]
+**Facilitated by:** Scrum Master
 
 ---
 
-## Keep - Ce qui a bien fonctionné
+## Keep - What worked well
 - [Description]
 - [Description]
 
-## Improve - Ce qui doit être amélioré
-- [Description] -> Action : [Action concrète]
-- [Description] -> Action : [Action concrète]
+## Improve - What needs to be improved
+- [Description] -> Action: [Concrete action]
+- [Description] -> Action: [Concrete action]
 
-## Stop - Ce qui doit être arrêté
+## Stop - What needs to be stopped
 - [Description]
 
 ---
 
-## Actions pour le Prochain Sprint
+## Actions for the Next Sprint
 
-| Action | Responsable | Échéance |
+| Action | Responsible | Deadline |
 | :--- | :--- | :--- |
 | [Description] | [Persona] | Sprint [NNN+1] |
 
 ---
 
-## Impediments Identifiés
+## Identified Impediments
 
-| Impediment | Impact | Résolution |
+| Impediment | Impact | Resolution |
 | :--- | :--- | :--- |
-| [Description] | [Impact] | [Plan de résolution] |
+| [Description] | [Impact] | [Resolution plan] |
 
 ---
 
-## Métriques du Sprint
-- Vélocité : [X] points
-- Vélocité moyenne (3 derniers sprints) : [Y] points
-- Tendance : En hausse / Stable / En baisse
+## Sprint Metrics
+- Velocity: [X] points
+- Average velocity (last 3 sprints): [Y] points
+- Trend: Rising / Stable / Declining
 ```
 
 ---
 
-## 8. Mécanismes Anti-Risques Agentiques
+## 8. Agentic Anti-Risk Mechanisms
 
-### 8.1 Catalogue des Risques Agentiques
+### 8.1 Agentic Risk Catalog
 
-Le développement agentique présente des risques spécifiques absents du développement humain classique. Ce catalogue les identifie et décrit les contre-mesures intégrées dans l'atelier.
+Agentic development presents specific risks absent from classical human development. This catalog identifies them and describes the countermeasures integrated into the workbench.
 
-| ID Risque | Risque | Probabilité | Impact | Contre-mesure Principale |
+| Risk ID | Risk | Probability | Impact | Main Countermeasure |
 | :--- | :--- | :--- | :--- | :--- |
-| **RA-001** | Perte de contexte entre sessions | TRÈS HAUTE | CRITIQUE | Memory Bank + Séquence VÉRIFIER→CRÉER→LIRE→AGIR |
-| **RA-002** | Hallucination de code | HAUTE | CRITIQUE | Temperature 0.15 + Modelfile déterministe |
-| **RA-003** | Dérive de l'architecture sur plusieurs mois | HAUTE | HAUTE | `systemPatterns.md` + ADR dans `decisionLog.md` |
-| **RA-004** | Incohérence entre sessions longues | HAUTE | HAUTE | `activeContext.md` mis à jour à chaque session |
-| **RA-005** | Régression silencieuse | MOYENNE | CRITIQUE | Tests QA obligatoires + rapports versionnés |
-| **RA-006** | Perte de la vision produit | MOYENNE | HAUTE | `projectBrief.md` immuable sauf décision explicite |
-| **RA-007** | Duplication de code non détectée | MOYENNE | MOYENNE | `systemPatterns.md` + revue Developer |
-| **RA-008** | Décisions d'architecture non tracées | HAUTE | HAUTE | `decisionLog.md` + REGLE 2 `.clinerules` |
-| **RA-009** | Prompt injection / dérive comportementale | BASSE | CRITIQUE | `.clinerules` + RBAC `.roomodes` |
-| **RA-010** | Travail sur mauvaise version du code | MOYENNE | HAUTE | Git obligatoire + commits fréquents |
+| **RA-001** | Context loss between sessions | VERY HIGH | CRITICAL | Memory Bank + CHECK->CREATE->READ->ACT sequence |
+| **RA-002** | Code hallucination | HIGH | CRITICAL | Temperature 0.15 + deterministic Modelfile |
+| **RA-003** | Architecture drift over several months | HIGH | HIGH | `systemPatterns.md` + ADRs in `decisionLog.md` |
+| **RA-004** | Inconsistency across long sessions | HIGH | HIGH | `activeContext.md` updated every session |
+| **RA-005** | Silent regression | MEDIUM | CRITICAL | Mandatory QA tests + versioned reports |
+| **RA-006** | Loss of product vision | MEDIUM | HIGH | `projectBrief.md` immutable unless explicit decision |
+| **RA-007** | Undetected code duplication | MEDIUM | MEDIUM | `systemPatterns.md` + Developer review |
+| **RA-008** | Untraced architecture decisions | HIGH | HIGH | `decisionLog.md` + RULE 2 `.clinerules` |
+| **RA-009** | Prompt injection / behavioral drift | LOW | CRITICAL | `.clinerules` + RBAC `.roomodes` |
+| **RA-010** | Working on wrong code version | MEDIUM | HIGH | Mandatory Git + frequent commits |
 
 ---
 
-### 8.2 RA-001 - Perte de Contexte entre Sessions
+### 8.2 RA-001 - Context Loss Between Sessions
 
-**Description du risque :** Un LLM n'a aucune mémoire entre deux sessions. Sans mécanisme explicite, chaque session repart de zéro. Sur un projet de plusieurs mois, cela conduit à des incohérences, des réimplémentations, des contradictions.
+**Risk description:** An LLM has no memory between two sessions. Without an explicit mechanism, each session starts from scratch. On a multi-month project, this leads to inconsistencies, re-implementations, contradictions.
 
-**Contre-mesures intégrées :**
+**Integrated countermeasures:**
 
 ```
-NIVEAU 1 - Séquence obligatoire au démarrage (REGLE 1 .clinerules)
-  L'agent DOIT lire activeContext.md et progress.md avant toute action
-  Si les fichiers n'existent pas, il les crée depuis les templates
+LEVEL 1 - Mandatory startup sequence (RULE 1 .clinerules)
+  The agent MUST read activeContext.md and progress.md before any action
+  If the files do not exist, it creates them from the templates
 
-NIVEAU 2 - Mise à jour obligatoire à la clôture (REGLE 2 .clinerules)
-  L'agent DOIT mettre à jour activeContext.md avant attempt_completion
-  activeContext.md contient : tâche en cours, dernier résultat, prochaine action
+LEVEL 2 - Mandatory update at closure (RULE 2 .clinerules)
+  The agent MUST update activeContext.md before attempt_completion
+  activeContext.md contains: current task, last result, next action
 
-NIVEAU 3 - Contexte thématique selon la tâche (REGLE 3 .clinerules)
-  Avant modification architecture : lire systemPatterns.md
-  Avant commandes build/test : lire techContext.md
-  En début de sprint : lire productContext.md
+LEVEL 3 - Thematic context according to the task (RULE 3 .clinerules)
+  Before architecture modification: read systemPatterns.md
+  Before build/test commands: read techContext.md
+  At sprint start: read productContext.md
 
-NIVEAU 4 - Redondance dans les roleDefinitions (.roomodes)
-  Le Developer a le protocole LIRE->CODER->METTRE A JOUR->COMMITER inscrit
-  dans son roleDefinition - même si .clinerules n'est pas lu
+LEVEL 4 - Redundancy in roleDefinitions (.roomodes)
+  The Developer has the READ->CODE->UPDATE->COMMIT protocol inscribed
+  in its roleDefinition - even if .clinerules is not read
 ```
 
-**Protocole de reprise après longue interruption (> 1 semaine) :**
+**Resume protocol after long interruption (> 1 week):**
 
-> 📋 **PROMPT RA-001 — Reprise après interruption**
-> **Mode Roo Code requis :** `scrum-master`
-> **Complexité :** 🟢 Simple — 1 envoi, remplacer [X] par le nombre de jours d'interruption
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [X] :**
+> **PROMPT RA-001 -- Resume after interruption**
+> **Required Roo Code mode:** `scrum-master`
+> **Complexity:** Simple -- 1 send, replace [X] with the number of days of interruption
+> **Copy-paste the block below as-is, then replace [X]:**
 
 ```markdown
-Je reprends le projet après [X] jours d'interruption.
-Lis dans cet ordre :
+I am resuming the project after [X] days of interruption.
+Read in this order:
 1. memory-bank/activeContext.md
 2. memory-bank/progress.md
 3. memory-bank/projectBrief.md
 4. memory-bank/productContext.md
 
-Puis génère un résumé de l'état du projet :
-- Où en est-on ?
-- Quelle était la dernière tâche en cours ?
-- Quelles sont les prochaines actions ?
-- Y a-t-il des blocages identifiés ?
+Then generate a project status summary:
+- Where are we?
+- What was the last task in progress?
+- What are the next actions?
+- Are there any identified blockers?
 
-Mets à jour activeContext.md avec la date de reprise.
-Commite avec : 'docs(memory): reprise projet après [X] jours - [DATE]'
+Update activeContext.md with the resume date.
+Commit with: 'docs(memory): project resume after [X] days - [DATE]'
 ```
 
 ---
 
-### 8.3 RA-002 - Hallucination de Code
+### 8.3 RA-002 - Code Hallucination
 
-**Description du risque :** Un LLM peut générer du code syntaxiquement correct mais fonctionnellement faux, inventer des APIs inexistantes, ou produire des implémentations qui semblent plausibles mais ne fonctionnent pas.
+**Risk description:** An LLM can generate syntactically correct but functionally wrong code, invent non-existent APIs, or produce implementations that seem plausible but do not work.
 
-**Contre-mesures intégrées :**
+**Integrated countermeasures:**
 
 ```
-NIVEAU 1 - Paramètres de déterminisme (Modelfile Ollama)
-  temperature 0.15 (quasi-déterministe)
+LEVEL 1 - Determinism parameters (Ollama Modelfile)
+  temperature 0.15 (quasi-deterministic)
   min_p 0.03, top_p 0.95, repeat_penalty 1.1
-  Réduit drastiquement les réponses "créatives" non fondées
+  Drastically reduces "creative" unfounded responses
 
-NIVEAU 2 - Tests QA obligatoires après chaque US
-  Le QA Engineer exécute les tests réels (pas simulés)
-  Les critères d'acceptation sont vérifiés un par un
-  Les bugs sont documentés dans SPR-[NNN]-004
+LEVEL 2 - Mandatory QA tests after each US
+  The QA Engineer runs real tests (not simulated)
+  Acceptance criteria are verified one by one
+  Bugs are documented in SPR-[NNN]-004
 
-NIVEAU 3 - Commits fréquents avec messages descriptifs
-  Chaque sous-tâche est commitée séparément
-  En cas d'hallucination détectée : git revert vers le dernier commit sain
+LEVEL 3 - Frequent commits with descriptive messages
+  Each sub-task is committed separately
+  If hallucination detected: git revert to the last clean commit
 
-NIVEAU 4 - Lecture de la Memory Bank avant de coder
-  systemPatterns.md contient les patterns RÉELS du projet
-  techContext.md contient les commandes RÉELLES testées
-  L'agent code en cohérence avec ce qui existe, pas ce qu'il imagine
+LEVEL 4 - Memory Bank reading before coding
+  systemPatterns.md contains the REAL patterns of the project
+  techContext.md contains the REAL tested commands
+  The agent codes in coherence with what exists, not what it imagines
 ```
 
-**Détection d'une hallucination :**
+**Detecting a hallucination:**
 
 ```
-Signes d'alerte :
-- L'agent importe une bibliothèque qui n'est pas dans requirements.txt
-- L'agent appelle une fonction qui n'existe pas dans le code
-- L'agent décrit une architecture différente de systemPatterns.md
-- Les tests QA échouent systématiquement sur une US
+Warning signs:
+- The agent imports a library not in requirements.txt
+- The agent calls a function that does not exist in the code
+- The agent describes an architecture different from systemPatterns.md
+- QA tests systematically fail on a US
 
-Action corrective :
-1. git log --oneline -10  (identifier le dernier commit sain)
-2. git diff HEAD~1        (voir ce qui a changé)
-3. git revert [hash]      (revenir en arrière si nécessaire)
-4. Mettre à jour activeContext.md avec la description du problème
-5. Relancer le Developer avec un contexte plus précis
+Corrective action:
+1. git log --oneline -10  (identify the last clean commit)
+2. git diff HEAD~1        (see what changed)
+3. git revert [hash]      (roll back if necessary)
+4. Update activeContext.md with the problem description
+5. Relaunch the Developer with more precise context
 ```
 
 ---
 
-### 8.4 RA-003 - Dérive Architecturale sur Plusieurs Mois
+### 8.4 RA-003 - Architectural Drift Over Several Months
 
-**Description du risque :** Sur un projet long, les décisions d'architecture prises en Phase 1 peuvent être oubliées ou contredites par des décisions ultérieures. Sans traçabilité, le code devient incohérent.
+**Risk description:** On a long project, architecture decisions made in Phase 1 can be forgotten or contradicted by later decisions. Without traceability, the code becomes inconsistent.
 
-**Contre-mesures intégrées :**
+**Integrated countermeasures:**
 
 ```
-NIVEAU 1 - decisionLog.md comme registre des ADR
-  Chaque décision d'architecture est documentée avec :
-  Date, contexte, décision prise, conséquences
-  Format : ADR-[NNN] avec numérotation séquentielle
+LEVEL 1 - decisionLog.md as ADR registry
+  Each architecture decision is documented with:
+  Date, context, decision made, consequences
+  Format: ADR-[NNN] with sequential numbering
 
-NIVEAU 2 - systemPatterns.md comme référence vivante
-  Mis à jour après chaque décision d'architecture
-  Contient les patterns ACTUELS (pas les patterns initiaux)
-  L'agent lit ce fichier avant toute modification architecturale
+LEVEL 2 - systemPatterns.md as living reference
+  Updated after each architecture decision
+  Contains the CURRENT patterns (not the initial patterns)
+  The agent reads this file before any architectural modification
 
-NIVEAU 3 - REGLE 2 .clinerules
-  Si une décision d'architecture est prise durant la session :
-  obligatoirement mettre à jour decisionLog.md
+LEVEL 3 - RULE 2 .clinerules
+  If an architecture decision is made during the session:
+  MANDATORY update of memory-bank/decisionLog.md
 
-NIVEAU 4 - Revue architecturale en Sprint Review
-  Le Product Owner vérifie la cohérence avec la vision initiale
-  Les dérives sont ident
-iifiées et documentées
+LEVEL 4 - Architectural review in Sprint Review
+  The Product Owner verifies consistency with the initial vision
+  Drifts are identified and documented
 ```
 
-**Protocole de revue architecturale (tous les 3 sprints) :**
+**Architectural review protocol (every 3 sprints):**
 
-> 📋 **PROMPT RA-003 — Revue architecturale**
-> **Mode Roo Code requis :** `developer`
-> **Complexité :** 🟢 Simple — 1 envoi, remplacer [NNN] par le numéro du sprint courant
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [NNN] :**
+> **PROMPT RA-003 -- Architectural review**
+> **Required Roo Code mode:** `developer`
+> **Complexity:** Simple -- 1 send, replace [NNN] with the current sprint number
+> **Copy-paste the block below as-is, then replace [NNN]:**
 
 ```markdown
-Lis memory-bank/systemPatterns.md, memory-bank/decisionLog.md
-et docs/architecture/PRJ-002-architecture-initiale.md.
+Read memory-bank/systemPatterns.md, memory-bank/decisionLog.md
+and docs/architecture/PRJ-002-architecture-initiale.md.
 
-Compare l'architecture initiale avec l'architecture actuelle.
-Identifie :
-- Les dérives par rapport à l'architecture initiale
-- Les décisions implicites non documentées dans decisionLog.md
-- Les patterns incohérents entre modules
+Compare the initial architecture with the current architecture.
+Identify:
+- Drifts from the initial architecture
+- Implicit decisions not documented in decisionLog.md
+- Inconsistent patterns between modules
 
-Documente tes conclusions dans docs/architecture/ARCH-REVIEW-[DATE].md.
-Mets à jour decisionLog.md avec les ADR manquants.
-Commite avec : 'docs(architecture): revue architecturale sprint [NNN]'
+Document your conclusions in docs/architecture/ARCH-REVIEW-[DATE].md.
+Update decisionLog.md with the missing ADRs.
+Commit with: 'docs(architecture): architectural review sprint [NNN]'
 ```
 
 ---
 
-### 8.5 RA-004 - Incohérence sur Sessions Longues (Multi-Mois)
+### 8.5 RA-004 - Inconsistency Across Long Sessions (Multi-Month)
 
-**Description du risque :** Sur un projet de plusieurs mois avec des dizaines de sessions, les informations dans la Memory Bank peuvent devenir obsolètes, contradictoires ou incomplètes.
+**Risk description:** On a multi-month project with dozens of sessions, the information in the Memory Bank can become obsolete, contradictory or incomplete.
 
-**Contre-mesures intégrées :**
+**Integrated countermeasures:**
 
 ```
-NIVEAU 1 - activeContext.md comme "mémoire vive"
-  Mis à jour à CHAQUE session (début et fin)
-  Contient toujours l'état le plus récent
-  Inclut le hash du dernier commit Git
+LEVEL 1 - activeContext.md as "working memory"
+  Updated at EVERY session (start and end)
+  Always contains the most recent state
+  Includes the hash of the last Git commit
 
-NIVEAU 2 - progress.md comme "tableau de bord"
-  Checklist des phases et features
-  Mis à jour à chaque fin de sprint
-  Permet de voir d'un coup d'oeil où en est le projet
+LEVEL 2 - progress.md as "dashboard"
+  Checklist of phases and features
+  Updated at each end of sprint
+  Allows seeing at a glance where the project stands
 
-NIVEAU 3 - Versionnement Git de la Memory Bank
-  git log --oneline -- memory-bank/ montre l'historique complet
-  En cas de doute : git show [hash]:memory-bank/activeContext.md
+LEVEL 3 - Git versioning of the Memory Bank
+  git log --oneline -- memory-bank/ shows the complete history
+  In case of doubt: git show [hash]:memory-bank/activeContext.md
 
-NIVEAU 4 - Audit de cohérence périodique (mensuel)
+LEVEL 4 - Periodic consistency audit (monthly)
 ```
 
-**Protocole d'audit de cohérence Memory Bank (mensuel) :**
+**Memory Bank consistency audit protocol (monthly):**
 
-> 📋 **PROMPT RA-004 — Audit de cohérence Memory Bank**
-> **Mode Roo Code requis :** `scrum-master`
-> **Complexité :** 🔵 Séquentiel — l'agent vérifie chaque fichier et corrige les incohérences
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT RA-004 -- Memory Bank consistency audit**
+> **Required Roo Code mode:** `scrum-master`
+> **Complexity:** Sequential -- the agent checks each file and corrects inconsistencies
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Effectue un audit de cohérence de la Memory Bank.
+Perform a Memory Bank consistency audit.
 
-Pour chaque fichier, vérifie :
-1. projectBrief.md : La vision est-elle toujours valide ?
-2. productContext.md : Le backlog est-il à jour avec les sprints livrés ?
-3. systemPatterns.md : Les patterns correspondent-ils au code actuel ?
-4. techContext.md : Les commandes et versions sont-elles à jour ?
-5. activeContext.md : L'état décrit correspond-il à la réalité Git ?
-6. progress.md : Les cases cochées correspondent-elles aux commits ?
-7. decisionLog.md : Toutes les décisions récentes sont-elles documentées ?
+For each file, verify:
+1. projectBrief.md: Is the vision still valid?
+2. productContext.md: Is the backlog up to date with the delivered sprints?
+3. systemPatterns.md: Do the patterns match the current code?
+4. techContext.md: Are the commands and versions up to date?
+5. activeContext.md: Does the described state match the Git reality?
+6. progress.md: Do the checked boxes match the commits?
+7. decisionLog.md: Are all recent decisions documented?
 
-Pour chaque incohérence trouvée, corrige le fichier concerné.
-Commite avec : 'docs(memory): audit cohérence mensuel [DATE]'
+For each inconsistency found, correct the relevant file.
+Commit with: 'docs(memory): monthly consistency audit [DATE]'
 ```
 
 ---
 
-### 8.6 RA-005 - Régression Silencieuse
+### 8.6 RA-005 - Silent Regression
 
-**Description du risque :** Une modification du Developer peut casser une fonctionnalité existante sans que personne ne le détecte, surtout si les tests ne couvrent pas toutes les fonctionnalités.
+**Risk description:** A Developer modification can break an existing feature without anyone detecting it, especially if tests do not cover all features.
 
-**Contre-mesures intégrées :**
+**Integrated countermeasures:**
 
 ```
-NIVEAU 1 - Tests QA obligatoires après chaque US
-  Le QA Engineer teste non seulement la nouvelle US
-  Mais aussi les US précédentes potentiellement impactées
+LEVEL 1 - Mandatory QA tests after each US
+  The QA Engineer tests not only the new US
+  But also the previous US potentially impacted
 
-NIVEAU 2 - Commits atomiques
-  Chaque US = série de commits liés
-  git bisect permet d'identifier le commit qui a introduit la régression
+LEVEL 2 - Atomic commits
+  Each US = series of related commits
+  git bisect allows identifying the commit that introduced the regression
 
-NIVEAU 3 - Rapport de tests versionné
-  SPR-[NNN]-004 documente l'état des tests à chaque sprint
-  Comparaison possible entre sprints pour détecter les régressions
+LEVEL 3 - Versioned test report
+  SPR-[NNN]-004 documents the test state at each sprint
+  Comparison possible between sprints to detect regressions
 
-NIVEAU 4 - Critères d'acceptation dans le Sprint Backlog
-  Chaque US a des critères d'acceptation précis et testables
-  Le QA Engineer vérifie chaque critère individuellement
+LEVEL 4 - Acceptance criteria in the Sprint Backlog
+  Each US has precise and testable acceptance criteria
+  The QA Engineer verifies each criterion individually
 ```
 
 ---
 
-### 8.7 RA-008 - Décisions d'Architecture Non Tracées
+### 8.7 RA-008 - Untraced Architecture Decisions
 
-**Description du risque :** L'agent prend des décisions d'architecture implicites (choix d'une bibliothèque, pattern d'implémentation) sans les documenter. Ces décisions sont perdues entre les sessions.
+**Risk description:** The agent makes implicit architecture decisions (library choice, implementation pattern) without documenting them. These decisions are lost between sessions.
 
-**Contre-mesures intégrées :**
+**Integrated countermeasures:**
 
 ```
-NIVEAU 1 - REGLE 2 .clinerules (obligatoire)
-  Si une décision d'architecture a été prise durant la session :
-  OBLIGATOIREMENT mettre à jour memory-bank/decisionLog.md
+LEVEL 1 - RULE 2 .clinerules (mandatory)
+  If an architecture decision was made during the session:
+  MANDATORY update of memory-bank/decisionLog.md
 
-NIVEAU 2 - Format ADR standardisé
-  Chaque ADR contient : Date, Contexte, Décision, Conséquences
-  Numérotation séquentielle : ADR-001, ADR-002, ...
+LEVEL 2 - Standardized ADR format
+  Each ADR contains: Date, Context, Decision, Consequences
+  Sequential numbering: ADR-001, ADR-002, ...
 
-NIVEAU 3 - Détection proactive par le Developer
-  Avant de choisir une bibliothèque : vérifier decisionLog.md
-  Si une décision similaire existe : la respecter ou la réviser explicitement
+LEVEL 3 - Proactive detection by the Developer
+  Before choosing a library: check decisionLog.md
+  If a similar decision exists: respect it or revise it explicitly
 ```
 
-**Format ADR standard :**
+**Standard ADR format:**
 
 ```markdown
-## ADR-[NNN] : [Titre de la décision]
-**Date :** [DATE]
-**Statut :** Proposé / Accepté / Déprécié / Remplacé par ADR-[YYY]
+## ADR-[NNN]: [Decision title]
+**Date:** [DATE]
+**Status:** Proposed / Accepted / Deprecated / Replaced by ADR-[YYY]
 
-**Contexte :**
-[Pourquoi cette décision était nécessaire]
+**Context:**
+[Why this decision was necessary]
 
-**Décision :**
-[Ce qui a été décidé]
+**Decision:**
+[What was decided]
 
-**Conséquences :**
-- Avantage : [Description]
-- Inconvénient : [Description]
-- Impact sur : [Fichiers/modules concernés]
+**Consequences:**
+- Advantage: [Description]
+- Disadvantage: [Description]
+- Impact on: [Relevant files/modules]
 ```
 
 ---
 
-### 8.8 Tableau de Synthèse Anti-Risques
+### 8.8 Anti-Risk Summary Table
 
-| Risque | Mécanisme Préventif | Mécanisme Détectif | Mécanisme Correctif |
+| Risk | Preventive Mechanism | Detective Mechanism | Corrective Mechanism |
 | :--- | :--- | :--- | :--- |
-| RA-001 Perte contexte | Memory Bank + REGLE 1 | Séquence VÉRIFIER→CRÉER→LIRE | Protocole reprise longue interruption |
-| RA-002 Hallucination | T=0.15 + Modelfile | Tests QA + git diff | git revert + relance avec contexte précis |
-| RA-003 Dérive archi | decisionLog.md + REGLE 2 | Revue archi tous les 3 sprints | ARCH-REVIEW + mise à jour ADR |
-| RA-004 Incohérence multi-mois | activeContext.md à chaque session | Audit mensuel Memory Bank | Correction + commit docs(memory) |
-| RA-005 Régression | Tests QA obligatoires | SPR-[NNN]-004 compare aux précédents | git bisect + fix + re-test |
-| RA-008 ADR non tracés | REGLE 2 .clinerules | Audit decisionLog.md | Rétro-documentation des décisions |
+| RA-001 Context loss | Memory Bank + RULE 1 | CHECK->CREATE->READ sequence | Long interruption resume protocol |
+| RA-002 Hallucination | T=0.15 + Modelfile | QA tests + git diff | git revert + relaunch with precise context |
+| RA-003 Arch drift | decisionLog.md + RULE 2 | Arch review every 3 sprints | ARCH-REVIEW + ADR update |
+| RA-004 Multi-month inconsistency | activeContext.md every session | Monthly Memory Bank audit | Correction + docs(memory) commit |
+| RA-005 Regression | Mandatory QA tests | SPR-[NNN]-004 compares to previous | git bisect + fix + re-test |
+| RA-008 Untraced ADRs | RULE 2 .clinerules | decisionLog.md audit | Retro-documentation of decisions |
 
 ---
 
-## 9. Protocoles de Session
+## 9. Session Protocols
 
-### 9.1 Protocole de Démarrage de Session
+### 9.1 Session Startup Protocol
 
-**Applicable à toutes les sessions, tous modes, tous personas.**
+**Applicable to all sessions, all modes, all personas.**
 
 ```
-ÉTAPE 1 - VÉRIFICATION (automatique via .clinerules REGLE 1)
-  L'agent vérifie l'existence de :
+STEP 1 - VERIFICATION (automatic via .clinerules RULE 1)
+  The agent verifies the existence of:
   - memory-bank/activeContext.md
   - memory-bank/progress.md
 
-ÉTAPE 2 - CRÉATION si absents
-  Si l'un des fichiers est absent :
-  L'agent le crée depuis le template défini dans .clinerules
-  Puis passe à l'étape 3
+STEP 2 - CREATION if absent
+  If one of the files is absent:
+  The agent creates it from the template defined in .clinerules
+  Then moves to step 3
 
-ÉTAPE 3 - LECTURE
-  L'agent lit dans cet ordre :
-  1. memory-bank/activeContext.md  (état courant)
-  2. memory-bank/progress.md       (avancement global)
+STEP 3 - READING
+  The agent reads in this order:
+  1. memory-bank/activeContext.md  (current state)
+  2. memory-bank/progress.md       (global progress)
 
-ÉTAPE 4 - LECTURE CONTEXTUELLE (selon la tâche)
-  Si modification d'architecture prévue : lire systemPatterns.md
-  Si commandes build/test prévues : lire techContext.md
-  Si début de sprint : lire productContext.md
+STEP 4 - CONTEXTUAL READING (according to the task)
+  If architecture modification planned: read systemPatterns.md
+  If build/test commands planned: read techContext.md
+  If sprint start: read productContext.md
 
-ÉTAPE 5 - ACTION
-  L'agent traite la demande de l'utilisateur
+STEP 5 - ACTION
+  The agent processes the user's request
 ```
 
-> 📋 **PROMPT 9.1 — Démarrage de session (instruction de contexte)**
-> **Mode Roo Code requis :** `[le mode approprié à la tâche]`
-> **Complexité :** 🟢 Simple — à ajouter en tête de n'importe quel prompt pour forcer la lecture du contexte
-> **Copier-coller ce préfixe avant votre demande :**
+> **PROMPT 9.1 -- Session startup (context instruction)**
+> **Required Roo Code mode:** `[the mode appropriate to the task]`
+> **Complexity:** Simple -- to add at the beginning of any prompt to force context reading
+> **Copy-paste this prefix before your request:**
 
 ```markdown
-Avant d'agir, lis memory-bank/activeContext.md et
-memory-bank/progress.md pour te remettre dans le contexte du projet.
+Before acting, read memory-bank/activeContext.md and
+memory-bank/progress.md to get back into the project context.
 
-[Décrire ici la tâche à accomplir]
+[Describe here the task to accomplish]
 ```
 
 ---
 
-### 9.2 Protocole de Clôture de Session
+### 9.2 Session Closure Protocol
 
-**Applicable avant tout `attempt_completion`, tous modes, tous personas.**
+**Applicable before any `attempt_completion`, all modes, all personas.**
 
 ```
-ÉTAPE 1 - MISE À JOUR activeContext.md (obligatoire)
-  Contenu à mettre à jour :
-  - Date de mise à jour
-  - Tâche accomplie durant cette session
-  - État actuel du projet
-  - Prochaine(s) action(s) recommandée(s)
-  - Blocages éventuels
-  - Hash du dernier commit Git
+STEP 1 - UPDATE activeContext.md (mandatory)
+  Content to update:
+  - Update date
+  - Task accomplished during this session
+  - Current project state
+  - Recommended next action(s)
+  - Possible blockers
+  - Hash of the last Git commit
 
-ÉTAPE 2 - MISE À JOUR progress.md (si features terminées)
-  Cocher les US ou phases terminées durant la session
+STEP 2 - UPDATE progress.md (if features completed)
+  Check off the US or phases completed during the session
 
-ÉTAPE 3 - MISE À JOUR decisionLog.md (si décision d'architecture)
-  Documenter toute décision d'architecture prise durant la session
-  Format ADR standard (voir section 8.7)
+STEP 3 - UPDATE decisionLog.md (if architecture decision)
+  Document any architecture decision made during the session
+  Standard ADR format (see section 8.7)
 
-ÉTAPE 4 - COMMIT GIT (obligatoire)
+STEP 4 - GIT COMMIT (mandatory)
   git add .
-  git commit -m "docs(memory): [description de la session]"
-  Le hash de ce commit doit être noté dans activeContext.md
+  git commit -m "docs(memory): [session description]"
+  The hash of this commit must be noted in activeContext.md
 ```
 
 ---
 
-### 9.3 Protocole de Reprise après Interruption
+### 9.3 Resume Protocol After Interruption
 
-**Utiliser ce protocole après toute interruption > 1 semaine.**
+**Use this protocol after any interruption > 1 week.**
 
-> 📋 **PROMPT 9.3 — Reprise après interruption longue**
-> **Mode Roo Code requis :** `scrum-master`
-> **Complexité :** 🟢 Simple — 1 envoi, remplacer [X] et [DATE]
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [X] et [DATE] :**
+> **PROMPT 9.3 -- Resume after long interruption**
+> **Required Roo Code mode:** `scrum-master`
+> **Complexity:** Simple -- 1 send, replace [X] and [DATE]
+> **Copy-paste the block below as-is, then replace [X] and [DATE]:**
 
 ```markdown
-Je reprends le projet après [X] jours/semaines d'interruption.
+I am resuming the project after [X] days/weeks of interruption.
 
-Effectue un bilan de reprise :
+Perform a resume assessment:
 
-1. Lis memory-bank/activeContext.md
-   -> Quelle était la dernière tâche en cours ?
-   -> Quel était l'état du projet ?
+1. Read memory-bank/activeContext.md
+   -> What was the last task in progress?
+   -> What was the project state?
 
-2. Lis memory-bank/progress.md
-   -> Quelles phases/features sont terminées ?
-   -> Quelles sont en cours ?
+2. Read memory-bank/progress.md
+   -> Which phases/features are completed?
+   -> Which are in progress?
 
-3. Exécute : git log --oneline -10
-   -> Quels sont les derniers commits ?
-   -> Y a-t-il des commits non documentés dans la Memory Bank ?
+3. Run: git log --oneline -10
+   -> What are the last commits?
+   -> Are there commits not documented in the Memory Bank?
 
-4. Lis memory-bank/projectBrief.md
-   -> La vision du projet est-elle toujours valide ?
+4. Read memory-bank/projectBrief.md
+   -> Is the project vision still valid?
 
-5. Génère un rapport de reprise dans docs/sprints/REPRISE-[DATE].md :
-   - État du projet au moment de la reprise
-   - Prochaines actions recommandées
-   - Risques identifiés après l'interruption
+5. Generate a resume report in docs/sprints/REPRISE-[DATE].md:
+   - Project state at the time of resumption
+   - Recommended next actions
+   - Risks identified after the interruption
 
-6. Mets à jour memory-bank/activeContext.md avec la date de reprise.
-7. Commite avec : 'docs(memory): reprise projet après [X] jours - [DATE]'
+6. Update memory-bank/activeContext.md with the resume date.
+7. Commit with: 'docs(memory): project resume after [X] days - [DATE]'
 ```
 
 ---
 
-### 9.4 Protocole de Changement de Backend LLM
+### 9.4 LLM Backend Switch Protocol
 
-**Utiliser ce protocole lors du basculement entre les 3 modes LLM.**
+**Use this protocol when switching between the 3 LLM modes.**
 
 ```
-AVANT LE BASCULEMENT :
-  1. Commiter l'état actuel de la Memory Bank
+BEFORE SWITCHING:
+  1. Commit the current Memory Bank state
      git add memory-bank/
-     git commit -m "docs(memory): sauvegarde avant changement backend LLM"
+     git commit -m "docs(memory): save before LLM backend switch"
 
-  2. Noter dans activeContext.md le nouveau backend utilisé
-     "Backend LLM actif : [Ollama uadf-agent | Proxy Gemini | Claude Sonnet API]"
+  2. Note the new backend in activeContext.md
+     "Active LLM backend: [Ollama uadf-agent | Proxy Gemini | Claude Sonnet API]"
 
-APRÈS LE BASCULEMENT :
-  3. Tester le nouveau backend avec une requête simple
-     "Lis memory-bank/activeContext.md et résume l'état du projet."
+AFTER SWITCHING:
+  3. Test the new backend with a simple request
+     "Read memory-bank/activeContext.md and summarize the project state."
 
-  4. Vérifier que la Memory Bank est correctement lue
-     Le résumé doit correspondre au contenu réel des fichiers
+  4. Verify that the Memory Bank is correctly read
+     The summary must match the actual content of the files
 
-POURQUOI CE PROTOCOLE :
-  Chaque backend LLM a des caractéristiques différentes :
-  - Ollama (local) : déterministe, peut être plus lent sur tâches complexes
-  - Proxy Gemini : haute qualité, nécessite copier-coller humain
-  - Claude API : haute qualité, entièrement automatique, payant
-  La Memory Bank garantit la continuité du contexte quel que soit le backend.
+WHY THIS PROTOCOL:
+  Each LLM backend has different characteristics:
+  - Ollama (local): deterministic, may be slower on complex tasks
+  - Proxy Gemini: high quality, requires human copy-paste
+  - Claude API: high quality, fully automatic, paid
+  The Memory Bank guarantees context continuity regardless of the backend.
 
-LIMITATIONS CONNUES DU MODE PROXY GEMINI (a documenter dans activeContext.md) :
-  - Boomerang Tasks (new_task) : NON SUPPORTE — utiliser Claude API pour les taches
-    necessitant des sous-agents
-  - Taches longues (> 10 tours LLM) : DECONSEILLE — decouper en sous-taches ou
-    utiliser Claude API
-  - Utilisation parallele du presse-papiers : IMPOSSIBLE pendant une session proxy
-  - Execution sans surveillance : IMPOSSIBLE — presence humaine continue requise
-  - Conversation Gemini : TOUJOURS utiliser une NOUVELLE conversation a chaque session
-    (ne pas continuer une conversation existante — le proxy envoie deja l'historique complet)
+KNOWN LIMITATIONS OF PROXY GEMINI MODE (to document in activeContext.md):
+  - Boomerang Tasks (new_task): NOT SUPPORTED -- use Claude API for tasks
+    requiring sub-agents
+  - Long tasks (> 10 LLM turns): NOT RECOMMENDED -- split into sub-tasks or
+    use Claude API
+  - Parallel clipboard use: IMPOSSIBLE during a proxy session
+  - Unsupervised execution: IMPOSSIBLE -- continuous human presence required
+  - Gemini conversation: ALWAYS use a NEW conversation each session
+    (do not continue an existing conversation -- the proxy already sends the full history)
 ```
 
-> ⚠️ **LIMITATIONS CONNUES DU MODE PROXY GEMINI** (à documenter dans `activeContext.md` lors du basculement) :
+> **KNOWN LIMITATIONS OF PROXY GEMINI MODE** (to document in `activeContext.md` when switching):
 >
-> | Limitation | Détail | Alternative |
+> | Limitation | Detail | Alternative |
 > | :--- | :--- | :--- |
-> | **Boomerang Tasks (`new_task`) : NON SUPPORTÉ** | Deux instances Roo Code concurrentes partagent le même presse-papiers → deadlock immédiat | Utiliser Mode Local (Ollama sur `calypso`) ou Mode Cloud (Claude API) |
-> | **Tâches longues (> 10 tours LLM) : DÉCONSEILLÉ** | Taille du presse-papiers explose, fatigue cognitive humaine | Découper en sous-tâches de < 10 tours, ou utiliser Claude API |
-> | **Utilisation parallèle du presse-papiers : IMPOSSIBLE** | Tout Ctrl+C pendant une session proxy écrase la réponse Gemini en attente | Ne pas utiliser le presse-papiers pour autre chose pendant une session |
-> | **Exécution sans surveillance : IMPOSSIBLE** | Présence humaine continue requise à chaque tour LLM | Utiliser Mode Local (Ollama sur `calypso`) ou Mode Cloud (Claude API) |
-> | **Conversation Gemini : TOUJOURS nouvelle conversation** | Le proxy envoie déjà l'historique complet dans le presse-papiers — continuer une conversation existante duplique l'historique | Ouvrir une nouvelle conversation Gemini à chaque session proxy |
+> | **Boomerang Tasks (`new_task`): NOT SUPPORTED** | Two concurrent Roo Code instances share the same clipboard -> immediate deadlock | Use Local Mode (Ollama on `calypso`) or Cloud Mode (Claude API) |
+> | **Long tasks (> 10 LLM turns): NOT RECOMMENDED** | Clipboard size explodes, human cognitive fatigue | Split into sub-tasks of < 10 turns, or use Claude API |
+> | **Parallel clipboard use: IMPOSSIBLE** | Any Ctrl+C during a proxy session overwrites the Gemini response waiting | Do not use the clipboard for anything else during a session |
+> | **Unsupervised execution: IMPOSSIBLE** | Continuous human presence required at each LLM turn | Use Local Mode (Ollama on `calypso`) or Cloud Mode (Claude API) |
+> | **Gemini conversation: ALWAYS new conversation** | The proxy already sends the full history in the clipboard -- continuing an existing conversation duplicates the history | Open a new Gemini conversation each proxy session |
 
-> 📋 **PROMPT 9.4 — Test de basculement backend LLM**
-> **Mode Roo Code requis :** `scrum-master`
-> **Complexité :** 🟢 Simple — 1 envoi pour vérifier que le nouveau backend lit bien la Memory Bank
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT 9.4 -- LLM backend switch test**
+> **Required Roo Code mode:** `scrum-master`
+> **Complexity:** Simple -- 1 send to verify that the new backend reads the Memory Bank correctly
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Lis memory-bank/activeContext.md et résume en 5 points :
-1. Le projet en cours
-2. La dernière tâche accomplie
-3. L'état actuel
-4. Les prochaines actions
-5. Les blocages éventuels
+Read memory-bank/activeContext.md and summarize in 5 points:
+1. The current project
+2. The last accomplished task
+3. The current state
+4. The next actions
+5. Any blockers
 ```
 
 ---
 
-### 9.4.1 Stratégie de Découpage des Tâches en Mode Proxy
+### 9.4.1 Task Splitting Strategy in Proxy Mode
 
-> **Règle d'or du Mode Proxy :** Garder chaque tâche sous **10 tours LLM** (10 allers-retours presse-papiers). Au-delà, la taille du presse-papiers explose et la fatigue cognitive humaine dégrade la qualité.
+> **Golden rule of Proxy Mode:** Keep each task under **10 LLM turns** (10 clipboard round-trips). Beyond that, the clipboard size explodes and human cognitive fatigue degrades quality.
 
-#### Pourquoi découper ?
+#### Why split?
 
-En Mode Proxy Gemini, chaque tour LLM représente :
-- **~30 à 60 secondes** d'attention humaine active (copier-coller)
-- **Une croissance du presse-papiers** : l'historique complet est envoyé à chaque tour
-- **Un risque d'erreur humaine** qui augmente avec la fatigue
+In Proxy Gemini Mode, each LLM turn represents:
+- **~30 to 60 seconds** of active human attention (copy-paste)
+- **Clipboard growth**: the full history is sent at each turn
+- **An increasing risk of human error** with fatigue
 
-Une tâche de 20 tours = ~15–20 minutes d'attention continue + risque de corruption du presse-papiers.
+A 20-turn task = ~15-20 minutes of continuous attention + risk of clipboard corruption.
 
-#### Règles de découpage
+#### Splitting rules
 
-| Taille de tâche | Tours LLM estimés | Verdict | Action |
+| Task size | Estimated LLM turns | Verdict | Action |
 | :--- | :---: | :---: | :--- |
-| Tâche simple (1 fichier, 1 action) | 1–3 | ✅ Idéal | Lancer directement |
-| Tâche moyenne (2–3 fichiers, logique simple) | 4–7 | ✅ Acceptable | Lancer directement |
-| Tâche complexe (architecture, multi-fichiers) | 8–10 | ⚠️ Limite | Découper si possible |
-| Tâche longue (US complète, refactoring) | 10–20 | ❌ Trop long | **Découper obligatoirement** |
-| Tâche très longue (sprint entier, migration) | 20+ | ❌ Impossible | Utiliser Claude API |
+| Simple task (1 file, 1 action) | 1-3 | Ideal | Launch directly |
+| Medium task (2-3 files, simple logic) | 4-7 | Acceptable | Launch directly |
+| Complex task (architecture, multi-file) | 8-10 | Limit | Split if possible |
+| Long task (complete US, refactoring) | 10-20 | Too long | **Split mandatory** |
+| Very long task (full sprint, migration) | 20+ | Impossible | Use Claude API |
 
-#### Comment découper une tâche longue
+#### How to split a long task
 
-**Principe :** Identifier les **points de livraison intermédiaires** — des états stables où le code fonctionne et peut être commité.
-
-```
-TÂCHE LONGUE : "Implémenter la User Story US-042 (authentification JWT)"
-  Estimée à 15–20 tours LLM
-
-DÉCOUPAGE EN SOUS-TÂCHES PROXY :
-
-  Sous-tâche A (3–4 tours) :
-  "Crée le modèle User et les migrations de base de données.
-   Commite quand c'est fait."
-
-  Sous-tâche B (3–4 tours) :
-  "Implémente l'endpoint POST /auth/login avec génération JWT.
-   Utilise le modèle User créé précédemment. Commite."
-
-  Sous-tâche C (3–4 tours) :
-  "Implémente le middleware de vérification JWT pour les routes protégées.
-   Commite."
-
-  Sous-tâche D (2–3 tours) :
-  "Écris les tests unitaires pour les 3 composants précédents. Commite."
-```
-
-#### Signaux d'alerte pendant une session proxy
-
-Si vous observez l'un de ces signaux, **terminez la sous-tâche en cours et commencez une nouvelle session** :
-
-- Le presse-papiers contient > 30 000 caractères (vérifiable dans la console proxy)
-- Vous avez effectué > 8 allers-retours presse-papiers
-- La réponse Gemini commence à être tronquée ou incohérente
-- Vous avez du mal à suivre ce que l'agent est en train de faire
-- Vous avez utilisé le presse-papiers pour autre chose par erreur
-
-#### Protocole de clôture d'une sous-tâche
-
-Avant de terminer une sous-tâche et d'en commencer une nouvelle :
+**Principle:** Identify **intermediate delivery points** -- stable states where the code works and can be committed.
 
 ```
-1. Demander à l'agent de commiter l'état actuel :
-   "Commite tout ce qui a été fait avec un message descriptif."
+LONG TASK: "Implement User Story US-042 (JWT authentication)"
+  Estimated at 15-20 LLM turns
 
-2. Demander à l'agent de mettre à jour activeContext.md :
-   "Mets à jour memory-bank/activeContext.md avec l'état actuel
-    et la prochaine sous-tâche à faire."
+SPLIT INTO PROXY SUB-TASKS:
 
-3. Commiter la Memory Bank :
-   "git add memory-bank/ && git commit -m 'docs(memory): état intermédiaire [description]'"
+  Sub-task A (3-4 turns):
+  "Create the User model and database migrations.
+   Commit when done."
 
-4. Ouvrir une nouvelle session Roo Code (nouvelle conversation Gemini)
-   et reprendre avec la sous-tâche suivante.
+  Sub-task B (3-4 turns):
+  "Implement the POST /auth/login endpoint with JWT generation.
+   Use the User model created previously. Commit."
+
+  Sub-task C (3-4 turns):
+  "Implement the JWT verification middleware for protected routes.
+   Commit."
+
+  Sub-task D (2-3 turns):
+  "Write unit tests for the 3 previous components. Commit."
 ```
 
-> 📋 **PROMPT 9.4.1 — Découpage d'une tâche longue**
-> **Mode Roo Code requis :** `scrum-master`
-> **Complexité :** 🟢 Simple — 1 envoi pour obtenir un plan de découpage avant de commencer
-> **Copier-coller le bloc ci-dessous tel quel, puis remplacer [DESCRIPTION DE LA TÂCHE] :**
+#### Warning signals during a proxy session
+
+If you observe any of these signals, **finish the current sub-task and start a new session**:
+
+- The clipboard contains > 30,000 characters (verifiable in the proxy console)
+- You have performed > 8 clipboard round-trips
+- The Gemini response starts to be truncated or incoherent
+- You are having trouble following what the agent is doing
+- You accidentally used the clipboard for something else
+
+#### Sub-task closure protocol
+
+Before finishing a sub-task and starting a new one:
+
+```
+1. Ask the agent to commit the current state:
+   "Commit everything that has been done with a descriptive message."
+
+2. Ask the agent to update activeContext.md:
+   "Update memory-bank/activeContext.md with the current state
+    and the next sub-task to do."
+
+3. Commit the Memory Bank:
+   "git add memory-bank/ && git commit -m 'docs(memory): intermediate state [description]'"
+
+4. Open a new Roo Code session (new Gemini conversation)
+   and resume with the next sub-task.
+```
+
+> **PROMPT 9.4.1 -- Long task splitting**
+> **Required Roo Code mode:** `scrum-master`
+> **Complexity:** Simple -- 1 send to get a splitting plan before starting
+> **Copy-paste the block below as-is, then replace [TASK DESCRIPTION]:**
 
 ```markdown
-Je vais utiliser le Mode Proxy Gemini pour la tâche suivante :
-[DESCRIPTION DE LA TÂCHE]
+I am going to use Proxy Gemini Mode for the following task:
+[TASK DESCRIPTION]
 
-Avant de commencer, décompose cette tâche en sous-tâches de maximum 5 tours LLM chacune.
-Pour chaque sous-tâche :
-- Décris ce qui doit être fait
-- Identifie le point de livraison intermédiaire (état commitable)
-- Estime le nombre de tours LLM nécessaires
+Before starting, decompose this task into sub-tasks of maximum 5 LLM turns each.
+For each sub-task:
+- Describe what needs to be done
+- Identify the intermediate delivery point (committable state)
+- Estimate the number of LLM turns needed
 
-Présente le plan sous forme de liste numérotée.
-Je lancerai chaque sous-tâche dans une session proxy séparée.
+Present the plan as a numbered list.
+I will launch each sub-task in a separate proxy session.
 ```
 
 ---
 
-### 9.5 Protocole de Gestion des Conflits Git
+### 9.5 Git Conflict Resolution Protocol
 
-**Utiliser ce protocole si des conflits Git apparaissent (rare mais possible).**
+**Use this protocol if Git conflicts appear (rare but possible).**
 
-> 📋 **PROMPT 9.5 — Résolution de conflits Git**
-> **Mode Roo Code requis :** `developer`
-> **Complexité :** 🔄 Itératif — l'agent identifie les conflits et propose des résolutions
-> **Copier-coller le bloc ci-dessous tel quel :**
+> **PROMPT 9.5 -- Git conflict resolution**
+> **Required Roo Code mode:** `developer`
+> **Complexity:** Iterative -- the agent identifies conflicts and proposes resolutions
+> **Copy-paste the block below as-is:**
 
 ```markdown
-Un conflit Git a été détecté.
+A Git conflict has been detected.
 
-1. Exécute : git status
-   -> Identifier les fichiers en conflit
+1. Run: git status
+   -> Identify the conflicting files
 
-2. Pour chaque fichier en conflit :
-   - Si conflit dans memory-bank/ : privilégier la version la plus récente
-   - Si conflit dans src/ : analyser les deux versions et choisir la meilleure
-   - Si conflit dans docs/ : fusionner les deux versions si possible
+2. For each conflicting file:
+   - If conflict in memory-bank/: favor the most recent version
+   - If conflict in src/: analyze both versions and choose the best
+   - If conflict in docs/: merge both versions if possible
 
-3. Après résolution :
-   git add [fichiers résolus]
-   git commit -m 'fix(git): résolution conflit [description]'
+3. After resolution:
+   git add [resolved files]
+   git commit -m 'fix(git): conflict resolution [description]'
 
-4. Mettre à jour memory-bank/activeContext.md avec la description du conflit
-   et sa résolution.
+4. Update memory-bank/activeContext.md with the conflict description
+   and its resolution.
 ```
 
 ---
 
-### 9.6 Protocole de Gestion des Erreurs d'Agent
+### 9.6 Agent Error Handling Protocol
 
-**Utiliser ce protocole si l'agent produit des résultats incorrects ou incohérents.**
+**Use this protocol if the agent produces incorrect or incoherent results.**
 
 ```
-DIAGNOSTIC :
-  1. Identifier le type d'erreur :
-     - Hallucination (code inventé, API inexistante)
-     - Incohérence avec la Memory Bank (ignore les conventions)
-     - Dépassement de contexte (oublie le début de la conversation)
-     - Erreur de permission RBAC (tente une action hors périmètre)
-     - Timeout proxy (HTTP 408 — aucune réponse copiée dans le délai imparti)
+DIAGNOSIS:
+  1. Identify the error type:
+     - Hallucination (invented code, non-existent API)
+     - Inconsistency with Memory Bank (ignores conventions)
+     - Context overflow (forgets the beginning of the conversation)
+     - RBAC permission error (attempts an out-of-scope action)
+     - Proxy timeout (HTTP 408 -- no response copied within the deadline)
 
-CORRECTION SELON LE TYPE :
+CORRECTION BY TYPE:
 
-  Hallucination :
-  -> git revert [dernier commit problématique]
-  -> Relancer avec un contexte plus précis et des exemples concrets
-  -> Vérifier que systemPatterns.md et techContext.md sont à jour
+  Hallucination:
+  -> git revert [last problematic commit]
+  -> Relaunch with more precise context and concrete examples
+  -> Verify that systemPatterns.md and techContext.md are up to date
 
-  Incohérence avec Memory Bank :
-  -> Vérifier que .clinerules est à la racine du projet
-  -> Recharger VS Code (Ctrl+Shift+P > "Developer: Reload Window")
-  -> Relancer en rappelant explicitement de lire la Memory Bank
+  Inconsistency with Memory Bank:
+  -> Verify that .clinerules is at the project root
+  -> Reload VS Code (Ctrl+Shift+P > "Developer: Reload Window")
+  -> Relaunch explicitly reminding to read the Memory Bank
 
-  Dépassement de contexte :
-  -> Commencer une nouvelle session Roo Code
-  -> La nouvelle session relira la Memory Bank depuis le début
-  -> C'est pour cela que la Memory Bank doit être à jour avant chaque clôture
+  Context overflow:
+  -> Start a new Roo Code session
+  -> The new session will re-read the Memory Bank from the start
+  -> That is why the Memory Bank must be up to date before each closure
 
-  Erreur RBAC :
-  -> Vérifier que le bon persona est sélectionné dans Roo Code
-  -> Vérifier que .roomodes est à la racine du projet
-  -> Si le persona tente une action hors périmètre, il doit refuser
-     et suggérer le persona approprié
+  RBAC error:
+  -> Verify that the correct persona is selected in Roo Code
+  -> Verify that .roomodes is at the project root
+  -> If the persona attempts an out-of-scope action, it must refuse
+     and suggest the appropriate persona
 
-  Timeout proxy (HTTP 408) :
-  -> Comportement observé de Roo Code : Roo Code reçoit une erreur HTTP 408
-     et affiche un message d'erreur dans l'interface ("Request Timeout" ou
-     "Error communicating with the API"). Il N'effectue PAS de retry automatique
-     — la tâche en cours est interrompue et l'agent attend une nouvelle instruction.
-  -> Cause : L'humain n'a pas copié la réponse Gemini dans le délai TIMEOUT_SECONDS
-     (défaut : 300s), ou a utilisé le presse-papiers pour autre chose pendant l'attente.
-  -> Action corrective :
-     1. Vérifier dans la console proxy le numéro de la requête qui a expiré (#N)
-     2. Retourner dans Gemini et copier la réponse si elle est encore disponible
-        (Ctrl+A puis Ctrl+C sur la réponse Gemini)
-     3. Si la réponse Gemini n'est plus disponible : relancer la même demande
-        dans Roo Code — le proxy renverra un nouveau prompt à Gemini
-     4. Si les timeouts sont fréquents : augmenter TIMEOUT_SECONDS dans proxy.py
-        (ex: TIMEOUT_SECONDS = 600 pour 10 minutes)
-  -> Prévention : Ne jamais utiliser le presse-papiers pour autre chose pendant
-     qu'une requête proxy est en attente (voir limitations section 9.4).
+  Proxy timeout (HTTP 408):
+  -> Observed Roo Code behavior: Roo Code receives an HTTP 408 error
+     and displays an error message in the interface ("Request Timeout" or
+     "Error communicating with the API"). It does NOT perform automatic retry
+     -- the current task is interrupted and the agent waits for a new instruction.
+  -> Cause: The human did not copy the Gemini response within the TIMEOUT_SECONDS
+     deadline (default: 300s), or used the clipboard for something else while waiting.
+  -> Corrective action:
+     1. Check in the proxy console the number of the expired request (#N)
+     2. Return to Gemini and copy the response if still available
+        (Ctrl+A then Ctrl+C on the Gemini response)
+     3. If the Gemini response is no longer available: relaunch the same request
+        in Roo Code -- the proxy will send a new prompt to Gemini
+     4. If timeouts are frequent: increase TIMEOUT_SECONDS in proxy.py
+        (e.g.: TIMEOUT_SECONDS = 600 for 10 minutes)
+  -> Prevention: Never use the clipboard for anything else while
+     a proxy request is waiting (see limitations section 9.4).
 ```
 
 ---
 
-## 10. Tableau de Bord du Projet
+## 10. Project Dashboard
 
-### 10.1 Indicateurs de Santé du Projet
+### 10.1 Project Health Indicators
 
-Le tableau de bord est maintenu dans `memory-bank/progress.md`. Il doit refléter en permanence l'état réel du projet.
+The dashboard is maintained in `memory-bank/progress.md`. It must permanently reflect the real project state.
 
-**Indicateurs à surveiller :**
+**Indicators to monitor:**
 
-| Indicateur | Source | Fréquence de Mise à Jour | Seuil d'Alerte |
+| Indicator | Source | Update Frequency | Alert Threshold |
 | :--- | :--- | :--- | :--- |
-| Vélocité du sprint | SPR-[NNN]-005 | Fin de sprint | < 50% de la vélocité cible |
-| Couverture de tests | SPR-[NNN]-004 | Fin de sprint | < 70% |
-| Bugs critiques ouverts | SPR-[NNN]-004 | Continu | > 0 |
-| ADR non documentés | decisionLog.md | Continu | > 0 |
-| Memory Bank à jour | activeContext.md | Chaque session | > 48h sans mise à jour |
-| Commits sans message | git log | Continu | > 0 commits "WIP" ou vides |
+| Sprint velocity | SPR-[NNN]-005 | End of sprint | < 50% of target velocity |
+| Test coverage | SPR-[NNN]-004 | End of sprint | < 70% |
+| Open critical bugs | SPR-[NNN]-004 | Continuous | > 0 |
+| Undocumented ADRs | decisionLog.md | Continuous | > 0 |
+| Memory Bank up to date | activeContext.md | Each session | > 48h without update |
+| Commits without message | git log | Continuous | > 0 "WIP" or empty commits |
 
 ---
 
-### 10.2 Template progress.md Étendu pour Projet Applicatif
+### 10.2 Extended progress.md Template for Application Project
 
 ```markdown
-# Progression du Projet [NOM DU PROJET]
-**Dernière mise à jour :** [DATE]
-**Sprint courant :** [NNN]
-**Backend LLM actif :** [Ollama / Proxy Gemini / Claude API]
+# Project Progress [PROJECT NAME]
+**Last updated:** [DATE]
+**Current sprint:** [NNN]
+**Active LLM backend:** [Ollama / Proxy Gemini / Claude API]
 
 ---
 
-## Infrastructure Atelier
-- [x] Phase 0 : Amont ouvert - Décision GO
-- [x] Phase 1 : Cadrage - Memory Bank initialisée
-- [x] Phase 1 : Architecture initiale validée
-- [x] Phase 1 : Backlog initial créé
-- [ ] Phase 2 : Sprint 001 en cours
-- [ ] Phase 3 : Première release
+## Workbench Infrastructure
+- [x] Phase 0: Open upstream - GO decision
+- [x] Phase 1: Framing - Memory Bank initialized
+- [x] Phase 1: Initial architecture validated
+- [x] Phase 1: Initial backlog created
+- [ ] Phase 2: Sprint 001 in progress
+- [ ] Phase 3: First release
 
 ---
 
-## Backlog par Epic
+## Backlog by Epic
 
-### Epic 1 : [Nom de l'Epic]
-- [x] US-001 : [Titre] - Sprint 001 - LIVRÉE
-- [-] US-002 : [Titre] - Sprint 001 - EN COURS
-- [ ] US-003 : [Titre] - Sprint 002 - PLANIFIÉE
-- [ ] US-004 : [Titre] - Backlog - NON PLANIFIÉE
+### Epic 1: [Epic Name]
+- [x] US-001: [Title] - Sprint 001 - DELIVERED
+- [-] US-002: [Title] - Sprint 001 - IN PROGRESS
+- [ ] US-003: [Title] - Sprint 002 - PLANNED
+- [ ] US-004: [Title] - Backlog - NOT PLANNED
 
-### Epic 2 : [Nom de l'Epic]
-- [ ] US-010 : [Titre] - Backlog - NON PLANIFIÉE
+### Epic 2: [Epic Name]
+- [ ] US-010: [Title] - Backlog - NOT PLANNED
 
 ---
 
-## Historique des Sprints
+## Sprint History
 
-| Sprint | Dates | Goal | US Planifiées | US Livrées | Vélocité |
+| Sprint | Dates | Goal | Planned US | Delivered US | Velocity |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | Sprint 001 | [DATE]->[DATE] | [Goal] | [X] | [Y] | [Z]% |
 
 ---
 
-## Bugs Ouverts
+## Open Bugs
 
-| ID | Sévérité | US | Description | Sprint Cible |
+| ID | Severity | US | Description | Target Sprint |
 | :--- | :--- | :--- | :--- | :--- |
-| BUG-001-001 | HAUTE | US-002 | [Description] | Sprint 002 |
+| BUG-001-001 | HIGH | US-002 | [Description] | Sprint 002 |
 
 ---
 
-## Décisions d'Architecture Récentes
-- ADR-001 : [Titre] - [DATE] - Accepté
-- ADR-002 : [Titre] - [DATE] - Accepté
+## Recent Architecture Decisions
+- ADR-001: [Title] - [DATE] - Accepted
+- ADR-002: [Title] - [DATE] - Accepted
 
 ---
 
-## Légende
-- [ ] À faire  |  [-] En cours  |  [x] Terminé
+## Legend
+- [ ] To do  |  [-] In progress  |  [x] Done
 ```
 
 ---
 
-### 10.3 Checklist de Qualité par Sprint
+### 10.3 Quality Checklist per Sprint
 
-À vérifier en fin de chaque sprint avant de commencer le suivant :
+To verify at the end of each sprint before starting the next:
 
-**Qualité du Code :**
-- [ ] Toutes les US du sprint ont des tests QA documentés
-- [ ] Aucun bug critique ouvert
-- [ ] Le code respecte les conventions de `systemPatterns.md`
-- [ ] Toutes les dépendances sont dans `requirements.txt` / `package.json`
+**Code Quality:**
+- [ ] All sprint US have documented QA tests
+- [ ] No open critical bugs
+- [ ] Code respects the conventions of `systemPatterns.md`
+- [ ] All dependencies are in `requirements.txt` / `package.json`
 
-**Qualité de la Memory Bank :**
-- [ ] `activeContext.md` mis à jour avec l'état fin de sprint
-- [ ] `progress.md` mis à jour (US cochées)
-- [ ] `decisionLog.md` contient tous les ADR du sprint
-- [ ] `productContext.md` reflète les ajustements backlog de la Sprint Review
+**Memory Bank Quality:**
+- [ ] `activeContext.md` updated with end-of-sprint state
+- [ ] `progress.md` updated (US checked off)
+- [ ] `decisionLog.md` contains all sprint ADRs
+- [ ] `productContext.md` reflects the backlog adjustments from the Sprint Review
 
-**Qualité du Versionnement :**
-- [ ] Tous les fichiers modifiés sont commités
-- [ ] Les messages de commit suivent le format Conventional Commits
-- [ ] Aucun fichier `.env` ou `venv/` dans Git
-- [ ] `git log --oneline -10` montre des commits descriptifs
+**Versioning Quality:**
+- [ ] All modified files are committed
+- [ ] Commit messages follow the Conventional Commits format
+- [ ] No `.env` or `venv/` file in Git
+- [ ] `git log --oneline -10` shows descriptive commits
 
-**Qualité des Artifacts :**
-- [ ] `SPR-[NNN]-001` (Sprint Backlog) existe et est complet
-- [ ] `SPR-[NNN]-004` (Rapport de Tests) existe et est signé par QA Engineer
-- [ ] `SPR-[NNN]-005` (Sprint Review) existe avec la vélocité calculée
-- [ ] `SPR-[NNN]-006` (Rétrospective) existe avec les actions du prochain sprint
+**Artifact Quality:**
+- [ ] `SPR-[NNN]-001` (Sprint Backlog) exists and is complete
+- [ ] `SPR-[NNN]-004` (Test Report) exists and is signed by QA Engineer
+- [ ] `SPR-[NNN]-005` (Sprint Review) exists with the calculated velocity
+- [ ] `SPR-[NNN]-006` (Retrospective) exists with the next sprint actions
 
 ---
 
-### 10.4 Commandes de Diagnostic Rapide
+### 10.4 Quick Diagnostic Commands
 
-Ces commandes permettent de vérifier rapidement l'état du projet :
+These commands allow quickly checking the project state:
 
 ```powershell
-# État Git du projet
+# Git project state
 git log --oneline -10
 git status
 
-# Vérifier que la Memory Bank est à jour
+# Verify that the Memory Bank is up to date
 Get-Content memory-bank/activeContext.md | Select-Object -First 10
 
-# Lister tous les artifacts du projet
+# List all project artifacts
 Get-ChildItem docs/ -Recurse -Filter "*.md" | Select-Object Name, LastWriteTime
 
-# Vérifier les bugs ouverts dans les rapports QA
-Select-String -Path "docs/sprints/**/*.md" -Pattern "Statut : Ouvert"
+# Check open bugs in QA reports
+Select-String -Path "docs/sprints/**/*.md" -Pattern "Status: Open"
 
-# Vérifier la cohérence des prompts (atelier)
+# Verify prompt consistency (workbench)
 powershell -ExecutionPolicy Bypass -File "scripts/check-prompts-sync.ps1"
 
-# Historique de la Memory Bank
+# Memory Bank history
 git log --oneline -- memory-bank/
 
-# Dernière mise à jour de activeContext.md
+# Last update of activeContext.md
 git log --oneline -3 -- memory-bank/activeContext.md
 ```
 
 ---
 
-### 10.5 Signaux d'Alerte et Actions Correctives
+### 10.5 Warning Signals and Corrective Actions
 
-| Signal d'Alerte | Cause Probable | Action Corrective |
+| Warning Signal | Probable Cause | Corrective Action |
 | :--- | :--- | :--- |
-| L'agent ignore la Memory Bank | `.clinerules` absent ou mal placé | Vérifier que `.clinerules` est à la racine, recharger VS Code |
-| L'agent hallucine du code | Contexte insuffisant, temperature trop haute | Lire `systemPatterns.md` + `techContext.md` avant de coder |
-| Les tests échouent systématiquement | Régression introduite, hallucination | `git bisect` pour identifier le commit fautif, `git revert` |
-| La vélocité chute de > 30% | Complexité sous-estimée, impediments | Rétrospective immédiate, revoir les estimations |
-| `activeContext.md` date de > 48h | Sessions sans mise à jour Memory Bank | Audit Memory Bank (protocole 9.3) |
-| Conflits Git fréquents | Plusieurs sessions parallèles | Toujours commiter avant de changer de session |
-| Bugs critiques s'accumulent | Tests insuffisants, US trop larges | Découper les US, renforcer les critères d'acceptation |
-| L'architecture dérive | ADR non documentés, Memory Bank obsolète | Revue architecturale (protocole RA-003) |
+| The agent ignores the Memory Bank | `.clinerules` absent or misplaced | Verify that `.clinerules` is at the root, reload VS Code |
+| The agent hallucinates code | Insufficient context, temperature too high | Read `systemPatterns.md` + `techContext.md` before coding |
+| Tests systematically fail | Regression introduced, hallucination | `git bisect` to identify the faulty commit, `git revert` |
+| Velocity drops by > 30% | Underestimated complexity, impediments | Immediate retrospective, revise estimates |
+| `activeContext.md` is > 48h old | Sessions without Memory Bank update | Memory Bank audit (protocol 9.3) |
+| Frequent Git conflicts | Multiple parallel sessions | Always commit before switching sessions |
+| Critical bugs accumulate | Insufficient tests, US too broad | Split US, strengthen acceptance criteria |
+| Architecture drifts | Undocumented ADRs, obsolete Memory Bank | Architectural review (protocol RA-003) |
 
 ---
 
-## Annexe A - Correspondance Artifacts / Memory Bank / Git
+## Appendix A - Artifacts / Memory Bank / Git Correspondence
 
-| Artifact | Fichier | Commit Format | Persona |
+| Artifact | File | Commit Format | Persona |
 | :--- | :--- | :--- | :--- |
-| BRIEF-001 | `docs/brief/BRIEF-001-*.md` | `docs(brief): vision narrative initiale` | Product Owner |
-| BRIEF-002 | `docs/brief/BRIEF-002-*.md` | `docs(brief): synthèse structurée` | Developer |
-| BRIEF-003 | `docs/brief/BRIEF-003-*.md` | `docs(brief): décision lancement [GO/NO-GO]` | Product Owner |
-| PRJ-001 | `memory-bank/projectBrief.md` | `feat(memory): initialisation projectBrief` | Product Owner |
-| PRJ-002 | `docs/architecture/PRJ-002-*.md` | `feat(architecture): architecture initiale` | Developer |
-| PRJ-003 | `docs/backlog/PRJ-003-*.md` | `feat(backlog): backlog initial MoSCoW` | Product Owner |
+| BRIEF-001 | `docs/brief/BRIEF-001-*.md` | `docs(brief): initial narrative vision` | Product Owner |
+| BRIEF-002 | `docs/brief/BRIEF-002-*.md` | `docs(brief): structured synthesis` | Developer |
+| BRIEF-003 | `docs/brief/BRIEF-003-*.md` | `docs(brief): launch decision [GO/NO-GO]` | Product Owner |
+| PRJ-001 | `memory-bank/projectBrief.md` | `feat(memory): projectBrief initialization` | Product Owner |
+| PRJ-002 | `docs/architecture/PRJ-002-*.md` | `feat(architecture): initial architecture` | Developer |
+| PRJ-003 | `docs/backlog/PRJ-003-*.md` | `feat(backlog): initial MoSCoW backlog` | Product Owner |
 | SPR-NNN-001 | `docs/sprints/sprint-NNN/SPR-NNN-001-*.md` | `feat(sprint-NNN): sprint planning` | Product Owner |
-| SPR-NNN-004 | `docs/sprints/sprint-NNN/SPR-NNN-004-*.md` | `test(sprint-NNN): rapport de tests` | QA Engineer |
+| SPR-NNN-004 | `docs/sprints/sprint-NNN/SPR-NNN-004-*.md` | `test(sprint-NNN): test report` | QA Engineer |
 | SPR-NNN-005 | `docs/sprints/sprint-NNN/SPR-NNN-005-*.md` | `docs(sprint-NNN): sprint review` | Product Owner |
-| SPR-NNN-006 | `docs/sprints/sprint-NNN/SPR-NNN-006-*.md` | `docs(sprint-NNN): rétrospective` | Scrum Master |
+| SPR-NNN-006 | `docs/sprints/sprint-NNN/SPR-NNN-006-*.md` | `docs(sprint-NNN): retrospective` | Scrum Master |
 | REL-VER-001 | `docs/releases/REL-VER-001-*.md` | `docs(release): release notes vVER` | Developer |
-| ADR-NNN | `memory-bank/decisionLog.md` | `docs(memory): ADR-NNN [titre]` | Developer |
+| ADR-NNN | `memory-bank/decisionLog.md` | `docs(memory): ADR-NNN [title]` | Developer |
 
 ---
 
-## Annexe B - Glossaire du Processus
+## Appendix B - Process Glossary
 
-| Terme | Définition |
+| Term | Definition |
 | :--- | :--- |
-| **Artifact** | Document produit par le processus Agile. Chaque artifact a un ID unique, un template, un persona responsable et un emplacement défini dans la structure du projet. |
-| **Amont Ouvert** | Phase 0 du processus. Accepte des entrées non-structurées (emails, notes, code existant) et les transforme progressivement en artifacts structurés via BRIEF-001, BRIEF-002, BRIEF-003. |
-| **Convergence Progressive** | Principe selon lequel les entrées narratives brutes (Phase 0) mûrissent vers des artifacts de plus en plus structurés (Phase 1, Phase 2) sans forcer une structure prématurée. |
-| **Défense en Profondeur** | Principe de sécurité agentique : chaque règle critique est inscrite à plusieurs niveaux (`.clinerules`, `roleDefinition`, protocoles de session) pour qu'elle soit respectée même si un niveau est ignoré. |
-| **Epic** | Regroupement fonctionnel de User Stories partageant un objectif métier commun. Une Epic peut s'étendre sur plusieurs sprints. |
-| **Hallucination** | Comportement d'un LLM qui génère du contenu plausible mais incorrect (code inventé, API inexistante, architecture fictive). Contre-mesure principale : temperature 0.15 + tests QA obligatoires. |
-| **Impediment** | Obstacle qui empêche l'équipe de progresser. Identifié par le Scrum Master dans la Rétrospective. Doit avoir un plan de résolution documenté. |
-| **MoSCoW** | Méthode de priorisation : Must (obligatoire), Should (important), Could (souhaitable), Won't (hors périmètre). Utilisée pour le backlog initial (PRJ-003). |
-| **Perte de Contexte** | Risque agentique RA-001. Un LLM n'a aucune mémoire entre deux sessions. La Memory Bank est le mécanisme principal de contre-mesure. |
-| **Protocole de Session** | Séquence d'actions obligatoires au démarrage et à la clôture de chaque session Roo Code. Garantit la continuité du contexte entre les sessions. |
-| **Régression Silencieuse** | Bug introduit par une modification qui casse une fonctionnalité existante sans être détecté immédiatement. Contre-mesure : tests QA après chaque US. |
-| **Sprint Goal** | Objectif en une phrase du sprint. Définit ce que l'équipe s'engage à livrer. Inscrit dans SPR-NNN-001 et dans `activeContext.md`. |
-| **T-shirt Sizing** | Méthode d'estimation de complexité : XS (< 1h), S (1-4h), M (4-8h), L (1-3j), XL (> 3j). Utilisée pour le backlog initial. |
-| **User Story** | Description d'une fonctionnalité du point de vue de l'utilisateur. Format : "En tant que [persona], je veux [action] afin de [bénéfice]". Identifiée par US-NNN. |
-| **Vélocité** | Nombre de points livrés par sprint. Indicateur de la capacité de l'équipe. Calculée dans SPR-NNN-005. |
+| **Artifact** | Document produced by the Agile process. Each artifact has a unique ID, a template, a responsible persona and a defined location in the project structure. |
+| **Open Upstream** | Phase 0 of the process. Accepts unstructured inputs (emails, notes, existing code) and progressively transforms them into structured artifacts via BRIEF-001, BRIEF-002, BRIEF-003. |
+| **Progressive Convergence** | Principle by which raw narrative inputs (Phase 0) mature toward increasingly structured artifacts (Phase 1, Phase 2) without forcing a premature structure. |
+| **Defense in Depth** | Agentic security principle: each critical rule is inscribed at multiple levels (`.clinerules`, `roleDefinition`, session protocols) so that it is respected even if one level is ignored. |
+| **Epic** | Functional grouping of User Stories sharing a common business objective. An Epic can span multiple sprints. |
+| **Hallucination** | Behavior of an LLM that generates plausible but incorrect content (invented code, non-existent API, fictional architecture). Main countermeasure: temperature 0.15 + mandatory QA tests. |
+| **Impediment** | Obstacle that prevents the team from progressing. Identified by the Scrum Master in the Retrospective. Must have a documented resolution plan. |
+| **MoSCoW** | Prioritization method: Must (mandatory), Should (important), Could (desirable), Won't (out of scope). Used for the initial backlog (PRJ-003). |
+| **Context Loss** | Agentic risk RA-001. An LLM has no memory between two sessions. The Memory Bank is the main countermeasure mechanism. |
+| **Session Protocol** | Sequence of mandatory actions at the start and closure of each Roo Code session. Guarantees context continuity between sessions. |
+| **Silent Regression** | Bug introduced by a modification that breaks an existing feature without being immediately detected. Countermeasure: QA tests after each US. |
+| **Sprint Goal** | One-sentence sprint objective. Defines what the team commits to deliver. Written in SPR-NNN-001 and in `activeContext.md`. |
+| **T-shirt Sizing** | Complexity estimation method: XS (< 1h), S (1-4h), M (4-8h), L (1-3d), XL (> 3d). Used for the initial backlog. |
+| **User Story** | Description of a feature from the user's perspective. Format: "As a [persona], I want [action] so that [benefit]". Identified by US-NNN. |
+| **Velocity** | Number of points delivered per sprint. Indicator of team capacity. Calculated in SPR-NNN-005. |
 
 ---
 
-## Annexe C - Table des Références
+## Appendix C - References Table
 
-| Réf. | Type | Titre / Identifiant | Description |
+| Ref. | Type | Title / Identifier | Description |
 | :--- | :--- | :--- | :--- |
-| [DOC1] | Document interne | `workbench/DOC1-PRD-Workbench-Requirements.md` | Exigences de l'atelier - REQ-xxx référencées dans ce document |
-| [DOC2] | Document interne | `workbench/DOC2-ARCH-Workbench-Technical-Design.md` | Architecture technique de l'atelier - DA-xxx référencées |
-| [DOC3] | Document interne | `workbench/DOC3-BUILD-Workbench-Assembly-Phases.md` | Plan
- d'installation de l'atelier (Phases 0-12) |
-| [DOC4] | Document interne | `workbench/DOC4-GUIDE-Workbench-Deployment-Howto.md` | Guide de déploiement de l'atelier sur projets |
-| [DOC5] | Document interne | `workbench/DOC5-GUIDE-Project-Development-Process.md` | Ce document - Manuel du processus Agile applicatif |
-| [SCRUM] | Standard | Scrum Guide (scrumguides.org) | Guide officiel Scrum - référence pour les cérémonies et rôles |
-| [MOSCOW] | Méthode | MoSCoW Prioritization | Méthode de priorisation Must/Should/Could/Won't |
-| [ADR] | Pattern | Architecture Decision Records (adr.github.io) | Format standard pour documenter les décisions d'architecture |
-| [SEMVER] | Standard | Semantic Versioning (semver.org) | Convention MAJOR.MINOR.PATCH pour les releases |
-| [CONVCOMMITS] | Standard | Conventional Commits (conventionalcommits.org) | Convention de messages de commit : type(scope): description |
-| [MEMORY-BANK] | Composant Atelier | `memory-bank/` (7 fichiers .md) | Système de mémoire persistante - contre-mesure principale RA-001 |
-| [CLINERULES] | Composant Atelier | `.clinerules` (6 règles impératives) | Directives de session - REGLE 1 à REGLE 6 |
-| [ROOMODES] | Composant Atelier | `.roomodes` (4 personas Agile) | Personas Product Owner, Scrum Master, Developer, QA Engineer |
+| [DOC1] | Internal document | `workbench/DOC1-PRD-Workbench-Requirements.md` | Workbench requirements - REQ-xxx referenced in this document |
+| [DOC2] | Internal document | `workbench/DOC2-ARCH-Workbench-Technical-Design.md` | Workbench technical architecture - DA-xxx referenced |
+| [DOC3] | Internal document | `workbench/DOC3-BUILD-Workbench-Assembly-Phases.md` | Workbench installation plan (Phases 0-12) |
+| [DOC4] | Internal document | `workbench/DOC4-GUIDE-Workbench-Deployment-Howto.md` | Workbench deployment guide on projects |
+| [DOC5] | Internal document | `workbench/DOC5-GUIDE-Project-Development-Process.md` | This document - Application Agile process manual |
+| [SCRUM] | Standard | Scrum Guide (scrumguides.org) | Official Scrum Guide - reference for ceremonies and roles |
+| [MOSCOW] | Method | MoSCoW Prioritization | Must/Should/Could/Won't prioritization method |
+| [ADR] | Pattern | Architecture Decision Records (adr.github.io) | Standard format for documenting architecture decisions |
+| [SEMVER] | Standard | Semantic Versioning (semver.org) | MAJOR.MINOR.PATCH convention for releases |
+| [CONVCOMMITS] | Standard | Conventional Commits (conventionalcommits.org) | Commit message convention: type(scope): description |
+| [MEMORY-BANK] | Workbench Component | `memory-bank/` (7 .md files) | Persistent memory system - main countermeasure RA-001 |
+| [CLINERULES] | Workbench Component | `.clinerules` (6 mandatory rules) | Session directives - RULE 1 to RULE 6 |
+| [ROOMODES] | Workbench Component | `.roomodes` (4 Agile personas) | Personas Product Owner, Scrum Master, Developer, QA Engineer |

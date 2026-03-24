@@ -1,157 +1,157 @@
-﻿# Document 4 : Guide de Déploiement de l'Atelier
-## Comment utiliser ce template sur un nouveau projet ou une base de code existante
+﻿# Document 4: Workbench Deployment Guide
+## How to use this template on a new project or an existing codebase
 
-**Nom du Projet :** Agentic Agile Workbench
-**Version :** 1.0
-**Date :** 2026-03-23
-**Références :** DOC1-PRD-Workbench-Requirements.md v2.0, DOC2-ARCH-Workbench-Technical-Design.md v2.0, DOC3-BUILD-Workbench-Assembly-Phases.md v3.0
+**Project Name:** Agentic Agile Workbench
+**Version:** 1.0
+**Date:** 2026-03-23
+**References:** DOC1-PRD-Workbench-Requirements.md v2.0, DOC2-ARCH-Workbench-Technical-Design.md v2.0, DOC3-BUILD-Workbench-Assembly-Phases.md v3.0
 
 ---
 
-## 1. Comprendre ce que ce Dépôt Est (et n'est pas)
+## 1. Understanding What This Repository Is (and Is Not)
 
-### 1.1 Ce Dépôt = L'Atelier, pas le Produit
+### 1.1 This Repository = The Workbench, Not the Product
 
-La distinction la plus importante à comprendre avant tout déploiement :
+The most important distinction to understand before any deployment:
 
 ```
-agentic-agile-workbench/   ← VOUS ÊTES ICI
-│                                     C'est l'ATELIER
+agentic-agile-workbench/   ← YOU ARE HERE
+│                                     This is the WORKBENCH
 │
-│  workbench/          ← Les plans de l'atelier (DOC1, DOC2, DOC3, DOC4)
-│  prompts/        ← Les outils de l'atelier (system prompts SP-001 à SP-007)
-│  proxy.py        ← Une machine de l'atelier (pont Roo Code <-> Gemini Chrome)
-│  .roomodes       ← Les rôles des ouvriers de l'atelier (4 personas Agile)
-│  .clinerules     ← Le règlement de l'atelier (6 règles impératives)
-│  scripts/        ← Les scripts utilitaires de l'atelier
+│  workbench/          ← The workbench blueprints (DOC1, DOC2, DOC3, DOC4)
+│  prompts/        ← The workbench tools (system prompts SP-001 to SP-007)
+│  proxy.py        ← A workbench machine (Roo Code <-> Gemini Chrome bridge)
+│  .roomodes       ← The workbench worker roles (4 Agile personas)
+│  .clinerules     ← The workbench rulebook (6 mandatory rules)
+│  scripts/        ← The workbench utility scripts
 │
-└── Il produit des PROJETS (dépôts séparés, dans d'autres dossiers)
+└── It produces PROJECTS (separate repositories, in other folders)
 ```
 
-**Ce dépôt ne contient pas de code applicatif.** Il contient les règles, outils, processus et system prompts qui permettent de développer n'importe quel projet de manière agentique, agile et versionnée.
+**This repository contains no application code.** It contains the rules, tools, processes and system prompts that enable developing any project in an agentic, agile and versioned manner.
 
-**Analogie :** C'est comme un atelier de menuiserie. L'atelier contient les outils (scies, rabots, marteaux), les plans de travail, les règles de sécurité. Les meubles fabriqués (les projets) sont des entités séparées qui quittent l'atelier une fois terminés.
+**Analogy:** Think of it as a carpentry workshop. The workshop contains the tools (saws, planes, hammers), workbenches, and safety rules. The furniture produced (the projects) are separate entities that leave the workshop once completed.
 
-### 1.2 Ce que ce Dépôt Contient
+### 1.2 What This Repository Contains
 
-| Fichier / Dossier | Rôle dans l'Atelier | Analogie |
+| File / Folder | Role in the Workbench | Analogy |
 | :--- | :--- | :--- |
-| `workbench/DOC1-PRD-*.md` | Exigences de l'atelier lui-même | Manuel de l'atelier |
-| `workbench/DOC2-Architecture-*.md` | Architecture technique de l'atelier | Plans des machines |
-| `workbench/DOC3-Plan-Implementation-*.md` | Guide d'installation de l'atelier | Notice de montage |
-| `workbench/DOC4-Guide-Deploiement-*.md` | Ce document — comment utiliser l'atelier | Mode d'emploi |
-| `template/prompts/SP-001 à SP-007` | System prompts canoniques | Fiches de poste des ouvriers |
-| `.roomodes` | Définition des 4 personas Agile | Organigramme de l'atelier |
-| `.clinerules` | 6 règles impératives pour tous les modes | Règlement intérieur |
-| `template/proxy.py` | Pont Roo Code ↔ Gemini Chrome | Machine de relais |
-| `scripts/` | Scripts utilitaires | Outils automatisés |
+| `workbench/DOC1-PRD-*.md` | Requirements of the workbench itself | Workbench manual |
+| `workbench/DOC2-Architecture-*.md` | Technical architecture of the workbench | Machine blueprints |
+| `workbench/DOC3-Plan-Implementation-*.md` | Workbench installation guide | Assembly instructions |
+| `workbench/DOC4-Guide-Deploiement-*.md` | This document — how to use the workbench | User manual |
+| `template/prompts/SP-001 to SP-007` | Canonical system prompts | Worker job descriptions |
+| `.roomodes` | Definition of the 4 Agile personas | Workbench org chart |
+| `.clinerules` | 6 mandatory rules for all modes | Internal regulations |
+| `template/proxy.py` | Roo Code ↔ Gemini Chrome bridge | Relay machine |
+| `scripts/` | Utility scripts | Automated tools |
 
-### 1.3 Ce que ce Dépôt NE Contient PAS
+### 1.3 What This Repository Does NOT Contain
 
-- ❌ Le code source de votre application (c'est dans le dépôt du projet)
-- ❌ La Memory Bank de votre projet (c'est dans le dépôt du projet)
-- ❌ Les rapports QA de votre projet (c'est dans le dépôt du projet)
-- ❌ Les User Stories de votre projet (c'est dans la Memory Bank du projet)
+- ❌ Your application source code (that lives in the project repository)
+- ❌ Your project's Memory Bank (that lives in the project repository)
+- ❌ Your project's QA reports (that lives in the project repository)
+- ❌ Your project's User Stories (that lives in the project's Memory Bank)
 
-### 1.4 Pourquoi Versionner ce Dépôt ?
+### 1.4 Why Version This Repository?
 
-Ce dépôt évoluera au fil du temps. Vous le mettrez à jour quand :
-- Une règle `.clinerules` s'avère insuffisante ou ambiguë → vous la corrigez ici
-- Vous ajoutez un nouveau persona (ex: DevOps Engineer, Architect) → vous l'ajoutez dans `.roomodes` et `prompts/`
-- Vous améliorez `template/proxy.py` (nouveau timeout, meilleure gestion des erreurs) → vous le mettez à jour ici
-- Vous découvrez un pattern de Memory Bank plus efficace → vous mettez à jour les templates dans `.clinerules`
+This repository will evolve over time. You will update it when:
+- A `.clinerules` rule proves insufficient or ambiguous → you fix it here
+- You add a new persona (e.g.: DevOps Engineer, Architect) → you add it in `.roomodes` and `prompts/`
+- You improve `template/proxy.py` (new timeout, better error handling) → you update it here
+- You discover a more effective Memory Bank pattern → you update the templates in `.clinerules`
 
-**Chaque amélioration de l'atelier bénéficie à tous les futurs projets.** C'est l'intérêt de séparer l'atelier des projets.
+**Every workbench improvement benefits all future projects.** That is the value of separating the workbench from the projects.
 
 ---
 
-## 2. Vue d'Ensemble : Atelier vs Projets
+## 2. Overview: Workbench vs Projects
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    ATELIER le workbench (ce dépôt)                      │
+│                    le workbench WORKBENCH (this repository)     │
 │                                                                  │
 │  .roomodes  .clinerules  prompts/  proxy.py  scripts/  workbench/   │
 │                                                                  │
-│  Versionné, enrichi, partagé entre tous les projets             │
+│  Versioned, enriched, shared across all projects                │
 └──────────────────────────┬──────────────────────────────────────┘
-                           │ Déploiement (copie des fichiers)
+                           │ Deployment (file copy)
               ┌────────────┴────────────┐
               │                         │
               ▼                         ▼
 ┌─────────────────────┐   ┌─────────────────────────────────────┐
-│   NOUVEAU PROJET    │   │   PROJET EXISTANT (code spaghetti)  │
+│   NEW PROJECT       │   │   EXISTING PROJECT (spaghetti code) │
 │                     │   │                                     │
-│  mon-nouveau-projet/│   │  mon-projet-legacy/                 │
-│  ├── .roomodes      │   │  ├── src/  (code existant)          │
-│  ├── .clinerules    │   │  ├── .roomodes  (ajouté)            │
-│  ├── proxy.py       │   │  ├── .clinerules  (ajouté)          │
-│  ├── prompts/       │   │  ├── proxy.py  (ajouté)             │
-│  ├── memory-bank/   │   │  ├── prompts/  (ajouté)             │
-│  │   (vide → rempli)│   │  ├── memory-bank/  (audit d'abord)  │
-│  └── src/  (à créer)│   │  └── docs/qa/  (ajouté)            │
+│  my-new-project/    │   │  my-legacy-project/                 │
+│  ├── .roomodes      │   │  ├── src/  (existing code)          │
+│  ├── .clinerules    │   │  ├── .roomodes  (added)             │
+│  ├── proxy.py       │   │  ├── .clinerules  (added)           │
+│  ├── prompts/       │   │  ├── proxy.py  (added)              │
+│  ├── memory-bank/   │   │  ├── prompts/  (added)              │
+│  │   (empty → filled)│  │  ├── memory-bank/  (audit first)    │
+│  └── src/  (to create)│  │  └── docs/qa/  (added)            │
 └─────────────────────┘   └─────────────────────────────────────┘
 ```
 
 ---
 
-## 3. Déploiement sur un Nouveau Projet
+## 3. Deployment on a New Project
 
-### 3.1 Prérequis
+### 3.1 Prerequisites
 
-Avant de commencer, l'atelier doit être installé et fonctionnel sur votre machine (phases 0-12 de DOC3). En particulier :
-- Ollama avec `uadf-agent` disponible (Mode 1) OU proxy.py démarré (Mode 2) OU clé Anthropic configurée (Mode 3)
-- VS Code avec l'extension Roo Code installée
+Before starting, the workbench must be installed and functional on your machine (phases 0-12 of DOC3). In particular:
+- Ollama with `uadf-agent` available (Mode 1) OR proxy.py started (Mode 2) OR Anthropic key configured (Mode 3)
+- VS Code with the Roo Code extension installed
 
-### 3.2 Étape 1 — Créer le Dépôt du Nouveau Projet
+### 3.2 Step 1 — Create the New Project Repository
 
 ```powershell
-# Structure canonique :
+# Canonical structure:
 # $env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\
-# ├── agentic-agile-workbench\   ← L'ATELIER (template maître, ne pas modifier)
-# └── PROJECTS\                  ← Tous les projets applicatifs
-#     └── mon-nouveau-projet\
+# ├── agentic-agile-workbench\   ← THE WORKBENCH (master template, do not modify)
+# └── PROJECTS\                  ← All application projects
+#     └── my-new-project\
 
 $Atelier = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agile-workbench"
-$Projet  = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-nouveau-projet"
+$Projet  = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\my-new-project"
 
-# Créer le dossier du nouveau projet (sous PROJECTS\, séparé de l'atelier)
+# Create the new project folder (under PROJECTS\, separate from the workbench)
 New-Item -Path $Projet -ItemType Directory -Force
 cd $Projet
 
-# Initialiser Git
+# Initialize Git
 git init
 git branch -M main
 ```
 
-> **Important :** Le nouveau projet est un dépôt Git **séparé** de l'atelier. L'atelier (`agentic-agile-workbench/`) est le **template maître protégé** — ne créez jamais un projet à l'intérieur. Tous les projets applicatifs vivent sous `AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\`.
+> **Important:** The new project is a Git repository **separate** from the workbench. The workbench (`agentic-agile-workbench/`) is the **protected master template** — never create a project inside it. All application projects live under `AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\`.
 
-### 3.3 Étape 2 — Déployer les Fichiers de l'Atelier
+### 3.3 Step 2 — Deploy the Workbench Files
 
-Le script de déploiement copie automatiquement tous les fichiers nécessaires et crée la Memory Bank :
+The deployment script automatically copies all necessary files and creates the Memory Bank:
 
 ```powershell
-# Déploiement en une commande (depuis n'importe où)
+# One-command deployment (from anywhere)
 $Atelier = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agile-workbench"
-$Projet  = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-nouveau-projet"
+$Projet  = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\my-new-project"
 
 & "$Atelier\template\scripts\deploy-to-project.ps1" -ProjectPath $Projet
 ```
 
-Le script déploie : `.roomodes`, `.clinerules`, `Modelfile`, `proxy.py`, `requirements.txt`, `prompts/`, `scripts/`, `memory-bank/` (7 fichiers vides), `docs/qa/`.
+The script deploys: `.roomodes`, `.clinerules`, `Modelfile`, `proxy.py`, `requirements.txt`, `prompts/`, `scripts/`, `memory-bank/` (7 empty files), `docs/qa/`.
 
-### 3.4 Étape 3 — Créer le `.gitignore`
+### 3.4 Step 3 — Create the `.gitignore`
 
-Créez `.gitignore` à la racine du projet :
+Create `.gitignore` at the project root:
 
 ```
-# Environnement Python
+# Python environment
 venv/
 __pycache__/
 *.pyc
 *.pyo
 
-# Clés API — JAMAIS dans Git
+# API keys — NEVER in Git
 .env
 *.env
 
@@ -163,14 +163,14 @@ __pycache__/
 Thumbs.db
 ```
 
-### 3.5 Étape 4 — Initialiser la Memory Bank
+### 3.5 Step 4 — Initialize the Memory Bank
 
-> **Cette étape est automatisée par le script `deploy-to-project.ps1`** (section 3.3). La Memory Bank (7 fichiers) et `docs/qa/` sont créés automatiquement. Passez directement à l'étape 5.
+> **This step is automated by the `deploy-to-project.ps1` script** (section 3.3). The Memory Bank (7 files) and `docs/qa/` are created automatically. Skip directly to step 5.
 
-Si vous avez besoin de recréer manuellement :
+If you need to recreate manually:
 
 ```powershell
-$Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-nouveau-projet"
+$Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\my-new-project"
 
 New-Item -Path "$Projet\memory-bank" -ItemType Directory
 @("projectBrief.md","productContext.md","systemPatterns.md","techContext.md",
@@ -181,411 +181,411 @@ New-Item -Path "$Projet\docs\qa" -ItemType Directory -Force
 New-Item -Path "$Projet\docs\qa\.gitkeep" -ItemType File
 ```
 
-### 3.6 Étape 5 — Remplir `memory-bank/projectBrief.md`
+### 3.6 Step 5 — Fill in `memory-bank/projectBrief.md`
 
-C'est **la seule étape manuelle obligatoire** avant d'ouvrir Roo Code. Ouvrez `memory-bank/projectBrief.md` et remplissez :
+This is **the only mandatory manual step** before opening Roo Code. Open `memory-bank/projectBrief.md` and fill in:
 
 ```markdown
 # Project Brief
 
-## Vision du Projet
-[2-3 phrases décrivant ce que ce projet fait et pour qui]
+## Project Vision
+[2-3 sentences describing what this project does and for whom]
 
-## Objectifs Principaux
-1. [Objectif 1 — mesurable]
-2. [Objectif 2 — mesurable]
-3. [Objectif 3 — mesurable]
+## Main Objectives
+1. [Objective 1 — measurable]
+2. [Objective 2 — measurable]
+3. [Objective 3 — measurable]
 
-## Non-Goals (Ce que ce projet NE fait PAS)
-- [Non-goal 1 — important pour éviter le scope creep]
+## Non-Goals (What this project does NOT do)
+- [Non-goal 1 — important to prevent scope creep]
 - [Non-goal 2]
 
-## Contraintes
-- [Contrainte technique : ex: doit tourner sur Python 3.11+]
-- [Contrainte métier : ex: doit respecter RGPD]
+## Constraints
+- [Technical constraint: e.g.: must run on Python 3.11+]
+- [Business constraint: e.g.: must comply with GDPR]
 
-## Parties Prenantes
-- Product Owner : [Votre nom]
-- Utilisateurs cibles : [Description des utilisateurs finaux]
+## Stakeholders
+- Product Owner: [Your name]
+- Target users: [Description of end users]
 ```
 
-> **Pourquoi remplir cela manuellement ?** Roo Code ne peut pas inventer la vision de votre projet. C'est la seule information que vous devez fournir. Tout le reste (architecture, code, tests, documentation) sera généré par l'agent.
+> **Why fill this in manually?** Roo Code cannot invent your project's vision. This is the only information you must provide. Everything else (architecture, code, tests, documentation) will be generated by the agent.
 
-### 3.7 Étape 6 — Premier Commit
+### 3.7 Step 6 — First Commit
 
 ```powershell
 cd "$Projet"
 git add .
-git commit -m "chore(init): initialisation projet avec atelier v2.0"
+git commit -m "chore(init): project initialization with workbench v2.0"
 ```
 
-### 3.8 Étape 7 — Ouvrir dans VS Code et Démarrer
+### 3.8 Step 7 — Open in VS Code and Start
 
 ```powershell
 code "$Projet"
 ```
 
-Dans VS Code :
-1. Sélectionnez le mode **"Product Owner"** dans Roo Code
-2. Envoyez : `Lis le projectBrief.md et crée les premières User Stories dans memory-bank/productContext.md`
-3. L'agent lit la vision, crée les User Stories, commite automatiquement
+In VS Code:
+1. Select the **"Product Owner"** mode in Roo Code
+2. Send: `Read projectBrief.md and create the first User Stories in memory-bank/productContext.md`
+3. The agent reads the vision, creates the User Stories, commits automatically
 
-**L'atelier est opérationnel sur votre nouveau projet.**
+**The workbench is operational on your new project.**
 
 ---
 
-## 4. Déploiement sur une Base de Code Existante (Code Spaghetti)
+## 4. Deployment on an Existing Codebase (Spaghetti Code)
 
-### 4.1 Pourquoi c'est Différent
+### 4.1 Why It's Different
 
-Avec un nouveau projet, la Memory Bank est vide et se remplit progressivement. Avec un projet existant, la Memory Bank doit être remplie **en premier** — avant tout refactoring — pour que l'agent comprenne ce qu'il va modifier.
+With a new project, the Memory Bank is empty and fills up progressively. With an existing project, the Memory Bank must be filled **first** — before any refactoring — so the agent understands what it is going to modify.
 
-**Risque sans cette étape :** L'agent refactorise sans comprendre les dépendances cachées du code spaghetti → il casse des fonctionnalités existantes.
+**Risk without this step:** The agent refactors without understanding the hidden dependencies of the spaghetti code → it breaks existing functionality.
 
-### 4.2 Étape 1 — Ouvrir le Projet Existant
+### 4.2 Step 1 — Open the Existing Project
 
 ```powershell
-# Si le projet legacy est déjà dans AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\
-$Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-projet-legacy"
-# Sinon, adaptez le chemin vers l'emplacement actuel du projet
+# If the legacy project is already in AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\
+$Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\my-legacy-project"
+# Otherwise, adapt the path to the current project location
 cd $Projet
 
-# Si Git n'est pas encore initialisé
+# If Git is not yet initialized
 git init
 git add .
-git commit -m "chore(init): état initial du code avant refactoring le workbench"
+git commit -m "chore(init): initial state before le workbench refactoring"
 ```
 
-> **Commiter l'état initial est critique.** Cela crée un point de retour sûr si le refactoring part dans une mauvaise direction.
+> **Committing the initial state is critical.** This creates a safe rollback point if the refactoring goes in the wrong direction.
 
-### 4.3 Étape 2 — Copier les Fichiers de l'Atelier
+### 4.3 Step 2 — Copy the Workbench Files
 
-Identique au cas "Nouveau Projet" (section 3.3) :
+Identical to the "New Project" case (section 3.3):
 
 ```powershell
 $Atelier = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agile-workbench"
-$Projet  = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-projet-legacy"
-# (ou le chemin actuel du projet legacy si différent)
+$Projet  = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\my-legacy-project"
+# (or the current path of the legacy project if different)
 
 & "$Atelier\template\scripts\deploy-to-project.ps1" -ProjectPath $Projet
 ```
 
-### 4.4 Étape 3 — Créer la Memory Bank (avec contexte existant)
+### 4.4 Step 3 — Create the Memory Bank (with existing context)
 
 ```powershell
 New-Item -Path "$Projet" -Name "memory-bank" -ItemType Directory
-# Créer les 7 fichiers (identique à la section 3.5)
+# Create the 7 files (identical to section 3.5)
 ```
 
-### 4.5 Étape 4 — Audit du Code Existant (CRITIQUE)
+### 4.5 Step 4 — Audit the Existing Code (CRITICAL)
 
-C'est **l'étape la plus importante** pour un projet existant. Elle n'existe pas pour un nouveau projet.
+This is **the most important step** for an existing project. It does not exist for a new project.
 
-Ouvrez VS Code sur le projet, sélectionnez le mode **"Developer"** dans Roo Code, et envoyez :
-
-```
-Effectue un audit complet du code source dans ce projet.
-Pour chaque point ci-dessous, documente tes découvertes dans le fichier indiqué :
-
-1. Dans memory-bank/projectBrief.md :
-   - Quelle est la fonction principale de ce projet ?
-   - Quels sont les utilisateurs cibles apparents ?
-   - Quelles sont les contraintes techniques visibles ?
-
-2. Dans memory-bank/systemPatterns.md :
-   - Quelle est l'architecture des dossiers ?
-   - Quelles conventions de nommage sont utilisées (même si incohérentes) ?
-   - Quels patterns techniques sont utilisés (même si mal implémentés) ?
-   - Quels anti-patterns identifies-tu ? (couplage fort, duplication, etc.)
-   - Quelles sont les dépendances critiques entre modules ?
-
-3. Dans memory-bank/techContext.md :
-   - Quel est le langage et la version ?
-   - Quelles sont les dépendances (requirements.txt, package.json, etc.) ?
-   - Quelles sont les commandes pour lancer et tester le projet ?
-   - Y a-t-il des variables d'environnement requises ?
-
-4. Dans memory-bank/decisionLog.md :
-   - Documente les décisions d'architecture apparentes (même implicites)
-   - Note les dettes techniques identifiées
-
-Commite chaque fichier Memory Bank au fur et à mesure.
-```
-
-> **Pourquoi laisser l'agent faire l'audit ?** L'agent lit le code sans préjugés. Il identifie les patterns réels (pas ceux que vous pensez avoir implémentés). Il documente de manière structurée et versionnée. Vous pouvez corriger ses conclusions si nécessaire.
-
-### 4.6 Étape 5 — Définir la Stratégie de Refactoring
-
-Après l'audit, sélectionnez le mode **"Product Owner"** et envoyez :
+Open VS Code on the project, select the **"Developer"** mode in Roo Code, and send:
 
 ```
-Lis memory-bank/systemPatterns.md et memory-bank/projectBrief.md.
-Sur la base des anti-patterns identifiés et de la vision du projet,
-crée les User Stories de refactoring dans memory-bank/productContext.md.
+Perform a complete audit of the source code in this project.
+For each point below, document your findings in the indicated file:
 
-Chaque User Story doit :
-- Adresser un anti-pattern spécifique identifié dans l'audit
-- Avoir des critères d'acceptation mesurables
-- Être indépendante des autres (pour pouvoir être livrée séparément)
-- Être ordonnée par priorité (les dépendances d'abord)
+1. In memory-bank/projectBrief.md:
+   - What is the main function of this project?
+   - Who are the apparent target users?
+   - What are the visible technical constraints?
+
+2. In memory-bank/systemPatterns.md:
+   - What is the folder architecture?
+   - What naming conventions are used (even if inconsistent)?
+   - What technical patterns are used (even if poorly implemented)?
+   - What anti-patterns do you identify? (tight coupling, duplication, etc.)
+   - What are the critical dependencies between modules?
+
+3. In memory-bank/techContext.md:
+   - What is the language and version?
+   - What are the dependencies (requirements.txt, package.json, etc.)?
+   - What are the commands to run and test the project?
+   - Are there required environment variables?
+
+4. In memory-bank/decisionLog.md:
+   - Document the apparent architecture decisions (even implicit ones)
+   - Note the identified technical debts
+
+Commit each Memory Bank file as you go.
 ```
 
-### 4.7 Étape 6 — Refactoring Guidé par les User Stories
+> **Why let the agent do the audit?** The agent reads the code without preconceptions. It identifies the real patterns (not the ones you think you implemented). It documents in a structured and versioned manner. You can correct its conclusions if necessary.
 
-Le refactoring se fait User Story par User Story, dans l'ordre défini par le Product Owner :
+### 4.6 Step 5 — Define the Refactoring Strategy
+
+After the audit, select the **"Product Owner"** mode and send:
 
 ```
-Pour chaque User Story :
+Read memory-bank/systemPatterns.md and memory-bank/projectBrief.md.
+Based on the identified anti-patterns and the project vision,
+create the refactoring User Stories in memory-bank/productContext.md.
 
-1. Mode Developer :
-   "Implémente la User Story US-XXX définie dans memory-bank/productContext.md.
-    Lis d'abord systemPatterns.md pour respecter les conventions cibles.
-    Commite après chaque modification significative."
-
-2. Mode QA Engineer :
-   "Teste les changements de la User Story US-XXX.
-    Rédige le rapport dans docs/qa/test-US-XXX-[DATE].md."
-
-3. Mode Scrum Master :
-   "Mets à jour memory-bank/progress.md pour marquer US-XXX comme terminée.
-    Identifie les impediments éventuels."
+Each User Story must:
+- Address a specific anti-pattern identified in the audit
+- Have measurable acceptance criteria
+- Be independent of the others (so it can be delivered separately)
+- Be ordered by priority (dependencies first)
 ```
 
-> **Pourquoi User Story par User Story ?** Le code spaghetti a des dépendances cachées. Refactoriser en petits incréments versionnés permet de détecter les régressions immédiatement et de revenir en arrière si nécessaire (`git revert`).
+### 4.7 Step 6 — Refactoring Guided by User Stories
+
+Refactoring is done User Story by User Story, in the order defined by the Product Owner:
+
+```
+For each User Story:
+
+1. Developer Mode:
+   "Implement User Story US-XXX defined in memory-bank/productContext.md.
+    Read systemPatterns.md first to respect the target conventions.
+    Commit after each significant modification."
+
+2. QA Engineer Mode:
+   "Test the changes from User Story US-XXX.
+    Write the report in docs/qa/test-US-XXX-[DATE].md."
+
+3. Scrum Master Mode:
+   "Update memory-bank/progress.md to mark US-XXX as done.
+    Identify any impediments."
+```
+
+> **Why User Story by User Story?** Spaghetti code has hidden dependencies. Refactoring in small versioned increments allows detecting regressions immediately and rolling back if necessary (`git revert`).
 
 ---
 
-## 5. Ce qui Reste dans l'Atelier vs ce qui va dans le Projet
+## 5. What Stays in the Workbench vs What Goes in the Project
 
-Cette table est la référence pour savoir où chaque fichier doit vivre :
+This table is the reference for knowing where each file should live:
 
-| Fichier / Dossier | Reste dans l'Atelier | Va dans chaque Projet | Notes |
+| File / Folder | Stays in Workbench | Goes in Each Project | Notes |
 | :--- | :---: | :---: | :--- |
-| `workbench/DOC1/DOC2/DOC3/DOC4` | ✅ | ❌ | Documentation de l'atelier — pas du projet |
-| `.roomodes` | ✅ (template) | ✅ (copie) | Copié, peut être adapté par projet |
-| `.clinerules` | ✅ (template) | ✅ (copie) | Copié, peut être adapté par projet |
-| `Modelfile` | ✅ (template) | ✅ (copie) | Copié si Mode Ollama utilisé |
-| `template/proxy.py` | ✅ (template) | ✅ (copie) | Copié si Mode Gemini utilisé |
-| `requirements.txt` | ✅ (template) | ✅ (copie) | Copié si Mode Gemini utilisé |
-| `scripts/` | ✅ (template) | ✅ (copie) | Copié dans chaque projet |
-| `template/prompts/SP-*.md` | ✅ (source de vérité) | ✅ (copie) | Copié — le projet a sa propre copie versionnée |
-| `template/prompts/README.md` | ✅ (template) | ✅ (copie) | Copié |
-| `memory-bank/` | ❌ | ✅ (spécifique) | Unique par projet — ne jamais copier d'un projet à l'autre |
-| `src/` (code applicatif) | ❌ | ✅ (spécifique) | Unique par projet |
-| `docs/qa/` | ❌ | ✅ (spécifique) | Rapports QA spécifiques au projet |
+| `workbench/DOC1/DOC2/DOC3/DOC4` | ✅ | ❌ | Workbench documentation — not project documentation |
+| `.roomodes` | ✅ (template) | ✅ (copy) | Copied, can be adapted per project |
+| `.clinerules` | ✅ (template) | ✅ (copy) | Copied, can be adapted per project |
+| `Modelfile` | ✅ (template) | ✅ (copy) | Copied if Ollama Mode is used |
+| `template/proxy.py` | ✅ (template) | ✅ (copy) | Copied if Gemini Mode is used |
+| `requirements.txt` | ✅ (template) | ✅ (copy) | Copied if Gemini Mode is used |
+| `scripts/` | ✅ (template) | ✅ (copy) | Copied to each project |
+| `template/prompts/SP-*.md` | ✅ (source of truth) | ✅ (copy) | Copied — the project has its own versioned copy |
+| `template/prompts/README.md` | ✅ (template) | ✅ (copy) | Copied |
+| `memory-bank/` | ❌ | ✅ (specific) | Unique per project — never copy from one project to another |
+| `src/` (application code) | ❌ | ✅ (specific) | Unique per project |
+| `docs/qa/` | ❌ | ✅ (specific) | Project-specific QA reports |
 
-### 5.1 Pourquoi Copier les Fichiers plutôt que de les Référencer ?
+### 5.1 Why Copy Files Rather Than Reference Them?
 
-Vous pourriez penser à utiliser des sous-modules Git ou des liens symboliques pour éviter la duplication. **Ne faites pas cela.** Voici pourquoi :
+You might think about using Git submodules or symbolic links to avoid duplication. **Do not do this.** Here is why:
 
-- **Indépendance :** Chaque projet doit pouvoir évoluer indépendamment. Si vous améliorez `.clinerules` dans l'atelier, vous choisissez quand et si vous mettez à jour chaque projet.
-- **Traçabilité :** La version de `.clinerules` utilisée dans un projet est versionnée dans ce projet. Vous savez exactement quelle version de l'atelier était active quand un bug a été introduit.
-- **Simplicité :** Pas de dépendances entre dépôts à gérer. Chaque projet est autonome.
+- **Independence:** Each project must be able to evolve independently. If you improve `.clinerules` in the workbench, you choose when and whether to update each project.
+- **Traceability:** The version of `.clinerules` used in a project is versioned in that project. You know exactly which version of the workbench was active when a bug was introduced.
+- **Simplicity:** No inter-repository dependencies to manage. Each project is self-contained.
 
 ---
 
-## 6. Tableau de Bord des 3 Modes LLM par Cas d'Usage
+## 6. Dashboard of the 3 LLM Modes by Use Case
 
-| Mode | Cas d'Usage Recommandé | Avantage | Inconvénient |
+| Mode | Recommended Use Case | Advantage | Disadvantage |
 | :--- | :--- | :--- | :--- |
-| **Mode 1 — Ollama local** | Développement quotidien, tâches répétitives, code simple | Gratuit, hors ligne, 100% automatique | Plus lent que Claude, qualité variable sur tâches complexes |
-| **Mode 2 — Proxy Gemini** | Tâches complexes quand Ollama est insuffisant, sans budget API | Gratuit, haute qualité | Copier-coller manuel à chaque requête |
-| **Mode 3 — Claude API** | Refactoring complexe, architecture, décisions critiques | Meilleure qualité, 100% automatique | Payant à l'usage |
+| **Mode 1 — Local Ollama** | Daily development, repetitive tasks, simple code | Free, offline, 100% automatic | Slower than Claude, variable quality on complex tasks |
+| **Mode 2 — Gemini Proxy** | Complex tasks when Ollama is insufficient, without API budget | Free, high quality | Manual copy-paste required for each request |
+| **Mode 3 — Claude API** | Complex refactoring, architecture, critical decisions | Best quality, 100% automatic | Pay per use |
 
-**Recommandation pratique :**
-- Commencez en Mode 1 (Ollama) pour les tâches simples
-- Basculez en Mode 3 (Claude) pour les décisions d'architecture et le refactoring complexe
-- Utilisez le Mode 2 (Gemini) comme alternative gratuite au Mode 3 si le budget est une contrainte
+**Practical recommendation:**
+- Start in Mode 1 (Ollama) for simple tasks
+- Switch to Mode 3 (Claude) for architecture decisions and complex refactoring
+- Use Mode 2 (Gemini) as a free alternative to Mode 3 if budget is a constraint
 
 ---
 
-## 7. Cycle de Vie d'un Projet avec l'Atelier
+## 7. Project Lifecycle with the Workbench
 
-> **Référence :** Le processus complet (phases, artifacts, nomenclature, anti-risques agentiques) est décrit dans **[DOC5] `workbench/DOC5-GUIDE-Project-Development-Process.md`**. Ce document (DOC4) couvre uniquement le déploiement de l'atelier. DOC5 couvre comment travailler avec l'atelier une fois déployé.
+> **Reference:** The complete process (phases, artifacts, nomenclature, agentic anti-risks) is described in **[DOC5] `workbench/DOC5-GUIDE-Project-Development-Process.md`**. This document (DOC4) covers only the workbench deployment. DOC5 covers how to work with the workbench once deployed.
 
 ```
-PHASE 0 - AMONT OUVERT (avant de coder)
+PHASE 0 - OPEN UPSTREAM (before coding)
 │
-├── Collecter les entrées narratives brutes (emails, notes, idées)
-├── Mode Product Owner → BRIEF-001 (vision narrative brute)
-├── Mode Developer → BRIEF-002 (synthèse structurée)
-└── Mode Product Owner → BRIEF-003 (décision GO/NO-GO)
-    → Voir DOC5 Section 2
+├── Collect raw narrative inputs (emails, notes, ideas)
+├── Product Owner Mode → BRIEF-001 (raw narrative vision)
+├── Developer Mode → BRIEF-002 (structured synthesis)
+└── Product Owner Mode → BRIEF-003 (GO/NO-GO decision)
+    → See DOC5 Section 2
 
-PHASE SETUP / CADRAGE (une seule fois par projet)
+SETUP / FRAMING PHASE (once per project)
 │
-├── Copier les fichiers de l'atelier (ce document — DOC4)
-├── Initialiser la Memory Bank
-├── [Si existant] Audit du code par le Developer
-├── Mode Product Owner → PRJ-001 (projectBrief.md)
-├── Mode Developer → PRJ-002 (architecture initiale)
-├── Mode Product Owner → PRJ-003 (backlog initial MoSCoW)
-└── Premier commit
-    → Voir DOC5 Section 3
+├── Copy workbench files (this document — DOC4)
+├── Initialize the Memory Bank
+├── [If existing] Code audit by the Developer
+├── Product Owner Mode → PRJ-001 (projectBrief.md)
+├── Developer Mode → PRJ-002 (initial architecture)
+├── Product Owner Mode → PRJ-003 (initial MoSCoW backlog)
+└── First commit
+    → See DOC5 Section 3
 
-PHASE DÉVELOPPEMENT (itérative — un sprint = 1-2 semaines)
+DEVELOPMENT PHASE (iterative — one sprint = 1-2 weeks)
 │
-├── Mode Product Owner → SPR-NNN-001 (Sprint Backlog + Sprint Goal)
+├── Product Owner Mode → SPR-NNN-001 (Sprint Backlog + Sprint Goal)
 │
-├── Mode Developer (répété pour chaque User Story)
-│   ├── Lire Memory Bank (VÉRIFIER→CRÉER→LIRE→AGIR)
-│   ├── Implémenter la User Story
-│   ├── Mettre à jour Memory Bank
-│   └── Commiter (feat(US-XXX): ...)
+├── Developer Mode (repeated for each User Story)
+│   ├── Read Memory Bank (CHECK→CREATE→READ→ACT)
+│   ├── Implement the User Story
+│   ├── Update Memory Bank
+│   └── Commit (feat(US-XXX): ...)
 │
-├── Mode QA Engineer → SPR-NNN-004 (Rapport de Tests)
-│   ├── Tester les implémentations
-│   └── Documenter les bugs
+├── QA Engineer Mode → SPR-NNN-004 (Test Report)
+│   ├── Test the implementations
+│   └── Document the bugs
 │
-├── Mode Product Owner → SPR-NNN-005 (Sprint Review)
-│   └── Valider les US livrées, ajuster le backlog
+├── Product Owner Mode → SPR-NNN-005 (Sprint Review)
+│   └── Validate delivered US, adjust the backlog
 │
-└── Mode Scrum Master → SPR-NNN-006 (Rétrospective)
-    ├── Mettre à jour memory-bank/progress.md
-    └── Identifier les impediments
-    → Voir DOC5 Section 4
+└── Scrum Master Mode → SPR-NNN-006 (Retrospective)
+    ├── Update memory-bank/progress.md
+    └── Identify impediments
+    → See DOC5 Section 4
 
-PHASE MAINTENANCE (continue)
+MAINTENANCE PHASE (ongoing)
 │
-├── Bugs → Mode QA Engineer (rapport) + Mode Developer (fix)
-├── Nouvelles features → Mode Product Owner (US) + Mode Developer (impl)
-├── Release → Mode Developer → REL-VER-001/002/003
-└── Améliorations atelier → Mettre à jour agentic-agile-workbench/
-    → Voir DOC5 Section 5
+├── Bugs → QA Engineer Mode (report) + Developer Mode (fix)
+├── New features → Product Owner Mode (US) + Developer Mode (impl)
+├── Release → Developer Mode → REL-VER-001/002/003
+└── Workbench improvements → Update agentic-agile-workbench/
+    → See DOC5 Section 5
 ```
 
 ---
 
-## 8. Questions Fréquentes
+## 8. Frequently Asked Questions
 
-### Q : Dois-je recréer le Gem Gemini pour chaque projet ?
+### Q: Do I need to recreate the Gemini Gem for each project?
 
-**Non.** Le Gem Gemini "Roo Code Agent" est configuré une seule fois dans votre compte Google. Il est générique — il répond aux requêtes Roo Code quelle que soit la nature du projet. Vous n'avez pas à le recréer.
+**No.** The "Roo Code Agent" Gemini Gem is configured once in your Google account. It is generic — it responds to Roo Code requests regardless of the project type. You do not need to recreate it.
 
-### Q : Dois-je réinstaller Ollama pour chaque projet ?
+### Q: Do I need to reinstall Ollama for each project?
 
-**Non.** Ollama est un daemon Windows qui tourne en arrière-plan. Le modèle `uadf-agent` est compilé une seule fois. Vous n'avez qu'à vous assurer qu'Ollama tourne (icône dans la zone de notification) avant d'ouvrir Roo Code.
+**No.** Ollama is a Windows daemon running in the background. The `uadf-agent` model is compiled once. You only need to ensure Ollama is running (icon in the notification area) before opening Roo Code.
 
-### Q : Puis-je adapter `.roomodes` pour un projet spécifique ?
+### Q: Can I adapt `.roomodes` for a specific project?
 
-**Oui.** Par exemple, si un projet nécessite un persona "DevOps Engineer", vous pouvez l'ajouter dans la copie de `.roomodes` du projet. L'atelier n'est pas modifié. Si l'adaptation est utile pour tous les projets futurs, vous pouvez ensuite la reporter dans l'atelier.
+**Yes.** For example, if a project requires a "DevOps Engineer" persona, you can add it in the project's copy of `.roomodes`. The workbench is not modified. If the adaptation is useful for all future projects, you can then port it back to the workbench.
 
-### Q : Que faire si l'agent ne suit pas les règles `.clinerules` ?
+### Q: What to do if the agent does not follow the `.clinerules` rules?
 
-1. Vérifiez que `.clinerules` est bien à la racine du projet (pas dans un sous-dossier)
-2. Rechargez VS Code (`Ctrl+Shift+P` > "Developer: Reload Window")
-3. Si le problème persiste, vérifiez que la règle est formulée de manière impérative et non suggestive
+1. Verify that `.clinerules` is at the project root (not in a subfolder)
+2. Reload VS Code (`Ctrl+Shift+P` > "Developer: Reload Window")
+3. If the problem persists, verify that the rule is formulated imperatively and not suggestively
 
-### Q : Comment mettre à jour un projet quand l'atelier évolue ?
+### Q: How to update a project when the workbench evolves?
 
-1. Identifiez ce qui a changé dans l'atelier (consultez le `git log` de l'atelier)
-2. Copiez manuellement les fichiers modifiés vers le projet
-3. Commitez dans le projet avec un message explicite : `chore(workbench): mise à jour atelier v[X.Y] — [description du changement]`
+1. Identify what changed in the workbench (consult the workbench's `git log`)
+2. Manually copy the modified files to the project
+3. Commit in the project with an explicit message: `chore(workbench): update workbench v[X.Y] — [description of change]`
 
-### Q : Puis-je avoir plusieurs projets ouverts simultanément dans VS Code ?
+### Q: Can I have multiple projects open simultaneously in VS Code?
 
-**Oui**, via les workspaces VS Code. Chaque projet a ses propres `.roomodes` et `.clinerules`. Roo Code lit les fichiers du projet actuellement ouvert dans VS Code.
-
----
-
-## 9. Checklist de Déploiement
-
-### Pour un Nouveau Projet
-
-- [ ] Dépôt Git créé en dehors du dossier de l'atelier
-- [ ] Fichiers de l'atelier copiés (`.roomodes`, `.clinerules`, `template/proxy.py`, `scripts/`, `prompts/`)
-- [ ] `.gitignore` créé (venv/, .env, __pycache__, *.log)
-- [ ] Memory Bank initialisée (7 fichiers créés)
-- [ ] `memory-bank/projectBrief.md` rempli avec la vision du projet
-- [ ] `docs/qa/` créé avec `.gitkeep`
-- [ ] Premier commit effectué
-- [ ] VS Code ouvert sur le nouveau projet
-- [ ] Mode Product Owner → premières User Stories créées
-
-### Pour une Base de Code Existante
-
-- [ ] État initial commité (`git commit -m "chore(init): état initial avant refactoring le workbench"`)
-- [ ] Fichiers de l'atelier copiés (identique au cas précédent)
-- [ ] Memory Bank initialisée (7 fichiers créés)
-- [ ] `docs/qa/` créé avec `.gitkeep`
-- [ ] **Audit du code effectué par le Developer** → Memory Bank remplie
-- [ ] `memory-bank/projectBrief.md` vérifié et corrigé si nécessaire
-- [ ] `memory-bank/systemPatterns.md` contient les anti-patterns identifiés
-- [ ] User Stories de refactoring créées par le Product Owner
-- [ ] Refactoring démarré User Story par User Story
+**Yes**, via VS Code workspaces. Each project has its own `.roomodes` and `.clinerules`. Roo Code reads the files from the project currently open in VS Code.
 
 ---
 
-## Annexe A — Table des Références
+## 9. Deployment Checklist
 
-| Réf. | Type | Titre / Identifiant | Description |
+### For a New Project
+
+- [ ] Git repository created outside the workbench folder
+- [ ] Workbench files copied (`.roomodes`, `.clinerules`, `template/proxy.py`, `scripts/`, `prompts/`)
+- [ ] `.gitignore` created (venv/, .env, __pycache__, *.log)
+- [ ] Memory Bank initialized (7 files created)
+- [ ] `memory-bank/projectBrief.md` filled with the project vision
+- [ ] `docs/qa/` created with `.gitkeep`
+- [ ] First commit done
+- [ ] VS Code opened on the new project
+- [ ] Product Owner Mode → first User Stories created
+
+### For an Existing Codebase
+
+- [ ] Initial state committed (`git commit -m "chore(init): initial state before le workbench refactoring"`)
+- [ ] Workbench files copied (identical to the previous case)
+- [ ] Memory Bank initialized (7 files created)
+- [ ] `docs/qa/` created with `.gitkeep`
+- [ ] **Code audit performed by the Developer** → Memory Bank filled
+- [ ] `memory-bank/projectBrief.md` verified and corrected if necessary
+- [ ] `memory-bank/systemPatterns.md` contains the identified anti-patterns
+- [ ] Refactoring User Stories created by the Product Owner
+- [ ] Refactoring started User Story by User Story
+
+---
+
+## Appendix A — References Table
+
+| Ref. | Type | Title / Identifier | Description |
 | :--- | :--- | :--- | :--- |
-| [DOC1] | Document interne | `workbench/DOC1-PRD-Workbench-Requirements.md` | Product Requirements Document v2.0 — définit les exigences REQ-xxx du système le workbench |
-| [DOC2] | Document interne | `workbench/DOC2-ARCH-Workbench-Technical-Design.md` | Architecture, Solution et Stack Technique v2.0 — justifie les choix techniques |
-| [DOC3] | Document interne | `workbench/DOC3-BUILD-Workbench-Assembly-Phases.md` | Plan d'Implémentation Séquentiel Complet v3.0 — guide d'installation de l'atelier (Phases 0–12) |
-| [DOC4] | Document interne | `workbench/DOC4-GUIDE-Workbench-Deployment-Howto.md` | Ce document — Guide de Déploiement de l'Atelier sur projets nouveaux et existants |
-| [DOC5] | Document interne | `workbench/DOC5-GUIDE-Project-Development-Process.md` | Manuel du Processus Agile Applicatif v1.0 — à lire après déploiement pour savoir comment développer un projet avec l'atelier |
-| [SP-001] | System Prompt | `template/prompts/SP-001-ollama-modelfile-system.md` | System prompt du Modelfile Ollama — copié dans le projet lors du déploiement |
-| [SP-002] | System Prompt | `template/prompts/SP-002-clinerules-global.md` | Contenu canonique du fichier `.clinerules` — copié à la racine du projet |
-| [SP-003] | System Prompt | `template/prompts/SP-003-persona-product-owner.md` | `roleDefinition` Product Owner — intégré dans `.roomodes` du projet |
-| [SP-004] | System Prompt | `template/prompts/SP-004-persona-scrum-master.md` | `roleDefinition` Scrum Master — intégré dans `.roomodes` du projet |
-| [SP-005] | System Prompt | `template/prompts/SP-005-persona-developer.md` | `roleDefinition` Developer — intégré dans `.roomodes` du projet |
-| [SP-006] | System Prompt | `template/prompts/SP-006-persona-qa-engineer.md` | `roleDefinition` QA Engineer — intégré dans `.roomodes` du projet |
-| [SP-007] | System Prompt | `template/prompts/SP-007-gem-gemini-roo-agent.md` | Instructions du Gem Gemini "Roo Code Agent" — déploiement manuel hors Git |
-| [DEPLOY-SCRIPT] | Script PowerShell | `template/template/scripts/deploy-to-project.ps1` | Script de déploiement automatisé de l'atelier sur un projet (paramètres : `-ProjectPath`, `-Update`, `-DryRun`) |
-| [WORKBENCH-VERSION] | Fichier de version | `template/.workbench-version` | Fichier copié dans chaque projet pour tracer la version de l'atelier déployée |
-| [VERSION] | Fichier de version | `VERSION` (racine du workbench) | Version courante du workbench (format SemVer MAJOR.MINOR.PATCH) |
-| [CHANGELOG] | Journal des modifications | `CHANGELOG.md` (racine du workbench) | Historique des versions du workbench avec procédure de mise à jour des projets |
-| [GITHUB-WORKBENCH] | Dépôt GitHub | https://github.com/nghiaphan31/agentic-agile-workbench | Dépôt GitHub du workbench — source pour cloner et mettre à jour l'atelier |
-| [SEMVER] | Standard | Semantic Versioning (semver.org) | Convention MAJOR.MINOR.PATCH utilisée pour versionner le workbench et les fichiers SP |
+| [DOC1] | Internal document | `workbench/DOC1-PRD-Workbench-Requirements.md` | Product Requirements Document v2.0 — defines the REQ-xxx requirements of the le workbench system |
+| [DOC2] | Internal document | `workbench/DOC2-ARCH-Workbench-Technical-Design.md` | Architecture, Solution and Technical Stack v2.0 — justifies technical choices |
+| [DOC3] | Internal document | `workbench/DOC3-BUILD-Workbench-Assembly-Phases.md` | Complete Sequential Implementation Plan v3.0 — workbench installation guide (Phases 0–12) |
+| [DOC4] | Internal document | `workbench/DOC4-GUIDE-Workbench-Deployment-Howto.md` | This document — Workbench Deployment Guide for new and existing projects |
+| [DOC5] | Internal document | `workbench/DOC5-GUIDE-Project-Development-Process.md` | Application Agile Process Manual v1.0 — read after deployment to know how to develop a project with the workbench |
+| [SP-001] | System Prompt | `template/prompts/SP-001-ollama-modelfile-system.md` | Ollama Modelfile system prompt — copied to the project during deployment |
+| [SP-002] | System Prompt | `template/prompts/SP-002-clinerules-global.md` | Canonical content of the `.clinerules` file — copied to the project root |
+| [SP-003] | System Prompt | `template/prompts/SP-003-persona-product-owner.md` | Product Owner `roleDefinition` — integrated in the project's `.roomodes` |
+| [SP-004] | System Prompt | `template/prompts/SP-004-persona-scrum-master.md` | Scrum Master `roleDefinition` — integrated in the project's `.roomodes` |
+| [SP-005] | System Prompt | `template/prompts/SP-005-persona-developer.md` | Developer `roleDefinition` — integrated in the project's `.roomodes` |
+| [SP-006] | System Prompt | `template/prompts/SP-006-persona-qa-engineer.md` | QA Engineer `roleDefinition` — integrated in the project's `.roomodes` |
+| [SP-007] | System Prompt | `template/prompts/SP-007-gem-gemini-roo-agent.md` | "Roo Code Agent" Gemini Gem instructions — manual deployment outside Git |
+| [DEPLOY-SCRIPT] | PowerShell Script | `template/template/scripts/deploy-to-project.ps1` | Automated workbench deployment script to a project (parameters: `-ProjectPath`, `-Update`, `-DryRun`) |
+| [WORKBENCH-VERSION] | Version file | `template/.workbench-version` | File copied to each project to track the deployed workbench version |
+| [VERSION] | Version file | `VERSION` (workbench root) | Current workbench version (SemVer MAJOR.MINOR.PATCH format) |
+| [CHANGELOG] | Change log | `CHANGELOG.md` (workbench root) | Workbench version history with project update procedure |
+| [GITHUB-WORKBENCH] | GitHub repository | https://github.com/nghiaphan31/agentic-agile-workbench | Workbench GitHub repository — source for cloning and updating the workbench |
+| [SEMVER] | Standard | Semantic Versioning (semver.org) | MAJOR.MINOR.PATCH convention used to version the workbench and SP files |
 
 ---
 
-## Annexe B — Table des Abréviations
+## Appendix B — Abbreviations Table
 
-| Abréviation | Forme complète | Explication |
+| Abbreviation | Full Form | Explanation |
 | :--- | :--- | :--- |
-| **ADR** | Architecture Decision Record | Enregistrement horodaté d'une décision d'architecture. Stocké dans `memory-bank/decisionLog.md` du projet. |
-| **API** | Application Programming Interface | Interface de programmation. Trois APIs dans le workbench : Ollama REST (locale), OpenAI-compatible (proxy), Anthropic HTTPS (cloud). |
-| **DA** | Décision d'Architecture | Identifiant des décisions dans DOC2 (DA-001 à DA-014). Référencé dans DOC3 pour justifier les choix. |
-| **GEM** | Gem Gemini | Profil personnalisé Gemini Web avec system prompt permanent. "Roo Code Agent" contient SP-007. |
-| **Git** | — (nom propre) | Système de contrôle de version distribué. Chaque projet déployé doit être un dépôt Git. |
-| **JSON** | JavaScript Object Notation | Format de données structuré. Utilisé pour `.roomodes` (personas Agile). |
-| **LAAW** | Local Agentic Agile Workflow | Blueprint mychen76 — source d'inspiration pour la Memory Bank et les personas Agile du workbench. |
-| **LLM** | Large Language Model | Grand modèle de langage. Trois modes dans le workbench : Qwen3-32B (local), Gemini Pro (cloud Google), Claude Sonnet (cloud Anthropic). |
-| **PO** | Product Owner | Persona Agile — vision produit, User Stories, backlog. Mode `product-owner` dans `.roomodes`. |
-| **PRD** | Product Requirements Document | Document d'exigences produit. DOC1 est le PRD du workbench. |
-| **RBAC** | Role-Based Access Control | Contrôle d'accès par rôles. Chaque persona Agile a une matrice de permissions précise. |
-| **REQ** | Requirement (Exigence) | Identifiant des exigences dans DOC1. |
-| **SM** | Scrum Master | Persona Agile facilitateur pur — Memory Bank + Git uniquement, sans code ni tests. |
-| **SP** | System Prompt | Fichier canonique du registre `template/prompts/` avec métadonnées YAML. |
-| **SSE** | Server-Sent Events | Protocole de streaming HTTP serveur→client. Utilisé par le proxy pour retourner les réponses Gemini. |
-| **le workbench** | Agentic Agile Workbench | Nom du système décrit dans les documents de ce workbench. |
-| **VS Code** | Visual Studio Code | Éditeur de code Microsoft — environnement de développement principal du workbench. |
-| **YAML** | YAML Ain't Markup Language | Format de sérialisation lisible. Utilisé pour les en-têtes des fichiers SP canoniques. |
+| **ADR** | Architecture Decision Record | Timestamped record of an architecture decision. Stored in `memory-bank/decisionLog.md` of the project. |
+| **API** | Application Programming Interface | Programming interface. Three APIs in the workbench: Ollama REST (local), OpenAI-compatible (proxy), Anthropic HTTPS (cloud). |
+| **DA** | Architecture Decision (Décision d'Architecture) | Identifier for decisions in DOC2 (DA-001 to DA-014). Referenced in DOC3 to justify choices. |
+| **GEM** | Gemini Gem | Customized Gemini Web profile with permanent system prompt. "Roo Code Agent" contains SP-007. |
+| **Git** | — (proper noun) | Distributed version control system. Each deployed project must be a Git repository. |
+| **JSON** | JavaScript Object Notation | Structured data format. Used for `.roomodes` (Agile personas). |
+| **LAAW** | Local Agentic Agile Workflow | mychen76 blueprint — source of inspiration for the Memory Bank and Agile personas of the workbench. |
+| **LLM** | Large Language Model | Three modes in the workbench: Qwen3-32B (local), Gemini Pro (Google cloud), Claude Sonnet (Anthropic cloud). |
+| **PO** | Product Owner | Agile persona — product vision, User Stories, backlog. `product-owner` mode in `.roomodes`. |
+| **PRD** | Product Requirements Document | Product requirements document. DOC1 is the workbench PRD. |
+| **RBAC** | Role-Based Access Control | Access control by roles. Each Agile persona has a precise permissions matrix. |
+| **REQ** | Requirement | Identifier for requirements in DOC1. |
+| **SM** | Scrum Master | Pure facilitator Agile persona — Memory Bank + Git only, no code or tests. |
+| **SP** | System Prompt | Canonical file in the `template/prompts/` registry with YAML metadata. |
+| **SSE** | Server-Sent Events | HTTP server→client streaming protocol. Used by the proxy to return Gemini responses. |
+| **le workbench** | Agentic Agile Workbench | Name of the system described in the workbench documents. |
+| **VS Code** | Visual Studio Code | Microsoft code editor — main development environment of the workbench. |
+| **YAML** | YAML Ain't Markup Language | Human-readable serialization format. Used for the headers of canonical SP files. |
 
 ---
 
-## Annexe C — Glossaire
+## Appendix C — Glossary
 
-| Terme | Définition |
+| Term | Definition |
 | :--- | :--- |
-| **Atelier (Workbench)** | Ce dépôt (`agentic-agile-workbench`). Contient les outils, règles et processus réutilisables pour développer des projets applicatifs. S'oppose au "projet" qui contient le code métier. Analogie : atelier de menuiserie vs meubles fabriqués. |
-| **Audit de code** | Étape obligatoire lors du déploiement sur une base de code existante. Le Developer lit le code source et remplit la Memory Bank (`systemPatterns.md`, `techContext.md`) avec les patterns, anti-patterns et dettes techniques identifiés. |
-| **Balises XML Roo Code** | Syntaxe d'action de Roo Code : `<write_to_file>`, `<read_file>`, `<execute_command>`, `<attempt_completion>`, etc. Tout LLM connecté doit répondre avec ces balises. |
-| **Code spaghetti** | Code source mal structuré, sans architecture claire, difficile à maintenir. Le déploiement de l'atelier sur un code spaghetti nécessite une étape d'audit préalable avant toute modification. |
-| **Commit initial** | Premier commit Git d'un projet, effectué avant tout déploiement de l'atelier. Pour un projet existant : `git commit -m "chore(init): état initial avant refactoring le workbench"`. Crée un point de retour sûr. |
-| **Déploiement** | Copie des fichiers de l'atelier (`template/`) dans un projet applicatif. Peut être fait manuellement ou via `deploy-to-project.ps1`. |
-| **deploy-to-project.ps1** | Script PowerShell dans `template/scripts/` qui automatise le déploiement. Paramètres : `-ProjectPath` (obligatoire), `-Update` (mise à jour), `-DryRun` (simulation sans écriture). |
-| **Gem Gemini** | Profil Gemini Web avec system prompt permanent (SP-007). Créé une seule fois dans l'interface Gemini — partagé entre tous les projets utilisant le Mode Proxy. |
-| **Memory Bank** | 7 fichiers Markdown dans `memory-bank/` du projet persistant le contexte entre sessions. Créés lors du déploiement, remplis progressivement par les personas Agile. |
-| **Mise à jour de l'atelier** | Processus de propagation d'une nouvelle version du workbench vers les projets existants. Déclenché par `deploy-to-project.ps1 -Update` ou manuellement. Décrit dans `CHANGELOG.md`. |
-| **Mode Cloud** | Roo Code → API Anthropic directe (`claude-sonnet-4-6`). Entièrement automatisé, payant à l'usage. |
-| **Mode Local** | Roo Code (`pc`) → Ollama `calypso:11434` (Tailscale) → Qwen3-32B. Gratuit, souverain, réseau privé. |
-| **Mode Proxy** | Roo Code → proxy FastAPI `localhost:8000` → presse-papiers → Gemini Web. Gratuit, nécessite copier-coller humain. |
-| **Persona Agile** | Mode Roo Code simulant un rôle Scrum : Product Owner, Scrum Master, Developer, QA Engineer. Chaque persona a des permissions RBAC précises. |
-| **Projet applicatif** | Dépôt Git contenant le code métier d'une application. Distinct de l'atelier. Reçoit les fichiers de l'atelier lors du déploiement. |
-| **Séquence VÉRIFIER→CRÉER→LIRE→AGIR** | Protocole obligatoire au démarrage de chaque session Roo Code dans un projet déployé. Défini dans REGLE 1 de `.clinerules`. |
-| **SemVer** | Semantic Versioning. Format MAJOR.MINOR.PATCH : MAJOR = rupture de compatibilité, MINOR = nouvelle fonctionnalité, PATCH = correction. Utilisé pour versionner le workbench (`VERSION`) et les fichiers SP. |
-| **Template** | Répertoire `template/` du workbench contenant tous les fichiers à copier dans les projets applicatifs. Distinct de `workbench/` qui contient la documentation. |
-| **`.workbench-version`** | Fichier créé à la racine de chaque projet déployé, contenant la version du workbench utilisée (ex: `2.0.0`). Permet de savoir quelle version de l'atelier est déployée dans chaque projet. |
+| **Workbench** | This repository (`agentic-agile-workbench`). Contains the reusable tools, rules and processes for developing application projects. Contrasts with the "project" which contains the business code. Analogy: carpentry workshop vs. furniture produced. |
+| **Code audit** | Mandatory step when deploying on an existing codebase. The Developer reads the source code and fills the Memory Bank (`systemPatterns.md`, `techContext.md`) with the identified patterns, anti-patterns and technical debts. |
+| **Roo Code XML tags** | Roo Code action syntax: `<write_to_file>`, `<read_file>`, `<execute_command>`, `<attempt_completion>`, etc. Any connected LLM must respond with these tags. |
+| **Spaghetti code** | Poorly structured source code, without clear architecture, difficult to maintain. Deploying the workbench on spaghetti code requires a prior audit step before any modification. |
+| **Initial commit** | First Git commit of a project, made before any workbench deployment. For an existing project: `git commit -m "chore(init): initial state before le workbench refactoring"`. Creates a safe rollback point. |
+| **Deployment** | Copying workbench files (`template/`) into an application project. Can be done manually or via `deploy-to-project.ps1`. |
+| **deploy-to-project.ps1** | PowerShell script in `template/scripts/` that automates deployment. Parameters: `-ProjectPath` (required), `-Update` (update), `-DryRun` (simulation without writing). |
+| **Gemini Gem** | Gemini Web profile with permanent system prompt (SP-007). Created once in the Gemini interface — shared across all projects using Proxy Mode. |
+| **Memory Bank** | 7 Markdown files in `memory-bank/` of the project persisting context between sessions. Created during deployment, progressively filled by the Agile personas. |
+| **Workbench update** | Process of propagating a new workbench version to existing projects. Triggered by `deploy-to-project.ps1 -Update` or manually. Described in `CHANGELOG.md`. |
+| **Cloud Mode** | Roo Code → direct Anthropic API (`claude-sonnet-4-6`). Fully automated, pay per use. |
+| **Local Mode** | Roo Code (`pc`) → Ollama `calypso:11434` (Tailscale) → Qwen3-32B. Free, sovereign, private network. |
+| **Proxy Mode** | Roo Code → FastAPI proxy `localhost:8000` → clipboard → Gemini Web. Free, requires human copy-paste. |
+| **Agile Persona** | Roo Code mode simulating a Scrum role: Product Owner, Scrum Master, Developer, QA Engineer. Each persona has precise RBAC permissions. |
+| **Application project** | Git repository containing the business code of an application. Distinct from the workbench. Receives workbench files during deployment. |
+| **CHECK→CREATE→READ→ACT sequence** | Mandatory protocol at the start of each Roo Code session in a deployed project. Defined in RULE 1 of `.clinerules`. |
+| **SemVer** | Semantic Versioning. MAJOR.MINOR.PATCH format: MAJOR = breaking change, MINOR = new feature, PATCH = fix. Used to version the workbench (`VERSION`) and SP files. |
+| **Template** | `template/` directory of the workbench containing all files to copy into application projects. Distinct from `workbench/` which contains the documentation. |
+| **`.workbench-version`** | File created at the root of each deployed project, containing the workbench version used (e.g.: `2.0.0`). Allows knowing which workbench version is deployed in each project. |

@@ -8,18 +8,29 @@
 Phase 8 — Configuration du commutateur 3 modes LLM dans Roo Code.
 
 ## Dernier résultat
-FIX-023 appliqué : proxy.py v2.4.0
+FIX-024 appliqué : proxy.py v2.5.0
 
-**Problème diagnostiqué :** Le proxy envoyait les blocs `<environment_details>` injectés par Roo Code dans le contenu des messages. Ces blocs (fichiers ouverts, onglets VSCode, heure, coût, mode actif, liste des reminders) noyaient le vrai message utilisateur. Exemple : "Dis bonjour en une seule phrase." → Gemini ne recevait que `[USER]\n<environment_details>...</environment_details>` sans le texte réel.
+**Problème diagnostiqué :** FIX-023 (regex strip) ne fonctionnait pas correctement — le bloc `<environment_details>` était partiellement supprimé mais le contenu après `</environment_details>` (bloc `====\n\nREMINDERS...`) restait. De plus, le texte utilisateur réel ("Dis bonjour en une seule phrase.") apparaît **avant** le premier tag injecté, pas après.
 
-**Corrections apportées :**
-- **FIX-023** : `_strip_roo_injected_blocks()` supprime via regex les blocs `<environment_details>`, `<SYSTEM>`, `<task>`, `<feedback>` du contenu de chaque message avant envoi à Gemini.
-- Appliqué dans `_clean_content()` pour les messages string ET list.
-- Import `re` ajouté.
+**Structure réelle d'un message Roo Code :**
+```
+Dis bonjour en une seule phrase.
+<environment_details>
+...
+</environment_details>
+====
+
+REMINDERS
+...
+```
+
+**Correction FIX-024 :** Remplacement de l'approche "strip regex" par une approche "extraction avant le premier tag injecté" :
+- `_extract_user_text()` trouve la position du premier tag d'injection (`<environment_details`, `<SYSTEM>`, `<task>`, `<feedback>`) et retourne uniquement le texte qui précède.
+- Résultat : Gemini reçoit uniquement `[USER]\nDis bonjour en une seule phrase.`
 
 ## Prochain(s) pas
-- [ ] Redémarrer le proxy (proxy.py v2.4.0)
-- [ ] Tester : envoyer "Dis bonjour en une seule phrase." → Gemini doit recevoir uniquement `[USER]\nDis bonjour en une seule phrase.` et répondre avec `<attempt_completion><result>Bonjour !</result></attempt_completion>`
+- [ ] Redémarrer le proxy (proxy.py v2.5.0)
+- [ ] Tester : envoyer "Dis bonjour en une seule phrase." → Gemini doit recevoir `[USER]\nDis bonjour en une seule phrase.`
 - [ ] Créer profil "ollama_local" dans Roo Code Settings > Providers
 - [ ] Créer profil "gemini_proxy" dans Roo Code Settings > Providers
 - [ ] Tester Mode 1 Ollama
@@ -30,4 +41,4 @@ FIX-023 appliqué : proxy.py v2.4.0
 Aucun blocage actif.
 
 ## Dernier commit Git
-d7c556b — fix(proxy): v2.4.0 FIX-023 — suppression blocs environment_details/SYSTEM/task/feedback injectes par Roo Code
+[à mettre à jour après commit]

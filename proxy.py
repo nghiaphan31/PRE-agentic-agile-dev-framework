@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-le workbench Proxy v2.4.0 — Pont Roo Code <-> Gemini Chrome
+le workbench Proxy v2.5.0 — Pont Roo Code <-> Gemini Chrome
 Supporte stream=true (SSE) et stream=false (JSON complet).
 Exigences: REQ-2.1.1 a REQ-2.4.4
 
@@ -21,6 +21,8 @@ Changelog:
                          FIX-021 — Detection balises XML echappees markdown (\<read_file\>) avec message specifique (GAP R2-002)
   v2.3.0 - 2026-03-23 : FIX-022 — GEM MODE n'envoie que le dernier message [USER] (pas l'historique) pour eviter contamination de contexte (GAP R2-003)
   v2.4.0 - 2026-03-23 : FIX-023 — Suppression des blocs <environment_details>, <SYSTEM>, <task>, <feedback> injectes par Roo Code (GAP R2-004)
+  v2.5.0 - 2026-03-23 : FIX-024 — Extraction du texte utilisateur pur avant le premier bloc injecte par Roo Code (GAP R2-005)
+                         Remplace l'approche regex strip par une extraction "avant le premier tag injecte"
 """
 import asyncio, hashlib, json, os, re, sys, time, uuid
 from datetime import datetime
@@ -67,44 +69,53 @@ class ChatRequest(BaseModel):
     max_tokens: Optional[int] = None
     stream: Optional[bool] = False
 
-app = FastAPI(title="le workbench Proxy", version="2.4.0")
+app = FastAPI(title="le workbench Proxy", version="2.5.0")
 
-# FIX-023: Blocs XML injectes par Roo Code a supprimer avant envoi a Gemini (GAP R2-004)
-# Ces blocs contiennent du contexte interne Roo Code (fichiers ouverts, heure, cout, etc.)
-# qui noie le vrai message utilisateur et perturbe Gemini.
-_ROO_INJECTED_BLOCKS = [
-    "environment_details",  # Contexte VSCode (fichiers, onglets, heure, cout, mode)
-    "SYSTEM",               # System prompt injecte dans les messages user
-    "task",                 # Description de tache injectee
-    "feedback",             # Feedback utilisateur injecte
+# FIX-024: Balises d'injection Roo Code — tout ce qui suit le premier de ces tags est du contexte interne (GAP R2-005)
+# Structure reelle d'un message Roo Code :
+#   "Texte utilisateur reel\n<environment_details>\n...\n</environment_details>\n====\n\nREMINDERS\n..."
+# Le texte utilisateur est TOUJOURS avant le premier tag d'injection.
+_ROO_INJECTION_START_TAGS = [
+    "<environment_details",  # Contexte VSCode (fichiers, onglets, heure, cout, mode)
+    "<SYSTEM>",              # System prompt injecte dans les messages user
+    "<task>",                # Description de tache injectee
+    "<feedback>",            # Feedback utilisateur injecte
 ]
 
-def _strip_roo_injected_blocks(text: str) -> str:
-    """Supprime les blocs XML injectes par Roo Code du contenu d'un message. FIX-023"""
-    for tag in _ROO_INJECTED_BLOCKS:
-        # Supprime <tag>...</tag> et <tag ...>...</tag> (avec attributs eventuels), DOTALL pour multi-lignes
-        text = re.sub(rf"<{tag}(?:\s[^>]*)?>.*?</{tag}>", "", text, flags=re.DOTALL)
-    return text.strip()
+def _extract_user_text(text: str) -> str:
+    """Extrait uniquement le texte utilisateur reel, avant tout bloc injecte par Roo Code. FIX-024
+
+    Roo Code injecte des blocs XML apres le texte utilisateur :
+      "Dis bonjour\\n<environment_details>...\\n====\\n\\nREMINDERS..."
+    On coupe au premier tag d'injection rencontre et on retourne uniquement ce qui precede.
+    Si aucun tag d'injection n'est trouve, on retourne le texte complet.
+    """
+    cut_pos = len(text)
+    for tag in _ROO_INJECTION_START_TAGS:
+        pos = text.find(tag)
+        if pos != -1 and pos < cut_pos:
+            cut_pos = pos
+    return text[:cut_pos].strip()
 
 def _hash(text: str) -> str:
     return hashlib.md5(text.encode("utf-8")).hexdigest()
 
 def _clean_content(content) -> str:
-    """Nettoie le contenu : supprime les images base64 et les blocs injectes par Roo Code. REQ-2.1.5, FIX-023"""
+    """Nettoie le contenu : supprime les images base64, extrait le texte utilisateur pur. REQ-2.1.5, FIX-024"""
     if isinstance(content, str):
-        return _strip_roo_injected_blocks(content)
+        return _extract_user_text(content)
     if isinstance(content, list):
         parts = []
         for item in content:
             if isinstance(item, dict):
                 if item.get("type") == "text":
-                    parts.append(_strip_roo_injected_blocks(item.get("text", "")))
+                    parts.append(_extract_user_text(item.get("text", "")))
                 elif item.get("type") == "image_url":
                     parts.append("[IMAGE OMISE - Non supportee par le proxy clipboard]")
                 else:
                     parts.append(str(item))
         return "\n".join(parts)
-    return _strip_roo_injected_blocks(str(content))
+    return _extract_user_text(str(content))
 
 def _format_prompt(messages: List[MessageContent]) -> str:
     """Formate les messages en texte lisible. REQ-2.1.3, REQ-2.1.4, REQ-2.2.2
@@ -293,8 +304,8 @@ async def list_models():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "proxy": "le workbench", "version": "2.4.0", "gem_mode": USE_GEM_MODE}
+    return {"status": "ok", "proxy": "le workbench", "version": "2.5.0", "gem_mode": USE_GEM_MODE}
 
 if __name__ == "__main__":
-    print(f"{'='*60}\n  le workbench PROXY v2.4.0 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
+    print(f"{'='*60}\n  le workbench PROXY v2.5.0 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
     uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="warning")

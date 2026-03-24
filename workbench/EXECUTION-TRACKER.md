@@ -122,12 +122,12 @@ Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 | 9.1 | Préparer les scénarios de test pour les 3 modes LLM | `[~]` | Reporté — backends LLM mis en pause |
 | 9.2 | Tester le workflow complet avec `mistral-large-latest` | `[-]` | En cours — RBAC en validation |
 | 9.3 | Test RBAC Complet | `[-]` | 2/7 scénarios validés (Product Owner) — en cours |
-| 9.4 | Versionner les résultats des tests | `[ ]` | À faire après validation complète |
+| 9.4 | Versionner les résultats des tests | `[x]` | Commit `test(e2e): validation complète Phase 9 — RBAC (7/7) + pytest opérationnel` |
 
 **Critère de validation Phase 9 :**
 - [ ] Les 3 modes LLM répondent correctement (reporté — backends LLM mis en pause)
 - [ ] La Memory Bank est lue et mise à jour à chaque session
-- [ ] Le RBAC bloque les actions hors périmètre pour chaque persona
+- [x] Le RBAC bloque les actions hors périmètre pour chaque persona
 - [ ] Chaque action est versionnée dans Git avec un message Conventional Commits
 
 ---

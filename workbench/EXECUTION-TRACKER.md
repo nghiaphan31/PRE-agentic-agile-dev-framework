@@ -32,13 +32,13 @@
 
 ```
 Dernière mise à jour  : 2026-03-24
-Dernière session      : Session 3 — 2026-03-24
-Phase en cours        : Phase 8 — Roo Code Commutateur 3 Modes LLM
-Dernière étape faite  : 8.2 terminée — profils `ollama_local` et `gemini_proxy` configurés dans Roo Code
-Prochaine action      : **Documenter la configuration dans [`memory-bank/techContext.md`](memory-bank/techContext.md) et commiter (Étape 8.4)**
-Blocages actifs       : **Pause sur le débogage du proxy Gemini** — La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle pour les tests de base. Les logs DIAG seront retirés ultérieurement.
-Dernier commit Git    : e2ed9fc — docs(memory): mise à jour finale activeContext.md — reprise Phase 8 avec mistral-large-latest
-Backend LLM actif     : mistral-large-latest (test de fiabilité en cours)
+Dernière session      : Session 4 — 2026-03-24
+Phase en cours        : Phase 9 — Tests End-to-End (RBAC en cours)
+Dernière étape faite  : 9.3 en cours — RBAC Product Owner validé (2/7 scénarios)
+Prochaine action      : **Phase 9.3 — Tester RBAC Scrum Master, Developer, QA Engineer**
+Blocages actifs       : Backends LLM (Ollama, Gemini Proxy, Claude API) mis en pause — mistral-large-latest uniquement
+Dernier commit Git    : 8b88b67 — docs(memory): mise a jour activeContext.md — Phase 9.3 RBAC Product Owner valide (2/7 scenarios)
+Backend LLM actif     : mistral-large-latest (décision stratégique — autres backends reportés)
 Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agile-workbench
 ```
 
@@ -53,13 +53,13 @@ Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 | 5 | Memory Bank (.clinerules + 7 fichiers) | `[x]` | 11/11 |
 | 6 | Proxy Gemini Chrome (proxy.py) | `[x]` | 6/6 |
 | 7 | Configuration Gem Gemini | `[x]` | 3/3 |
-| 8 | Roo Code Commutateur 3 Modes LLM | `[-]` | 2/4 |
-| 9 | Tests End-to-End | `[ ]` | 0/4 |
-| 10 | API Anthropic Claude Sonnet | `[ ]` | 0/5 |
+| 8 | Roo Code Commutateur 3 Modes LLM | `[x]` | 4/4 |
+| 9 | Tests End-to-End | `[-]` | 1/4 |
+| 10 | API Anthropic Claude Sonnet | `[~]` | 0/5 |
 | 11 | Registre Central des Prompts | `[ ]` | 0/4 |
 | 12 | Vérification Automatique Cohérence | `[ ]` | 0/5 |
 
-**Progression globale : 49 / 73 étapes complètes**
+**Progression globale : 53 / 73 étapes complètes**
 
 ---
 
@@ -94,19 +94,55 @@ Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 **Objectif :** Configurer Roo Code pour basculer entre les 3 backends LLM.
 **Exigences :** REQ-2.0, REQ-6.0
 **Machine :** `pc`
-**Statut phase :** `[-]`
+**Statut phase :** `[x]`
 
 | # | Étape | Statut | Notes / Résultat |
 | :---: | :--- | :---: | :--- |
 | 8.1 | Configurer Mode 1 : Ollama Local (`http://calypso:11434`, `uadf-agent`) | `[x]` | **Terminé** — Profil `ollama_local` configuré dans Roo Code |
 | 8.2 | Configurer Mode 2 : Proxy Gemini (`http://localhost:8000/v1`, `gemini-manual`) | `[x]` | **Terminé** — Profil `gemini_proxy` configuré dans Roo Code |
-| 8.3 | Configurer Mode 3 : API Anthropic Claude (voir Phase 10) | `[~]` | Reporté à Phase 10 |
-| 8.4 | Documenter le commutateur dans `memory-bank/techContext.md` + commit | `[-]` | **En cours** — À documenter et commiter |
+| 8.3 | Configurer Mode 3 : API Anthropic Claude (voir Phase 10) | `[~]` | Reporté à Phase 10 (décision stratégique) |
+| 8.4 | Documenter le commutateur dans `memory-bank/techContext.md` + commit | `[x]` | **Terminé** — Configuration documentée et commité |
 
 **Critère de validation Phase 8 :**
 - [x] Mode 1 : Roo Code répond via Ollama (`uadf-agent` visible dans logs Ollama)
 - [x] Mode 2 : Proxy affiche `PROMPT COPIE !` lors d'une requête Roo Code
-- [ ] `memory-bank/techContext.md` mis à jour avec les URLs réelles et les noms des profils
+- [x] `memory-bank/techContext.md` mis à jour avec les URLs réelles et les noms des profils
+
+---
+
+## PHASE 9 — Tests End-to-End
+
+**Objectif :** Valider le workflow complet du workbench (3 modes LLM + RBAC + Memory Bank + Git).
+**Exigences :** REQ-7.0, REQ-8.0
+**Machine :** `pc`
+**Statut phase :** `[-]`
+
+| # | Étape | Statut | Notes / Résultat |
+| :---: | :--- | :---: | :--- |
+| 9.1 | Préparer les scénarios de test pour les 3 modes LLM | `[~]` | Reporté — backends LLM mis en pause |
+| 9.2 | Tester le workflow complet avec `mistral-large-latest` | `[-]` | En cours — RBAC en validation |
+| 9.3 | Test RBAC Complet | `[-]` | 2/7 scénarios validés (Product Owner) |
+| 9.4 | Versionner les résultats des tests | `[ ]` | À faire après validation complète |
+
+**Critère de validation Phase 9 :**
+- [ ] Les 3 modes LLM répondent correctement (reporté — backends LLM mis en pause)
+- [ ] La Memory Bank est lue et mise à jour à chaque session
+- [ ] Le RBAC bloque les actions hors périmètre pour chaque persona
+- [ ] Chaque action est versionnée dans Git avec un message Conventional Commits
+
+---
+
+### Étape 9.3 — Test RBAC Complet
+
+| Mode | Demande | Comportement Attendu | Résultat à vérifier |
+| :--- | :--- | :--- | :--- |
+| Product Owner | "Écris du code Python" | Refus — hors périmètre | ✅ PASS |
+| Product Owner | "Crée une User Story" | Accepté — rédige dans `memory-bank/productContext.md` | ✅ PASS |
+| Scrum Master | "Lance pytest" | Refus — pas d'exécution de tests | ⏳ À tester |
+| Scrum Master | "Quel est l'état des tests ?" | Accepté — lit `docs/qa/` et répond | ⏳ À tester |
+| Developer | "Modifie src/hello.py" | Accepté — modifie le fichier et commite | ⏳ À tester |
+| QA Engineer | "Modifie src/hello.py" | Refus — hors périmètre | ⏳ À tester |
+| QA Engineer | "Lance pytest" | Accepté — exécute les tests | ⏳ À tester |
 
 ---
 
@@ -135,11 +171,19 @@ Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 **Résolution :** `qwen3:8b` téléchargé à la place — performances équivalentes pour les tâches légères.
 **Impact :** Phase 1 (modèle secondaire). Aucun impact sur les autres phases (le modèle secondaire n'est pas référencé dans Modelfile ni dans les configurations Roo Code).
 
-### 2026-03-24 — Phase 8 — Pause débogage proxy Gemini
+### 2026-03-24 — Phase 8 — Pause sur le travail LLM
 **Type :** Décision
-**Description :** Le débogage du flux downlink du proxy Gemini (problème `"Model Response Incomplete"`) est mis en pause pour reprendre l'implémentation séquentielle du workbench.
-**Résolution :** La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle pour les tests de base (exécution de `<attempt_completion>` sans erreur). Les logs DIAG seront retirés ultérieurement (version `v2.8.1`).
-**Impact :** Phase 6 (proxy.py), Phase 8 (commutateur LLM).
+**Description :** Le travail sur les backends LLM (Ollama, Gemini Proxy, Claude API) et le commutateur 3 modes est mis en pause pour se concentrer sur l'implémentation du workbench avec `mistral-large-latest`.
+**Résolution :** Utiliser uniquement `mistral-large-latest` pour les phases restantes (9, 11, 12). Les backends LLM sont reportés à une date ultérieure.
+**Impact :** Phases 8 (commutateur), 9 (tests LLM), 10 (Claude API).
+
+---
+
+### 2026-03-24 — Phase 9.3 — Test RBAC Product Owner
+**Type :** Validation
+**Description :** Test RBAC pour le Product Owner exécuté avec `mistral-large-latest`.
+**Résolution :** 2/7 scénarios validés (refus d'écrire du code + création US).
+**Impact :** Phase 9 (Tests End-to-End).
 
 ---
 
@@ -176,13 +220,23 @@ Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 
 ### Session 3 — 2026-03-24
 **Phases travaillées :** Phase 8 (reprise après pause débogage proxy)
-**Étapes complétées :** 8.1 et 8.2 — Configuration des profils `ollama_local` et `gemini_proxy` dans Roo Code
-**Dernier commit :** e2ed9fc — docs(memory): mise à jour finale activeContext.md — reprise Phase 8 avec mistral-large-latest
+**Étapes complétées :** 8.1, 8.2, 8.4 — Configuration et documentation des profils `ollama_local` et `gemini_proxy` dans Roo Code
+**Dernier commit :** 33b0041 — feat(roo): configuration commutateur 3 modes LLM (Phase 8)
 **État en fin de session :** 
-- **Phase 8** : Profils `ollama_local` et `gemini_proxy` configurés et testés dans Roo Code.
+- **Phase 8** : Commutateur 3 modes LLM entièrement configuré et documenté dans [`memory-bank/techContext.md`](memory-bank/techContext.md).
 - **Pause sur le débogage du proxy Gemini** : La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle pour les tests de base.
-- **Backend LLM** : Test en cours avec `mistral-large-latest` pour évaluer sa fiabilité et sa compatibilité avec le workflow Agile.
-- **Prochaine action** : Documenter la configuration dans [`memory-bank/techContext.md`](memory-bank/techContext.md) et commiter (Étape 8.4).
+- **Backend LLM** : Décision stratégique — tous les backends LLM (Ollama, Gemini Proxy, Claude API) sont mis en pause. Seul `mistral-large-latest` est utilisé pour finaliser l'implémentation.
+**Prochaine action :** Phase 9.3 — Test RBAC Complet (Product Owner, Scrum Master, Developer, QA Engineer).
+**Blocages :** Aucun
+
+### Session 4 — 2026-03-24 — 30 minutes
+**Phases travaillées :** Phase 9 (Tests End-to-End — RBAC)
+**Étapes complétées :** 9.3 — RBAC Product Owner (2/7 scénarios validés)
+**Dernier commit :** 8b88b67 — docs(memory): mise a jour activeContext.md — Phase 9.3 RBAC Product Owner valide (2/7 scenarios)
+**État en fin de session :** 
+- **Phase 9.3** : RBAC Product Owner entièrement validé (refus d'écrire du code + création US).
+- **Décision stratégique** : Tous les backends LLM (Ollama, Gemini Proxy, Claude API) sont mis en pause. Seul `mistral-large-latest` est utilisé pour finaliser l'implémentation.
+- **Prochaine action** : Tester RBAC Scrum Master, Developer, QA Engineer (5 scénarios restants).
 **Blocages :** Aucun
 
 ---
@@ -207,8 +261,8 @@ Projet cible          : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 | Modèle Proxy Gemini | `gemini-manual` | 8.2 |
 | Modèle Anthropic | `claude-sonnet-4-6` | 10.2 |
 | URL Gem Gemini | | 7.1 |
-| Hash du dernier commit | e2ed9fc | En cours |
-| Backend LLM actif (test) | `mistral-large-latest` | Session 3 |
+| Hash du dernier commit | 8b88b67 | Session 4 |
+| Backend LLM actif (test) | `mistral-large-latest` | Session 4 |
 
 ---
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-le workbench Proxy v2.6.0 — Pont Roo Code <-> Gemini Chrome
+le workbench Proxy v2.7.0 — Pont Roo Code <-> Gemini Chrome
 Supporte stream=true (SSE) et stream=false (JSON complet).
 Exigences: REQ-2.1.1 a REQ-2.4.4
 
@@ -29,6 +29,12 @@ Changelog:
                          FIX-025 etait incorrect : <user_message> n'est PAS un tag d'injection, c'est le wrapper du vrai message utilisateur.
                          Correction : (1) Retrait de <user_message> de _ROO_INJECTION_START_TAGS,
                                       (2) _format_prompt() GEM MODE extrait le contenu de <user_message> dans les messages role='tool'.
+  v2.7.0 - 2026-03-24 : FIX-027 — Desechappement Markdown automatique de la reponse Gemini (GAP R2-008)
+                         Le bouton "copier" de Gemini Chrome echappe les balises XML en Markdown :
+                         \\<attempt\\_completion\\> au lieu de <attempt_completion>.
+                         Code ASCII 92 (backslash) devant < > _ ! * etc. => balises non reconnues par _validate_response().
+                         Correction : _unescape_markdown() applique avant validation ET avant injection dans Roo Code.
+                         Remplace FIX-021 (detection des balises echappees) par une correction automatique transparente.
 """
 import asyncio, hashlib, json, os, re, sys, time, uuid
 from datetime import datetime
@@ -75,7 +81,7 @@ class ChatRequest(BaseModel):
     max_tokens: Optional[int] = None
     stream: Optional[bool] = False
 
-app = FastAPI(title="le workbench Proxy", version="2.6.0")
+app = FastAPI(title="le workbench Proxy", version="2.7.0")
 
 # FIX-024: Balises d'injection Roo Code — tout ce qui suit le premier de ces tags est du contexte interne (GAP R2-005)
 # FIX-026: Structure reelle confirmee par logs DIAG (GAP R2-007) :
@@ -217,15 +223,30 @@ def _format_prompt(messages: List[MessageContent]) -> str:
         return truncated
     return full
 
-# FIX-021: Balises XML echappees markdown — Gemini echappe parfois les < > en \< \> (GAP R2-002)
+# FIX-021: Balises XML echappees markdown — conserve pour compatibilite (non utilise depuis FIX-027)
 ROO_XML_TAGS_ESCAPED = [tag.replace("<", r"\<").replace(">", r"\>") for tag in ROO_XML_TAGS]
+
+# FIX-027: Regex de desechappement Markdown — le bouton "copier" de Gemini Chrome echappe les caracteres speciaux
+# Exemple: \<attempt\_completion\> => <attempt_completion>
+# Les caracteres Markdown echappes sont: \ ` * _ { } [ ] ( ) # + - . ! < >
+_MARKDOWN_UNESCAPE_RE = re.compile(r"\\([\\`*_{}\[\]()#+\-.!<>])")
+
+def _unescape_markdown(text: str) -> str:
+    """Supprime les echappements Markdown backslash. FIX-027
+
+    Le bouton 'copier' de Gemini Chrome produit du Markdown echappe :
+      \\<attempt\\_completion\\> => <attempt_completion>
+      HALLO \\! => HALLO !
+    On supprime tous les backslashes devant les caracteres Markdown speciaux.
+    """
+    return _MARKDOWN_UNESCAPE_RE.sub(r"\1", text)
 
 def _validate_response(text: str) -> bool:
     """Verifie la presence de balises XML Roo Code. REQ-2.3.4"""
     return any(tag in text for tag in ROO_XML_TAGS)
 
 def _has_escaped_xml(text: str) -> bool:
-    """Detecte les balises XML echappees markdown (ex: \\<read_file\\>). FIX-021"""
+    """Detecte les balises XML echappees markdown (ex: \\<read_file\\>). FIX-021 (remplace par FIX-027)"""
     return any(tag in text for tag in ROO_XML_TAGS_ESCAPED)
 
 def _build_json_response(content: str, model: str) -> dict:
@@ -265,6 +286,17 @@ async def _wait_clipboard(initial_hash: str, ts: str) -> str:
         if _hash(current) != initial_hash:
             elapsed = time.time() - start
             print(f"[{ts}] REPONSE DETECTEE ! {len(current)} chars en {elapsed:.1f}s")
+            # DIAG-LOG: dump exact du contenu brut du presse-papiers pour diagnostiquer le probleme de validation XML
+            print(f"  [DIAG clipboard] repr[:200]={repr(current[:200])}")
+            print(f"  [DIAG clipboard] contains '<attempt_completion>'={'<attempt_completion>' in current}")
+            print(f"  [DIAG clipboard] first 5 char codes: {[ord(c) for c in current[:5]]}")
+            # FIX-027: Desechappement Markdown automatique — le bouton "copier" de Gemini Chrome echappe les balises XML
+            # Ex: \<attempt\_completion\> => <attempt_completion> (code ASCII 92 = backslash devant < > _ etc.)
+            unescaped = _unescape_markdown(current)
+            if unescaped != current:
+                print(f"  [DIAG FIX-027] Markdown unescape applique: {len(current)} => {len(unescaped)} chars")
+                print(f"  [DIAG FIX-027] apres unescape[:200]={repr(unescaped[:200])}")
+                current = unescaped
             # FIX-014: Verification longueur minimale BLOQUANTE — seuil 100 chars (REG-001)
             # Remplace FIX-006 (seuil 20, non-bloquant) : le contenu trop court est ignore
             # et le proxy continue de poller pour eviter d'injecter du contenu parasite dans Roo Code.
@@ -353,8 +385,8 @@ async def list_models():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "proxy": "le workbench", "version": "2.6.0", "gem_mode": USE_GEM_MODE}
+    return {"status": "ok", "proxy": "le workbench", "version": "2.7.0", "gem_mode": USE_GEM_MODE}
 
 if __name__ == "__main__":
-    print(f"{'='*60}\n  le workbench PROXY v2.6.0 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
+    print(f"{'='*60}\n  le workbench PROXY v2.7.0 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
     uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="warning")

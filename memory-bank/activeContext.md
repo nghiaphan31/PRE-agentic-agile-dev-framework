@@ -5,33 +5,35 @@
 **Backend LLM actif :** Claude Sonnet API (claude-sonnet-4-6)
 
 ## Tâche en cours
-Débogage proxy.py — chemin "uplink" Roo → Gemini Chrome.
+Débogage proxy.py — chemin "uplink" Roo → Gemini Chrome + chemin "downlink" Gemini → Roo.
 
 ## Dernier résultat
-FIX-026 appliqué : proxy.py v2.6.0
+FIX-027 appliqué : proxy.py v2.7.0
 
 **Problème diagnostiqué (confirmé par logs DIAG) :**
-FIX-025 était incorrect. La structure réelle des messages Roo Code est :
-- `role='tool'` → contient `<user_message>\nDis bonjour en une seule phrase\n</user_message>` (le vrai message utilisateur)
-- `role='user'` → contient uniquement `<environment_details>` (contexte VSCode, pas de texte utilisateur)
+Le bouton "copier" de Gemini Chrome produit du Markdown échappé :
+- `\<attempt\_completion\>` au lieu de `<attempt_completion>`
+- Code ASCII 92 (backslash) devant `<`, `>`, `_`, `!`, etc.
+- `_validate_response()` cherche `<attempt_completion>` → non trouvé → rejet de la réponse
 
-FIX-025 avait ajouté `<user_message>` dans `_ROO_INJECTION_START_TAGS`, ce qui faisait couper `_extract_user_text()` à `pos=0` → résultat `""` → prompt vide copié dans le presse-papiers.
+**Correction FIX-027 :**
+- Ajout de `_unescape_markdown()` : regex `\\([\\`*_{}\[\]()#+\-.!<>])` → supprime les backslashes Markdown
+- Appliqué dans `_wait_clipboard()` immédiatement après détection du changement de presse-papiers
+- Avant toutes les validations (longueur, `<new_task>`, XML) ET avant retour à Roo Code
+- Remplace FIX-021 (détection des balises échappées) par une correction automatique transparente
 
-**Correction FIX-026 :**
-1. Retrait de `<user_message>` de `_ROO_INJECTION_START_TAGS`
-2. Ajout de `_USER_MESSAGE_TAG_RE` (regex) pour extraire le contenu entre `<user_message>...</user_message>`
-3. `_format_prompt()` GEM MODE cherche en priorité le dernier `role='tool'` contenant `<user_message>`, puis fallback sur `role='user'` non-vide
-
-**Logs DIAG conservés** pour faciliter le débogage futur (peuvent être retirés une fois validé en production).
+**Historique des fixes de cette session :**
+- FIX-026 (v2.6.0) : uplink — extraction du message utilisateur depuis `role='tool'` `<user_message>`
+- FIX-027 (v2.7.0) : downlink — désechappement Markdown automatique de la réponse Gemini
 
 ## Prochain(s) pas
-- [ ] Redémarrer le proxy (proxy.py v2.6.0)
-- [ ] Tester : envoyer "Dis bonjour en une seule phrase" → Gemini doit recevoir `[USER]\nDis bonjour en une seule phrase`
-- [ ] Retirer les logs DIAG une fois le comportement validé (v2.6.1)
+- [ ] Redémarrer le proxy (proxy.py v2.7.0)
+- [ ] Tester : envoyer message → Gemini répond avec `<attempt_completion>` → proxy doit accepter sans demander reformulation
+- [ ] Retirer les logs DIAG une fois le comportement validé (v2.7.1)
 - [ ] Continuer Phase 8 : créer profils "ollama_local" et "gemini_proxy" dans Roo Code Settings > Providers
 
 ## Blocages / Questions ouvertes
 Aucun blocage actif.
 
 ## Dernier commit Git
-4e5e163 — fix(proxy): v2.6.0 FIX-026 — correction structure reelle messages Roo Code (GAP R2-007)
+(à mettre à jour après commit)

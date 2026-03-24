@@ -1,13 +1,13 @@
 <#
 .SYNOPSIS
-    le workbench — Verification de coherence des system prompts canoniques vs artefacts deployes.
+    le workbench — Consistency check of canonical system prompts vs deployed artifacts.
     REQ-8.1, REQ-8.3, REQ-8.4 | DA-013
 
 .DESCRIPTION
-    Compare le contenu de chaque SP canonique (prompts/SP-XXX-*.md) avec l'artefact
-    deploye correspondant. Utilise une comparaison normalisee (CRLF->LF, trim).
-    SP-007 (Gem Gemini) est exclu de la verification automatique avec avertissement.
-    Retourne exit code 0 si tout est synchronise, 1 si desynchronisation detectee.
+    Compares the content of each canonical SP (prompts/SP-XXX-*.md) with the
+    corresponding deployed artifact. Uses normalized comparison (CRLF->LF, trim).
+    SP-007 (Gem Gemini) is excluded from automatic verification with a warning.
+    Returns exit code 0 if everything is synchronized, 1 if desynchronization detected.
 #>
 
 param(
@@ -23,13 +23,13 @@ $WarnCount = 0
 
 function Normalize-Text {
     param([string]$Text)
-    # Normalisation : CRLF -> LF, trim espaces/sauts de ligne en debut/fin
+    # Normalization: CRLF -> LF, trim leading/trailing spaces and line breaks
     return $Text.Replace("`r`n", "`n").Replace("`r", "`n").Trim()
 }
 
 function Extract-PromptContent {
     param([string]$SpFile)
-    # Extraire le contenu entre les balises ```markdown ou ``` (premier bloc de code)
+    # Extract content between ```markdown or ``` tags (first code block)
     $content = Get-Content $SpFile -Raw -Encoding UTF8
     if ($content -match "(?s)```(?:markdown|python|)?\r?\n(.*?)\r?\n```") {
         return Normalize-Text $Matches[1]
@@ -47,29 +47,29 @@ function Show-Diff {
         $e = if ($i -lt $expLines.Count) { $expLines[$i] } else { "" }
         $a = if ($i -lt $actLines.Count) { $actLines[$i] } else { "" }
         if ($e -ne $a) {
-            $diffLines += "  Ligne $($i+1):"
-            $diffLines += "    SP (attendu) : $e"
-            $diffLines += "    Deploye      : $a"
+            $diffLines += "  Line $($i+1):"
+            $diffLines += "    SP (expected) : $e"
+            $diffLines += "    Deployed      : $a"
         }
     }
     if ($diffLines.Count -gt 0) {
-        Write-Host "  Premieres differences :" -ForegroundColor Yellow
+        Write-Host "  First differences:" -ForegroundColor Yellow
         $diffLines | ForEach-Object { Write-Host $_ -ForegroundColor Yellow }
     }
 }
 
 Write-Host ""
 Write-Host ("=" * 60)
-Write-Host "  le workbench — Verification Coherence Prompts" -ForegroundColor Cyan
+Write-Host "  le workbench — Prompt Consistency Check" -ForegroundColor Cyan
 Write-Host ("=" * 60)
 
 # --- SP-001 : Modelfile ---
 Write-Host ""
-Write-Host "[SP-001] Modelfile bloc SYSTEM..." -NoNewline
+Write-Host "[SP-001] Modelfile SYSTEM block..." -NoNewline
 $ModelfilePath = Join-Path $ProjectRoot "Modelfile"
 $Sp001Path = Join-Path $PromptsDir "SP-001-ollama-modelfile-system.md"
 if (-not (Test-Path $ModelfilePath)) {
-    Write-Host " SKIP (Modelfile absent)" -ForegroundColor Yellow
+    Write-Host " SKIP (Modelfile not found)" -ForegroundColor Yellow
     $WarnCount++
 } else {
     $spContent = Extract-PromptContent $Sp001Path
@@ -85,17 +85,17 @@ if (-not (Test-Path $ModelfilePath)) {
             $FailCount++
         }
     } else {
-        Write-Host " FAIL (bloc SYSTEM introuvable dans Modelfile)" -ForegroundColor Red
+        Write-Host " FAIL (SYSTEM block not found in Modelfile)" -ForegroundColor Red
         $FailCount++
     }
 }
 
 # --- SP-002 : .clinerules ---
-Write-Host "[SP-002] .clinerules (fichier entier)..." -NoNewline
+Write-Host "[SP-002] .clinerules (entire file)..." -NoNewline
 $ClinerPath = Join-Path $ProjectRoot ".clinerules"
 $Sp002Path = Join-Path $PromptsDir "SP-002-clinerules-global.md"
 if (-not (Test-Path $ClinerPath)) {
-    Write-Host " SKIP (.clinerules absent)" -ForegroundColor Yellow
+    Write-Host " SKIP (.clinerules not found)" -ForegroundColor Yellow
     $WarnCount++
 } else {
     $spContent = Extract-PromptContent $Sp002Path
@@ -110,7 +110,7 @@ if (-not (Test-Path $ClinerPath)) {
     }
 }
 
-# --- SP-003 a SP-006 : .roomodes ---
+# --- SP-003 to SP-006 : .roomodes ---
 $RoomodesPath = Join-Path $ProjectRoot ".roomodes"
 $SpPersonas = @(
     @{ Id = "SP-003"; File = "SP-003-persona-product-owner.md"; Slug = "product-owner"; Index = 0 },
@@ -120,7 +120,7 @@ $SpPersonas = @(
 )
 
 if (-not (Test-Path $RoomodesPath)) {
-    Write-Host "[SP-003..006] .roomodes absent — SKIP" -ForegroundColor Yellow
+    Write-Host "[SP-003..006] .roomodes not found — SKIP" -ForegroundColor Yellow
     $WarnCount += 4
 } else {
     $roomodesJson = Get-Content $RoomodesPath -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -130,7 +130,7 @@ if (-not (Test-Path $RoomodesPath)) {
         $spContent = Extract-PromptContent $spFile
         $mode = $roomodesJson.customModes | Where-Object { $_.slug -eq $persona.Slug }
         if ($null -eq $mode) {
-            Write-Host " FAIL (slug '$($persona.Slug)' introuvable dans .roomodes)" -ForegroundColor Red
+            Write-Host " FAIL (slug '$($persona.Slug)' not found in .roomodes)" -ForegroundColor Red
             $FailCount++
         } else {
             $deployedContent = Normalize-Text $mode.roleDefinition
@@ -146,26 +146,26 @@ if (-not (Test-Path $RoomodesPath)) {
     }
 }
 
-# --- SP-007 : Gem Gemini (hors Git — verification manuelle) ---
+# --- SP-007 : Gem Gemini (out of Git — manual verification) ---
 Write-Host ""
 Write-Host "[SP-007] Gem Gemini 'Roo Code Agent'..." -NoNewline
-Write-Host " AVERTISSEMENT (deploiement manuel requis)" -ForegroundColor Yellow
-Write-Host "  -> Verifier manuellement sur https://gemini.google.com > Gems > 'Roo Code Agent'"
-Write-Host "  -> Comparer avec : prompts/SP-007-gem-gemini-roo-agent.md"
+Write-Host " WARNING (manual deployment required)" -ForegroundColor Yellow
+Write-Host "  -> Verify manually at https://gemini.google.com > Gems > 'Roo Code Agent'"
+Write-Host "  -> Compare with: prompts/SP-007-gem-gemini-roo-agent.md"
 $WarnCount++
 
-# --- Resume ---
+# --- Summary ---
 Write-Host ""
 Write-Host ("=" * 60)
-Write-Host "  RESUME : $PassCount PASS | $FailCount FAIL | $WarnCount WARN" -ForegroundColor $(if ($FailCount -gt 0) { "Red" } elseif ($WarnCount -gt 0) { "Yellow" } else { "Green" })
+Write-Host "  SUMMARY: $PassCount PASS | $FailCount FAIL | $WarnCount WARN" -ForegroundColor $(if ($FailCount -gt 0) { "Red" } elseif ($WarnCount -gt 0) { "Yellow" } else { "Green" })
 Write-Host ("=" * 60)
 Write-Host ""
 
 if ($FailCount -gt 0) {
-    Write-Host "ECHEC : $FailCount prompt(s) desynchronise(s). Commit bloque." -ForegroundColor Red
-    Write-Host "Action requise : mettre a jour les artefacts deployes pour correspondre aux SP canoniques." -ForegroundColor Red
+    Write-Host "FAILURE: $FailCount prompt(s) out of sync. Commit blocked." -ForegroundColor Red
+    Write-Host "Action required: update the deployed artifacts to match the canonical SPs." -ForegroundColor Red
     exit 1
 } else {
-    Write-Host "SUCCES : Tous les prompts verifiables sont synchronises." -ForegroundColor Green
+    Write-Host "SUCCESS: All verifiable prompts are synchronized." -ForegroundColor Green
     exit 0
 }

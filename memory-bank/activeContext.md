@@ -5,18 +5,27 @@
 **Active LLM backend:** Claude Sonnet API
 
 ## Current task
-**i18n Batch 3 completed** — Translation of `prompts/SP-001`, `prompts/SP-007`, and `prompts/README.md` from French to English.
+**i18n Batch 4 completed** — Translation of all `template/` files from French to English, synced with live translated files.
 
 ## Last result
-### Batch 3 — SP-001, SP-007, and prompts/README.md translated to English ✅
-- `prompts/SP-001-ollama-modelfile-system.md`: YAML front matter, section headings, deployment notes, impact section translated; content block (Modelfile SYSTEM block) left unchanged (Modelfile out of scope); version bumped 1.0.0 → 1.1.0
-- `prompts/SP-007-gem-gemini-roo-agent.md`: YAML front matter, section headings, deployment notes, impact section translated; content block (Gemini Gem instructions) fully translated to English; XML tags and file paths unchanged; version bumped 1.6.0 → 1.7.0
-- `prompts/README.md`: entire file translated to English — all headings, prose, table headers, table content; `Hors Git` column → `Out of Git`; file paths and identifiers unchanged
-- Pre-commit hook ran `check-prompts-sync.ps1`: **6 PASS | 0 FAIL | 1 WARN** (SP-007 manual warning as expected)
+### Batch 4 — template/ files translated to English ✅
+- `template/.clinerules`: replaced entirely with live `.clinerules` (English version)
+- `template/.roomodes`: replaced entirely with live `.roomodes` (English version, all 4 persona roleDefinitions translated)
+- `template/prompts/README.md`: replaced with live `prompts/README.md` (English version)
+- `template/prompts/SP-001-ollama-modelfile-system.md`: updated to v1.1.0 (English front matter + deployment notes; content block unchanged)
+- `template/prompts/SP-002-clinerules-global.md`: updated to v2.1.0 (English front matter + deployment notes + embedded prompt content)
+- `template/prompts/SP-003-persona-product-owner.md`: updated to v1.1.0 (English)
+- `template/prompts/SP-004-persona-scrum-master.md`: updated to v2.1.0 (English)
+- `template/prompts/SP-005-persona-developer.md`: updated to v1.1.0 (English)
+- `template/prompts/SP-006-persona-qa-engineer.md`: updated to v1.1.0 (English)
+- `template/prompts/SP-007-gem-gemini-roo-agent.md`: updated to v1.7.0 (English, including content block)
+- `template/scripts/check-prompts-sync.ps1`: all French comments, strings, and console output translated to English; PowerShell logic unchanged
+- `template/scripts/start-proxy.ps1`: all French comments and strings translated to English
+- `template/scripts/update-workbench.ps1`: all French comments, synopsis, description, and console output translated to English
 
 ## Next step(s)
-- [ ] i18n Batch 4: translate memory-bank/*.md files
-- [ ] i18n Batch 5: translate workbench/*.md and other documentation
+- [ ] i18n Batch 5: translate memory-bank/*.md files (progress.md still in French)
+- [ ] i18n Batch 6: translate workbench/*.md and other documentation
 - [ ] Manual verification SP-007: sync the Gem Gemini with `prompts/SP-007-gem-gemini-roo-agent.md` (now in English)
 
 ## Blockers / Open questions
@@ -24,4 +33,5 @@
 - **LLM backends**: Ollama, Gemini Proxy and Claude API are paused except Claude Sonnet API (active mode)
 
 ## Last Git commit
-ecabad3 — chore(i18n): translate SP-001, SP-007, and prompts/README.md to English
+[to be filled after commit]
+---

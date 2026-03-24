@@ -1,145 +1,148 @@
-# PROTOCOLE UADF — DIRECTIVES IMPERATIVES (TOUTES SESSIONS, TOUS MODES)
+# PROTOCOL le workbench — MANDATORY DIRECTIVES (ALL SESSIONS, ALL MODES)
 
-## REGLE 1 : LECTURE OBLIGATOIRE AU DEMARRAGE DE CHAQUE SESSION
-Avant toute action, tu DOIS executer la sequence suivante dans cet ordre exact :
+## RULE 1 : MANDATORY READ AT THE START OF EACH SESSION
+Before any action, you MUST execute the following sequence in this exact order:
 
-1. VERIFIER : Est-ce que memory-bank/activeContext.md existe ?
-   - Si NON -> passer a l'etape CREER
-   - Si OUI -> passer a l'etape LIRE
-2. CREER (si absent) : Creer immediatement memory-bank/activeContext.md ET memory-bank/progress.md
-   en utilisant les templates definis en bas de ce fichier.
-3. LIRE : Lire memory-bank/activeContext.md puis memory-bank/progress.md
-4. AGIR : Traiter la demande de l'utilisateur
+1. CHECK : Does memory-bank/activeContext.md exist?
+   - If NO → proceed to the CREATE step
+   - If YES → proceed to the READ step
+2. CREATE (if absent) : Immediately create memory-bank/activeContext.md AND memory-bank/progress.md
+   using the templates defined at the bottom of this file.
+3. READ : Read memory-bank/activeContext.md then memory-bank/progress.md
+4. ACT : Process the user's request
 
-Cette sequence VERIFIER->CREER->LIRE->AGIR est NON NEGOCIABLE et s'applique a TOUTES les sessions.
+This CHECK→CREATE→READ→ACT sequence is NON-NEGOTIABLE and applies to ALL sessions.
 
-## REGLE 2 : ECRITURE OBLIGATOIRE A LA CLOTURE DE CHAQUE TACHE
-Avant de cloturer toute tache (avant attempt_completion), tu DOIS mettre a jour :
-1. memory-bank/activeContext.md  (nouvel etat, prochaine action)
-2. memory-bank/progress.md       (cocher les features terminees)
+## RULE 2 : MANDATORY WRITE AT THE CLOSE OF EACH TASK
+Before closing any task (before attempt_completion), you MUST update:
+1. memory-bank/activeContext.md  (new state, next action)
+2. memory-bank/progress.md       (check off completed features)
 
-Si une decision d'architecture a ete prise durant la session :
-3. memory-bank/decisionLog.md    (ADR avec date, contexte, decision, consequences)
+If an architecture decision was made during the session:
+3. memory-bank/decisionLog.md    (ADR with date, context, decision, consequences)
 
-## REGLE 3 : LECTURE CONTEXTUELLE SELON LA TACHE
-- Avant de modifier l'architecture : lire memory-bank/systemPatterns.md
-- Avant d'executer des commandes build/test : lire memory-bank/techContext.md
-- En debut de sprint ou de nouvelle feature : lire memory-bank/productContext.md
+## RULE 3 : CONTEXTUAL READ BASED ON THE TASK
+- Before modifying the architecture: read memory-bank/systemPatterns.md
+- Before executing build/test commands: read memory-bank/techContext.md
+- At the start of a sprint or new feature: read memory-bank/productContext.md
 
-## REGLE 4 : AUCUNE EXCEPTION AUX REGLES 1-3
-Ces regles s'appliquent a TOUS les modes et a TOUTES les sessions, sans exception.
+## RULE 4 : NO EXCEPTIONS TO RULES 1-3
+These rules apply to ALL modes and ALL sessions, without exception.
 
-## REGLE 5 : VERSIONNEMENT GIT OBLIGATOIRE ET AUTO-PORTANT
-Cette regle s'applique a tous les modes ayant acces au terminal (developer, scrum-master).
+## RULE 5 : MANDATORY AND SELF-CONTAINED GIT VERSIONING
+This rule applies to all modes with access to the terminal (developer, scrum-master).
 
-### 5.1 — Ce qui DOIT etre versionne
-TOUT doit etre versionne sous Git, sans exception :
-- Le code source applicatif (src/, app/, etc.)
-- Les scripts systeme (proxy.py, scripts/start-proxy.ps1, etc.)
-- Les fichiers de configuration (Modelfile, .roomodes, .clinerules, requirements.txt)
-- La Memory Bank (memory-bank/*.md)
-- Les prompts systeme (prompts/SP-*.md et prompts/README.md)
-- Les documents de plans et d'architecture (plans/*.md)
-- Les rapports QA (docs/qa/*.md)
+### 5.1 — What MUST be versioned
+EVERYTHING must be versioned under Git, without exception:
+- Application source code (src/, app/, etc.)
+- System scripts (proxy.py, scripts/start-proxy.ps1, etc.)
+- Configuration files (Modelfile, .roomodes, .clinerules, requirements.txt)
+- The Memory Bank (memory-bank/*.md)
+- System prompts (prompts/SP-*.md and prompts/README.md)
+- Plans and architecture documents (workbench/*.md)
+- QA reports (docs/qa/*.md)
 
-### 5.2 — Quand commiter
-Tu DOIS executer un commit Git dans les situations suivantes :
-- Apres avoir cree ou modifie un fichier de code
-- Apres avoir mis a jour la Memory Bank
-- Apres avoir modifie .roomodes, .clinerules, Modelfile ou tout fichier de prompts/
-- Apres avoir modifie proxy.py ou tout autre script
-- Avant de cloturer une tache (avant attempt_completion)
+### 5.2 — When to commit
+You MUST execute a Git commit in the following situations:
+- After creating or modifying a code file
+- After updating the Memory Bank
+- After modifying .roomodes, .clinerules, Modelfile or any file in prompts/
+- After modifying proxy.py or any other script
+- Before closing a task (before attempt_completion)
 
-### 5.3 — Format des messages de commit (Conventional Commits)
-Tu DOIS utiliser le format Conventional Commits :
-- feat(scope): description     -> Nouvelle fonctionnalite
-- fix(scope): description      -> Correction de bug
-- docs(memory): description    -> Mise a jour Memory Bank
-- docs(plans): description     -> Mise a jour documentation
-- chore(config): description   -> Modification de configuration
-- chore(prompts): description  -> Modification d'un system prompt
-- refactor(scope): description -> Refactorisation sans changement fonctionnel
-- test(scope): description     -> Ajout ou modification de tests
+### 5.3 — Commit message format (Conventional Commits)
+You MUST use the Conventional Commits format:
+- feat(scope): description     -> New feature
+- fix(scope): description      -> Bug fix
+- docs(memory): description    -> Memory Bank update
+- docs(plans): description     -> Documentation update
+- chore(config): description   -> Configuration change
+- chore(prompts): description  -> System prompt modification
+- refactor(scope): description -> Refactoring without functional change
+- test(scope): description     -> Adding or modifying tests
 
-### 5.4 — Commandes Git a utiliser
+### 5.4 — Git commands to use
   git add .
   git commit -m "type(scope): description concise"
 
-### 5.5 — Ce qui NE doit PAS etre versionne
-- Le dossier venv/ (environnement Python local)
-- Les fichiers .env (cles API — JAMAIS dans Git)
-- Les fichiers __pycache__/ et *.pyc
-- Les logs (*.log)
+### 5.5 — What must NOT be versioned
+- The venv/ folder (local Python environment)
+- .env files (API keys — NEVER in Git)
+- __pycache__/ files and *.pyc
+- Logs (*.log)
 
-## REGLE 6 : COHERENCE DU REGISTRE DES PROMPTS
-Cette regle s'applique au mode developer et scrum-master.
+## RULE 6 : PROMPT REGISTRY CONSISTENCY
+This rule applies to developer and scrum-master modes.
 
-### 6.1 — Avant tout commit touchant un artefact lie a un prompt
-Si tu modifies l'un des fichiers suivants : proxy.py, .roomodes, .clinerules, Modelfile
-tu DOIS verifier si le changement impacte un system prompt dans prompts/.
+### 6.1 — Before any commit touching an artifact linked to a prompt
+If you modify one of the following files: proxy.py, .roomodes, .clinerules, Modelfile
+you MUST check whether the change impacts a system prompt in prompts/.
 
-### 6.2 — Procedure de verification
-1. Lire prompts/README.md pour identifier le prompt concerne
-2. Ouvrir le fichier SP-XXX correspondant dans prompts/
-3. Si le contenu du prompt doit changer : modifier SP-XXX, incrementer sa version
-4. Si SP-007 (Gem Gemini) est impacte : ajouter un avertissement dans le commit :
-   "DEPLOIEMENT MANUEL REQUIS : mettre a jour le Gem Gemini avec SP-007"
-5. Inclure les fichiers prompts/ modifies dans le meme commit que les fichiers cibles
+### 6.2 — Verification procedure
+1. Read prompts/README.md to identify the affected prompt
+2. Open the corresponding SP-XXX file in prompts/
+3. If the prompt content must change: modify SP-XXX, increment its version
+4. If SP-007 (Gem Gemini) is impacted: add a warning in the commit:
+   "MANUAL DEPLOYMENT REQUIRED: update the Gem Gemini with SP-007"
+5. Include the modified prompts/ files in the same commit as the target files
 
-### 6.3 — Exemple de commit avec mise a jour de prompt
+### 6.3 — Example commit with prompt update
   git add proxy.py prompts/SP-007-gem-gemini-roo-agent.md
   git commit -m "chore(prompts): mise a jour SP-007 suite modification proxy.py - DEPLOIEMENT MANUEL REQUIS"
 
-## TEMPLATES DE FICHIERS MEMORY BANK
+## MEMORY BANK FILE TEMPLATES
 
 ### Template activeContext.md
 ---
-# Contexte Actif
-**Date de mise a jour :** [DATE]
-**Mode actif :** [MODE]
-**Backend LLM actif :** [Ollama uadf-agent | Proxy Gemini | Claude Sonnet API]
+# Active Context
+**Last updated:** [DATE]
+**Active mode:** [MODE]
+**Active LLM backend:** [Ollama uadf-agent | Proxy Gemini | Claude Sonnet API]
 
-## Tache en cours
-[Description de la tache en cours]
+## Current task
+[Description of the current task]
 
-## Dernier resultat
-[Resultat de la derniere action]
+## Last result
+[Result of the last action]
 
-## Prochain(s) pas
-- [ ] [Prochaine action immediate]
+## Next step(s)
+- [ ] [Next immediate action]
 
-## Blocages / Questions ouvertes
-[Aucun | Description du blocage]
+## Blockers / Open questions
+[None | Description of the blocker]
 
-## Dernier commit Git
-[Hash court et message du dernier commit]
+## Last Git commit
+[Short hash and message of the last commit]
 ---
 
 ### Template progress.md
 ---
-# Progression du Projet
-**Derniere mise a jour :** [DATE]
+# Project Progress
+**Last updated:** [DATE]
 
-## Infrastructure UADF
-- [ ] Phase 0 : Base saine VS Code + Roo Code
-- [ ] Phase 1 : Ollama + modeles
-- [ ] Phase 2 : Depot Git initialise
-- [ ] Phase 3 : Modelfile personnalise
-- [ ] Phase 4 : .roomodes (personas Agile)
+## Infrastructure le workbench
+- [ ] Phase 0 : Clean VS Code + Roo Code base
+- [ ] Phase 1 : Ollama + models
+- [ ] Phase 2 : Git repository initialized
+- [ ] Phase 3 : Custom Modelfile
+- [ ] Phase 4 : .roomodes (Agile personas)
 - [ ] Phase 5 : Memory Bank + .clinerules
 - [ ] Phase 6 : proxy.py (Gemini Chrome)
-- [ ] Phase 7 : Gem Gemini configure
-- [ ] Phase 8 : Roo Code commutateur 3 modes
-- [ ] Phase 9 : Tests end-to-end valides
-- [ ] Phase 10 : API Anthropic Claude configure
-- [ ] Phase 11 : Registre prompts/ initialise
-- [ ] Phase 12 : check-prompts-sync.ps1 + hook pre-commit
+- [ ] Phase 7 : Gem Gemini configured
+- [ ] Phase 8 : Roo Code 3-mode switcher
+- [ ] Phase 9 : End-to-end tests validated
+- [ ] Phase 10 : Anthropic Claude API configured
+- [ ] Phase 11 : prompts/ registry initialized
+- [ ] Phase 12 : check-prompts-sync.ps1 + pre-commit hook
 
-## Features Produit
+## Product Features
 
-### Epic 1 : [A definir]
-- [ ] [Feature a definir]
+### Epic 1 : [To be defined]
+- [ ] [Feature to be defined]
 
-## Legende
-- [ ] A faire  |  [-] En cours  |  [x] Termine
+## Legend
+- [ ] To do  |  [-] In progress  |  [x] Done
 ---
+
+## Notes
+> **Why CHECK→CREATE→READ→ACT?** Without the prior check, the agent would attempt to read a non-existent file and fail silently. The sequence guarantees that the Memory Bank is always initialized before being read.

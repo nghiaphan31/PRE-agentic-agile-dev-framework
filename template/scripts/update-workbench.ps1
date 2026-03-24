@@ -1,38 +1,38 @@
 <#
 .SYNOPSIS
-    Met à jour ce projet depuis l'établi agentic-agile-workbench.
+    Updates this project from the agentic-agile-workbench.
 
 .DESCRIPTION
-    Ce fichier est déployé dans les projets applicatifs par l'établi
-    agentic-agile-workbench. Il sert de point d'entrée pour déclencher
-    une mise à jour du projet depuis une nouvelle version de l'établi.
+    This file is deployed into application projects by the
+    agentic-agile-workbench. It serves as the entry point to trigger
+    an update of the project from a new version of the workbench.
 
-    Il délègue l'exécution au script canonique deploy-workbench-to-project.ps1
-    situé à la racine de l'établi.
+    It delegates execution to the canonical script deploy-workbench-to-project.ps1
+    located at the root of the workbench.
 
-    PRÉREQUIS :
-    ===========
-    Le dépôt agentic-agile-workbench doit être cloné localement.
-    Structure recommandée :
+    PREREQUISITES:
+    ==============
+    The agentic-agile-workbench repository must be cloned locally.
+    Recommended structure:
       $env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\
-        ├── agentic-agile-workbench\   (l'établi)
-        └── PROJECTS\ce-projet\        (ce projet)
+        ├── agentic-agile-workbench\   (the workbench)
+        └── PROJECTS\this-project\     (this project)
 
 .PARAMETER WorkbenchPath
-    Chemin absolu vers la racine du dépôt agentic-agile-workbench.
-    Par défaut : déduit depuis la structure canonique des dossiers.
+    Absolute path to the root of the agentic-agile-workbench repository.
+    Default: deduced from the canonical folder structure.
 
 .EXAMPLE
-    # Mise à jour depuis l'établi (chemin déduit automatiquement)
+    # Update from the workbench (path deduced automatically)
     .\scripts\update-workbench.ps1
 
 .EXAMPLE
-    # Mise à jour avec chemin explicite vers l'établi
+    # Update with explicit path to the workbench
     .\scripts\update-workbench.ps1 -WorkbenchPath "C:\Dev\agentic-agile-workbench"
 
 .NOTES
-    Fichier déployé automatiquement par deploy-workbench-to-project.ps1 (racine de l'établi).
-    Ne pas modifier ce fichier directement — modifier le script canonique dans l'établi.
+    File deployed automatically by deploy-workbench-to-project.ps1 (workbench root).
+    Do not modify this file directly — modify the canonical script in the workbench.
 #>
 
 param(
@@ -41,12 +41,12 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-# Chemin de ce projet (racine = parent de scripts/)
+# Path of this project (root = parent of scripts/)
 $ProjectPath = Split-Path -Parent $PSScriptRoot
 
-# Déduire le chemin de l'établi si non fourni
+# Deduce the workbench path if not provided
 if (-not $WorkbenchPath) {
-    # Structure canonique : ..\agentic-agile-workbench\ est un sibling du dossier parent du projet
+    # Canonical structure: ..\agentic-agile-workbench\ is a sibling of the project's parent folder
     $ProjectsRoot = Split-Path -Parent $ProjectPath
     $WorkbenchPath = Join-Path $ProjectsRoot "agentic-agile-workbench"
 }
@@ -55,26 +55,26 @@ $CanonicalScript = Join-Path $WorkbenchPath "deploy-workbench-to-project.ps1"
 
 Write-Host ""
 Write-Host ("=" * 70) -ForegroundColor Cyan
-Write-Host "  update-workbench.ps1 — Mise à jour depuis l'établi" -ForegroundColor Cyan
+Write-Host "  update-workbench.ps1 — Update from the workbench" -ForegroundColor Cyan
 Write-Host ("=" * 70) -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  Projet      : $ProjectPath" -ForegroundColor White
-Write-Host "  Établi      : $WorkbenchPath" -ForegroundColor White
-Write-Host "  Script      : deploy-workbench-to-project.ps1" -ForegroundColor White
+Write-Host "  Project   : $ProjectPath" -ForegroundColor White
+Write-Host "  Workbench : $WorkbenchPath" -ForegroundColor White
+Write-Host "  Script    : deploy-workbench-to-project.ps1" -ForegroundColor White
 Write-Host ""
 
 if (-not (Test-Path $CanonicalScript)) {
-    Write-Host "ERREUR : Script canonique introuvable à :" -ForegroundColor Red
+    Write-Host "ERROR: Canonical script not found at:" -ForegroundColor Red
     Write-Host "  $CanonicalScript" -ForegroundColor Red
     Write-Host ""
-    Write-Host "Solutions :" -ForegroundColor Yellow
-    Write-Host "  1. Cloner l'établi : git clone https://github.com/nghiaphan31/agentic-agile-workbench.git"
-    Write-Host "  2. Ou spécifier le chemin : .\scripts\update-workbench.ps1 -WorkbenchPath `"chemin\vers\etabli`""
+    Write-Host "Solutions:" -ForegroundColor Yellow
+    Write-Host "  1. Clone the workbench: git clone https://github.com/nghiaphan31/agentic-agile-workbench.git"
+    Write-Host "  2. Or specify the path: .\scripts\update-workbench.ps1 -WorkbenchPath `"path\to\workbench`""
     Write-Host ""
     exit 1
 }
 
-Write-Host "Délégation vers le script canonique..." -ForegroundColor Cyan
+Write-Host "Delegating to the canonical script..." -ForegroundColor Cyan
 Write-Host ""
 
 & $CanonicalScript -ProjectPath $ProjectPath -Update

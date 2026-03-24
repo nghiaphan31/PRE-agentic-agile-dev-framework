@@ -15,20 +15,20 @@ Décision stratégique : tous les backends LLM (Ollama, Gemini Proxy, Claude API
 | :--- | :--- | :--- | :--- |
 | Product Owner | "Écris du code Python" | Refus | ✅ PASS — Refus poli, suggestion de basculer vers Developer |
 | Product Owner | "Crée une User Story" | Accepté | ✅ PASS — US-003 créée dans `memory-bank/productContext.md` |
-| Scrum Master | "Lance pytest" | Refus | ⏳ À tester |
-| Scrum Master | "Quel est l'état des tests ?" | Accepté | ⏳ À tester |
+| Scrum Master | "Lance pytest" | Refus | ✅ PASS — Refus confirmé (commande non autorisée pour Scrum Master) |
+| Scrum Master | "Quel est l'état des tests ?" | Accepté | ✅ PASS — Lu `docs/qa/` : aucun rapport disponible (dossier vide) |
 | Developer | "Modifie src/hello.py" | Accepté | ⏳ À tester |
 | QA Engineer | "Modifie src/hello.py" | Refus | ⏳ À tester |
 | QA Engineer | "Lance pytest" | Accepté | ⏳ À tester |
 
-**Résultat partiel : 2/7 scénarios validés (Product Owner : 2 PASS)**
+**Résultat partiel : 4/7 scénarios validés (Product Owner : 2 PASS, Scrum Master : 2 PASS)**
 
 ## Prochain(s) pas
 - [x] **Phase 8 - Étape 8.1** : Profil `ollama_local` configuré dans Roo Code.
 - [x] **Phase 8 - Étape 8.2** : Profil `gemini_proxy` configuré dans Roo Code.
 - [x] **Phase 8 - Étape 8.4** : Configuration documentée dans [`memory-bank/techContext.md`](memory-bank/techContext.md).
 - [x] **Phase 9.3 - RBAC Product Owner** : 2 scénarios validés (refus code + création US).
-- [ ] **Phase 9.3 - RBAC Scrum Master** : Tester "Lance pytest" (refus) et "Quel est l'état des tests ?" (accepté).
+- [x] **Phase 9.3 - RBAC Scrum Master** : 2 scénarios validés (refus pytest + lecture état tests).
 - [ ] **Phase 9.3 - RBAC Developer** : Tester "Modifie src/hello.py" (accepté).
 - [ ] **Phase 9.3 - RBAC QA Engineer** : Tester "Modifie src/hello.py" (refus) et "Lance pytest" (accepté).
 - [ ] **Phase 11** : Vérifier la cohérence des SP canoniques vs artefacts déployés.
@@ -39,4 +39,4 @@ Décision stratégique : tous les backends LLM (Ollama, Gemini Proxy, Claude API
 - **Proxy Gemini** : La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle. Les logs DIAG seront retirés en version `v2.8.1` ultérieurement.
 
 ## Dernier commit Git
-f831a03 — feat(product): ajout US-003 — calcul de factorielle (Product Owner)
+eefb6de — docs(tracker): mise a jour EXECUTION-TRACKER.md — Phase 9.3 RBAC Product Owner valide (2/7 scenarios)

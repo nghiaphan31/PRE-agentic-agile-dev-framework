@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-le workbench Proxy v2.5.1 — Pont Roo Code <-> Gemini Chrome
+le workbench Proxy v2.6.0 — Pont Roo Code <-> Gemini Chrome
 Supporte stream=true (SSE) et stream=false (JSON complet).
 Exigences: REQ-2.1.1 a REQ-2.4.4
 
@@ -23,7 +23,12 @@ Changelog:
   v2.4.0 - 2026-03-23 : FIX-023 — Suppression des blocs <environment_details>, <SYSTEM>, <task>, <feedback> injectes par Roo Code (GAP R2-004)
   v2.5.0 - 2026-03-23 : FIX-024 — Extraction du texte utilisateur pur avant le premier bloc injecte par Roo Code (GAP R2-005)
                          Remplace l'approche regex strip par une extraction "avant le premier tag injecte"
-  v2.5.1 - 2026-03-24 : FIX-025 — Ajout <user_message> dans _ROO_INJECTION_START_TAGS (Roo Code encapsule contexte precedent dans ce tag) (GAP R2-006)
+  v2.5.1 - 2026-03-24 : FIX-025 — Ajout <user_message> dans _ROO_INJECTION_START_TAGS (REVERTED par FIX-026) (GAP R2-006)
+  v2.6.0 - 2026-03-24 : FIX-026 — Correction structure reelle messages Roo Code (GAP R2-007)
+                         Roo Code envoie le message utilisateur dans un message role='tool' encapsule dans <user_message>...</user_message>.
+                         FIX-025 etait incorrect : <user_message> n'est PAS un tag d'injection, c'est le wrapper du vrai message utilisateur.
+                         Correction : (1) Retrait de <user_message> de _ROO_INJECTION_START_TAGS,
+                                      (2) _format_prompt() GEM MODE extrait le contenu de <user_message> dans les messages role='tool'.
 """
 import asyncio, hashlib, json, os, re, sys, time, uuid
 from datetime import datetime
@@ -70,20 +75,23 @@ class ChatRequest(BaseModel):
     max_tokens: Optional[int] = None
     stream: Optional[bool] = False
 
-app = FastAPI(title="le workbench Proxy", version="2.5.1")
+app = FastAPI(title="le workbench Proxy", version="2.6.0")
 
 # FIX-024: Balises d'injection Roo Code — tout ce qui suit le premier de ces tags est du contexte interne (GAP R2-005)
-# Structure reelle d'un message Roo Code :
-#   "Texte utilisateur reel\n<user_message>\n...\n</user_message>\n<environment_details>\n...\n</environment_details>\n====\n\nREMINDERS\n..."
-# Le texte utilisateur est TOUJOURS avant le premier tag d'injection.
-# FIX-025: Ajout de <user_message> — Roo Code encapsule le contexte de conversation precedent dans ce tag (GAP R2-006)
+# FIX-026: Structure reelle confirmee par logs DIAG (GAP R2-007) :
+#   - Les messages role='user' contiennent uniquement <environment_details> (pas de texte utilisateur)
+#   - Le vrai message utilisateur arrive dans un message role='tool' encapsule dans <user_message>...</user_message>
+#   - <user_message> N'EST PAS un tag d'injection — c'est le wrapper du vrai message utilisateur
+#   - FIX-025 etait incorrect : il coupait a pos=0 et retournait "" pour le vrai message utilisateur
 _ROO_INJECTION_START_TAGS = [
     "<environment_details",  # Contexte VSCode (fichiers, onglets, heure, cout, mode)
-    "<user_message>",        # FIX-025: Contexte de conversation precedent encapsule par Roo Code
     "<SYSTEM>",              # System prompt injecte dans les messages user
     "<task>",                # Description de tache injectee
     "<feedback>",            # Feedback utilisateur injecte
 ]
+
+# FIX-026: Regex pour extraire le contenu d'un message role='tool' encapsule dans <user_message>...</user_message>
+_USER_MESSAGE_TAG_RE = re.compile(r"<user_message>\s*(.*?)\s*</user_message>", re.DOTALL)
 
 def _extract_user_text(text: str) -> str:
     """Extrait uniquement le texte utilisateur reel, avant tout bloc injecte par Roo Code. FIX-024
@@ -94,20 +102,30 @@ def _extract_user_text(text: str) -> str:
     Si aucun tag d'injection n'est trouve, on retourne le texte complet.
     """
     cut_pos = len(text)
+    first_tag_found = None
     for tag in _ROO_INJECTION_START_TAGS:
         pos = text.find(tag)
         if pos != -1 and pos < cut_pos:
             cut_pos = pos
-    return text[:cut_pos].strip()
+            first_tag_found = tag
+    result = text[:cut_pos].strip()
+    # DIAG-LOG: affiche le tag de coupure et le resultat extrait
+    print(f"  [DIAG _extract_user_text] input[:80]={repr(text[:80])}")
+    print(f"  [DIAG _extract_user_text] first_tag_found={first_tag_found!r} at pos={cut_pos if first_tag_found else 'N/A'}")
+    print(f"  [DIAG _extract_user_text] result={repr(result[:120])}")
+    return result
 
 def _hash(text: str) -> str:
     return hashlib.md5(text.encode("utf-8")).hexdigest()
 
 def _clean_content(content) -> str:
     """Nettoie le contenu : supprime les images base64, extrait le texte utilisateur pur. REQ-2.1.5, FIX-024"""
+    # DIAG-LOG: affiche le type et debut du contenu brut recu
     if isinstance(content, str):
+        print(f"  [DIAG _clean_content] type=str, raw[:80]={repr(content[:80])}")
         return _extract_user_text(content)
     if isinstance(content, list):
+        print(f"  [DIAG _clean_content] type=list, len={len(content)}, items[0]={repr(str(content[0])[:80]) if content else 'EMPTY'}")
         parts = []
         for item in content:
             if isinstance(item, dict):
@@ -118,6 +136,7 @@ def _clean_content(content) -> str:
                 else:
                     parts.append(str(item))
         return "\n".join(parts)
+    print(f"  [DIAG _clean_content] type=other({type(content).__name__}), raw[:80]={repr(str(content)[:80])}")
     return _extract_user_text(str(content))
 
 def _format_prompt(messages: List[MessageContent]) -> str:
@@ -129,17 +148,37 @@ def _format_prompt(messages: List[MessageContent]) -> str:
     traiter la nouvelle demande independamment. (GAP R2-003)
     """
     # FIX-022: GEM MODE — extraire uniquement le dernier message utilisateur
+    # FIX-026: Structure reelle Roo Code — le vrai message utilisateur arrive dans role='tool'
+    #   encapsule dans <user_message>...</user_message>. Les messages role='user' ne contiennent
+    #   que <environment_details> (contexte VSCode), pas le texte saisi par l'utilisateur.
+    #   Priorite de recherche : (1) dernier role='tool' avec <user_message>, (2) dernier role='user' non-vide
     if USE_GEM_MODE:
         last_user_content = None
+
+        # Priorite 1 : chercher le dernier message role='tool' contenant <user_message>...</user_message>
         for msg in reversed(messages):
-            if msg.role == "user":
-                content = _clean_content(msg.content)
-                if content.strip():
-                    last_user_content = content
-                    break
+            if msg.role == "tool":
+                raw = msg.content if isinstance(msg.content, str) else str(msg.content)
+                match = _USER_MESSAGE_TAG_RE.search(raw)
+                if match:
+                    extracted = match.group(1).strip()
+                    if extracted:
+                        last_user_content = extracted
+                        print(f"  [DIAG _format_prompt] FIX-026: extrait de role='tool' <user_message>: {repr(extracted[:80])}")
+                        break
+
+        # Priorite 2 : fallback sur le dernier role='user' non-vide (cas sans <user_message>)
+        if not last_user_content:
+            for msg in reversed(messages):
+                if msg.role == "user":
+                    content = _clean_content(msg.content)
+                    if content.strip():
+                        last_user_content = content
+                        break
+
         if last_user_content:
             return "[USER]\n" + last_user_content
-        # Fallback: aucun message user trouve, envoyer le dernier message quel que soit le role
+        # Fallback final: aucun message utilisateur trouve, envoyer le dernier message quel que soit le role
         for msg in reversed(messages):
             content = _clean_content(msg.content)
             if content.strip():
@@ -282,7 +321,14 @@ async def chat_completions(request: ChatRequest):
         print(f"[{ts}]    Cette requete sera traitee automatiquement des que la precedente sera terminee.")
     async with _clipboard_lock:
         ts = datetime.now().strftime("%H:%M:%S")
+        # DIAG-LOG: dump structure brute des messages recus de Roo Code
+        print(f"  [DIAG chat_completions] {len(request.messages)} messages recus:")
+        for i, msg in enumerate(request.messages):
+            raw_content = msg.content if isinstance(msg.content, str) else str(msg.content)
+            print(f"  [DIAG msg[{i}]] role={msg.role!r}, content[:120]={repr(raw_content[:120])}")
         formatted = _format_prompt(request.messages)
+        # DIAG-LOG: dump du prompt final formate
+        print(f"  [DIAG _format_prompt] result[:200]={repr(formatted[:200])}")
         pyperclip.copy(formatted)
         initial_hash = _hash(formatted)
         print(f"[{ts}] {'GEM MODE' if USE_GEM_MODE else 'MODE COMPLET'} | {len(formatted)} chars")
@@ -307,8 +353,8 @@ async def list_models():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "proxy": "le workbench", "version": "2.5.1", "gem_mode": USE_GEM_MODE}
+    return {"status": "ok", "proxy": "le workbench", "version": "2.6.0", "gem_mode": USE_GEM_MODE}
 
 if __name__ == "__main__":
-    print(f"{'='*60}\n  le workbench PROXY v2.5.1 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
+    print(f"{'='*60}\n  le workbench PROXY v2.6.0 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
     uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="warning")

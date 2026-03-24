@@ -1,45 +1,37 @@
 # Contexte Actif
 
 **Date de mise à jour :** 2026-03-24
-**Mode actif :** developer
+**Mode actif :** debug
 **Backend LLM actif :** Claude Sonnet API (claude-sonnet-4-6)
 
 ## Tâche en cours
-Phase 8 — Configuration du commutateur 3 modes LLM dans Roo Code.
+Débogage proxy.py — chemin "uplink" Roo → Gemini Chrome.
 
 ## Dernier résultat
-FIX-025 appliqué : proxy.py v2.5.1
+FIX-026 appliqué : proxy.py v2.6.0
 
-**Problème diagnostiqué :** La structure réelle d'un message Roo Code contient un tag `<user_message>` qui encapsule le contexte de conversation précédent, **avant** `<environment_details>`. FIX-024 coupait à `<environment_details>` mais pas à `<user_message>`, donc le contenu de la conversation précédente passait quand même.
+**Problème diagnostiqué (confirmé par logs DIAG) :**
+FIX-025 était incorrect. La structure réelle des messages Roo Code est :
+- `role='tool'` → contient `<user_message>\nDis bonjour en une seule phrase\n</user_message>` (le vrai message utilisateur)
+- `role='user'` → contient uniquement `<environment_details>` (contexte VSCode, pas de texte utilisateur)
 
-**Structure réelle d'un message Roo Code :**
-```
-Dis moi bonjour en une seule phrase
-<user_message>
-...contexte conversation precedente...
-</user_message>
-<environment_details>
-...
-</environment_details>
-====
+FIX-025 avait ajouté `<user_message>` dans `_ROO_INJECTION_START_TAGS`, ce qui faisait couper `_extract_user_text()` à `pos=0` → résultat `""` → prompt vide copié dans le presse-papiers.
 
-REMINDERS
-...
-```
+**Correction FIX-026 :**
+1. Retrait de `<user_message>` de `_ROO_INJECTION_START_TAGS`
+2. Ajout de `_USER_MESSAGE_TAG_RE` (regex) pour extraire le contenu entre `<user_message>...</user_message>`
+3. `_format_prompt()` GEM MODE cherche en priorité le dernier `role='tool'` contenant `<user_message>`, puis fallback sur `role='user'` non-vide
 
-**Correction FIX-025 :** Ajout de `<user_message>` dans `_ROO_INJECTION_START_TAGS`. Le proxy coupe maintenant au premier tag parmi : `<environment_details`, `<user_message>`, `<SYSTEM>`, `<task>`, `<feedback>`.
+**Logs DIAG conservés** pour faciliter le débogage futur (peuvent être retirés une fois validé en production).
 
 ## Prochain(s) pas
-- [ ] Redémarrer le proxy (proxy.py v2.5.1)
-- [ ] Tester : envoyer "Dis moi bonjour en une seule phrase." → Gemini doit recevoir `[USER]\nDis moi bonjour en une seule phrase.`
-- [ ] Créer profil "ollama_local" dans Roo Code Settings > Providers
-- [ ] Créer profil "gemini_proxy" dans Roo Code Settings > Providers
-- [ ] Tester Mode 1 Ollama
-- [ ] Tester Mode 2 Proxy Gemini
-- [ ] Mettre à jour memory-bank/techContext.md avec URLs réelles (étape 8.4)
+- [ ] Redémarrer le proxy (proxy.py v2.6.0)
+- [ ] Tester : envoyer "Dis bonjour en une seule phrase" → Gemini doit recevoir `[USER]\nDis bonjour en une seule phrase`
+- [ ] Retirer les logs DIAG une fois le comportement validé (v2.6.1)
+- [ ] Continuer Phase 8 : créer profils "ollama_local" et "gemini_proxy" dans Roo Code Settings > Providers
 
 ## Blocages / Questions ouvertes
 Aucun blocage actif.
 
 ## Dernier commit Git
-38659b9 — fix(proxy): v2.5.1 FIX-025 — ajout <user_message> dans _ROO_INJECTION_START_TAGS pour couper avant contexte conversation precedent
+(à mettre à jour après commit)

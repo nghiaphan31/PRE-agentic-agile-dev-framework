@@ -1,45 +1,45 @@
 <#
 .SYNOPSIS
-    agentic-agile-workbench — Déploie l'établi vers un projet applicatif.
+    agentic-agile-workbench — Deploys the workbench to an application project.
 
 .DESCRIPTION
-    Copie les fichiers template/ de l'établi vers un projet cible.
-    En mode -Update, met à jour un projet existant depuis une nouvelle version de l'établi.
-    Écrit .workbench-version dans le projet cible pour traçabilité.
+    Copies the template/ files from the workbench to a target project.
+    In -Update mode, updates an existing project from a new version of the workbench.
+    Writes .workbench-version to the target project for traceability.
 
-    Ce script est le script CANONIQUE de l'établi. Il doit être exécuté depuis
-    la racine du dépôt agentic-agile-workbench.
+    This script is the CANONICAL script of the workbench. It must be executed from
+    the root of the agentic-agile-workbench repository.
 
-    Un script de rappel (update-workbench.ps1) est déployé dans scripts/ de chaque
-    projet applicatif. Ce script de rappel redirige vers ce script canonique pour
-    toute mise à jour ultérieure.
+    A wrapper script (update-workbench.ps1) is deployed in scripts/ of each
+    application project. This wrapper script redirects to this canonical script for
+    any subsequent updates.
 
 .PARAMETER ProjectPath
-    Chemin absolu vers le dossier racine du projet applicatif cible.
+    Absolute path to the root folder of the target application project.
 
 .PARAMETER Update
-    Mode mise à jour : met à jour un projet existant depuis la nouvelle version de l'établi.
+    Update mode: updates an existing project from the new version of the workbench.
 
 .PARAMETER DryRun
-    Simule le déploiement sans rien copier. Affiche ce qui serait fait.
+    Simulates the deployment without copying anything. Displays what would be done.
 
 .EXAMPLE
-    # Déploiement initial sur un nouveau projet
-    # Structure canonique : $env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\
-    #   ├── agentic-agile-workbench\   (l'établi — ce dépôt)
-    #   └── PROJECTS\mon-nouveau-projet\   (le projet applicatif)
-    $Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-nouveau-projet"
-    .\deploy-workbench-to-project.ps1 -ProjectPath $Projet
+    # Initial deployment on a new project
+    # Canonical structure: $env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\
+    #   ├── agentic-agile-workbench\   (the workbench — this repository)
+    #   └── PROJECTS\my-new-project\   (the application project)
+    $Project = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\my-new-project"
+    .\deploy-workbench-to-project.ps1 -ProjectPath $Project
 
 .EXAMPLE
-    # Mise à jour d'un projet existant après une nouvelle version de l'établi
-    $Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-projet"
-    .\deploy-workbench-to-project.ps1 -ProjectPath $Projet -Update
+    # Update an existing project after a new version of the workbench
+    $Project = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\my-project"
+    .\deploy-workbench-to-project.ps1 -ProjectPath $Project -Update
 
 .EXAMPLE
-    # Simulation sans modification
-    $Projet = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\mon-projet"
-    .\deploy-workbench-to-project.ps1 -ProjectPath $Projet -DryRun
+    # Simulation without modification
+    $Project = "$env:USERPROFILE\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\my-project"
+    .\deploy-workbench-to-project.ps1 -ProjectPath $Project -DryRun
 #>
 
 param(
@@ -52,13 +52,13 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-# --- Chemins ---
-# Ce script vit à la racine de l'établi. template/ est un sous-dossier direct.
+# --- Paths ---
+# This script lives at the root of the workbench. template/ is a direct subfolder.
 $WorkbenchRoot = $PSScriptRoot
 $TemplatePath  = Join-Path $WorkbenchRoot "template"
 $WorkbenchVersion = (Get-Content (Join-Path $WorkbenchRoot "VERSION") -Raw).Trim()
 
-# Fichiers et dossiers à copier depuis template/
+# Files and folders to copy from template/
 $FilesToCopy = @(
     ".roomodes",
     ".clinerules",
@@ -75,65 +75,65 @@ $FoldersToCopy = @(
 # --- Validation ---
 Write-Host ""
 Write-Host ("=" * 60)
-Write-Host "  agentic-agile-workbench — Déploiement v$WorkbenchVersion" -ForegroundColor Cyan
-if ($DryRun) { Write-Host "  MODE SIMULATION (aucune modification)" -ForegroundColor Yellow }
-if ($Update)  { Write-Host "  MODE MISE À JOUR" -ForegroundColor Yellow }
+Write-Host "  agentic-agile-workbench — Deployment v$WorkbenchVersion" -ForegroundColor Cyan
+if ($DryRun) { Write-Host "  DRY RUN MODE (no modifications)" -ForegroundColor Yellow }
+if ($Update)  { Write-Host "  UPDATE MODE" -ForegroundColor Yellow }
 Write-Host ("=" * 60)
 Write-Host ""
 
 if (-not (Test-Path $ProjectPath)) {
-    Write-Host "ERREUR : Le dossier projet '$ProjectPath' n'existe pas." -ForegroundColor Red
-    Write-Host "Créez d'abord le dossier et initialisez Git :"
+    Write-Host "ERROR: Project folder '$ProjectPath' does not exist." -ForegroundColor Red
+    Write-Host "Create the folder first and initialize Git:"
     Write-Host "  git init '$ProjectPath'"
     exit 1
 }
 
-# Vérifier si Git est initialisé dans le projet
+# Check if Git is initialized in the project
 if (-not (Test-Path (Join-Path $ProjectPath ".git"))) {
-    Write-Host "AVERTISSEMENT : Aucun dépôt Git détecté dans '$ProjectPath'." -ForegroundColor Yellow
-    Write-Host "Il est fortement recommandé d'initialiser Git avant le déploiement :"
+    Write-Host "WARNING: No Git repository detected in '$ProjectPath'." -ForegroundColor Yellow
+    Write-Host "It is strongly recommended to initialize Git before deployment:"
     Write-Host "  cd '$ProjectPath' && git init"
-    $confirm = Read-Host "Continuer quand même ? (o/N)"
-    if ($confirm -ne "o" -and $confirm -ne "O") { exit 0 }
+    $confirm = Read-Host "Continue anyway? (y/N)"
+    if ($confirm -ne "y" -and $confirm -ne "Y") { exit 0 }
 }
 
-# En mode Update, vérifier la version actuelle du projet
+# In Update mode, check the current version of the project
 if ($Update) {
     $ProjectVersionFile = Join-Path $ProjectPath ".workbench-version"
     if (Test-Path $ProjectVersionFile) {
         $CurrentVersion = (Get-Content $ProjectVersionFile -Raw).Trim()
-        Write-Host "Version actuelle dans le projet : $CurrentVersion"
-        Write-Host "Nouvelle version de l'établi    : $WorkbenchVersion"
+        Write-Host "Current version in project : $CurrentVersion"
+        Write-Host "New workbench version       : $WorkbenchVersion"
         Write-Host ""
         if ($CurrentVersion -eq $WorkbenchVersion) {
-            Write-Host "Le projet est déjà à jour (v$WorkbenchVersion)." -ForegroundColor Green
+            Write-Host "Project is already up to date (v$WorkbenchVersion)." -ForegroundColor Green
             exit 0
         }
     } else {
-        Write-Host "Aucun fichier .workbench-version trouvé — déploiement initial." -ForegroundColor Yellow
+        Write-Host "No .workbench-version file found — initial deployment." -ForegroundColor Yellow
     }
 }
 
-# --- Copie des fichiers ---
+# --- File copy ---
 $CopiedCount = 0
 $SkippedCount = 0
 
-Write-Host "Fichiers à déployer :"
+Write-Host "Files to deploy:"
 Write-Host ""
 
-# Fichiers individuels
+# Individual files
 foreach ($file in $FilesToCopy) {
     $src = Join-Path $TemplatePath $file
     $dst = Join-Path $ProjectPath $file
 
     if (-not (Test-Path $src)) {
-        Write-Host "  [SKIP] $file (absent du template)" -ForegroundColor DarkGray
+        Write-Host "  [SKIP] $file (not found in template)" -ForegroundColor DarkGray
         $SkippedCount++
         continue
     }
 
     $exists = Test-Path $dst
-    $action = if ($exists) { "MAJ " } else { "NOUVEAU" }
+    $action = if ($exists) { "UPD " } else { "NEW" }
     $color  = if ($exists) { "Yellow" } else { "Green" }
 
     Write-Host "  [$action] $file" -ForegroundColor $color
@@ -144,19 +144,19 @@ foreach ($file in $FilesToCopy) {
     $CopiedCount++
 }
 
-# Dossiers
+# Folders
 foreach ($folder in $FoldersToCopy) {
     $src = Join-Path $TemplatePath $folder
     $dst = Join-Path $ProjectPath $folder
 
     if (-not (Test-Path $src)) {
-        Write-Host "  [SKIP] $folder/ (absent du template)" -ForegroundColor DarkGray
+        Write-Host "  [SKIP] $folder/ (not found in template)" -ForegroundColor DarkGray
         $SkippedCount++
         continue
     }
 
     $exists = Test-Path $dst
-    $action = if ($exists) { "MAJ " } else { "NOUVEAU" }
+    $action = if ($exists) { "UPD " } else { "NEW" }
     $color  = if ($exists) { "Yellow" } else { "Green" }
 
     Write-Host "  [$action] $folder/" -ForegroundColor $color
@@ -168,70 +168,70 @@ foreach ($folder in $FoldersToCopy) {
     $CopiedCount++
 }
 
-# Écrire la version de l'établi dans le projet
+# Write the workbench version to the project
 $versionDst = Join-Path $ProjectPath ".workbench-version"
 Write-Host "  [VERSION] .workbench-version → $WorkbenchVersion" -ForegroundColor Cyan
 if (-not $DryRun) {
     Set-Content $versionDst $WorkbenchVersion -Encoding UTF8
 }
 
-# --- Créer la Memory Bank si absente ---
+# --- Create Memory Bank if absent ---
 $MemoryBankPath = Join-Path $ProjectPath "memory-bank"
 if (-not (Test-Path $MemoryBankPath)) {
     Write-Host ""
-    Write-Host "Création de la Memory Bank (7 fichiers)..." -ForegroundColor Cyan
+    Write-Host "Creating Memory Bank (7 files)..." -ForegroundColor Cyan
     $mbFiles = @("projectBrief.md", "productContext.md", "systemPatterns.md",
                  "techContext.md", "activeContext.md", "progress.md", "decisionLog.md")
     if (-not $DryRun) {
         New-Item -Path $MemoryBankPath -ItemType Directory | Out-Null
         foreach ($f in $mbFiles) {
             New-Item -Path $MemoryBankPath -Name $f -ItemType File | Out-Null
-            Write-Host "  [NOUVEAU] memory-bank/$f" -ForegroundColor Green
+            Write-Host "  [NEW] memory-bank/$f" -ForegroundColor Green
         }
     } else {
         foreach ($f in $mbFiles) {
-            Write-Host "  [NOUVEAU] memory-bank/$f" -ForegroundColor Green
+            Write-Host "  [NEW] memory-bank/$f" -ForegroundColor Green
         }
     }
 }
 
-# --- Créer docs/qa/ si absent ---
+# --- Create docs/qa/ if absent ---
 $DocsQaPath = Join-Path $ProjectPath "docs\qa"
 if (-not (Test-Path $DocsQaPath)) {
     Write-Host ""
-    Write-Host "Création de docs/qa/..." -ForegroundColor Cyan
+    Write-Host "Creating docs/qa/..." -ForegroundColor Cyan
     if (-not $DryRun) {
         New-Item -Path $DocsQaPath -ItemType Directory -Force | Out-Null
         New-Item -Path $DocsQaPath -Name ".gitkeep" -ItemType File | Out-Null
-        Write-Host "  [NOUVEAU] docs/qa/.gitkeep" -ForegroundColor Green
+        Write-Host "  [NEW] docs/qa/.gitkeep" -ForegroundColor Green
     } else {
-        Write-Host "  [NOUVEAU] docs/qa/.gitkeep" -ForegroundColor Green
+        Write-Host "  [NEW] docs/qa/.gitkeep" -ForegroundColor Green
     }
 }
 
-# --- Résumé ---
+# --- Summary ---
 Write-Host ""
 Write-Host ("=" * 60)
 if ($DryRun) {
-    Write-Host "  SIMULATION TERMINÉE — Aucune modification effectuée" -ForegroundColor Yellow
+    Write-Host "  DRY RUN COMPLETE — No modifications made" -ForegroundColor Yellow
 } else {
-    Write-Host "  DÉPLOIEMENT TERMINÉ" -ForegroundColor Green
-    Write-Host "  Établi v$WorkbenchVersion déployé dans : $ProjectPath" -ForegroundColor Green
+    Write-Host "  DEPLOYMENT COMPLETE" -ForegroundColor Green
+    Write-Host "  Workbench v$WorkbenchVersion deployed to: $ProjectPath" -ForegroundColor Green
 }
 Write-Host ("=" * 60)
 Write-Host ""
 
 if (-not $DryRun) {
-    Write-Host "Prochaines étapes :" -ForegroundColor Cyan
-    Write-Host "  1. Remplir memory-bank/projectBrief.md avec la vision du projet"
-    Write-Host "  2. Ouvrir le projet dans VS Code : code '$ProjectPath'"
-    Write-Host "  3. Commiter les fichiers de l'établi :"
+    Write-Host "Next steps:" -ForegroundColor Cyan
+    Write-Host "  1. Fill in memory-bank/projectBrief.md with the project vision"
+    Write-Host "  2. Open the project in VS Code: code '$ProjectPath'"
+    Write-Host "  3. Commit the workbench files:"
     Write-Host "     cd '$ProjectPath'"
     Write-Host "     git add ."
-    Write-Host "     git commit -m `"chore(workbench): déploiement établi agentic-agile-workbench v$WorkbenchVersion`""
+    Write-Host "     git commit -m `"chore(workbench): deploy agentic-agile-workbench v$WorkbenchVersion`""
     Write-Host ""
     if ($Update) {
-        Write-Host "  4. [MISE À JOUR] Vérifier les changements avec : git diff" -ForegroundColor Yellow
-        Write-Host "     Consulter CHANGELOG.md de l'établi pour les détails des changements" -ForegroundColor Yellow
+        Write-Host "  4. [UPDATE] Review changes with: git diff" -ForegroundColor Yellow
+        Write-Host "     Consult the workbench CHANGELOG.md for details of the changes" -ForegroundColor Yellow
     }
 }

@@ -1,29 +1,42 @@
 # Contexte Actif
 
 **Date de mise à jour :** 2026-03-24
-**Mode actif :** developer
+**Mode actif :** scrum-master
 **Backend LLM actif :** mistral-large-latest
 
 ## Tâche en cours
-**Pause sur le débogage du proxy Gemini Chrome** — Reprise de l'implémentation séquentielle du workbench conformément à [`workbench/DOC3-BUILD-Workbench-Assembly-Phases.md`](workbench/DOC3-BUILD-Workbench-Assembly-Phases.md).
-**Objectif actuel** : Finaliser la **Phase 8** (Commutateur 3 modes LLM dans Roo Code) et préparer la **Phase 9** (Tests end-to-end).
+**Phase 9.3 — Test RBAC Complet** — Validation des 4 personas Agile avec `mistral-large-latest`.
+Décision stratégique : tous les backends LLM (Ollama, Gemini Proxy, Claude API) sont mis en pause. Seul `mistral-large-latest` est utilisé pour finaliser l'implémentation du workbench.
 
 ## Dernier résultat
-- **Proxy Gemini** : La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle pour les tests de base (exécution de `<attempt_completion>` sans erreur "Model Response Incomplete").
-- **Backend LLM** : Test en cours avec `mistral-large-latest` pour évaluer sa fiabilité et sa compatibilité avec le workflow Agile.
+### Tests RBAC exécutés (Phase 9.3)
+
+| Mode | Demande | Attendu | Résultat |
+| :--- | :--- | :--- | :--- |
+| Product Owner | "Écris du code Python" | Refus | ✅ PASS — Refus poli, suggestion de basculer vers Developer |
+| Product Owner | "Crée une User Story" | Accepté | ✅ PASS — US-003 créée dans `memory-bank/productContext.md` |
+| Scrum Master | "Lance pytest" | Refus | ⏳ À tester |
+| Scrum Master | "Quel est l'état des tests ?" | Accepté | ⏳ À tester |
+| Developer | "Modifie src/hello.py" | Accepté | ⏳ À tester |
+| QA Engineer | "Modifie src/hello.py" | Refus | ⏳ À tester |
+| QA Engineer | "Lance pytest" | Accepté | ⏳ À tester |
+
+**Résultat partiel : 2/7 scénarios validés (Product Owner : 2 PASS)**
 
 ## Prochain(s) pas
-- [x] **Phase 8 - Étape 8.1** : Configurer le profil `ollama_local` dans Roo Code (Settings > Providers > Ollama).
-- [x] **Phase 8 - Étape 8.2** : Configurer le profil `gemini_proxy` dans Roo Code (Settings > Providers > OpenAI Compatible).
-- [-] **Phase 8 - Étape 8.4** : Documenter la configuration dans [`memory-bank/techContext.md`](memory-bank/techContext.md) et commiter.
-- [ ] **Phase 9 - Préparation** : Préparer les scénarios de test end-to-end pour valider les 3 modes LLM (Ollama, Gemini Proxy, Claude API).
-- [x] **Product Backlog** : Définir **US-003** pour le calcul de factorielle dans [`memory-bank/productContext.md`](memory-bank/productContext.md).
-- [ ] **Proxy Gemini** : Retirer les logs DIAG et préparer la version `v2.8.1` de [`proxy.py`](proxy.py).
+- [x] **Phase 8 - Étape 8.1** : Profil `ollama_local` configuré dans Roo Code.
+- [x] **Phase 8 - Étape 8.2** : Profil `gemini_proxy` configuré dans Roo Code.
+- [x] **Phase 8 - Étape 8.4** : Configuration documentée dans [`memory-bank/techContext.md`](memory-bank/techContext.md).
+- [x] **Phase 9.3 - RBAC Product Owner** : 2 scénarios validés (refus code + création US).
+- [ ] **Phase 9.3 - RBAC Scrum Master** : Tester "Lance pytest" (refus) et "Quel est l'état des tests ?" (accepté).
+- [ ] **Phase 9.3 - RBAC Developer** : Tester "Modifie src/hello.py" (accepté).
+- [ ] **Phase 9.3 - RBAC QA Engineer** : Tester "Modifie src/hello.py" (refus) et "Lance pytest" (accepté).
+- [ ] **Phase 11** : Vérifier la cohérence des SP canoniques vs artefacts déployés.
+- [ ] **Phase 12** : Créer `scripts/check-prompts-sync.ps1` et le hook Git pre-commit.
 
 ## Blocages / Questions ouvertes
-- **Proxy Gemini** : Le débogage du flux downlink est **en pause**. La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle pour les tests de base. Les logs DIAG seront retirés ultérieurement.
-- **Backend LLM** : Test en cours avec `mistral-large-latest` pour évaluer sa fiabilité et sa compatibilité avec le workflow Agile.
+- **Backends LLM** : Ollama, Gemini Proxy et Claude API sont **mis en pause**. Seul `mistral-large-latest` est utilisé.
+- **Proxy Gemini** : La version `v2.8.0` de [`proxy.py`](proxy.py) est fonctionnelle. Les logs DIAG seront retirés en version `v2.8.1` ultérieurement.
 
 ## Dernier commit Git
-f7ac6f4 — docs(memory): mise à jour activeContext.md et EXECUTION-TRACKER.md — pause débogage proxy, reprise Phase 8 avec mistral-large-latest
-**Prochain commit attendu** : `feat(roo): configuration commutateur 3 modes LLM (Phase 8)`
+f831a03 — feat(product): ajout US-003 — calcul de factorielle (Product Owner)

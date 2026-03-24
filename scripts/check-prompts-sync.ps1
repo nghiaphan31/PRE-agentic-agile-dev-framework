@@ -65,6 +65,51 @@ if (-not (Test-Path $QA_DIR)) {
     New-Item -ItemType Directory -Path $QA_DIR | Out-Null
 }
 
+# Fonction pour extraire le contenu SYSTEM d'un Modelfile
+function Get-SystemContentFromModelfile {
+    param (
+        [string]$filePath
+    )
+    $content = Get-Content -Path $filePath -Raw
+    if ($content -match 'SYSTEM """(.*?)"""') {
+        return $matches[1].Trim()
+    }
+    return ""
+}
+
+# Fonction pour extraire une section JSON
+function Get-JsonSection {
+    param (
+        [string]$filePath,
+        [string]$sectionPath
+    )
+    $json = Get-Content -Path $filePath -Raw | ConvertFrom-Json
+    $sectionParts = $sectionPath -split '\.'
+    $current = $json
+    foreach ($part in $sectionParts) {
+        if ($part -match '(.+)\[(\d+)\]') {
+            $prop = $matches[1]
+            $index = [int]$matches[2]
+            $current = $current.$prop[$index]
+        } else {
+            $current = $current.$part
+        }
+    }
+    return $current
+}
+
+# Fonction pour extraire le contenu d'un SP canonique
+function Get-SPContent {
+    param (
+        [string]$spPath
+    )
+    $content = Get-Content -Path $spPath -Raw
+    if ($content -match 'SYSTEM """(.*?)"""') {
+        return $matches[1].Trim()
+    }
+    return $content.Trim()
+}
+
 # Générer un rapport Markdown
 function Generate-Report {
     $reportLines = @()
@@ -91,34 +136,30 @@ function Generate-Report {
             if (-not (Test-Path $spPath)) {
                 $status = "❌ FICHIER MANQUANT"
                 $notes = "SP canonique introuvable"
+                $allSynced = $false
             }
             elseif (-not (Test-Path $targetPath)) {
                 $status = "❌ CIBLE MANQUANTE"
                 $notes = "Artefact déployé introuvable"
+                $allSynced = $false
             }
             else {
                 # Extraire le contenu pertinent du SP
-                $spContent = Get-Content -Path $spPath -Raw
-n                # Extraire le contenu pertinent de la cible
+                $spContent = Get-SPContent -spPath $spPath
+
+                # Extraire le contenu pertinent de la cible
                 $targetContent = ""
                 if ($targetInfo.Section -eq "Full") {
                     $targetContent = Get-Content -Path $targetPath -Raw
                 }
                 elseif ($targetInfo.Section -eq "SYSTEM") {
-                    $targetContent = (Get-Content -Path $targetPath -Raw) -split "SYSTEM `"""" | Select-Object -Last 1
-                    $targetContent = $targetContent -split "`"""" | Select-Object -First 1
+                    $targetContent = Get-SystemContentFromModelfile -filePath $targetPath
                 }
-                elseif ($targetInfo.Type -eq "JSON" -and $targetInfo.Section -match "customModes\[(\d+)\]\.roleDefinition") {
-                    $roomodes = Get-Content -Path $targetPath -Raw | ConvertFrom-Json
-                    $index = [int]$matches[1]
-                    $targetContent = $roomodes.customModes[$index].roleDefinition
+                elseif ($targetInfo.Type -eq "JSON") {
+                    $targetContent = Get-JsonSection -filePath $targetPath -sectionPath $targetInfo.Section
                 }
 
                 # Comparaison
-                if ($spContent -match 'SYSTEM """(.*)"""') {
-                    $spContent = $matches[1].Trim()
-                }
-
                 if ($spContent -eq $targetContent) {
                     $status = "✅ SYNCHRONISÉ"
                 }
@@ -151,20 +192,17 @@ n                # Extraire le contenu pertinent de la cible
 $reportExists = Test-Path $REPORT_FILE
 $filesChanged = $false
 
-if ($reportExists) {
-    $lastReportDate = [datetime]::ParseExact((Get-Item $REPORT_FILE).Basename.Substring(12), 'yyyy-MM-dd', $null)
-    $today = (Get-Date).Date
-
+if ($reportExists -and -not $Force) {
     # Vérifier si des fichiers ont changé depuis le dernier rapport
     $spFiles = Get-ChildItem -Path $PROMPTS_DIR -Filter "SP-*.md"
     foreach ($file in $spFiles) {
-        if ($file.LastWriteTime -gt $lastReportDate) {
+        if ($file.LastWriteTime -gt (Get-Item $REPORT_FILE).LastWriteTime) {
             $filesChanged = $true
             break
         }
     }
 
-    if (-not $Force -and $today -eq $lastReportDate -and -not $filesChanged) {
+    if (-not $filesChanged) {
         Write-Host "Rapport déjà à jour : $REPORT_FILE"
         exit 0
     }

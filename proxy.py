@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-le workbench Proxy v2.7.0 — Pont Roo Code <-> Gemini Chrome
+le workbench Proxy v2.8.0 — Pont Roo Code <-> Gemini Chrome
 Supporte stream=true (SSE) et stream=false (JSON complet).
 Exigences: REQ-2.1.1 a REQ-2.4.4
 
@@ -35,6 +35,10 @@ Changelog:
                          Code ASCII 92 (backslash) devant < > _ ! * etc. => balises non reconnues par _validate_response().
                          Correction : _unescape_markdown() applique avant validation ET avant injection dans Roo Code.
                          Remplace FIX-021 (detection des balises echappees) par une correction automatique transparente.
+  v2.8.0 - 2026-03-24 : FIX-028 — Correction format SSE streaming pour compatibilite Roo Code (GAP R2-009)
+                         L'ancien format envoyait role+content dans le meme delta chunk => "Model Response Incomplete".
+                         Correction : chunk 1 = role seul, chunk 2 = content seul, chunk 3 = finish_reason=stop.
+                         Conforme au format OpenAI streaming standard.
 """
 import asyncio, hashlib, json, os, re, sys, time, uuid
 from datetime import datetime
@@ -81,7 +85,7 @@ class ChatRequest(BaseModel):
     max_tokens: Optional[int] = None
     stream: Optional[bool] = False
 
-app = FastAPI(title="le workbench Proxy", version="2.7.0")
+app = FastAPI(title="le workbench Proxy", version="2.8.0")
 
 # FIX-024: Balises d'injection Roo Code — tout ce qui suit le premier de ces tags est du contexte interne (GAP R2-005)
 # FIX-026: Structure reelle confirmee par logs DIAG (GAP R2-007) :
@@ -261,12 +265,27 @@ def _build_json_response(content: str, model: str) -> dict:
     }
 
 async def _stream_response(content: str, model: str) -> AsyncGenerator[str, None]:
-    """Genere une reponse SSE en un seul chunk. REQ-2.4.1, DA-014"""
+    """Genere une reponse SSE conforme au format OpenAI. REQ-2.4.1, DA-014, FIX-028
+
+    FIX-028: Correction du format SSE pour compatibilite Roo Code (GAP R2-009)
+    Le format OpenAI standard est :
+      1. Chunk 1 : delta = {"role": "assistant"} (role seul, pas de content)
+      2. Chunk 2 : delta = {"content": "<tout le contenu>"} (content seul, pas de role)
+      3. Chunk final : delta = {}, finish_reason = "stop"
+    L'ancien format envoyait role ET content dans le meme chunk, ce qui causait
+    "Model Response Incomplete" dans Roo Code (les balises XML n'etaient pas parsees).
+    """
     rid = "chatcmpl-proxy-" + uuid.uuid4().hex[:8]
     ts = int(time.time())
-    chunk = {"id": rid, "object": "chat.completion.chunk", "created": ts, "model": model,
-             "choices": [{"index": 0, "delta": {"role": "assistant", "content": content}, "finish_reason": None}]}
-    yield f"data: {json.dumps(chunk)}\n\n"
+    # Chunk 1 : role uniquement (conforme OpenAI streaming)
+    role_chunk = {"id": rid, "object": "chat.completion.chunk", "created": ts, "model": model,
+                  "choices": [{"index": 0, "delta": {"role": "assistant"}, "finish_reason": None}]}
+    yield f"data: {json.dumps(role_chunk)}\n\n"
+    # Chunk 2 : content uniquement
+    content_chunk = {"id": rid, "object": "chat.completion.chunk", "created": ts, "model": model,
+                     "choices": [{"index": 0, "delta": {"content": content}, "finish_reason": None}]}
+    yield f"data: {json.dumps(content_chunk)}\n\n"
+    # Chunk final : finish_reason = "stop"
     done = {"id": rid, "object": "chat.completion.chunk", "created": ts, "model": model,
             "choices": [{"index": 0, "delta": {}, "finish_reason": "stop"}]}
     yield f"data: {json.dumps(done)}\n\n"
@@ -385,8 +404,8 @@ async def list_models():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok", "proxy": "le workbench", "version": "2.7.0", "gem_mode": USE_GEM_MODE}
+    return {"status": "ok", "proxy": "le workbench", "version": "2.8.0", "gem_mode": USE_GEM_MODE}
 
 if __name__ == "__main__":
-    print(f"{'='*60}\n  le workbench PROXY v2.7.0 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
+    print(f"{'='*60}\n  le workbench PROXY v2.8.0 | http://localhost:{PORT}/v1\n  Mode: {'GEM' if USE_GEM_MODE else 'COMPLET'} | Timeout: {TIMEOUT_SECONDS}s\n{'='*60}")
     uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="warning")

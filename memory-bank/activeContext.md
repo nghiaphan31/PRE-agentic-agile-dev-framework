@@ -41,4 +41,4 @@ Roo Code ne parsait pas les balises XML quand role+content arrivaient ensemble.
 Aucun blocage actif.
 
 ## Dernier commit Git
-(à mettre à jour après commit)
+078c0aa — fix(proxy): v2.8.0 FIX-028 — correction format SSE streaming pour compatibilite Roo Code (GAP R2-009)

@@ -1,79 +1,79 @@
-# RESUME GUIDE — Protocole de Reprise de Session
-## Agentic Agile Workbench — Assembly Phases 0 à 12
+# RESUME GUIDE — Session Resume Protocol
+## Agentic Agile Workbench — Assembly Phases 0 to 12
 
-**Tracker d'exécution :** [`EXECUTION-TRACKER.md`](./EXECUTION-TRACKER.md)
-**Plan d'implémentation :** [`DOC3-BUILD-Workbench-Assembly-Phases.md`](./DOC3-BUILD-Workbench-Assembly-Phases.md)
-**Version :** 1.0.0
-**Créé le :** 2026-03-23
-
----
-
-## PROTOCOLE DE REPRISE EN 5 ÉTAPES
-
-> À exécuter **au début de chaque session**, sans exception, quelle que soit la durée de l'interruption.
-
-### ÉTAPE R1 — Lire l'État Courant (30 secondes)
-
-Ouvrir [`EXECUTION-TRACKER.md`](./EXECUTION-TRACKER.md) et lire **uniquement** la section `ÉTAT COURANT` :
-
-```
-Dernière mise à jour  : [DATE]
-Phase en cours        : [Phase X — Nom]
-Dernière étape faite  : [X.Y — Description]
-Prochaine action      : [Étape exacte à reprendre]
-Blocages actifs       : [Aucun | Description]
-Dernier commit Git    : [hash — message]
-Backend LLM actif     : [Ollama | Proxy Gemini | Claude API]
-Projet cible          : [Chemin]
-```
-
-**→ La "Prochaine action" indique exactement où reprendre.**
+**Execution tracker:** [`EXECUTION-TRACKER.md`](./EXECUTION-TRACKER.md)
+**Implementation plan:** [`DOC3-BUILD-Workbench-Assembly-Phases.md`](./DOC3-BUILD-Workbench-Assembly-Phases.md)
+**Version:** 1.0.0
+**Created:** 2026-03-23
 
 ---
 
-### ÉTAPE R2 — Vérifier l'État Réel du Système (2 minutes)
+## 5-STEP RESUME PROTOCOL
 
-Exécuter les vérifications correspondant à la phase en cours :
+> To be executed **at the start of each session**, without exception, regardless of how long the interruption lasted.
 
-#### Si Phase 0-1 (Infrastructure) :
+### STEP R1 — Read the Current State (30 seconds)
+
+Open [`EXECUTION-TRACKER.md`](./EXECUTION-TRACKER.md) and read **only** the `CURRENT STATE` section:
+
+```
+Last updated          : [DATE]
+Current phase         : [Phase X — Name]
+Last completed step   : [X.Y — Description]
+Next action           : [Exact step to resume from]
+Active blockers       : [None | Description]
+Last Git commit       : [hash — message]
+Active LLM backend    : [Ollama | Proxy Gemini | Claude API]
+Target project        : [Path]
+```
+
+**→ The "Next action" indicates exactly where to resume.**
+
+---
+
+### STEP R2 — Verify the Actual System State (2 minutes)
+
+Run the checks corresponding to the current phase:
+
+#### If Phase 0-1 (Infrastructure):
 ```powershell
-# Vérifier Tailscale
+# Check Tailscale
 tailscale status
 
-# Vérifier SSH vers calypso
+# Check SSH to calypso
 ssh calypso "ollama list"
 ```
 
-#### Si Phase 2-5 (Projet Git + Memory Bank) :
+#### If Phase 2-5 (Git Project + Memory Bank):
 ```powershell
-# Vérifier le dépôt Git
-cd [CHEMIN_PROJET]
+# Check the Git repository
+cd [PROJECT_PATH]
 git log --oneline -5
 git status
 
-# Vérifier la Memory Bank
+# Check the Memory Bank
 Test-Path "memory-bank/activeContext.md"
 Get-Content "memory-bank/activeContext.md"
 ```
 
-#### Si Phase 6-8 (Proxy + Roo Code) :
+#### If Phase 6-8 (Proxy + Roo Code):
 ```powershell
-# Vérifier que le proxy peut démarrer
-cd [CHEMIN_PROJET]
+# Check that the proxy can start
+cd [PROJECT_PATH]
 .\venv\Scripts\Activate.ps1
 python -c "import fastapi, uvicorn, pyperclip; print('OK')"
 
-# Vérifier Ollama depuis pc
+# Check Ollama from pc
 Invoke-WebRequest -Uri "http://calypso:11434/api/tags" -Method GET | Select-Object -ExpandProperty Content
 ```
 
-#### Si Phase 9-12 (Tests + Prompts) :
+#### If Phase 9-12 (Tests + Prompts):
 ```powershell
-# Vérifier l'état Git
-cd [CHEMIN_PROJET]
+# Check Git state
+cd [PROJECT_PATH]
 git log --oneline -10
 
-# Vérifier les fichiers clés
+# Check key files
 Test-Path ".clinerules"
 Test-Path ".roomodes"
 Test-Path "proxy.py"
@@ -82,107 +82,107 @@ Test-Path "prompts/README.md"
 
 ---
 
-### ÉTAPE R3 — Réconcilier si Nécessaire (si écart détecté)
+### STEP R3 — Reconcile if Necessary (if discrepancy detected)
 
-Si l'état réel du système **diffère** de ce qu'indique le tracker :
+If the actual system state **differs** from what the tracker indicates:
 
-1. **Le tracker est en avance sur la réalité** (ex: étape marquée `[x]` mais fichier absent) :
-   - Remettre l'étape à `[ ]` dans le tracker
-   - Reprendre depuis cette étape
+1. **The tracker is ahead of reality** (e.g.: step marked `[x]` but file is missing):
+   - Reset the step to `[ ]` in the tracker
+   - Resume from that step
 
-2. **La réalité est en avance sur le tracker** (ex: fichier existe mais étape non cochée) :
-   - Vérifier le critère de validation de l'étape
-   - Si validé → cocher `[x]` dans le tracker
-   - Continuer à la prochaine étape non cochée
+2. **Reality is ahead of the tracker** (e.g.: file exists but step not checked):
+   - Verify the step's validation criterion
+   - If validated → check `[x]` in the tracker
+   - Continue to the next unchecked step
 
-3. **Blocage non résolu depuis la dernière session** :
-   - Lire la section `BLOCAGES ET DÉCISIONS` du tracker
-   - Appliquer la résolution documentée, ou chercher une nouvelle solution
-   - Mettre à jour le statut du blocage
-
----
-
-### ÉTAPE R4 — Reprendre l'Implémentation
-
-1. Naviguer dans [`EXECUTION-TRACKER.md`](./EXECUTION-TRACKER.md) jusqu'à la phase en cours
-2. Trouver la première étape avec statut `[ ]` ou `[-]`
-3. Ouvrir [`DOC3-BUILD-Workbench-Assembly-Phases.md`](./DOC3-BUILD-Workbench-Assembly-Phases.md) à la section correspondante pour les instructions détaillées
-4. Exécuter l'étape
-5. Vérifier le critère de validation
-6. Cocher `[x]` dans le tracker dès que validé
+3. **Unresolved blocker from the previous session**:
+   - Read the `BLOCKERS AND DECISIONS` section of the tracker
+   - Apply the documented resolution, or find a new solution
+   - Update the blocker status
 
 ---
 
-### ÉTAPE R5 — Mettre à Jour le Tracker en Fin de Session
+### STEP R4 — Resume Implementation
 
-Avant de fermer, mettre à jour **obligatoirement** :
-
-1. **Section `ÉTAT COURANT`** — mettre à jour tous les champs
-2. **Tableau `Résumé de progression`** — mettre à jour les compteurs d'étapes
-3. **Section `JOURNAL DES SESSIONS`** — ajouter une entrée pour la session
-4. **Section `BLOCAGES ET DÉCISIONS`** — documenter tout nouveau blocage
+1. Navigate in [`EXECUTION-TRACKER.md`](./EXECUTION-TRACKER.md) to the current phase
+2. Find the first step with status `[ ]` or `[-]`
+3. Open [`DOC3-BUILD-Workbench-Assembly-Phases.md`](./DOC3-BUILD-Workbench-Assembly-Phases.md) at the corresponding section for detailed instructions
+4. Execute the step
+5. Verify the validation criterion
+6. Check `[x]` in the tracker once validated
 
 ---
 
-## RÉFÉRENCE RAPIDE — DÉPENDANCES ENTRE PHASES
+### STEP R5 — Update the Tracker at End of Session
+
+Before closing, **mandatory** updates:
+
+1. **`CURRENT STATE` section** — update all fields
+2. **`Progress summary` table** — update step counters
+3. **`SESSION LOG` section** — add an entry for the session
+4. **`BLOCKERS AND DECISIONS` section** — document any new blocker
+
+---
+
+## QUICK REFERENCE — DEPENDENCIES BETWEEN PHASES
 
 ```
-Phase 0 (VS Code propre)
-    └─→ Phase 4 (Roo Code doit être installé pour charger .roomodes)
-    └─→ Phase 8 (Roo Code doit être configuré)
+Phase 0 (Clean VS Code)
+    └─→ Phase 4 (Roo Code must be installed to load .roomodes)
+    └─→ Phase 8 (Roo Code must be configured)
 
-Phase 1 (Ollama sur calypso)
-    └─→ Phase 3 (ollama create uadf-agent nécessite Ollama installé)
-    └─→ Phase 8 Mode 1 (Roo Code → Ollama nécessite Ollama actif)
+Phase 1 (Ollama on calypso)
+    └─→ Phase 3 (ollama create uadf-agent requires Ollama installed)
+    └─→ Phase 8 Mode 1 (Roo Code → Ollama requires Ollama active)
 
-Phase 2 (Dépôt Git)
-    └─→ TOUTES les phases suivantes (tout est versionné dans ce dépôt)
+Phase 2 (Git Repository)
+    └─→ ALL subsequent phases (everything is versioned in this repository)
 
 Phase 3 (Modelfile)
-    └─→ Phase 8 Mode 1 (uadf-agent doit exister)
-    └─→ Phase 11 SP-001 (cohérence Modelfile ↔ SP-001)
+    └─→ Phase 8 Mode 1 (uadf-agent must exist)
+    └─→ Phase 11 SP-001 (Modelfile ↔ SP-001 consistency)
 
 Phase 4 (.roomodes)
-    └─→ Phase 9 Tests RBAC
-    └─→ Phase 11 SP-003 à SP-006
+    └─→ Phase 9 RBAC Tests
+    └─→ Phase 11 SP-003 to SP-006
 
 Phase 5 (Memory Bank + .clinerules)
-    └─→ Phase 9 (tests Memory Bank)
+    └─→ Phase 9 (Memory Bank tests)
     └─→ Phase 11 SP-002
 
 Phase 6 (proxy.py)
-    └─→ Phase 7 (Gem Gemini utilise le proxy)
+    └─→ Phase 7 (Gem Gemini uses the proxy)
     └─→ Phase 8 Mode 2
     └─→ Phase 11 SP-007
 
 Phase 7 (Gem Gemini)
-    └─→ Phase 8 Mode 2 (test complet)
-    └─→ Phase 9 Test E2E Mode 2
+    └─→ Phase 8 Mode 2 (full test)
+    └─→ Phase 9 E2E Test Mode 2
 
-Phase 8 (Commutateur 3 modes)
-    └─→ Phase 9 (tests des 3 modes)
+Phase 8 (3-mode switcher)
+    └─→ Phase 9 (tests for all 3 modes)
 
-Phase 9 (Tests E2E)
-    └─→ Phase 10 (Mode 3 Claude testé ici)
+Phase 9 (E2E Tests)
+    └─→ Phase 10 (Mode 3 Claude tested here)
 
-Phase 10 (API Anthropic)
-    └─→ Phase 9 Test E2E Mode 3 (si non fait)
+Phase 10 (Anthropic API)
+    └─→ Phase 9 E2E Test Mode 3 (if not done)
 
-Phase 11 (Registre prompts)
-    └─→ Phase 12 (check-prompts-sync.ps1 vérifie les SP)
+Phase 11 (Prompts registry)
+    └─→ Phase 12 (check-prompts-sync.ps1 verifies the SPs)
 
-Phase 12 (Hook pre-commit)
-    └─→ Fin — système complet
+Phase 12 (pre-commit hook)
+    └─→ End — complete system
 ```
 
 ---
 
-## RÉFÉRENCE RAPIDE — FICHIERS SOURCES À UTILISER
+## QUICK REFERENCE — SOURCE FILES TO USE
 
-> Pour chaque phase, utiliser les fichiers du dépôt `agentic-agile-workbench` comme source canonique.
-> **Ne pas recopier manuellement depuis DOC3** — les fichiers `template/` sont la version de référence à jour.
+> For each phase, use the files from the `agentic-agile-workbench` repository as the canonical source.
+> **Do not manually copy from DOC3** — the `template/` files are the up-to-date reference version.
 
-| Phase | Fichier à créer dans le projet | Source canonique dans le workbench |
+| Phase | File to create in the project | Canonical source in the workbench |
 | :---: | :--- | :--- |
 | 3 | `Modelfile` | [`template/Modelfile`](../template/Modelfile) |
 | 4 | `.roomodes` | [`template/.roomodes`](../template/.roomodes) |
@@ -191,16 +191,16 @@ Phase 12 (Hook pre-commit)
 | 6 | `requirements.txt` | [`template/requirements.txt`](../template/requirements.txt) |
 | 6 | `scripts/start-proxy.ps1` | [`template/scripts/start-proxy.ps1`](../template/scripts/start-proxy.ps1) |
 | 7 | Gem Gemini Instructions | [`template/prompts/SP-007-gem-gemini-roo-agent.md`](../template/prompts/SP-007-gem-gemini-roo-agent.md) |
-| 11 | `prompts/` (dossier entier) | [`template/prompts/`](../template/prompts/) |
+| 11 | `prompts/` (entire folder) | [`template/prompts/`](../template/prompts/) |
 | 12 | `scripts/check-prompts-sync.ps1` | [`template/scripts/check-prompts-sync.ps1`](../template/scripts/check-prompts-sync.ps1) |
 
-> **⚠️ Différence DOC3 vs template/ :** DOC3 contient le code `proxy.py` v2.0 (version de référence originale).
-> Le fichier `template/proxy.py` est à la version **v2.1.0** avec 10 correctifs de robustesse.
-> Toujours utiliser `template/proxy.py` pour le déploiement.
+> **⚠️ Difference between DOC3 and template/:** DOC3 contains the `proxy.py` v2.0 code (original reference version).
+> The `template/proxy.py` file is at version **v2.1.0** with 10 robustness fixes.
+> Always use `template/proxy.py` for deployment.
 
 ---
 
-## RÉFÉRENCE RAPIDE — COMMANDES DE VÉRIFICATION PAR PHASE
+## QUICK REFERENCE — VERIFICATION COMMANDS BY PHASE
 
 ### Phase 0
 ```powershell
@@ -211,13 +211,13 @@ pip --version
 
 ### Phase 1
 ```bash
-# Sur calypso (SSH)
+# On calypso (SSH)
 ollama --version
 ollama list
 sudo systemctl show ollama | grep Environment
 ```
 ```powershell
-# Sur pc
+# On pc
 Invoke-WebRequest -Uri "http://calypso:11434/api/tags" -Method GET | Select-Object -ExpandProperty Content
 ```
 
@@ -230,13 +230,13 @@ Get-ChildItem -Name
 
 ### Phase 3
 ```bash
-# Sur calypso
+# On calypso
 ollama show uadf-agent --modelfile | grep -E "num_ctx|temperature"
 ```
 
 ### Phase 4
 ```powershell
-# Vérifier que .roomodes est valide JSON
+# Verify that .roomodes is valid JSON
 Get-Content ".roomodes" | ConvertFrom-Json | Select-Object -ExpandProperty customModes | Select-Object slug, name
 ```
 
@@ -258,18 +258,18 @@ Invoke-RestMethod -Uri "http://localhost:8000/v1/models" -Method Get
 
 ### Phase 7
 ```
-# Vérification manuelle dans Chrome :
-# 1. Ouvrir https://gemini.google.com > Gems > "Roo Code Agent"
-# 2. Envoyer : "Lis le fichier memory-bank/activeContext.md"
-# 3. Vérifier que la réponse contient UNIQUEMENT <read_file>...</read_file>
+# Manual verification in Chrome:
+# 1. Open https://gemini.google.com > Gems > "Roo Code Agent"
+# 2. Send: "Read the file memory-bank/activeContext.md"
+# 3. Verify that the response contains ONLY <read_file>...</read_file>
 ```
 
 ### Phase 8
 ```powershell
-# Mode 1 — Vérifier Ollama accessible
+# Mode 1 — Verify Ollama accessible
 Invoke-WebRequest -Uri "http://calypso:11434/api/tags" -Method GET
 
-# Mode 2 — Vérifier proxy actif
+# Mode 2 — Verify proxy active
 Invoke-RestMethod -Uri "http://localhost:8000/health"
 ```
 
@@ -283,172 +283,172 @@ Get-ChildItem "docs/qa/" -Name
 
 ### Phase 10
 ```powershell
-# Vérifier absence de la clé API dans les fichiers
+# Verify absence of API key in files
 Select-String -Path "*.py", "*.md", "*.json", "*.txt", "*.env" -Pattern "sk-ant-api" -Recurse
-# Doit retourner AUCUN résultat
+# Must return NO results
 ```
 
 ### Phase 11
 ```powershell
 Get-ChildItem "prompts/" -Name
-# Doit afficher 8 fichiers : README.md + SP-001 à SP-007
+# Must display 8 files: README.md + SP-001 to SP-007
 ```
 
 ### Phase 12
 ```powershell
 powershell.exe -ExecutionPolicy Bypass -File "scripts/check-prompts-sync.ps1"
-# Doit afficher : 6 PASS | 0 FAIL | 1 WARN
+# Must display: 6 PASS | 0 FAIL | 1 WARN
 ```
 
 ---
 
-## SCÉNARIOS DE REPRISE COURANTS
+## COMMON RESUME SCENARIOS
 
-### Scénario A — Reprise après interruption courte (< 1 jour)
+### Scenario A — Resume after short interruption (< 1 day)
 
-1. Lire `ÉTAT COURANT` dans le tracker
-2. Exécuter les vérifications de la phase en cours (section ci-dessus)
-3. Reprendre à la "Prochaine action"
+1. Read `CURRENT STATE` in the tracker
+2. Run the checks for the current phase (section above)
+3. Resume at the "Next action"
 
-### Scénario B — Reprise après longue interruption (> 1 semaine)
+### Scenario B — Resume after long interruption (> 1 week)
 
-1. Lire `ÉTAT COURANT` dans le tracker
-2. Lire le `JOURNAL DES SESSIONS` (dernière entrée)
-3. Exécuter **toutes** les vérifications des phases complétées pour confirmer l'état
-4. Vérifier que Tailscale est actif et `calypso` accessible
-5. Vérifier que le dépôt Git est propre (`git status`)
-6. Reprendre à la "Prochaine action"
+1. Read `CURRENT STATE` in the tracker
+2. Read the `SESSION LOG` (last entry)
+3. Run **all** checks for completed phases to confirm state
+4. Verify that Tailscale is active and `calypso` is accessible
+5. Verify that the Git repository is clean (`git status`)
+6. Resume at the "Next action"
 
-### Scénario C — Reprise sur une nouvelle machine
+### Scenario C — Resume on a new machine
 
-1. Cloner le dépôt `agentic-agile-workbench`
-2. Lire `ÉTAT COURANT` dans le tracker
-3. Identifier le projet cible (section `INFORMATIONS DE CONFIGURATION`)
-4. Cloner ou accéder au dépôt du projet cible
-5. Recréer le hook pre-commit si Phase 12 est complète (étape 12.2)
-6. Recréer l'environnement Python (`python -m venv venv && pip install -r requirements.txt`)
-7. Reprendre à la "Prochaine action"
+1. Clone the `agentic-agile-workbench` repository
+2. Read `CURRENT STATE` in the tracker
+3. Identify the target project (section `CONFIGURATION INFORMATION`)
+4. Clone or access the target project repository
+5. Recreate the pre-commit hook if Phase 12 is complete (step 12.2)
+6. Recreate the Python environment (`python -m venv venv && pip install -r requirements.txt`)
+7. Resume at the "Next action"
 
-### Scénario D — Blocage sur une étape
+### Scenario D — Blocked on a step
 
-1. Documenter le blocage dans la section `BLOCAGES ET DÉCISIONS` du tracker
-2. Marquer l'étape avec `[!]` dans le tracker
-3. Mettre à jour `ÉTAT COURANT` avec le blocage
-4. Consulter [`DOC3-BUILD-Workbench-Assembly-Phases.md`](./DOC3-BUILD-Workbench-Assembly-Phases.md) pour les notes de dépannage de la phase
-5. Si le blocage est sur `calypso` : vérifier `sudo systemctl status ollama` et les logs
-6. Si le blocage est sur le proxy : vérifier les logs Python et `pip list`
-7. Une fois résolu : mettre à jour le statut du blocage, remettre l'étape à `[ ]`, reprendre
+1. Document the blocker in the `BLOCKERS AND DECISIONS` section of the tracker
+2. Mark the step with `[!]` in the tracker
+3. Update `CURRENT STATE` with the blocker
+4. Consult [`DOC3-BUILD-Workbench-Assembly-Phases.md`](./DOC3-BUILD-Workbench-Assembly-Phases.md) for the phase's troubleshooting notes
+5. If the blocker is on `calypso`: check `sudo systemctl status ollama` and the logs
+6. If the blocker is on the proxy: check the Python logs and `pip list`
+7. Once resolved: update the blocker status, reset the step to `[ ]`, resume
 
-### Scénario E — Régression (une étape validée ne fonctionne plus)
+### Scenario E — Regression (a validated step no longer works)
 
-1. Identifier la phase affectée
-2. Remettre les étapes concernées à `[ ]` dans le tracker
-3. Documenter dans `BLOCAGES ET DÉCISIONS`
-4. Exécuter les vérifications de la phase (section ci-dessus)
-5. Reprendre depuis la première étape défaillante
+1. Identify the affected phase
+2. Reset the affected steps to `[ ]` in the tracker
+3. Document in `BLOCKERS AND DECISIONS`
+4. Run the phase checks (section above)
+5. Resume from the first failing step
 
 ---
 
-## POINTS D'ATTENTION CRITIQUES
+## CRITICAL ATTENTION POINTS
 
-> Ces points sont les causes les plus fréquentes d'échec ou de confusion lors d'une reprise.
+> These points are the most frequent causes of failure or confusion during a resume.
 
-### 1. Tailscale doit être actif AVANT toute opération sur `calypso`
+### 1. Tailscale must be active BEFORE any operation on `calypso`
 ```powershell
 tailscale status
-# calypso doit apparaître comme pair actif
+# calypso must appear as an active peer
 ```
-Si Tailscale est inactif, toutes les opérations Ollama (Phases 1, 3, 8 Mode 1) échoueront.
+If Tailscale is inactive, all Ollama operations (Phases 1, 3, 8 Mode 1) will fail.
 
-### 2. L'environnement virtuel Python doit être activé AVANT de lancer proxy.py
+### 2. The Python virtual environment must be activated BEFORE launching proxy.py
 ```powershell
 .\venv\Scripts\Activate.ps1
-# Le prompt doit afficher (venv)
+# The prompt must display (venv)
 python proxy.py
 ```
-Sans activation, `import fastapi` échouera.
+Without activation, `import fastapi` will fail.
 
-### 3. Le hook pre-commit n'est PAS versionné dans Git
-Après un `git clone` du projet cible, recréer le hook manuellement (étape 12.2 de DOC3).
-Le hook est dans `.git/hooks/pre-commit` — ce dossier est exclu de Git.
+### 3. The pre-commit hook is NOT versioned in Git
+After a `git clone` of the target project, recreate the hook manually (step 12.2 of DOC3).
+The hook is in `.git/hooks/pre-commit` — this folder is excluded from Git.
 
-### 4. La clé API Anthropic ne doit JAMAIS être dans un fichier
-Elle est stockée uniquement dans VS Code SecretStorage.
-Vérification : `Select-String -Pattern "sk-ant-api" -Recurse` → doit retourner vide.
+### 4. The Anthropic API key must NEVER be in a file
+It is stored only in VS Code SecretStorage.
+Verification: `Select-String -Pattern "sk-ant-api" -Recurse` → must return empty.
 
-### 5. Utiliser template/proxy.py (v2.1.0), pas le code de DOC3 (v2.0)
-DOC3 contient la version de référence originale v2.0 à titre documentaire.
-Le fichier déployable est [`template/proxy.py`](../template/proxy.py) (v2.1.0 avec 10 correctifs).
+### 5. Use template/proxy.py (v2.1.0), not the code from DOC3 (v2.0)
+DOC3 contains the original reference version v2.0 for documentation purposes.
+The deployable file is [`template/proxy.py`](../template/proxy.py) (v2.1.0 with 10 fixes).
 
-### 6. Le Gem Gemini doit être recréé manuellement si le compte Google change
-SP-007 est le seul prompt non versionnable dans Git.
-Source : [`template/prompts/SP-007-gem-gemini-roo-agent.md`](../template/prompts/SP-007-gem-gemini-roo-agent.md).
+### 6. The Gem Gemini must be recreated manually if the Google account changes
+SP-007 is the only prompt that cannot be versioned in Git.
+Source: [`template/prompts/SP-007-gem-gemini-roo-agent.md`](../template/prompts/SP-007-gem-gemini-roo-agent.md).
 
-### 7. Après chaque étape significative : commit Git
-Le tracker note les hash de commit pour chaque phase.
-Si un hash est manquant, exécuter `git log --oneline -5` pour le retrouver.
+### 7. After each significant step: Git commit
+The tracker records commit hashes for each phase.
+If a hash is missing, run `git log --oneline -5` to find it.
 
 ---
 
-## STRUCTURE DES FICHIERS DE SUIVI
+## TRACKING FILES STRUCTURE
 
 ```
 workbench/
-├── EXECUTION-TRACKER.md   ← CE FICHIER EST LA SOURCE DE VÉRITÉ DE L'ÉTAT
-│                             Mettre à jour à chaque fin de session
-├── RESUME-GUIDE.md        ← CE FICHIER (protocole de reprise)
-│                             Ne pas modifier sauf pour corriger des erreurs
+├── EXECUTION-TRACKER.md   ← THIS FILE IS THE SOURCE OF TRUTH FOR STATE
+│                             Update at the end of each session
+├── RESUME-GUIDE.md        ← THIS FILE (resume protocol)
+│                             Do not modify except to correct errors
 └── DOC3-BUILD-Workbench-Assembly-Phases.md
-                           ← Instructions détaillées de chaque étape
-                             Référence en lecture seule pendant l'implémentation
+                           ← Detailed instructions for each step
+                             Read-only reference during implementation
 ```
 
 ---
 
-## MISE À JOUR DU TRACKER — TEMPLATE COPIER-COLLER
+## TRACKER UPDATE — COPY-PASTE TEMPLATES
 
-### Mise à jour de la section ÉTAT COURANT
+### Updating the CURRENT STATE section
 
 ```markdown
-## ÉTAT COURANT
+## CURRENT STATE
 
-> **⚠️ METTRE À JOUR CETTE SECTION À CHAQUE FIN DE SESSION**
+> **⚠️ UPDATE THIS SECTION AT THE END OF EACH SESSION**
 
 ```
-Dernière mise à jour  : YYYY-MM-DD
-Dernière session      : Session N — YYYY-MM-DD
-Phase en cours        : Phase X — [Nom de la phase]
-Dernière étape faite  : X.Y — [Description courte]
-Prochaine action      : Phase X, Étape X.Z — [Description]
-Blocages actifs       : [Aucun | Description du blocage]
-Dernier commit Git    : [abc1234] — [message du commit]
-Backend LLM actif     : [Ollama uadf-agent | Proxy Gemini | Claude API | Non configuré]
-Projet cible          : C:\Users\[user]\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\[nom-projet]
+Last updated          : YYYY-MM-DD
+Last session          : Session N — YYYY-MM-DD
+Current phase         : Phase X — [Phase name]
+Last completed step   : X.Y — [Short description]
+Next action           : Phase X, Step X.Z — [Description]
+Active blockers       : [None | Description of the blocker]
+Last Git commit       : [abc1234] — [commit message]
+Active LLM backend    : [Ollama uadf-agent | Proxy Gemini | Claude API | Not configured]
+Target project        : C:\Users\[user]\AGENTIC_DEVELOPMENT_PROJECTS\PROJECTS\[project-name]
 ```
 ```
 
-### Ajout d'une entrée dans JOURNAL DES SESSIONS
+### Adding an entry to SESSION LOG
 
 ```markdown
 ### Session N — YYYY-MM-DD — [~Xh]
-**Phases travaillées :** Phase X à Phase Y
-**Étapes complétées :** X.1, X.2, X.3, Y.1, Y.2
-**Dernier commit :** abc1234 — feat(scope): description
-**État en fin de session :** [Description précise de l'état du système]
-**Prochaine action :** Phase Y, Étape Y.3 — [Description]
-**Blocages :** [Aucun | Description et statut]
+**Phases worked:** Phase X to Phase Y
+**Steps completed:** X.1, X.2, X.3, Y.1, Y.2
+**Last commit:** abc1234 — feat(scope): description
+**State at end of session:** [Precise description of the system state]
+**Next action:** Phase Y, Step Y.3 — [Description]
+**Blockers:** [None | Description and status]
 ```
 
-### Ajout d'un blocage dans BLOCAGES ET DÉCISIONS
+### Adding a blocker to BLOCKERS AND DECISIONS
 
 ```markdown
-### YYYY-MM-DD — Phase X.Y — [Titre court du blocage]
-**Type :** Blocage
-**Description :** [Ce qui s'est passé exactement]
-**Résolution :** [Comment résolu, ou "En attente — [prochaine tentative]"]
-**Impact :** [Phases X, Y affectées]
+### YYYY-MM-DD — Phase X.Y — [Short blocker title]
+**Type:** Blocker
+**Description:** [What happened exactly]
+**Resolution:** [How resolved, or "Pending — [next attempt]"]
+**Impact:** [Phases X, Y affected]
 ```
 
 ---
 
-*Fin du fichier RESUME-GUIDE.md — Version 1.0.0*
+*End of file RESUME-GUIDE.md — Version 1.0.0*

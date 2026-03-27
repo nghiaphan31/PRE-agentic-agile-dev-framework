@@ -32,12 +32,12 @@
 
 ```
 Last updated          : 2026-03-24
-Last session          : Session 7 — 2026-03-24
+Last session          : Session 9 — 2026-03-24
 Current phase         : All phases complete (0-9, 11, 12) — Phase 10 intentionally skipped
-Last completed step   : Phase 12 complete — pre-commit hook operational + check-prompts-sync.ps1 v2 + 6 PASS
-Next action           : Manual verification SP-007 (Gem Gemini) — manual deployment required
+Last completed step   : Session 9 — RULE 7 added to .clinerules + SP-002 v2.2.0 + all copies synced
+Next action           : Manual verification SP-007 (Gem Gemini) — manual deployment required (English instructions)
 Active blockers       : None
-Last Git commit       : 90ebe7b — docs(memory): update activeContext with commit hash 375978f — Phase 11+12 complete
+Last Git commit       : edf55e1 — docs(memory): update activeContext after push
 Active LLM backend    : (out of scope — set aside)
 Target project        : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agile-workbench
 ```
@@ -240,6 +240,20 @@ Target project        : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 
 ---
 
+### 2026-03-24 — Session 8 — Full French-to-English i18n translation
+**Type:** Decision
+**Description:** All future-facing workbench files (runtime files, templates, prompts, memory-bank, scripts, workbench docs) translated from French to English to avoid encoding issues and improve maintainability. Historical files (decisionLog, plans, docs/qa, CHANGELOG) intentionally left in French.
+**Resolution:** 11 commits across 6 logical batches. Pre-commit hook passed on every commit (6 PASS | 0 FAIL | 1 WARN). SP-007 Gem Gemini requires manual update with English instructions.
+**Impact:** All future sessions and deployments will operate in English.
+
+### 2026-03-24 — Session 9 — RULE 7 added to .clinerules
+**Type:** Decision
+**Description:** Added RULE 7 (large file generation — mandatory chunking protocol) to `.clinerules` to prevent silent truncation failures when writing files >500 lines. Rule requires splitting into 400-500 line temp chunks, assembling with PowerShell, verifying, then deleting temp files.
+**Resolution:** Commit `2011499`. SP-002 bumped to v2.2.0. All 4 copies synchronized (`.clinerules`, `prompts/SP-002`, `template/.clinerules`, `template/prompts/SP-002`).
+**Impact:** All modes now have a mandatory protocol for large file generation.
+
+---
+
 ## SESSION LOG
 
 > One entry per work session. Update at the end of each session.
@@ -303,6 +317,30 @@ Target project        : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 **Next action:** Manual verification SP-007 (Gem Gemini) — manual deployment required if the Gem has not been updated.
 **Blockers:** None
 
+### Session 8 — 2026-03-24
+**Phases worked:** i18n translation (all future-facing files)
+**Steps completed:** Full French-to-English translation in 11 commits
+**Last commit:** `194cc59` — `chore(i18n): translate workbench/DOC4 and DOC5 to English`
+**State at end of session:**
+- All future-facing workbench files translated to French to English: `.clinerules`, `.roomodes`, all `prompts/SP-001..SP-007`, `prompts/README.md`, all `template/` files, all active `memory-bank/` files, `scripts/`, hooks, `README.md`, `deploy-workbench-to-project.ps1`, `Modelfile`, and all `workbench/DOC1..DOC5`, `RESUME-GUIDE.md`, `EXECUTION-TRACKER.md`.
+- Files intentionally NOT translated: `memory-bank/decisionLog.md` (historical ADRs), `plans/` (past analysis), `docs/qa/` (past QA reports), `CHANGELOG.md` (historical).
+- Pre-commit hook: 6 PASS | 0 FAIL | 1 WARN on every commit throughout.
+- SP-007 content block translated to English — Gem Gemini requires manual update.
+**Next action:** Add RULE 7 (large file chunking) to `.clinerules`.
+**Blockers:** None
+
+### Session 9 — 2026-03-24
+**Phases worked:** `.clinerules` enhancement
+**Steps completed:** RULE 7 added + SP-002 v2.2.0 + all copies synced + pushed to origin
+**Last commit:** `edf55e1` — `docs(memory): update activeContext after push`
+**State at end of session:**
+- RULE 7 (large file generation — mandatory chunking protocol) added to `.clinerules`.
+- `prompts/SP-002` bumped to v2.2.0, `template/.clinerules` and `template/prompts/SP-002` updated identically.
+- All 27 pending commits pushed to `origin/master` — repository fully synchronized.
+- Pre-commit hook: 6 PASS | 0 FAIL | 1 WARN.
+**Next action:** Manual update of Gem Gemini "Roo Code Agent" with English instructions from `prompts/SP-007-gem-gemini-roo-agent.md` (v1.7.0).
+**Blockers:** None
+
 ---
 
 ## CONFIGURATION INFORMATION
@@ -325,7 +363,7 @@ Target project        : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 | Gemini Proxy model | `gemini-manual` | 8.2 |
 | Anthropic model | `claude-sonnet-4-6` | 10.2 |
 | Gem Gemini URL | | 7.1 |
-| Last commit hash | 8b88b67 | Session 4 |
+| Last commit hash | edf55e1 | Session 9 |
 | Active LLM backend (test) | `mistral-large-latest` | Session 4 |
 
 ---

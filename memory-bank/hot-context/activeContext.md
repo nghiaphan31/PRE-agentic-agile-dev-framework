@@ -37,6 +37,6 @@ POST-RELEASE: Documenting and tracking the 4 manual post-release steps for v2.0.
 - KI-001: SP-002 check script false positive (nested code blocks) — low priority, fix in v2.1
 
 ## Last Git commit
-ed253a1 docs(release): v2.0 release finalization -- freeze docs, QA pass, release notes
-Tag: v2.0.0 pushed to origin
+97b765e docs(release): add EXECUTION-TRACKER-v2.0 with post-release manual steps POST-1..4
+(previous: ed253a1 — Tag: v2.0.0)
 ---

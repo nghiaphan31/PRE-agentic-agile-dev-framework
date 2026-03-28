@@ -51,5 +51,5 @@ Second-pass Anthropic Batch API review of the Agentic Agile Workbench vision com
 - `ANTHROPIC_API_KEY` must be set in the environment before running any batch scripts
 
 ## Last Git commit
-[To be updated after this commit]
+9e934e5 feat(batch): add second-pass vision analysis batch + all review results
 ---

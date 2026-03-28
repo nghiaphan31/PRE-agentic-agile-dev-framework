@@ -1,6 +1,6 @@
 # Project Progress
 
-**Last updated:** 2026-03-28
+**Last updated:** 2026-03-28T20:37:00Z
 
 ## le workbench Infrastructure
 
@@ -79,10 +79,10 @@
 - [x] `release/v2.2` created as active development branch
 
 ## v2.1 Backlog
-- [ ] Fix orchestrator_phase3.py MAX_TOKENS 4096→8192 (done on Calypso, pending local commit)
-- [ ] Fix SP-002 check script regex (nested code blocks false positive, KI-001)
-- [ ] DOC6 revision: fix P0 issues
-- [ ] Add `batch_artifacts/` to .gitignore (done)
+- [x] Fix orchestrator_phase3.py MAX_TOKENS 4096→8192 (commit 1e982a8 — fix included batch_artifacts/.gitignore)
+- [x] Fix SP-002 check script regex / content corruption (KI-001) — em-dash, BOM, embedded template fixed in commits a65cd10/a7ac4f0/d0c0dcd; 6 PASS | 0 FAIL confirmed
+- [x] Add `batch_artifacts/` to .gitignore (commit 1e982a8)
+- [ ] DOC6 revision: fix P0 issues (conversational framing, PRD naming, systemPatterns.md genesis, glossary)
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

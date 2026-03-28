@@ -610,16 +610,29 @@ This rule applies to ALL modes. It is NON-NEGOTIABLE.
 
 - **NEVER** commit directly on `master` after a release tag
 - **NEVER** commit on a `release/vX.Y` branch after it has been merged to `master`
+- **NEVER** commit feature work directly on a release branch — use feature branches
 - **ALL** new development (features, refactors, fixes) MUST target `release/vX.Y+1` or a feature branch derived from it
 
-### 10.3 -- Release Workflow
+### 10.3 -- Feature Branch Workflow
+
+All new development (features, bug fixes, refactors) MUST follow this path:
+
+1. Branch from `release/vX.Y+1` → `feature/{IDEA-NNN}-{slug}` or `fix/{description}`
+2. Develop and test on the feature branch
+3. Commit成果 to the feature branch
+4. Merge via PR to `release/vX.Y+1` (fast-forward or squash)
+5. Delete the feature branch after merge
+
+> **Exception:** Governance-only commits (ADRs, RULE additions, docs fixes) that do not change application code MAY be committed directly on the release branch.
+
+### 10.4 -- Release Workflow
 
 1. Create `release/vX.Y` from `master` at start of release cycle
 2. All commits for vX.Y land on `release/vX.Y`
 3. When ready: tag `vX.Y.0` on `release/vX.Y`, merge to `master`, close `release/vX.Y`
 4. Immediately create `release/vX.Y+1` for next cycle
 
-### 10.4 -- Hotfix Exception
+### 10.5 -- Hotfix Exception
 
 For critical production bugs:
 1. Branch `hotfix/vX.Y.Z` from the production tag
@@ -627,7 +640,7 @@ For critical production bugs:
 3. Merge to `master` and to the active `release/vX.Y` branch
 4. Tag `vX.Y.Z` on both branches
 
-### 10.5 -- ADR Reference
+### 10.6 -- ADR Reference
 
 This rule is documented as ADR-005 in `memory-bank/hot-context/decisionLog.md`.
 

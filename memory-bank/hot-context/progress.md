@@ -92,5 +92,15 @@
 - [ ] Triage IDEAS-BACKLOG.md for next release scope
 - [ ] Create `docs/releases/v2.3/` folder at next release planning
 
+## GitFlow Migration (ADR-006)
+- [x] ADR-006 drafted and approved: 3-branch model (main + develop + develop-vX.Y)
+- [x] `release/v2.3` renamed to `develop` (wild mainline)
+- [x] RULE 10 replaced in `.clinerules` (ADR-006)
+- [x] RULE 10 replaced in `template/.clinerules` (ADR-006)
+- [x] RULE 10 replaced in `prompts/SP-002-clinerules-global.md` (ADR-006)
+- [x] ADR-006 appended to `memory-bank/hot-context/decisionLog.md`
+- [ ] Git commit + push `develop` to origin
+- [ ] Push `master` + tag `v2.2.0` to origin
+
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

@@ -1,4 +1,4 @@
-# PROTOCOL le workbench —” MANDATORY DIRECTIVES (ALL SESSIONS, ALL MODES)
+﻿# PROTOCOL le workbench â€”â€ MANDATORY DIRECTIVES (ALL SESSIONS, ALL MODES)
 
 
 
@@ -22,11 +22,11 @@ Before any action, you MUST execute the following sequence in this exact order:
 
 
 
-   - If NO â†’ proceed to the CREATE step
+   - If NO Ã¢â€ â€™ proceed to the CREATE step
 
 
 
-   - If YES â†’ proceed to the READ step
+   - If YES Ã¢â€ â€™ proceed to the READ step
 
 
 
@@ -50,7 +50,7 @@ Before any action, you MUST execute the following sequence in this exact order:
 
 
 
-This CHECKâ†’CREATEâ†’READâ†’ACT sequence is NON-NEGOTIABLE and applies to ALL sessions.
+This CHECKÃ¢â€ â€™CREATEÃ¢â€ â€™READÃ¢â€ â€™ACT sequence is NON-NEGOTIABLE and applies to ALL sessions.
 
 
 
@@ -134,7 +134,7 @@ This rule applies to all modes with access to the terminal (developer, scrum-mas
 
 
 
-### 5.1 —” What MUST be versioned
+### 5.1 â€”â€ What MUST be versioned
 
 
 
@@ -174,7 +174,7 @@ EVERYTHING must be versioned under Git, without exception:
 
 
 
-### 5.2 —” When to commit
+### 5.2 â€”â€ When to commit
 
 
 
@@ -206,7 +206,7 @@ You MUST execute a Git commit in the following situations:
 
 
 
-### 5.3 —” Commit message format (Conventional Commits)
+### 5.3 â€”â€ Commit message format (Conventional Commits)
 
 
 
@@ -250,7 +250,7 @@ You MUST use the Conventional Commits format:
 
 
 
-### 5.4 —” Git commands to use
+### 5.4 â€”â€ Git commands to use
 
 
 
@@ -266,7 +266,7 @@ You MUST use the Conventional Commits format:
 
 
 
-### 5.5 —” What must NOT be versioned
+### 5.5 â€”â€ What must NOT be versioned
 
 
 
@@ -274,7 +274,7 @@ You MUST use the Conventional Commits format:
 
 
 
-- .env files (API keys —” NEVER in Git)
+- .env files (API keys â€”â€ NEVER in Git)
 
 
 
@@ -302,7 +302,7 @@ This rule applies to developer and scrum-master modes.
 
 
 
-### 6.1 —” Before any commit touching an artifact linked to a prompt
+### 6.1 â€”â€ Before any commit touching an artifact linked to a prompt
 
 
 
@@ -318,7 +318,7 @@ you MUST check whether the change impacts a system prompt in prompts/.
 
 
 
-### 6.2 —” Verification procedure
+### 6.2 â€”â€ Verification procedure
 
 
 
@@ -350,7 +350,7 @@ you MUST check whether the change impacts a system prompt in prompts/.
 
 
 
-### 6.3 —” Example commit with prompt update
+### 6.3 â€”â€ Example commit with prompt update
 
 
 
@@ -366,7 +366,7 @@ you MUST check whether the change impacts a system prompt in prompts/.
 
 
 
-## RULE 7: LARGE FILE GENERATION —” MANDATORY CHUNKING PROTOCOL
+## RULE 7: LARGE FILE GENERATION â€”â€ MANDATORY CHUNKING PROTOCOL
 
 
 
@@ -378,7 +378,7 @@ This rule applies to all modes that generate or write large files (>500 lines).
 
 
 
-### 7.1 —” When this rule applies
+### 7.1 â€”â€ When this rule applies
 
 
 
@@ -390,7 +390,7 @@ Whenever a file to be written exceeds approximately 500 lines, you MUST use the 
 
 
 
-### 7.2 —” Chunking protocol
+### 7.2 â€”â€ Chunking protocol
 
 
 
@@ -446,7 +446,7 @@ Whenever a file to be written exceeds approximately 500 lines, you MUST use the 
 
 
 
-### 7.3 —” Why this protocol is mandatory
+### 7.3 â€”â€ Why this protocol is mandatory
 
 
 
@@ -593,277 +593,4 @@ directly, for the purpose of indexing them into the vector database.
 
 
 
-## RULE 10: GITFLOW ENFORCEMENT -- BRANCH LIFECYCLE
-
-This rule applies to ALL modes. It is NON-NEGOTIABLE.
-
-### 10.1 -- Branch Definitions
-
-| Branch | Purpose | Lifecycle |
-|--------|---------|----------|
-| `master` | Production state —” frozen after each release tag | NEVER commit directly after tag |
-| `release/vX.Y` | Release branch —” all planned work for vX.Y | CLOSED after merge to master |
-| `release/vX.Y+1` | Next release branch | ACTIVE —” all new work lands here |
-| `hotfix/vX.Y.Z` | Emergency fixes from production tag | Merged to master + active release |
-
-### 10.2 -- Forbidden Actions
-
-- **NEVER** commit directly on `master` after a release tag
-- **NEVER** commit on a `release/vX.Y` branch after it has been merged to `master`
-- **NEVER** commit feature work directly on a release branch —” use feature branches
-- **ALL** new development (features, refactors, fixes) MUST target `release/vX.Y+1` or a feature branch derived from it
-
-### 10.3 -- Feature Branch Workflow
-
-All new development (features, bug fixes, refactors) MUST follow this path:
-
-1. Branch from `release/vX.Y+1` â†’ `feature/{IDEA-NNN}-{slug}` or `fix/{description}`
-2. Develop and test on the feature branch
-3. Commitæˆæžœ to the feature branch
-4. Merge via PR to `release/vX.Y+1` (fast-forward or squash)
-5. Delete the feature branch after merge
-
-> **Exception:** Governance-only commits (ADRs, RULE additions, docs fixes) that do not change application code MAY be committed directly on the release branch.
-
-### 10.4 -- Release Workflow
-
-1. Create `release/vX.Y` from `master` at start of release cycle
-2. All commits for vX.Y land on `release/vX.Y`
-3. When ready: tag `vX.Y.0` on `release/vX.Y`, merge to `master`, close `release/vX.Y`
-4. Immediately create `release/vX.Y+1` for next cycle
-
-### 10.5 -- Hotfix Exception
-
-For critical production bugs:
-1. Branch `hotfix/vX.Y.Z` from the production tag
-2. Fix and test on the hotfix branch
-3. Merge to `master` and to the active `release/vX.Y` branch
-4. Tag `vX.Y.Z` on both branches
-
-### 10.6 -- ADR Reference
-
-This rule is documented as ADR-005 in `memory-bank/hot-context/decisionLog.md`.
-
----
-
-## MEMORY BANK FILE TEMPLATES
-
-
-
-
-### Template activeContext.md
-
-
-
----
-
-
-
-# Active Context
-
-
-
-**Last updated:** [DATE]
-
-
-
-**Active mode:** [MODE]
-
-
-
-**Active LLM backend:** [Ollama uadf-agent | Proxy Gemini | Claude Sonnet API]
-
-
-
-
-
-
-
-## Current task
-
-
-
-[Description of the current task]
-
-
-
-
-
-
-
-## Last result
-
-
-
-[Result of the last action]
-
-
-
-
-
-
-
-## Next step(s)
-
-
-
-- [ ] [Next immediate action]
-
-
-
-
-
-
-
-## Blockers / Open questions
-
-
-
-[None | Description of the blocker]
-
-
-
-
-
-
-
-## Last Git commit
-
-
-
-[Short hash and message of the last commit]
-
-
-
----
-
-
-
-
-
-
-
-### Template progress.md
-
-
-
----
-
-
-
-# Project Progress
-
-
-
-**Last updated:** [DATE]
-
-
-
-
-
-
-
-## Infrastructure le workbench
-
-
-
-- [ ] Phase 0 : Clean VS Code + Roo Code base
-
-
-
-- [ ] Phase 1 : Ollama + models
-
-
-
-- [ ] Phase 2 : Git repository initialized
-
-
-
-- [ ] Phase 3 : Custom Modelfile
-
-
-
-- [ ] Phase 4 : .roomodes (Agile personas)
-
-
-
-- [ ] Phase 5 : Memory Bank + .clinerules
-
-
-
-- [ ] Phase 6 : proxy.py (Gemini Chrome)
-
-
-
-- [ ] Phase 7 : Gem Gemini configured
-
-
-
-- [ ] Phase 8 : Roo Code 3-mode switcher
-
-
-
-- [ ] Phase 9 : End-to-end tests validated
-
-
-
-- [ ] Phase 10 : Anthropic Claude API configured
-
-
-
-- [ ] Phase 11 : prompts/ registry initialized
-
-
-
-- [ ] Phase 12 : check-prompts-sync.ps1 + pre-commit hook
-
-
-
-
-
-
-
-## Product Features
-
-
-
-
-
-
-
-### Epic 1 : [To be defined]
-
-
-
-- [ ] [Feature to be defined]
-
-
-
-
-
-
-
-## Legend
-
-
-
-- [ ] To do  |  [-] In progress  |  [x] Done
-
-
-
----
-
-
-
-
-
-
-
-## Notes
-
-
-
-> **Why CHECKâ†’CREATEâ†’READâ†’ACT?** Without the prior check, the agent would attempt to read a non-existent file and fail silently. The sequence guarantees that the Memory Bank is always initialized before being read.
-
-
-
+## RULE 10: GITFLOW ENFORCEMENT -- BRANCH LIFECYCLE\n\nThis rule applies to ALL modes. It is NON-NEGOTIABLE.\n\n### 10.1 -- Branch Definitions\n\n| Branch | Purpose | Lifecycle |\n|--------|---------|----------|\n| `main` | Production state. **Frozen.** Only receives merge commits from `develop-vX.Y` at release time. Tags mark releases. | Never deleted. Never committed to directly. |\n| `develop` | **Wild mainline.** Ad-hoc features, experiments, quick fixes. No formal scope. | Long-lived. Never deleted. Always the base for `develop-vX.Y`. |\n| `develop-vX.Y` | **Scoped backlog.** Created when IDEAs are formally triaged for vX.Y. All release-scope work lands here. | Created at release planning. Deleted after merge to `main`. |\n| `feature/{IDEA-NNN}-{slug}` | Single feature or fix. | Branch from `develop` or `develop-vX.Y`, merge back via PR, then delete. |\n| `hotfix/vX.Y.Z` | Emergency production fix. | Branched from production tag on `main`. Merged to `main` and `develop`, then deleted. |\n\n### 10.2 -- Forbidden Actions\n\n- **NEVER** commit directly on `main` after a release tag\n- **NEVER** commit on `develop-vX.Y` after it has been merged to `main`\n- **NEVER** commit feature work directly on a release or main branch -- use feature branches\n- **ALL** new development (features, refactors, fixes) MUST target `develop`, `develop-vX.Y`, or a feature branch derived from them\n\n### 10.3 -- Feature Branch Workflow\n\nAll new development (features, bug fixes, refactors) MUST follow this path:\n\n1. Branch from `develop` (ad-hoc) or `develop-vX.Y` (scoped) -> `feature/{IDEA-NNN}-{slug}` or `fix/{description}`\n2. Develop and test on the feature branch\n3. Commit results to the feature branch\n4. Merge via PR to the source branch (fast-forward or squash)\n5. Delete the feature branch after merge\n\n> **Exception:** Governance-only commits (ADRs, RULE additions, docs fixes) that do not change application code MAY be committed directly on `develop`.\n\n### 10.4 -- Release Workflow\n\n1. Create `develop-vX.Y` from `develop` when IDEAs are formally triaged for vX.Y\n2. All vX.Y-scope commits land on `develop-vX.Y`\n3. When ready: create frozen docs in `docs/releases/vX.Y/`, tag `vX.Y.0` on `develop-vX.Y`, merge to `main`\n4. Delete `develop-vX.Y`, continue on `develop`\n\n### 10.5 -- Hotfix Exception\n\nFor critical production bugs:\n1. Branch `hotfix/vX.Y.Z` from the production tag on `main`\n2. Fix and test on the hotfix branch\n3. Merge to `main` and to `develop`\n4. Tag `vX.Y.Z` on both branches\n\n### 10.6 -- ADR Reference\n\nThis rule is documented as ADR-006 in `memory-bank/hot-context/decisionLog.md`.

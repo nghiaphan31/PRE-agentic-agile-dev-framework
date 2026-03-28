@@ -30,8 +30,8 @@
 - [x] PHASE-A: Hot/Cold memory restructure (IDEA-001) — commit bd1bf7d
 - [x] PHASE-B: Template folder enrichment — commit 137e977
 - [x] PHASE-C: Calypso orchestration scripts (IDEA-002) — commit 2220121
-- [-] PHASE-D: Global Brain (Chroma/Mem0, Librarian Agent) — code complete, pending commit
-- [ ] PHASE-E: v2.0 release finalization (DOC-4, DOC-5, tag v2.0.0)
+- [x] PHASE-D: Global Brain (Chroma/Mem0, Librarian Agent) — commit ba61920
+- [x] PHASE-E: v2.0 release finalization — DOC-4, DOC-5, QA pass, tag v2.0.0
 
 ### Epic 1: Agentic Agile Workbench Architecture (DOC6)
 - [x] DOC6-PRD-AGENTIC-AGILE-PROCESS.md drafted (first Gemini conversation)
@@ -42,10 +42,20 @@
 - [x] Migration Phase A: restructure memory-bank/ into Hot/Cold architecture (= PHASE-A above)
 - [x] Migration Phase B: enrich template/ folder (= PHASE-B above)
 - [x] Migration Phase C: build Calypso orchestration scripts (= PHASE-C above)
-- [-] Migration Phase D: Global Brain (= PHASE-D above)
+- [x] Migration Phase D: Global Brain (= PHASE-D above)
 - [x] SP-008 Synthesizer Agent system prompt
 - [x] SP-009 Devil's Advocate Agent system prompt
 - [x] SP-010 Librarian Agent system prompt
+
+## v2.0 Release Status
+- [x] DOC-1-v2.0-PRD.md — Frozen (2026-03-28)
+- [x] DOC-2-v2.0-Architecture.md — Frozen (2026-03-28)
+- [x] DOC-3-v2.0-Implementation-Plan.md — Frozen (2026-03-28)
+- [x] DOC-4-v2.0-Operations-Guide.md — Frozen (2026-03-28)
+- [x] DOC-5-v2.0-Release-Notes.md — Frozen (2026-03-28)
+- [x] docs/DOC-N-CURRENT.md pointers → v2.0
+- [x] QA report: docs/qa/v2.0/QA-REPORT-v2.0-2026-03-28.md (28/28 PASS)
+- [ ] Git tag v2.0.0 pushed
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

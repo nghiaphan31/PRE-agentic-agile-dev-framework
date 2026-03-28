@@ -1,19 +1,18 @@
 ---
 doc_id: DOC-1
 release: v2.0
-status: Draft
+status: Frozen
 title: Product Requirements Document
 version: 0.1
 date_created: 2026-03-28
-date_frozen: TBD
+date_frozen: 2026-03-28
 authors: [Architect mode, Human]
 previous_release: docs/releases/v1.0/DOC-1-v1.0-PRD.md
 ---
 
 # DOC-1 -- Product Requirements Document (v2.0)
 
-> **Status: DRAFT** -- This document is under active development on branch `release/v2.0`.
-> It will be frozen when the v2.0 release is tagged.
+> **Status: FROZEN** -- This document is read-only. Do not modify.
 
 ---
 

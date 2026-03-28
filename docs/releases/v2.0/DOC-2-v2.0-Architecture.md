@@ -1,11 +1,11 @@
 ---
 doc_id: DOC-2
 release: v2.0
-status: Draft
+status: Frozen
 title: Architecture Document
 version: 0.1
 date_created: 2026-03-28
-date_frozen: TBD
+date_frozen: 2026-03-28
 authors: [Architect mode, Human]
 previous_release: docs/releases/v1.0/DOC-2-v1.0-Architecture.md
 ---

@@ -72,7 +72,7 @@
 - [x] `release/v2.0` closed — no new commits
 - [x] ADR-005 captured in decisionLog.md
 - [x] RULE 10 (GitFlow Enforcement) added to .clinerules
-- [ ] IDEA-008: OpenRouter MinMax M2.7 as default LLM with Claude fallback — pending implementation
+- [x] IDEA-008: OpenRouter MinMax M2.7 as default LLM with Claude fallback — IMPLEMENTED on feature/IDEA-008-openrouter (4 commits: 0a17d9d, c13a6ca, 6ee4580, 3cc324d)
 
 ## v2.1 Backlog
 - [ ] Fix orchestrator_phase3.py MAX_TOKENS 4096→8192 (done on Calypso, pending local commit)

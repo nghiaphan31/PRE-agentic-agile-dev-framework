@@ -74,6 +74,8 @@ This `prompts/` folder is the **single source of truth** for all system prompts 
 | **SP-005** | `SP-005-persona-developer.md` | Persona Developer | `.roomodes` > `customModes[2].roleDefinition` | No |
 | **SP-006** | `SP-006-persona-qa-engineer.md` | Persona QA Engineer | `.roomodes` > `customModes[3].roleDefinition` | No |
 | **SP-007** | `SP-007-gem-gemini-roo-agent.md` | Gem Gemini Chrome "Roo Code Agent" | gemini.google.com > Gems > "Roo Code Agent" > Instructions | **YES** |
+| **SP-008** | `SP-008-synthesizer-agent.md` | Synthesizer Agent | `src/calypso/orchestrator_phase3.py` (inline system prompt) | No |
+| **SP-009** | `SP-009-devils-advocate-agent.md` | Devil's Advocate Agent | `src/calypso/orchestrator_phase4.py` (inline system prompt) | No |
 
 ---
 

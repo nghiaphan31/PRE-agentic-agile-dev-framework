@@ -5,63 +5,60 @@
 **Active LLM backend:** Claude Sonnet API (claude-sonnet-4-6)
 
 ## Current task
-PHASE-B: Template folder enrichment — complete. Ready to commit and proceed to PHASE-C.
+PHASE-C: Calypso orchestration scripts — complete. 28/28 unit tests PASS. Ready to commit and proceed to PHASE-D.
 
 ## Last result
-### PHASE-A: Hot/Cold Memory Architecture (Session 2026-03-28)
-
-Completed on `release/v2.0` branch (commit bd1bf7d):
-
-- **`memory-bank/hot-context/`** created with 5 migrated files (git mv)
-- **`memory-bank/archive-cold/`** created with sprint-logs/, completed-tickets/, productContext_Master.md
-- **RULE 9** (Cold Zone Firewall) added to `.clinerules` and `template/.clinerules`
-- **RULE 1** updated to reference `hot-context/` paths
-- **`scripts/memory-archive.ps1`** created (sprint archival script)
-- **SP-002** bumped to v2.4.0
-
 ### PHASE-B: Template Folder Enrichment (Session 2026-03-28)
+
+Completed on `release/v2.0` branch (commit 137e977):
+
+- `template/memory-bank/hot-context/` — 5 blank stubs
+- `template/memory-bank/archive-cold/` — sprint-logs/, completed-tickets/, productContext_Master.md
+- `template/mcp.json` — Calypso FastMCP server config template
+- `deploy-workbench-to-project.ps1` — updated with mcp.json + docs + memory-bank in copy lists
+
+### PHASE-C: Calypso Orchestration Scripts (Session 2026-03-28)
 
 All deliverables created (pending commit):
 
-- **`template/memory-bank/hot-context/`** — 5 blank stubs:
-  - `activeContext.md` (from prior session)
-  - `progress.md`
-  - `decisionLog.md`
-  - `systemPatterns.md`
-  - `productContext.md`
-- **`template/memory-bank/archive-cold/`** — directory structure:
-  - `sprint-logs/.gitkeep`
-  - `completed-tickets/.gitkeep`
-  - `productContext_Master.md` (blank stub)
-- **`template/mcp.json`** — Calypso FastMCP server config template
-- **`deploy-workbench-to-project.ps1`** — updated:
-  - Added `mcp.json` to `$FilesToCopy`
-  - Added `docs`, `memory-bank` to `$FoldersToCopy`
-  - Replaced old 7-file Memory Bank creation block with new Hot/Cold-aware block
-  - Updated "Next steps" to reference `hot-context/productContext.md`
+- **`src/calypso/__init__.py`** — package init
+- **`src/calypso/orchestrator_phase2.py`** — submits PRD to Anthropic Batch API (4 expert agents)
+- **`src/calypso/check_batch_status.py`** — polls batch status, retrieves expert reports
+- **`src/calypso/orchestrator_phase3.py`** — Synthesizer Agent (SP-008), produces draft_backlog.json
+- **`src/calypso/orchestrator_phase4.py`** — Devil's Advocate (SP-009), GREEN/ORANGE classification
+- **`src/calypso/triage_dashboard.py`** — generates human triage dashboard with checkboxes
+- **`src/calypso/apply_triage.py`** — applies human decisions to systemPatterns.md + productContext.md
+- **`src/calypso/fastmcp_server.py`** — FastMCP server (5 tools: launch_factory, check_batch_status, retrieve_backlog, memory_query, memory_archive)
+- **`src/calypso/librarian_agent.py`** — PHASE-D stub
+- **`src/calypso/schemas/expert_report.json`** — JSON schema for expert reports
+- **`src/calypso/schemas/backlog_item.json`** — JSON schema for backlog items
+- **`src/calypso/tests/test_orchestrator.py`** — 15 unit tests (all PASS)
+- **`src/calypso/tests/test_triage.py`** — 13 unit tests (all PASS)
+- **`src/calypso/tests/fixtures/`** — sample_prd.md, sample_expert_report.json, sample_backlog.json
+- **`prompts/SP-008-synthesizer-agent.md`** — Synthesizer Agent system prompt v1.0.0
+- **`prompts/SP-009-devils-advocate-agent.md`** — Devil's Advocate system prompt v1.0.0
+- **`prompts/README.md`** — updated with SP-008 and SP-009 entries
+- **`requirements.txt`** — added fastmcp>=2.0.0 and jsonschema>=4.23.0
+
+**Test results:** 28/28 PASS (0 failures, 0 errors)
 
 ## Next step(s)
-- [ ] PHASE-B.4: Commit and push (feat(template): PHASE-B complete)
-- [ ] PHASE-C: Calypso orchestration scripts
-  - C.1: Create src/calypso/ directory structure
-  - C.2: Write orchestrator_phase2.py
-  - C.3: Write check_batch_status.py
-  - C.4: Write orchestrator_phase3.py
-  - C.5: Write orchestrator_phase4.py
-  - C.6: Write triage_dashboard.py
-  - C.7: Write apply_triage.py
-  - C.8: Write fastmcp_server.py
-  - C.9: Write SP-008 (Synthesizer Agent)
-  - C.10: Write SP-009 (Devil's Advocate Agent)
-  - C.11: End-to-end test
+- [ ] PHASE-C commit and push
 - [ ] PHASE-D: Global Brain / Librarian Agent
-- [ ] PHASE-E: v2.0 release finalization
+  - D.1: Install Chroma on Calypso (manual step)
+  - D.2: Implement librarian_agent.py (index cold archive)
+  - D.3: Wire memory_query() in fastmcp_server.py to Chroma
+  - D.4: Write SP-010 (Librarian Agent)
+  - D.5: End-to-end test: memory:query returns relevant results
+  - D.6: Commit and push
+- [ ] PHASE-E: v2.0 release finalization (DOC-4, DOC-5, tag v2.0.0)
 
 ## Blockers / Open questions
 - SP-002 check script regex issue (nested code blocks) — low priority, non-blocking
-- Chroma vector DB installation on Calypso required for PHASE-D (manual step)
-- SP-008, SP-009, SP-010 system prompts to be written during PHASE-C and PHASE-D
+- Chroma vector DB installation on Calypso required for PHASE-D (manual step — human must install)
+- fastmcp package version: using >=2.0.0 (verify compatibility with Roo Code MCP client)
+- PHASE-C.10 (end-to-end test with real API) deferred — requires Anthropic API call + batch wait
 
 ## Last Git commit
-bd1bf7d feat(memory): PHASE-A complete -- Hot/Cold memory architecture
+137e977 feat(template): PHASE-B complete -- template folder enrichment
 ---

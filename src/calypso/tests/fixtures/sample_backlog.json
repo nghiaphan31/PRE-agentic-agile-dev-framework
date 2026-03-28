@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "prd_ref": "src/calypso/tests/fixtures/sample_prd.md",
+  "generated_at": "2026-03-28T13:00:00Z",
+  "items": [
+    {
+      "id": "BL-001",
+      "title": "Define notification infrastructure (WebSocket vs SSE)",
+      "description": "Evaluate and select the real-time notification technology. Document the decision with rationale, expected concurrent user count, and infrastructure requirements.",
+      "acceptance_criteria": [
+        "Technology decision documented in systemPatterns.md",
+        "Max concurrent connections specified",
+        "Infrastructure cost estimated"
+      ],
+      "source_experts": ["architecture_expert"],
+      "priority": "HIGH",
+      "phase": "PHASE-A"
+    },
+    {
+      "id": "BL-002",
+      "title": "Add task status field with state machine",
+      "description": "Extend the task data model with a 'status' field. Define the state machine: TODO → IN_PROGRESS → DONE. Add validation to prevent invalid transitions.",
+      "acceptance_criteria": [
+        "Status field added to task model",
+        "State machine transitions validated",
+        "API returns 400 on invalid transition"
+      ],
+      "source_experts": ["architecture_expert", "qa_expert"],
+      "priority": "HIGH",
+      "phase": "PHASE-A"
+    },
+    {
+      "id": "BL-003",
+      "title": "Implement RBAC permission matrix",
+      "description": "Implement role-based access control for Admin, Manager, and Developer roles as specified in REQ-2.",
+      "acceptance_criteria": [
+        "Admin can CRUD any task",
+        "Manager can CRUD team tasks only",
+        "Developer can only edit assigned tasks",
+        "Unauthorized actions return 403"
+      ],
+      "source_experts": ["security_expert", "qa_expert"],
+      "priority": "HIGH",
+      "phase": "PHASE-B"
+    },
+    {
+      "id": "BL-004",
+      "title": "Add notification preference settings",
+      "description": "Allow users to configure which notification types they receive (task assigned, task updated, due date reminder).",
+      "acceptance_criteria": [
+        "Preference UI accessible from user profile",
+        "Preferences persisted per user",
+        "Notifications respect user preferences"
+      ],
+      "source_experts": ["ux_expert"],
+      "priority": "MEDIUM",
+      "phase": "PHASE-C"
+    },
+    {
+      "id": "BL-005",
+      "title": "Write integration tests for notification delivery",
+      "description": "Verify that notifications are delivered within 5 seconds of the triggering event under normal load conditions.",
+      "acceptance_criteria": [
+        "Test covers task assignment notification",
+        "Test covers task update notification",
+        "P95 delivery time < 5 seconds under 100 concurrent users"
+      ],
+      "source_experts": ["qa_expert"],
+      "priority": "MEDIUM",
+      "phase": "PHASE-C"
+    }
+  ]
+}

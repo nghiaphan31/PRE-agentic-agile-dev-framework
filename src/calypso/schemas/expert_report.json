@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExpertReport",
+  "description": "Schema for a single expert agent report from Phase 2 Batch API",
+  "type": "object",
+  "required": ["expert_id", "expert_role", "prd_ref", "generated_at", "findings"],
+  "properties": {
+    "expert_id": {
+      "type": "string",
+      "description": "Unique identifier for this expert report",
+      "pattern": "^[a-z_]+_expert$"
+    },
+    "expert_role": {
+      "type": "string",
+      "enum": ["architecture_expert", "security_expert", "ux_expert", "qa_expert"]
+    },
+    "prd_ref": {
+      "type": "string",
+      "description": "Path to the PRD document that was reviewed"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["category", "severity", "description", "recommendation"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Category of the finding (e.g., 'scalability', 'authentication')"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["HIGH", "MEDIUM", "LOW", "INFO"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the finding"
+          },
+          "recommendation": {
+            "type": "string",
+            "description": "Actionable recommendation to address the finding"
+          },
+          "backlog_suggestion": {
+            "type": "string",
+            "description": "Optional: suggested backlog item title"
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Executive summary of the expert review"
+    }
+  }
+}

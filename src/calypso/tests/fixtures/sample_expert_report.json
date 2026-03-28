@@ -1,0 +1,23 @@
+{
+  "expert_id": "architecture_expert",
+  "expert_role": "architecture_expert",
+  "prd_ref": "src/calypso/tests/fixtures/sample_prd.md",
+  "generated_at": "2026-03-28T12:00:00Z",
+  "findings": [
+    {
+      "category": "scalability",
+      "severity": "MEDIUM",
+      "description": "Real-time notifications (REQ-3) require WebSocket or SSE infrastructure. The PRD does not specify the expected concurrent user count, making it impossible to size the notification service.",
+      "recommendation": "Add a non-functional requirement specifying the expected peak concurrent users (e.g., 100, 1000, 10000). Choose WebSocket for bidirectional communication or SSE for server-push only.",
+      "backlog_suggestion": "Define notification infrastructure: WebSocket vs SSE, max concurrent connections"
+    },
+    {
+      "category": "data_model",
+      "severity": "LOW",
+      "description": "The task model (REQ-1) lacks a status field (e.g., TODO, IN_PROGRESS, DONE). Without it, task lifecycle cannot be tracked.",
+      "recommendation": "Add a 'status' field to the task model with a defined state machine.",
+      "backlog_suggestion": "Add task status field with state machine (TODO → IN_PROGRESS → DONE)"
+    }
+  ],
+  "summary": "The PRD is well-structured but missing key non-functional requirements around scalability and the task data model is incomplete."
+}

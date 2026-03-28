@@ -28,8 +28,8 @@
 - [x] PHASE-0: Governance restructure — ALL 13 STEPS COMPLETE (commit 905d418)
 - [x] Draft v2.0 canonical docs (DOC-1..3-v2.0) — commit fc211cb
 - [x] PHASE-A: Hot/Cold memory restructure (IDEA-001) — commit bd1bf7d
-- [-] PHASE-B: Template folder enrichment (IDEA-006) — pending commit
-- [ ] PHASE-C: Calypso orchestration scripts (IDEA-002)
+- [x] PHASE-B: Template folder enrichment — commit 137e977
+- [-] PHASE-C: Calypso orchestration scripts (IDEA-002) — pending commit
 - [ ] PHASE-D: Global Brain (Chroma/Mem0, Librarian Agent) (IDEA-007)
 - [ ] PHASE-E: v2.0 release finalization (DOC-4, DOC-5, tag v2.0.0)
 
@@ -39,12 +39,12 @@
 - [x] Batch 1 — DOC6 Expert Review submitted + retrieved → DOC6-REVIEW-RESULTS.md
 - [x] Batch 2 — Second-Pass Vision Analysis submitted + retrieved → DOC6-REVIEW-RESULTS2.md
 - [ ] DOC6 revision: fix P0 issues (conversational framing, PRD naming, systemPatterns.md genesis, glossary)
-- [ ] Migration Phase A: restructure memory-bank/ into Hot/Cold architecture (= PHASE-A above)
-- [ ] Migration Phase B: enrich template/ folder (= PHASE-B above)
-- [ ] Migration Phase C: build Calypso orchestration scripts (= PHASE-C above)
+- [x] Migration Phase A: restructure memory-bank/ into Hot/Cold architecture (= PHASE-A above)
+- [x] Migration Phase B: enrich template/ folder (= PHASE-B above)
+- [-] Migration Phase C: build Calypso orchestration scripts (= PHASE-C above)
 - [ ] Migration Phase D: Global Brain (= PHASE-D above)
-- [ ] SP-008 Synthesizer Agent system prompt
-- [ ] SP-009 Devil's Advocate Agent system prompt
+- [x] SP-008 Synthesizer Agent system prompt
+- [x] SP-009 Devil's Advocate Agent system prompt
 - [ ] SP-010 Librarian Agent system prompt
 
 ## Legend

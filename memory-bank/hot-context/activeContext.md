@@ -33,11 +33,14 @@ All post-release steps (POST-1, POST-2, POST-3, POST-4 Phases 2+3+4) completed.
   - Both branches now at `afd3eee` on origin
 
 ## Next step(s)
-- [ ] None — all POST-release steps complete
+- [ ] **IDEA-008**: Capture MinMax M2.7 via OpenRouter as default LLM with Claude fallback (see docs/ideas/IDEA-008-openrouter-minimax-default.md) — pending human approval to proceed
+
+## Blockers / Open questions
+- Git push of commit 51e8ba9 still pending (denied ×6)
   - `ssh calypso "cd /home/nghia-phan/AGENTIC_DEVELOPMENT_PROJECTS/agentic-agile-workbench && set -a && source .env && set +a && venv/bin/python src/calypso/orchestrator_phase4.py --draft-backlog batch_artifacts/draft_backlog.json"`
 
 ## Blockers / Open questions
-None — all POST-release steps complete
+- Git push of commit 51e8ba9 still pending (denied ×6) — push manually
 
 ## Last Git commit
 adb983e docs(tracker): Session 14+15 -- POST-1+2+4(P2+P3) complete, Step 8 done, Phase 4 partial

@@ -32,4 +32,5 @@
 | IDEA-004 | Gherkin linter integration | Batch review 1 | 2026-03-28 | [DEFERRED] | v3.0 | Too complex for v2.0 scope |
 | IDEA-005 | Multi-developer collaboration | Batch review 2 | 2026-03-28 | [DEFERRED] | v3.0 | Single-developer workbench by design for v2.0 |
 | IDEA-006 | Template enrichment (memory-bank/ subdirs, mcp.json, .clinerules Hot/Cold) | Batch review 2 | 2026-03-28 | [ACCEPTED] | v2.0 | Planned for PHASE-B |
-| IDEA-007 | Global Brain / Librarian Agent (Chroma/Mem0, cross-project memory) | Batch review 2 | 2026-03-28 | [ACCEPTED] | v2.0 | Planned for PHASE-D |
+| IDEA-007 | Global Brain / Librarian Agent (Chroma/Mem0, cross-project memory) | Batch review 2 | 2026-03-28 | [IMPLEMENTED] | v2.0 | Implemented in PHASE-D, commit ba61920 |
+| IDEA-008 | OpenRouter MinMax M2.7 as default LLM with Claude fallback on consecutive errors | Human | 2026-03-28 | [IDEA] | v2.1 | OpenRouter API key + fallback mechanism |

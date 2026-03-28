@@ -33,13 +33,14 @@ All post-release steps (POST-1, POST-2, POST-4 Phase 2+3) completed. Remaining: 
   - Both branches now at `afd3eee` on origin
 
 ## Next step(s)
-- [ ] **POST-3** (browser): Verify SP-007 Gem Gemini at https://gemini.google.com > Gems > "Roo Code Agent" (v1.7.0 English) — **manual by human**
 - [ ] **POST-4 Phase 4 completion**: After credits top-up at https://console.anthropic.com, re-run Phase 4 from BL-012 onwards:
   - `ssh calypso "cd /home/nghia-phan/AGENTIC_DEVELOPMENT_PROJECTS/agentic-agile-workbench && set -a && source .env && set +a && venv/bin/python src/calypso/orchestrator_phase4.py --draft-backlog batch_artifacts/draft_backlog.json"`
 
 ## Blockers / Open questions
 - **POST-4 Phase 4**: API credits depleted. Human must top up at https://console.anthropic.com
-- POST-3 requires browser — cannot be automated
+
+## Last Git commit
+adb983e docs(tracker): Session 14+15 -- POST-1+2+4(P2+P3) complete, Step 8 done, Phase 4 partial
 
 ## Git state
 - `origin/master`: `afd3eee` (up to date with release/v2.0)

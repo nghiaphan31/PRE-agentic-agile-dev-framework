@@ -61,7 +61,7 @@
 ## Post-Release Manual Steps (v2.0)
 - [x] POST-1: Install Chroma on Calypso — `chromadb-1.5.5` in venv, server at `calypso:8002`, data at `/home/nghia-phan/chroma-data`
 - [x] POST-2: Index cold archive — 1 file indexed, Global Brain operational
-- [ ] POST-3: Verify SP-007 Gem Gemini (https://gemini.google.com > Gems > "Roo Code Agent" v1.7.0) — BROWSER REQUIRED
+- [x] POST-3: Verify SP-007 Gem Gemini (https://gemini.google.com > Gems > "Roo Code Agent" v1.7.0) ✅
 - [-] POST-4: Live Calypso pipeline — Phase 2 (4 expert reports ✅), Phase 3 (20 backlog items ✅), Phase 4 (API credits depleted at 12/20 items — blocked)
 
 ## v2.1 Backlog

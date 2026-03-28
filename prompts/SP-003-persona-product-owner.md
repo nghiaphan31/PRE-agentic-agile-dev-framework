@@ -1,8 +1,8 @@
 ---
 id: SP-003
 name: Persona Product Owner (Roo Code)
-version: 1.1.0
-last_updated: 2026-03-24
+version: 1.2.0
+last_updated: 2026-03-28
 status: active
 hors_git: false
 
@@ -19,6 +19,9 @@ target_location: >
 depends_on: []
 
 changelog:
+  - version: 1.2.0
+    date: 2026-03-28
+    change: Added MinMax M2.7 via OpenRouter as default LLM with Claude fallback
   - version: 1.1.0
     date: 2026-03-24
     change: Translation to English — all French prose translated, technical identifiers unchanged

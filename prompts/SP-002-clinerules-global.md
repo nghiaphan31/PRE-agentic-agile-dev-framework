@@ -7,7 +7,7 @@ id: SP-002
 name: Global Roo Code Directives (.clinerules)
 
 
-version: 2.4.0
+version: 2.5.0
 
 
 last_updated: 2026-03-28

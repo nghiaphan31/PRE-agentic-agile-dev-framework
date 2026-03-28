@@ -1,4 +1,4 @@
----
+﻿---
 
 
 id: SP-002
@@ -128,6 +128,7 @@ changelog:
 
 
 # PROTOCOL le workbench — MANDATORY DIRECTIVES (ALL SESSIONS, ALL MODES)
+
 
 
 

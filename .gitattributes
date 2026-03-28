@@ -1,0 +1,13 @@
+# Normalize line endings to LF in the repository
+* text=auto
+
+# Explicitly keep prompts/ and .clinerules as LF (never convert)
+.clinerules text eol=lf
+prompts/SP-002-clinerules-global.md text eol=lf
+
+# Don't convert binary or generated files
+*.png binary
+*.jpg binary
+*.ico binary
+.env text eol=lf
+venv/** text eol=lf

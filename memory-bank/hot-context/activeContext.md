@@ -3,48 +3,50 @@
 
 **Last updated:** 2026-03-28
 **Active mode:** Developer
-**Active LLM backend:** Claude Sonnet API (claude-sonnet-4-6)
-
-## Current task
-All post-release steps (POST-1, POST-2, POST-3, POST-4 Phases 2+3+4) completed.
-
-## Last result
-### Session 14+15: POST-RELEASE execution via SSH to Calypso (2026-03-28)
-
-- **POST-0**: SSH connectivity to Calypso confirmed ✅
-- **POST-0b**: Calypso synced to `release/v2.0` @ `9a5df35` ✅
-- **POST-1**: `chromadb-1.5.5` installed in `venv/` on Calypso ✅
-- **POST-1b**: Chroma server started at `localhost:8002`, data at `/home/nghia-phan/chroma-data` ✅
-- **POST-1c**: Heartbeat confirmed ✅
-- **POST-2**: `librarian_agent.py --index` — 1 file indexed ✅
-- **POST-2b**: Semantic query test passed ✅
-- **POST-4 Phase 2**: Batch API — 4/4 succeeded; 3 raw files JSON truncated. Repaired via `_repair_expert_json.py`:
-  - `security_expert.json` — 9 findings [TRUNCATED]
-  - `ux_expert.json` — 13 findings [TRUNCATED]
-  - `qa_expert.json` — 13 findings [TRUNCATED]
-  - `architecture_expert.json` — 11 findings [OK]
-- **POST-4 Phase 3**: Synthesizer — 20 backlog items ✅
-  - `batch_artifacts/draft_backlog.json` — 31KB, schema validated
-- **POST-4 Phase 4**: Devil's Advocate — credits depleted at BL-012 (12/20 items). BLOCKED: API credits exhausted. ✅ partial
-- `.env` created on Calypso with `ANTHROPIC_API_KEY` (gitignored) ✅
-- Bug fix: `orchestrator_phase3.py` MAX_TOKENS 4096→8192 ✅
-- `.gitignore`: added `batch_artifacts/` ✅
-- **Step 8**: ✅ `release/v2.0` → `master` fast-forward merge + push completed
-  - Both branches now at `afd3eee` on origin
-
-## Next step(s)
-- [ ] None — all POST-release steps complete
-  - `ssh calypso "cd /home/nghia-phan/AGENTIC_DEVELOPMENT_PROJECTS/agentic-agile-workbench && set -a && source .env && set +a && venv/bin/python src/calypso/orchestrator_phase4.py --draft-backlog batch_artifacts/draft_backlog.json"`
-
-## Blockers / Open questions
-None — all POST-release steps complete
-
-## Last Git commit
-adb983e docs(tracker): Session 14+15 -- POST-1+2+4(P2+P3) complete, Step 8 done, Phase 4 partial
+**Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
+**LLM Backend:** `minimax` (default via OpenRouter)
+**Consecutive Errors:** `0`
+**Fallback State:** Not triggered
 
 ## Git state
-- `origin/master`: `afd3eee` (up to date with release/v2.0)
-- `origin/release/v2.0`: `afd3eee`
-- Calypso: synced ✅
-- PC: synced ✅
-- Last commit: `afd3eee` docs(memory): Session 15 -- POST-4 Phase 2+3 validated, Phase 4 blocked by credits, push blocked by VS Code
+- Branch: `feature/IDEA-008-openrouter` (active development)
+- Base: `release/v2.1` (ACTIVE per ADR-005 GitFlow)
+- Last commit: `6ee4580` feat(prompts): SP-003 roleDefinition updated with MinMax M2.7 default + Claude fallback
+- `origin/master`: at tag v2.0.0 (frozen)
+- `origin/release/v2.0`: closed after merge to master
+- `origin/release/v2.1`: 2 commits ahead of origin (67e332b, 9004a81)
+
+## Current task
+IDEA-008 implementation — MinMax M2.7 via OpenRouter as default LLM with Claude Sonnet fallback after 3 consecutive errors.
+
+## Last result
+### IDEA-008 Implementation (Session 16, 2026-03-28)
+All core files updated on `feature/IDEA-008-openrouter`:
+- `memory-bank/techContext.md` — Mode 4: OpenRouter MinMax M2.7, fallback config
+- `memory-bank/hot-context/activeContext.md` — llm_backend, consecutive_errors tracking
+- `.roomodes` — all 4 roleDefinitions with MinMax M2.7 default + Claude fallback
+- `template/.roomodes` — same updates for template
+- `template/.clinerules` — RULE 10 GitFlow Enforcement added
+- `prompts/SP-002-clinerules-global.md` — v2.5.0, changelog, embedded template updated
+- `prompts/SP-003-persona-product-owner.md` — v1.2.0, roleDefinition updated
+- `prompts/SP-004-persona-scrum-master.md` — v2.2.0, roleDefinition updated
+- `prompts/SP-005-persona-developer.md` — v1.2.0, roleDefinition updated
+- `prompts/SP-006-persona-qa-engineer.md` — v1.2.0, roleDefinition updated
+- `docs/ideas/IDEAS-BACKLOG.md` — IDEA-008 status [IN PROGRESS]
+
+Commits on feature/IDEA-008-openrouter:
+- `0a17d9d` feat(llm): IDEA-008 -- MinMax M2.7 via OpenRouter as default LLM, Claude fallback after 3 errors
+- `c13a6ca` chore(prompts): SP-002..006 updated to v1.2/v2.2 -- MinMax M2.7 as default LLM with Claude fallback
+- `6ee4580` feat(prompts): SP-003 roleDefinition updated with MinMax M2.7 default + Claude fallback
+
+## Next step(s)
+- [ ] Push `feature/IDEA-008-openrouter` to origin (git push)
+- [ ] Create PR: `feature/IDEA-008-openrouter` → `release/v2.1`
+- [ ] Merge PR and delete feature branch
+
+## Blockers / Open questions
+- **SP-002 coherence check failure**: CRLF vs LF line ending mismatch between `.clinerules` (CRLF, Windows) and embedded template in `prompts/SP-002-clinerules-global.md` (LF). This is a pre-existing issue affecting the pre-commit hook. The check script does line-by-line comparison. Fix requires either normalizing `.clinerules` to LF or regenerating embedded content with CRLF. Not blocking the PR — can be addressed separately.
+- **Git push**: All `git push` commands blocked by VS Code security prompt. User must push manually.
+
+## Last Git commit
+`6ee4580` feat(prompts): SP-003 roleDefinition updated with MinMax M2.7 default + Claude fallback

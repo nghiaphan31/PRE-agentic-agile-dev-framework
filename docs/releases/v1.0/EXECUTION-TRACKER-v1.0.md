@@ -400,4 +400,22 @@ Target project        : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 
 ---
 
+### Session 11 — 2026-03-28 (v2.0 Canonical Docs)
+**Mode:** Code | **LLM:** Claude Sonnet API (claude-sonnet-4-6)
+**Branch:** release/v2.0
+**Commits:** fc211cb
+
+**Work completed:**
+- Drafted 3 v2.0 canonical docs in docs/releases/v2.0/:
+  - DOC-1-v2.0-PRD.md (246 lines): product vision, 5 requirements, acceptance criteria, glossary
+  - DOC-2-v2.0-Architecture.md (340 lines): 3-tier architecture, Hot/Cold memory, Calypso layer, Global Brain
+  - DOC-3-v2.0-Implementation-Plan.md (862 lines): PHASE-A..E with detailed steps, validation criteria
+- Updated memory-bank/activeContext.md and memory-bank/progress.md
+- Updated EXECUTION-TRACKER-v1.0.md (this entry)
+
+**Next session:**
+- Execute PHASE-A: Hot/Cold memory restructure (steps A.1..A.7)
+
+---
+
 *End of file EXECUTION-TRACKER.md — Version 1.0.0*

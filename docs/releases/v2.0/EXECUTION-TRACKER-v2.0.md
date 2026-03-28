@@ -33,12 +33,12 @@
 
 ```
 Last updated          : 2026-03-28
-Last session          : Session 12 — 2026-03-28 (v2.0 release finalization + post-release tracking)
-Current phase         : POST-RELEASE — 4 manual steps pending
-Last completed step   : v2.0.0 tag pushed to origin (commit ed253a1)
-Next action           : POST-1: Install Chroma on Calypso (SSH required)
-Active blockers       : POST-1 requires SSH access to Calypso machine
-Last Git commit       : ed253a1 — docs(release): v2.0 release finalization -- freeze docs, QA pass, release notes
+Last session          : Session 15 — 2026-03-28 (POST-RELEASE via SSH to Calypso)
+Current phase         : POST-RELEASE — POST-1+2+4(P2+P3) complete, POST-4(P4) partial, POST-3 pending
+Last completed step   : POST-4 Phase 3 — 20 backlog items synthesized (commit 8aa00dd)
+Next action           : POST-3: Verify SP-007 Gem in browser | POST-4 Phase 4: top up credits then re-run
+Active blockers       : POST-4 Phase 4 blocked by Anthropic API credits depletion
+Last Git commit       : 8aa00dd — docs(memory): Step 8 complete -- release/v2.0 merged to master, final state
 Active LLM backend    : Claude Sonnet API (claude-sonnet-4-6)
 Target project        : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agile-workbench
 ```
@@ -187,10 +187,10 @@ Target project        : C:\Users\nghia\AGENTIC_DEVELOPMENT_PROJECTS\agentic-agil
 
 | # | Step | Status | Machine | Notes |
 | :---: | :--- | :---: | :---: | :--- |
-| POST-1 | Install Chroma on Calypso | `[ ]` | `calypso` (SSH) | See commands below |
-| POST-2 | Index cold archive via Librarian Agent | `[ ]` | `calypso` (SSH) | Requires POST-1 complete |
+| POST-1 | Install Chroma on Calypso | `[x]` | `calypso` (SSH) | chromadb-1.5.5 in venv, server at calypso:8002, data at ~/chroma-data |
+| POST-2 | Index cold archive via Librarian Agent | `[x]` | `calypso` (SSH) | 1 file indexed (productContext_Master.md), 1 chunk, Global Brain operational |
 | POST-3 | Verify SP-007 Gem Gemini | `[ ]` | Browser | See verification steps below |
-| POST-4 | Run live Calypso pipeline end-to-end | `[ ]` | `calypso` (SSH) | Requires POST-1 + POST-2 complete |
+| POST-4 | Run live Calypso pipeline end-to-end | `[-]` | `calypso` (SSH) | Phase 2+3 ✅, Phase 4 partial (credits depleted at BL-012) |
 
 ---
 
@@ -395,7 +395,34 @@ python -c "import json; data=json.load(open('/tmp/final_backlog.json')); print(f
 - Updated `memory-bank/hot-context/activeContext.md` with post-release status
 - Updated `memory-bank/hot-context/progress.md` with post-release checklist
 
-**Next action:** POST-1: Install Chroma on Calypso — `pip install chromadb && chroma run --host 0.0.0.0 --port 8002 --path /data/chroma`
+**Next action:** POST-3: Verify SP-007 Gem in browser | POST-4 Phase 4: top up credits at console.anthropic.com then re-run
+
+---
+
+### Session 14+15 — 2026-03-28 (POST-RELEASE via SSH to Calypso)
+**Mode:** Developer | **LLM:** Claude Sonnet API (claude-sonnet-4-6)
+**Branch:** release/v2.0 → merged to master
+**Commits:** `1e982a8`, `afd3eee`, `8aa00dd`
+
+**Work completed (via SSH to Calypso):**
+- **POST-1**: ChromaDB installed in venv (PEP 668 resolved), server running at `calypso:8002` with data at `~/chroma-data`, heartbeat confirmed
+- **POST-2**: Librarian agent indexed cold archive — 1 file (`productContext_Master.md`), 1 chunk, semantic query test passed
+- **POST-4 Phase 2**: Batch API submitted 4 expert requests, 3 truncated at max_tokens=2048, repaired via `_repair_expert_json.py` → 46 total findings (security: 9, ux: 13, qa: 13, architecture: 11)
+- **POST-4 Phase 3**: Synthesizer generated 20 backlog items from 4 expert reports, schema validated (MAX_TOKENS=4096→8192 bug fixed in orchestrator_phase3.py)
+- **POST-4 Phase 4**: Devil's Advocate started, credits depleted at BL-012 (12/20 items processed)
+- **Step 8**: `release/v2.0` fast-forward merged to `master` and pushed to origin ✅
+- `.gitignore`: added `batch_artifacts/`
+- `.env` created on Calypso with `ANTHROPIC_API_KEY` (gitignored)
+
+**Blockers:**
+- POST-4 Phase 4: Anthropic API credits exhausted at item BL-012. Top up at https://console.anthropic.com to complete Phase 4 and generate `final_backlog.json`
+- POST-3: Browser action required (manual by human) — cannot be automated
+
+**Bugs found and fixed:**
+- `orchestrator_phase3.py` MAX_TOKENS was 4096, truncating synthesizer output. Fixed to 8192 (both Calypso and local)
+- 3 expert JSON files wrapped in markdown fences, repair script now strips fences
+
+**Next action:** POST-3: Verify SP-007 Gem at https://gemini.google.com > Gems > "Roo Code Agent" (manual) | POST-4 Phase 4: top up Anthropic credits then re-run
 
 ---
 

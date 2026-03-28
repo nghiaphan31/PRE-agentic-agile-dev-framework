@@ -29,8 +29,8 @@
 - [x] Draft v2.0 canonical docs (DOC-1..3-v2.0) — commit fc211cb
 - [x] PHASE-A: Hot/Cold memory restructure (IDEA-001) — commit bd1bf7d
 - [x] PHASE-B: Template folder enrichment — commit 137e977
-- [-] PHASE-C: Calypso orchestration scripts (IDEA-002) — pending commit
-- [ ] PHASE-D: Global Brain (Chroma/Mem0, Librarian Agent) (IDEA-007)
+- [x] PHASE-C: Calypso orchestration scripts (IDEA-002) — commit 2220121
+- [-] PHASE-D: Global Brain (Chroma/Mem0, Librarian Agent) — code complete, pending commit
 - [ ] PHASE-E: v2.0 release finalization (DOC-4, DOC-5, tag v2.0.0)
 
 ### Epic 1: Agentic Agile Workbench Architecture (DOC6)
@@ -41,11 +41,11 @@
 - [ ] DOC6 revision: fix P0 issues (conversational framing, PRD naming, systemPatterns.md genesis, glossary)
 - [x] Migration Phase A: restructure memory-bank/ into Hot/Cold architecture (= PHASE-A above)
 - [x] Migration Phase B: enrich template/ folder (= PHASE-B above)
-- [-] Migration Phase C: build Calypso orchestration scripts (= PHASE-C above)
-- [ ] Migration Phase D: Global Brain (= PHASE-D above)
+- [x] Migration Phase C: build Calypso orchestration scripts (= PHASE-C above)
+- [-] Migration Phase D: Global Brain (= PHASE-D above)
 - [x] SP-008 Synthesizer Agent system prompt
 - [x] SP-009 Devil's Advocate Agent system prompt
-- [ ] SP-010 Librarian Agent system prompt
+- [x] SP-010 Librarian Agent system prompt
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

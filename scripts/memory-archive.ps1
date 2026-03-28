@@ -142,5 +142,44 @@ Write-Host "  Sprint log: memory-bank/archive-cold/sprint-logs/sprint-$SprintPad
 Write-Host "  Next: start Sprint $($SprintNumber + 1)"
 Write-Host "============================================================"
 Write-Host ""
-Write-Host "REMINDER: Run 'python src/calypso/librarian_agent.py' to index new archive content."
+
+# Step 5: Trigger Librarian Agent to index new archive content
+$LibrarianScript = Join-Path $ProjectRoot "src\calypso\librarian_agent.py"
+$NewFiles = @(
+    (Join-Path $ColdArchive "sprint-logs\sprint-$SprintPadded.md"),
+    $ProductContextMaster
+)
+
+if (Test-Path $LibrarianScript) {
+    Write-Host "Triggering Librarian Agent to index new archive content..."
+    $fileArgs = $NewFiles | Where-Object { Test-Path $_ } | ForEach-Object { "--files"; $_ }
+    if ($fileArgs) {
+        try {
+            $result = & python $LibrarianScript --index @fileArgs 2>&1
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "[OK] Librarian Agent indexing complete."
+                Write-Host $result
+            } else {
+                Write-Host "[WARN] Librarian Agent exited with code $LASTEXITCODE (Chroma may not be running)."
+                Write-Host "       Run manually: python src/calypso/librarian_agent.py --index"
+            }
+        } catch {
+            Write-Host "[WARN] Librarian Agent failed: $_"
+            Write-Host "       Run manually: python src/calypso/librarian_agent.py --index"
+        }
+    } else {
+        Write-Host "[WARN] No new archive files found to index."
+    }
+} else {
+    Write-Host "[WARN] librarian_agent.py not found at $LibrarianScript"
+    Write-Host "       Ensure PHASE-C is complete and src/calypso/ exists."
+}
+
+Write-Host ""
+Write-Host "Next steps:"
+Write-Host "  1. Review memory-bank/hot-context/activeContext.md (reset to stub)"
+Write-Host "  2. Define Sprint $($SprintNumber + 1) goals in productContext.md"
+Write-Host "  3. Commit the archive:"
+Write-Host "     git add memory-bank/"
+Write-Host "     git commit -m `"docs(memory): archive Sprint $SprintNumber to cold archive`""
 Write-Host ""

@@ -219,36 +219,37 @@ def memory_query(semantic_query: str, top_k: int = 5) -> list:
     Query the Global Brain vector database for relevant context.
 
     Searches the cold archive (sprint logs, completed tickets, product context history)
-    using semantic similarity. Returns the top-K most relevant chunks.
-
-    NOTE: This tool is a stub until PHASE-D (Global Brain / Librarian Agent).
-    Currently returns a placeholder response.
+    using semantic similarity via Chroma + Ollama embeddings.
+    Falls back to keyword search if Chroma is unavailable.
 
     Args:
         semantic_query: Natural language query (e.g., "authentication decisions")
         top_k: Number of results to return (default: 5)
 
     Returns:
-        List of relevant text chunks with metadata.
+        List of relevant text chunks with metadata and similarity scores.
     """
-    # PHASE-D stub — will be replaced with Chroma vector DB query
-    # Import librarian_agent when available
+    # Try Chroma-backed semantic search via librarian_agent
     try:
-        from calypso.librarian_agent import query_memory  # noqa: F401
-        return query_memory(semantic_query, top_k)
-    except ImportError:
+        sys.path.insert(0, str(Path(__file__).parent.parent))
+        from calypso.librarian_agent import query_memory as _query_memory
+        return _query_memory(semantic_query, top_k)
+    except SystemExit:
+        # Chroma unavailable -- fall through to keyword fallback
         pass
+    except Exception as e:
+        print(f"WARNING: Chroma query failed: {e}. Falling back to keyword search.", file=sys.stderr)
 
-    # Fallback: search cold archive files directly (basic keyword search)
+    # Fallback: keyword search across cold archive files
     cold_archive_dir = Path(MEMORY_BANK_DIR) / "archive-cold"
     results = []
 
     if not cold_archive_dir.exists():
         return [{
-            "type": "stub",
+            "type": "unavailable",
             "message": (
-                "Global Brain not yet initialized (PHASE-D pending). "
-                "Cold archive directory not found."
+                "Global Brain not available. Chroma may not be running. "
+                "See PHASE-D.1: chroma run --host 0.0.0.0 --port 8002 --path /data/chroma"
             ),
             "query": semantic_query,
         }]
@@ -260,19 +261,17 @@ def memory_query(semantic_query: str, top_k: int = 5) -> list:
             continue
         try:
             content = md_file.read_text(encoding="utf-8")
-            # Score by term frequency
             score = sum(content.lower().count(term) for term in query_terms)
             if score > 0:
-                # Return first 500 chars of matching file
                 results.append({
                     "source": str(md_file.relative_to(Path(MEMORY_BANK_DIR))),
                     "score": score,
                     "excerpt": content[:500],
+                    "type": "keyword_fallback",
                 })
         except Exception:
             continue
 
-    # Sort by score, return top_k
     results.sort(key=lambda x: x["score"], reverse=True)
     results = results[:top_k]
 
@@ -280,7 +279,10 @@ def memory_query(semantic_query: str, top_k: int = 5) -> list:
         results = [{
             "type": "no_results",
             "message": f"No results found for query: '{semantic_query}'",
-            "hint": "Cold archive may be empty. Run memory_archive() after completing a sprint.",
+            "hint": (
+                "Cold archive may be empty. Run memory_archive() after completing a sprint, "
+                "then librarian_agent.py --index to populate the Global Brain."
+            ),
         }]
 
     return results

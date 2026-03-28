@@ -1,11 +1,11 @@
 # DOC-2 — Technical Architecture (Current)
 
-**Current release:** v2.1
-**File:** [docs/releases/v2.1/DOC-2-v2.1-Architecture.md](releases/v2.1/DOC-2-v2.1-Architecture.md)
+**Current release:** v2.2
+**File:** [docs/releases/v2.2/DOC-2-v2.2-Architecture.md](releases/v2.2/DOC-2-v2.2-Architecture.md)
 **Status:** Frozen
-**Git tag:** `v2.1.0`
+**Git tag:** `v2.2.0`
 
-**Previous release:** [docs/releases/v2.0/DOC-2-v2.0-Architecture.md](releases/v2.0/DOC-2-v2.0-Architecture.md) (`v2.0.0`)
+**Previous release:** [docs/releases/v2.1/DOC-2-v2.1-Architecture.md](releases/v2.1/DOC-2-v2.1-Architecture.md) (`v2.1.0`)
 
 ---
 

@@ -1,11 +1,11 @@
 # DOC-1 — Product Requirements (Current)
 
-**Current release:** v2.1
-**File:** [docs/releases/v2.1/DOC-1-v2.1-PRD.md](releases/v2.1/DOC-1-v2.1-PRD.md)
+**Current release:** v2.2
+**File:** [docs/releases/v2.2/DOC-1-v2.2-PRD.md](releases/v2.2/DOC-1-v2.2-PRD.md)
 **Status:** Frozen
-**Git tag:** `v2.1.0`
+**Git tag:** `v2.2.0`
 
-**Previous release:** [docs/releases/v2.0/DOC-1-v2.0-PRD.md](releases/v2.0/DOC-1-v2.0-PRD.md) (`v2.0.0`)
+**Previous release:** [docs/releases/v2.1/DOC-1-v2.1-PRD.md](releases/v2.1/DOC-1-v2.1-PRD.md) (`v2.1.0`)
 
 ---
 

@@ -83,11 +83,14 @@
 - [x] `docs/releases/v2.1/` canonical docs created (retroactive — hotfix bypassed formal process)
 - [x] DOC-N-CURRENT.md pointers updated to v2.1
 
-## v2.2 Release (Active Development)
+## v2.2 Release — COMPLETE
+- [x] All v2.2 scope implemented and pushed (memory-bank hygiene, DOC6 close, v2.1 retroactive docs)
+- [x] `docs/releases/v2.2/` canonical docs created
+- [x] DOC-N-CURRENT.md pointers updated to v2.2
 
-### Scope: TBD — Ideas Backlog Triage Needed
-- [ ] Triage IDEAS-BACKLOG.md for v3.0 scope candidates
-- [ ] Create `docs/releases/v2.2/` folder at next release planning
+## v2.3 Release (Next — TBD)
+- [ ] Triage IDEAS-BACKLOG.md for next release scope
+- [ ] Create `docs/releases/v2.3/` folder at next release planning
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

@@ -1,7 +1,7 @@
 ---
 # Active Context
 
-**Last updated:** 2026-03-28T20:52:00Z
+**Last updated:** 2026-03-28T21:14:00Z
 **Active mode:** Developer
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minimax` (default via OpenRouter)
@@ -9,26 +9,27 @@
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `master` (after merge of release/v2.2)
-- Last commit: `d9fc936` — Merge release/v2.2 (memory-bank fixes)
-- `origin/master`: pushed ✅
+- Branch: `release/v2.3` (fresh — created from master)
+- Base: `master` at v2.2.0 (`f0826b0`)
+- `release/v2.2`: closed and deleted
+- `origin/master`: at v2.1.0 — needs push (v2.2.0 pending)
 
 ## Current task
-v2.1 backlog review — COMPLETE and pushed
+v2.2 release complete — tagged, DOC-N-CURRENT updated, release/v2.3 created
 
 ## Last result
-All v2.1 backlog items verified/closed and pushed:
-- orchestrator_phase3 MAX_TOKENS: FIXED (commit 1e982a8 on Calypso)
-- SP-002 KI-001: FIXED (a65cd10/a7ac4f0/d0c0dcd); 6 PASS confirmed
-- batch_artifacts/.gitignore: FIXED (commit 1e982a8)
-- DOC6 revision: CLOSED — conversation log, RULE 8.3 prohibits editing
-- release/v2.2 merged to master and pushed
+- v2.2.0 tagged on master (`f0826b0`)
+- `docs/releases/v2.2/` canonical docs created
+- DOC-N-CURRENT pointers updated to v2.2
+- `release/v2.2` closed, `release/v2.3` created
+- `origin/master` needs push with v2.2.0
 
 ## Next step(s)
-- [ ] v2.1 work fully done — `release/v2.2` branch can be deleted or kept for future work
+- [ ] `git push origin master` + `git push origin v2.2.0`
+- [ ] Next: triage IDEAS-BACKLOG for v2.3 scope
 
 ## Blockers / Open questions
-None.
+`origin/master` not yet pushed with v2.2.0 tag.
 
 ## Last Git commit
-`d9fc936` Merge branch 'release/v2.2' (memory-bank cleanup)
+`f0826b0` docs(release): add v2.2 canonical docs

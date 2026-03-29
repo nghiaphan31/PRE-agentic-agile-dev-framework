@@ -34,6 +34,13 @@ v2.3.0 Release — COMPLETE
 ## Blockers / Open questions
 - Git push to origin requires user action (denied during session)
 - SP-007 Gem Gemini requires manual deployment at https://gemini.google.com > Gems
+- **COHERENCE-AUDIT-v2.3.md** — NEXT SESSION PRIORITY: See docs/qa/v2.3/COHERENCE-AUDIT-v2.3.md
+  - P0: template/proxy.py 7 versions behind (v2.1.1 vs v2.8.0) — SSE/GEM MODE issues
+  - P0: techContext.md misplaced (root level, should be in hot-context/)
+  - P0: DOC-2 v2.2 has no Section 4 content
+  - P1: SP-008/009 inline duplication in calypso scripts
+  - P1: final_backlog.json schema missing
+  - P1: memory-archive.ps1 PowerShell-only (breaks Linux/macOS)
 
 ## Coherence Status (IDEA-011)
 - SP-001 (Modelfile): PASS

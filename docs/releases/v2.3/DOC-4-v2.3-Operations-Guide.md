@@ -1,17 +1,18 @@
 ---
 doc_id: DOC-4
 release: v2.3
-status: Draft
+status: Frozen
 title: Operations Guide
 version: 1.0
 date_created: 2026-03-29
+date_frozen: 2026-03-29
 authors: [Developer mode, Human]
 previous_release: docs/releases/v2.2/DOC-4-v2.2-Operations-Guide.md
 ---
 
 # DOC-4 -- Operations Guide (v2.3)
 
-> **Status: DRAFT** -- This document is under active development.
+> **Status: FROZEN** -- This document is frozen for v2.3.0 release.
 
 ---
 

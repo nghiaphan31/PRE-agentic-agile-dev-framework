@@ -1,50 +1,9 @@
----
-id: SP-002
-name: Global Roo Code Directives (.clinerules)
-version: 2.6.0
-last_updated: 2026-03-29
-status: active
-hors_git: false
-target_type: roo_clinerules
-target_file: .clinerules
-target_field: "Entire file — replace all content"
-target_location: >
-  File `.clinerules` at the root of the project.
-  This file is automatically read by Roo Code and injected above
-  each user prompt, for all sessions and all modes.
-  No manual action required after modification (Roo Code re-reads at each session).
-depends_on:
-  - SP-005: "The Git rules in RULE 5 assume that the Developer knows the commit protocol defined in SP-005"
-  - SP-007: "The XML tags listed in RULE 6 must be identical to those listed in SP-007"
-changelog:
-  - version: 2.6.0
-    date: 2026-03-29
-    change: "Fix SP-002 coherence — remove BOM, fix mojibake (em-dash, arrow), fix literal \\n in RULE 10, consolidate double embedding"
-  - version: 2.5.0
-    date: 2026-03-28
-    change: "Added RULE 9 — Cold Zone Firewall memory access protocol"
-  - version: 2.4.0
-    date: 2026-03-24
-    change: "Added RULE 7 — large file generation chunking protocol"
-  - version: 2.1.0
-    date: 2026-03-24
-    change: "i18n — Full translation to English"
-  - version: 2.0.0
-    date: 2026-03-23
-    change: "Arbitration v2.0 — RULE 1 updated with explicit CHECK->CREATE->READ->ACT sequence"
-  - version: 1.0.0
-    date: 2026-03-23
-    change: Initial creation — 6 rules
----
+#!/usr/bin/env python3
+"""Fix SP-002 coherence issues: BOM, mojibake, literal \\n in RULE 10."""
 
-# SP-002 — Global Roo Code Directives (.clinerules)
+import os
 
-## Prompt Content
-
-> Copy this text exactly as the complete content of the `.clinerules` file.
-
-```markdown
-# PROTOCOL le workbench — MANDATORY DIRECTIVES (ALL SESSIONS, ALL MODES)
+CLINERULES_CONTENT = """# PROTOCOL le workbench \u2014 MANDATORY DIRECTIVES (ALL SESSIONS, ALL MODES)
 
 
 
@@ -61,10 +20,10 @@ Before any action, you MUST execute the following sequence in this exact order:
 1. CHECK : Does memory-bank/activeContext.md exist?
 
 
-   - If NO → proceed to the CREATE step
+   - If NO \u2192 proceed to the CREATE step
 
 
-   - If YES → proceed to the READ step
+   - If YES \u2192 proceed to the READ step
 
 
 2. CREATE (if absent) : Immediately create memory-bank/activeContext.md AND memory-bank/progress.md
@@ -76,12 +35,12 @@ Before any action, you MUST execute the following sequence in this exact order:
 3. READ : Read memory-bank/hot-context/activeContext.md then memory-bank/hot-context/progress.md
 
 
-4. ACT : Process the user’s request
+4. ACT : Process the user\u2019s request
 
 
 
 
-This CHECK→CREATE→READ→ACT sequence is NON-NEGOTIABLE and applies to ALL sessions.
+This CHECK\u2192CREATE\u2192READ\u2192ACT sequence is NON-NEGOTIABLE and applies to ALL sessions.
 
 
 
@@ -142,7 +101,7 @@ This rule applies to all modes with access to the terminal (developer, scrum-mas
 
 
 
-### 5.1 — What MUST be versioned
+### 5.1 \u2014 What MUST be versioned
 
 
 
@@ -172,7 +131,7 @@ EVERYTHING must be versioned under Git, without exception:
 
 
 
-### 5.2 — When to commit
+### 5.2 \u2014 When to commit
 
 
 
@@ -196,7 +155,7 @@ You MUST execute a Git commit in the following situations:
 
 
 
-### 5.3 — Commit message format (Conventional Commits)
+### 5.3 \u2014 Commit message format (Conventional Commits)
 
 
 
@@ -229,7 +188,7 @@ You MUST use the Conventional Commits format:
 
 
 
-### 5.4 — Git commands to use
+### 5.4 \u2014 Git commands to use
 
 
   git add .
@@ -238,14 +197,14 @@ You MUST use the Conventional Commits format:
   git commit -m "type(scope): description concise"
 
 
-### 5.5 — What must NOT be versioned
+### 5.5 \u2014 What must NOT be versioned
 
 
 
 - The venv/ folder (local Python environment)
 
 
-- .env files (API keys — NEVER in Git)
+- .env files (API keys \u2014 NEVER in Git)
 
 
 - __pycache__/ files and *.pyc
@@ -265,7 +224,7 @@ This rule applies to developer and scrum-master modes.
 
 
 
-### 6.1 — Before any commit touching an artifact linked to a prompt
+### 6.1 \u2014 Before any commit touching an artifact linked to a prompt
 
 
 
@@ -277,7 +236,7 @@ you MUST check whether the change impacts a system prompt in prompts/.
 
 
 
-### 6.2 — Verification procedure
+### 6.2 \u2014 Verification procedure
 
 
 
@@ -301,7 +260,7 @@ you MUST check whether the change impacts a system prompt in prompts/.
 
 
 
-### 6.3 — Example commit with prompt update
+### 6.3 \u2014 Example commit with prompt update
 
 
   git add proxy.py prompts/SP-007-gem-gemini-roo-agent.md
@@ -312,7 +271,7 @@ you MUST check whether the change impacts a system prompt in prompts/.
 
 
 
-## RULE 7: LARGE FILE GENERATION — MANDATORY CHUNKING PROTOCOL
+## RULE 7: LARGE FILE GENERATION \u2014 MANDATORY CHUNKING PROTOCOL
 
 
 
@@ -321,7 +280,7 @@ This rule applies to all modes that generate or write large files (>500 lines).
 
 
 
-### 7.1 — When this rule applies
+### 7.1 \u2014 When this rule applies
 
 
 
@@ -330,7 +289,7 @@ Whenever a file to be written exceeds approximately 500 lines, you MUST use the 
 
 
 
-### 7.2 — Chunking protocol
+### 7.2 \u2014 Chunking protocol
 
 
 
@@ -372,7 +331,7 @@ Whenever a file to be written exceeds approximately 500 lines, you MUST use the 
 
 
 
-### 7.3 — Why this protocol is mandatory
+### 7.3 \u2014 Why this protocol is mandatory
 
 
 
@@ -405,7 +364,7 @@ This rule applies to all modes and all sessions, without exception.
 When you identify a new requirement, improvement, or architectural change NOT in current release scope:
 
 
-1. DO NOT modify the current release’s canonical docs (DOC-1..5).
+1. DO NOT modify the current release\u2019s canonical docs (DOC-1..5).
 
 2. ADD an entry to docs/ideas/IDEAS-BACKLOG.md with status [IDEA].
 
@@ -423,7 +382,7 @@ When saving an AI conversation output:
 
 1. Save to docs/conversations/{YYYY-MM-DD}-{source}-{slug}.md
 
-2. Add entry to docs/conversations/README.md with triage status “Not yet triaged”
+2. Add entry to docs/conversations/README.md with triage status \u201cNot yet triaged\u201d
 
 3. Never edit a conversation file after creation.
 
@@ -432,7 +391,7 @@ When saving an AI conversation output:
 
 ### 8.4 -- Release Document References
 
-Always use full qualified ID: “See DOC-2.3.1” not “See the architecture document.”
+Always use full qualified ID: \u201cSee DOC-2.3.1\u201d not \u201cSee the architecture document.\u201d
 
 
 
@@ -475,7 +434,7 @@ Direct reading of cold archive files would:
 
 1. Flood the context window with stale historical data
 
-2. Cause “Lost in the Middle” errors on large projects
+2. Cause \u201cLost in the Middle\u201d errors on large projects
 
 3. Defeat the purpose of the Hot/Cold architecture
 
@@ -697,8 +656,87 @@ Fallback State: Not triggered
 
 ## Notes
 
-> **Why CHECK→CREATE→READ→ACT?** Without the prior check, the agent would attempt to read a non-existent file and fail silently. The sequence guarantees that the Memory Bank is always initialized before being read.
+> **Why CHECK\u2192CREATE\u2192READ\u2192ACT?** Without the prior check, the agent would attempt to read a non-existent file and fail silently. The sequence guarantees that the Memory Bank is always initialized before being read.
+"""
 
+
+def write_clean(path: str, content: str, newline: str = '\r\n') -> None:
+    """Write content as clean UTF-8, no BOM, with specified line endings."""
+    with open(path, 'w', encoding='utf-8', newline=newline) as f:
+        f.write(content)
+    # Verify
+    with open(path, 'rb') as f:
+        data = f.read()
+    bom = data[:3] == b'\xef\xbb\xbf'
+    literal_n = b'\\n' in data  # backslash-n
+    print(f"  Written: {path}")
+    print(f"    BOM={bom}, size={len(data)}, literal\\\\n={literal_n}")
+
+
+def main():
+    # Fix .clinerules (root) - Windows CRLF
+    write_clean('.clinerules', CLINERULES_CONTENT, '\r\n')
+    
+    # Fix template/.clinerules - Windows CRLF
+    write_clean('template/.clinerules', CLINERULES_CONTENT, '\r\n')
+    
+    print("\nAll .clinerules files fixed.")
+    print("Next: Fix SP-002 (prompts/SP-002-clinerules-global.md) with proper encoding.")
+    
+    # Now create clean SP-002
+    # The coherence check compares prompts/SP-002-clinerules-global.md with .clinerules
+    # The markdown block in SP-002 must exactly match .clinerules
+    # Plus we need clean YAML frontmatter and proper changelog entries
+    
+    sp002_frontmatter = """---
+id: SP-002
+name: Global Roo Code Directives (.clinerules)
+version: 2.6.0
+last_updated: 2026-03-29
+status: active
+hors_git: false
+target_type: roo_clinerules
+target_file: .clinerules
+target_field: "Entire file \u2014 replace all content"
+target_location: >
+  File `.clinerules` at the root of the project.
+  This file is automatically read by Roo Code and injected above
+  each user prompt, for all sessions and all modes.
+  No manual action required after modification (Roo Code re-reads at each session).
+depends_on:
+  - SP-005: "The Git rules in RULE 5 assume that the Developer knows the commit protocol defined in SP-005"
+  - SP-007: "The XML tags listed in RULE 6 must be identical to those listed in SP-007"
+changelog:
+  - version: 2.6.0
+    date: 2026-03-29
+    change: "Fix SP-002 coherence \u2014 remove BOM, fix mojibake (em-dash, arrow), fix literal \\\\n in RULE 10, consolidate double embedding"
+  - version: 2.5.0
+    date: 2026-03-28
+    change: "Added RULE 9 \u2014 Cold Zone Firewall memory access protocol"
+  - version: 2.4.0
+    date: 2026-03-24
+    change: "Added RULE 7 \u2014 large file generation chunking protocol"
+  - version: 2.1.0
+    date: 2026-03-24
+    change: "i18n \u2014 Full translation to English"
+  - version: 2.0.0
+    date: 2026-03-23
+    change: "Arbitration v2.0 \u2014 RULE 1 updated with explicit CHECK->CREATE->READ->ACT sequence"
+  - version: 1.0.0
+    date: 2026-03-23
+    change: Initial creation \u2014 6 rules
+---
+
+# SP-002 \u2014 Global Roo Code Directives (.clinerules)
+
+## Prompt Content
+
+> Copy this text exactly as the complete content of the `.clinerules` file.
+
+```markdown
+"""
+
+    sp002_suffix = """
 ```
 
 ## Deployment Notes
@@ -706,7 +744,7 @@ Fallback State: Not triggered
 1. Open `.clinerules` at the root of the project
 2. Replace **all content** with the text above (section "Prompt Content")
 3. Save the file (ensure UTF-8 encoding without BOM)
-4. Roo Code re-reads `.clinerules` automatically at each new session — no additional action required
+4. Roo Code re-reads `.clinerules` automatically at each new session \u2014 no additional action required
 
 
 ## Impact on Other Prompts
@@ -714,3 +752,22 @@ Fallback State: Not triggered
 - If RULE 5 is modified: check SP-005 (Developer) and SP-004 (Scrum Master) for consistency
 - If RULE 6 is modified: no other prompt impacted
 - If the XML tags in RULE 6 change: check SP-007 (Gem Gemini) for consistency
+"""
+
+    sp002_full = sp002_frontmatter + CLINERULES_CONTENT + sp002_suffix
+    
+    # Write SP-002 (Unix LF for source file, CRLF for embedded .clinerules)
+    # The SP-002 itself uses LF (Unix), but embedded content uses CRLF to match .clinerules
+    with open('prompts/SP-002-clinerules-global.md', 'w', encoding='utf-8', newline='\n') as f:
+        f.write(sp002_full)
+    
+    with open('prompts/SP-002-clinerules-global.md', 'rb') as f:
+        data = f.read()
+    bom = data[:3] == b'\xef\xbb\xbf'
+    print(f"\nWritten: prompts/SP-002-clinerules-global.md")
+    print(f"  BOM={bom}, size={len(data)}")
+    print("\nAll three files fixed successfully!")
+
+
+if __name__ == '__main__':
+    main()

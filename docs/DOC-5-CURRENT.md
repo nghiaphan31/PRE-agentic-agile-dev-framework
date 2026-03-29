@@ -1,11 +1,11 @@
 # DOC-5 — Release Notes (Current)
 
-**Current release:** v2.2
-**File:** [docs/releases/v2.2/DOC-5-v2.2-Release-Notes.md](releases/v2.2/DOC-5-v2.2-Release-Notes.md)
-**Status:** Frozen
-**Git tag:** `v2.2.0`
+**Current release:** v2.3
+**File:** [docs/releases/v2.3/DOC-5-v2.3-Release-Notes.md](releases/v2.3/DOC-5-v2.3-Release-Notes.md)
+**Status:** Draft
+**Git tag:** (pending v2.3.0 release)
 
-**Previous release:** [docs/releases/v2.1/DOC-5-v2.1-Release-Notes.md](releases/v2.1/DOC-5-v2.1-Release-Notes.md) (`v2.1.0`)
+**Previous release:** [docs/releases/v2.2/DOC-5-v2.2-Release-Notes.md](releases/v2.2/DOC-5-v2.2-Release-Notes.md) (`v2.2.0`)
 
 ---
 

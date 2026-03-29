@@ -1,6 +1,6 @@
 # Project Progress
 
-**Last updated:** 2026-03-28T20:37:00Z
+**Last updated:** 2026-03-29T08:10:00Z
 
 ## le workbench Infrastructure
 
@@ -88,9 +88,39 @@
 - [x] `docs/releases/v2.2/` canonical docs created
 - [x] DOC-N-CURRENT.md pointers updated to v2.2
 
-## v2.3 Release (Next — TBD)
-- [ ] Triage IDEAS-BACKLOG.md for next release scope
-- [ ] Create `docs/releases/v2.3/` folder at next release planning
+## v2.3 Release (Next)
+
+### v2.3 Canonical Docs
+- [x] DOC-1-v2.3-PRD.md — Draft
+- [x] DOC-2-v2.3-Architecture.md — Draft
+- [x] DOC-3-v2.3-Implementation-Plan.md — Draft
+- [x] DOC-4-v2.3-Operations-Guide.md — Draft
+- [x] DOC-5-v2.3-Release-Notes.md — Draft
+- [x] DOC-1..DOC-5 pointers updated to v2.3
+
+### IDEA-009: Generic Anthropic Batch API Toolkit
+- [x] IDEA-009 captured in `docs/ideas/IDEA-009-batch-api-toolkit.md`
+- [x] `scripts/batch/` canonical implementation (8 modules + 2 templates)
+- [x] `template/scripts/batch/` self-contained template bundle (7 modules + 2 templates)
+- [x] config.py: BatchConfig dataclass + YAML loader
+- [x] submit.py: batch submission with API key validation
+- [x] retrieve.py: result retrieval + markdown report generation
+- [x] poll.py: polling utility with --poll support
+- [x] cli.py: CLI with submit/retrieve/status/poll commands
+- [x] generate.py: Jinja2-based script generator
+- [x] requirements.txt: added jinja2>=3.1.0, pyyaml>=6.0
+- [x] ADR-010: ad-hoc governance with two paths and three release tiers
+- [ ] Merge feature/IDEA-009-batch-toolkit to develop
+- [ ] AD-HOC Minor: DOC-1..DOC-5 frozen for v2.3.0 release
+
+### IDEA-011: SP-002 Coherence Fix
+- [x] IDEA-011 captured in `docs/ideas/IDEA-011-fix-sp002-coherence.md`
+- [x] Added to IDEAS-BACKLOG.md as [AD-HOC] Minor
+- [ ] Create `fix/IDEA-011-sp002-coherence` branch from develop
+- [ ] Investigate root cause: UTF-8 BOM, Latin-1 mojibake, literal \n in RULE 10
+- [ ] Apply fixes to SP-002 and template/SP-002
+- [ ] Add BOM/mojibake detection to pre-commit hook
+- [ ] Update DOC-1..DOC-5 for v2.3.1 release
 
 ### Coherence Audit Infrastructure
 - [x] Batch full audit infrastructure created (`plans/batch-full-audit/`)
@@ -100,12 +130,12 @@
 - [x] retrieve_batch1/2/3.py — results retrieval scripts
 - [x] PLAN-full-coherence-audit.md — architecture plan
 - [x] RUNBOOK.md — execution guide
-- [ ] Submit all 3 batches to Anthropic Batch API
-- [ ] Wait 1-4 hours for processing
-- [ ] Retrieve and review BATCH1-GOVERNANCE-REPORT.md
-- [ ] Retrieve and review BATCH2-CROSSDOCS-REPORT.md
-- [ ] Retrieve and review BATCH3-TEMPLATE-REPORT.md
-- [ ] Consolidate findings into docs/qa/v2.3/COHERENCE-AUDIT-v2.3.md
+- [x] Submit all 3 batches to Anthropic Batch API
+- [x] Wait 1-4 hours for processing
+- [x] Retrieve and review BATCH1-GOVERNANCE-REPORT.md
+- [x] Retrieve and review BATCH2-CROSSDOCS-REPORT.md
+- [x] Retrieve and review BATCH3-TEMPLATE-REPORT.md
+- [x] Consolidate findings into docs/qa/v2.3/COHERENCE-AUDIT-v2.3.md
 
 ## GitFlow Migration (ADR-006)
 - [x] ADR-006 drafted and approved: 3-branch model (main + develop + develop-vX.Y)
@@ -115,7 +145,7 @@
 - [x] RULE 10 replaced in `prompts/SP-002-clinerules-global.md` (ADR-006)
 - [x] ADR-006 appended to `memory-bank/hot-context/decisionLog.md`
 - [ ] Git commit + push `develop` to origin
-- [ ] Push `master` + tag `v2.2.0` to origin
+- [ ] Push `main` + tag `v2.2.0` to origin
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

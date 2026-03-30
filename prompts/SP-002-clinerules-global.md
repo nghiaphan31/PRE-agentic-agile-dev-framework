@@ -172,6 +172,12 @@ EVERYTHING must be versioned under Git, without exception:
 
 - QA reports (docs/qa/*.md)
 
+- The workbench template (template/)
+
+- Git hooks (.githooks/)
+
+- Git attributes and configuration (.gitattributes, .gitignore)
+
 
 
 
@@ -502,14 +508,14 @@ This rule applies to ALL modes. It is NON-NEGOTIABLE.
 |--------|---------|----------|
 | main | Production state. **Frozen.** Only receives merge commits from develop-vX.Y at release time. Tags mark releases. | Never deleted. Never committed to directly. |
 | develop | **Wild mainline.** Ad-hoc features, experiments, quick fixes. No formal scope. | Long-lived. Never deleted. Always the base for develop-vX.Y. |
-| develop-vX.Y | **Scoped backlog.** Created when IDEAs are formally triaged for vX.Y. All release-scope work lands here. | Created at release planning. Deleted after merge to main. |
-| feature/{IDEA-NNN}-{slug} | Single feature or fix. | Branch from develop or develop-vX.Y, merge back via PR, then delete. |
-| hotfix/vX.Y.Z | Emergency production fix. | Branched from production tag on main. Merged to main and develop, then deleted. |
+| develop-vX.Y | **Scoped backlog.** Created when IDEAs are formally triaged for vX.Y. All release-scope work lands here. | Created at release planning. Never deleted after merge — kept for traceability. |
+| feature/{IDEA-NNN}-{slug} | Single feature or fix. | Branch from develop or develop-vX.Y, merge back via PR. Never deleted — kept for traceability. |
+| hotfix/vX.Y.Z | Emergency production fix. | Branched from production tag on main. Merged to main and develop. Never deleted — kept for traceability. |
 
 ### 10.2 -- Forbidden Actions
 
 - **NEVER** commit directly on main after a release tag
-- **NEVER** commit on develop-vX.Y after it has been merged to main
+- **NEVER** commit on a branch that has been merged to main (use a new branch instead)
 - **NEVER** commit feature work directly on a release or main branch -- use feature branches
 - **ALL** new development (features, refactors, fixes) MUST target develop, develop-vX.Y, or a feature branch derived from them
 
@@ -521,7 +527,7 @@ All new development (features, bug fixes, refactors) MUST follow this path:
 2. Develop and test on the feature branch
 3. Commit results to the feature branch
 4. Merge via PR to the source branch (fast-forward or squash)
-5. Delete the feature branch after merge
+5. **Keep** the feature branch after merge — never delete it (traceability requirement)
 
 > **Exception:** Governance-only commits (ADRs, RULE additions, docs fixes) that do not change application code MAY be committed directly on develop.
 
@@ -530,7 +536,13 @@ All new development (features, bug fixes, refactors) MUST follow this path:
 1. Create develop-vX.Y from develop when IDEAs are formally triaged for vX.Y
 2. All vX.Y-scope commits land on develop-vX.Y
 3. When ready: create frozen docs in docs/releases/vX.Y/, tag vX.Y.0 on develop-vX.Y, merge to main
-4. Delete develop-vX.Y, continue on develop
+4. **Keep** develop-vX.Y after merge — never delete it (traceability requirement)
+5. **Fast-forward develop to main** immediately after release merge:
+   ```
+   git checkout develop && git merge --ff main
+   ```
+   This restores the invariant: develop is always at or ahead of main, never behind.
+6. Continue on develop for the next release cycle
 
 ### 10.5 -- Hotfix Exception
 
@@ -539,6 +551,7 @@ For critical production bugs:
 2. Fix and test on the hotfix branch
 3. Merge to main and to develop
 4. Tag vX.Y.Z on both branches
+5. **Keep** the hotfix branch after merge — never delete it (traceability requirement)
 
 ### 10.6 -- ADR Reference
 

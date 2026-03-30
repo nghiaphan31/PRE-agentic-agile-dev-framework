@@ -498,6 +498,130 @@ This rule is documented as ADR-006 in memory-bank/hot-context/decisionLog.md.
 
 
 
+## RULE 11: IDEATION INTAKE — MANDATORY FOR ALL AGENTS
+
+Every human input that is not directly related to the agent's current task MUST be routed
+to the Orchestrator Agent for intake processing.
+
+11.1 — Detection: If the human expresses an idea, request, or remark that is outside the
+       scope of your current task, it is an off-topic input.
+
+11.2 — Routing: Route to Orchestrator with: raw idea text, your agent context, human's
+       exact words. Do not say "I'll look into it" — route immediately.
+
+11.3 — Acknowledgment: The Orchestrator will handle acknowledgment to the human.
+       Do NOT ignore the input.
+
+11.4 — Intake: The Orchestrator will assign an IDEA/TECH ID, classify the idea
+       (business or technical), add it to the correct backlog, run sync detection,
+       and inform the human with routing confirmation and sync opportunities.
+
+11.5 — Classification:
+       - BUSINESS (WHAT): User needs, features, product improvements → IDEAS-BACKLOG
+       - TECHNICAL (HOW): Implementation approaches, technology choices → TECH-SUGGESTIONS-BACKLOG
+
+11.6 — Refinement options: After intake, the human chooses:
+       - [A] Refine now — structured requirement/feasibility session
+       - [B] Park for later — marked DEFERRED
+       - [C] Sync first — resolve overlap with existing ideas before refining
+
+
+
+
+## RULE 12: SYNCHRONIZATION AWARENESS — MANDATORY FOR ALL AGENTS
+
+Before starting any significant implementation step, check for parallel work that might
+overlap with yours. The Orchestrator runs sync detection at every intake — pay attention.
+
+12.1 — Pre-implementation check: Read the DOC-3 execution chapter to see what other
+       feature branches are active and what files they modify.
+
+12.2 — Overlap detection: If your implementation touches files modified by another
+       active branch, inform the human immediately. Do not create merge conflicts.
+
+12.3 — Merge coordination: Do not merge a branch that creates conflicts with another
+       active branch. Coordinate with the other developer (or human).
+
+12.4 — Sync categories (from Orchestrator scan):
+       - 🔴 CONFLICT: Two ideas require mutually exclusive changes — human must arbitrate
+       - 🟡 REDUNDANCY: Two ideas solve the same problem — merge into single idea
+       - 🔵 DEPENDENCY: Idea B needs Idea A first — reorder, communicate
+       - 🟠 SHARED_LAYER: Multiple ideas touch same component — coordinate timing
+       - 🟢 NO_OVERLAP: No conflicts detected — proceed normally
+
+12.5 — On-demand scan: If the human asks "what else is in flight?", run a full scan
+       of all active ideas and present a sync report.
+
+12.6 — Branch merge: On-demand merging (continuous integration) — merge as soon as
+       a feature is ready, do not wait for scheduled windows.
+
+
+
+
+## RULE 13: DOC-3 EXECUTION CHAPTER — LIVE AT ALL TIMES
+
+The DOC-3 execution tracking chapter is NOT a post-hoc summary. It is a live document
+updated continuously throughout the implementation phase.
+
+13.1 — End of session update: Before attempt_completion, update ALL THREE:
+       - DOC-3 execution chapter (current step status per IDEA)
+       - memory-bank/progress.md (checkbox states)
+       - docs/releases/vX.Y/EXECUTION-TRACKER-vX.Y.md (session log)
+
+13.2 — Consistency: These three files must ALWAYS be consistent with each other.
+       If you update one, update all three.
+
+13.3 — Status accuracy: Never mark a step as complete if:
+       - Tests are failing
+       - QA has not validated it
+       - The feature branch has not been merged
+
+13.4 — Tool-assisted generation: The AI generates a draft execution report at session
+       end. The human reviews and approves before commit. Never commit execution status
+       without human visibility.
+
+13.5 — Pre-release freeze: 5 days before target release:
+       - Day -5: Scope freeze (all ideas not REFINED deferred)
+       - Day -4: Documentation coherence (DOC-1..DOC-5 aligned)
+       - Day -3: Code coherence (all branches merged, full QA pass)
+       - Day -2: Dry run release (RC1 tag, full test suite)
+       - Day -1: Final review (human approves, vX.Y.0 tag applied)
+       - Day 0: Announcement (DOC-5 published, GitHub release created)
+
+13.6 — Hotfix priority: A hotfix ALWAYS interrupts a planned release. Branch from
+       the production tag on main, fix, merge to main AND develop, then resume release.
+
+13.7 — Refinement logging: Every refinement session produces a log entry in
+       docs/conversations/REFINEMENT-YYYY-MM-DD-{id}.md with discussion summary,
+       parked technical suggestions, final requirements, and status transitions.
+
+
+
+
+## RULE 14: TECHNICAL SUGGESTIONS BACKLOG
+
+Technical suggestions ("How" proposals) are tracked separately from business requirements
+("What" proposals). They do NOT go directly into PRD or architecture — they are parked,
+evaluated, and integrated appropriately.
+
+14.1 — Capture: When a human proposes a technical solution (technology choice,
+       implementation approach), park it in TECH-SUGGESTIONS-BACKLOG.md.
+
+14.2 — Routing: Technical suggestions go to TECH-SUGGESTIONS-BACKLOG.md. Business
+       requirements go to IDEAS-BACKLOG.md. Never mix the two tracks.
+
+14.3 — Evaluation: The Architect evaluates technical suggestions for feasibility,
+       impact, and risk. Decision: ACCEPTED / REJECTED / NEEDS_MORE_INFO.
+
+14.4 — Integration: Accepted technical suggestions may update systemPatterns.md,
+       DOC-2, or source code. They do NOT automatically become requirements.
+
+14.5 — Creates requirements: If a technical suggestion generates business needs,
+       it routes back to IDEAS-BACKLOG as a separate idea.
+
+
+
+
 ---
 
 ## MEMORY BANK FILE TEMPLATES

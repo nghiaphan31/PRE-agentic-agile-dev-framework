@@ -1,55 +1,69 @@
 ---
 # Active Context
 
-**Last updated:** 2026-03-29T08:50:00Z
-**Active mode:** Developer
+**Last updated:** 2026-03-30T13:13:00Z
+**Active mode:** Architect → Developer (session hybrid)
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `develop`
+- Branch: `master`
 - `develop`: commit b3f237c (v2.3.0 release)
+- `master`: commit 93679fa (PHASE-A foundation — latest)
 - `feature/IDEA-009-batch-toolkit`: DELETED (merged via squash to develop)
-- `fix/IDEA-011-sp002-coherence`: branch exists, IDEA-011 fixes merged to develop
+- `fix/IDEA-011-sp002-coherence`: DELETED (merged to develop)
 
 ## Current task
-v2.3.0 Release — COMPLETE
-- IDEA-009: Batch API toolkit merged to develop (commit 9abbf83)
-- IDEA-011: SP-002 coherence fixed — 6 PASS | 0 FAIL | 1 WARN
-- DOC-1..DOC-5: Frozen for v2.3.0
-- Tag v2.3.0 created on develop (b3f237c)
+**Ideation-to-Release Process — PHASE-A Foundation IMPLEMENTED ✅**
+
+Session objective: Design and implement the complete ad-hoc idea governance model.
+
+Completed in this session:
+- ✅ Full design document: `plans/governance/PLAN-ideation-to-release-full-process.md`
+- ✅ Three-phase implementation plan: IDEA-012A/B/C
+- ✅ TECH-SUGGESTIONS-BACKLOG.md created (revived tech_parking_lot)
+- ✅ RULE 11, 12, 13, 14 added to .clinerules
+- ✅ SP-002 updated to v2.7.0 with new rules
+- ✅ template/.clinerules and template/docs/ideas/TECH-SUGGESTIONS-BACKLOG.md updated
+- ✅ IDEAS-BACKLOG.md updated with new statuses and IDEA-012A/B/C entries
 
 ## Last result
-- SP-002 coherence check: 6 PASS | 0 FAIL | 1 WARN (SP-007 manual deployment required)
-- All v2.3.0 scope delivered and tagged
+- SP-002 coherence check: **6 PASS | 0 FAIL | 1 WARN**
+- Commit `93679fa`: feat(governance): Ideation-to-Release process PHASE-A foundation
+- Commit `76430e6`: chore(prompts): update SP-002 to v2.7.0 with RULE 11-14
+- All coherence checks pass
 
 ## Next step(s)
-- [ ] Push `develop` to origin (push was denied during session — user must push manually)
-- [ ] Merge develop to main (GitFlow release)
-- [ ] Delete `fix/IDEA-011-sp002-coherence` branch after push
-- [ ] IDEA-011 v2.3.1 release (pending): implement remaining IDEA-011 items on develop
+- [ ] IDEA-012A marked as [IMPLEMENTED] in backlog
+- [ ] IDEA-012B (PHASE-B) — next implementation: SyncDetector + RefinementWorkflow
+- [ ] Push master to origin
+- [ ] Decide: continue with PHASE-B now or defer?
 
 ## Blockers / Open questions
-- Git push to origin requires user action (denied during session)
 - SP-007 Gem Gemini requires manual deployment at https://gemini.google.com > Gems
-- **COHERENCE-AUDIT-v2.3.md** — NEXT SESSION PRIORITY: See docs/qa/v2.3/COHERENCE-AUDIT-v2.3.md
-  - P0: template/proxy.py 7 versions behind (v2.1.1 vs v2.8.0) — SSE/GEM MODE issues
-  - P0: techContext.md misplaced (root level, should be in hot-context/)
-  - P0: DOC-2 v2.2 has no Section 4 content
-  - P1: SP-008/009 inline duplication in calypso scripts
-  - P1: final_backlog.json schema missing
-  - P1: memory-archive.ps1 PowerShell-only (breaks Linux/macOS)
+- COHERENCE-AUDIT-v2.3.md still pending (P0 issues)
+- PHASE-B implementation requires Calypso orchestrator knowledge
 
-## Coherence Status (IDEA-011)
+## Coherence Status (SP-002 v2.7.0)
 - SP-001 (Modelfile): PASS
-- SP-002 (.clinerules): PASS (FIXED — BOM removed, mojibake fixed, literal \\n fixed)
+- SP-002 (.clinerules): PASS (v2.7.0 — RULE 11-14 added)
 - SP-003 (.roomodes product-owner): PASS
 - SP-004 (.roomodes scrum-master): PASS
 - SP-005 (.roomodes developer): PASS
 - SP-006 (.roomodes qa-engineer): PASS
 - SP-007 (Gem Gemini): WARN (manual deployment required)
 
+## Ideation-to-Release — Key Decisions Captured
+| Decision | Choice |
+|----------|--------|
+| Intake Agent | Orchestrator (any agent can route) |
+| Refinement approach | Orchestrator decides based on complexity score |
+| Branch merge | On-demand (continuous integration) |
+| Hotfix priority | Always interrupts planned release |
+| DOC-3 tracking | Tool-assisted (AI drafts, human approves) |
+| Tracking method | Option B: One IDEA per phase (live-test process) |
+
 ## Last Git commit
-`b3f237c` release(v2.3): finalize v2.3.0 -- IDEA-011 SP-002 coherence fix and DOC freeze
+`93679fa` chore(prompts): update SP-002 to v2.7.0 with RULE 11-14

@@ -1,4 +1,4 @@
----
+﻿---
 id: SP-002
 name: Global Roo Code Directives (.clinerules)
 version: 2.7.0
@@ -172,9 +172,12 @@ EVERYTHING must be versioned under Git, without exception:
 
 - QA reports (docs/qa/*.md)
 
+
 - The workbench template (template/)
 
+
 - Git hooks (.githooks/)
+
 
 - Git attributes and configuration (.gitattributes, .gitignore)
 
@@ -838,7 +841,6 @@ Fallback State: Not triggered
 ## Notes
 
 > **Why CHECK→CREATE→READ→ACT?** Without the prior check, the agent would attempt to read a non-existent file and fail silently. The sequence guarantees that the Memory Bank is always initialized before being read.
-
 ```
 
 ## Deployment Notes

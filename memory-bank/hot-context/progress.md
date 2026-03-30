@@ -183,5 +183,30 @@
 - [ ] Git commit + push `develop` to origin
 - [ ] Push `main` + tag `v2.2.0` to origin
 
+## v2.3 Release — COMPLETE
+
+### IDEA-012: Ideation-to-Release Process (ADR-010 Ad-Hoc)
+
+#### IDEA-012A: Foundation (RULE 11-14 + TECH-SUGGESTIONS-BACKLOG)
+- [x] TECH-SUGGESTIONS-BACKLOG created in docs/ideas/
+- [x] RULE 11 (Ideation Intake) added to .clinerules
+- [x] RULE 12 (Synchronization Awareness) added to .clinerules
+- [x] RULE 13 (DOC-3 Execution Chapter) added to .clinerules
+- [x] RULE 14 (Technical Suggestions Backlog) added to .clinerules
+- [x] Template/.clinerules updated with RULE 11-14
+- [x] prompts/SP-002 updated with RULE 11-14
+
+#### IDEA-012B: Core Logic (SyncDetector + RefinementWorkflow)
+- [x] SyncDetector implemented (src/calypso/sync_detector.py)
+- [x] RefinementWorkflow implemented (src/calypso/refinement_workflow.py)
+- [x] Integration tests passing
+- [x] Status marked as IMPLEMENTED
+
+#### IDEA-012C: Phase 5 QA + Final Fixes
+- [x] QA verification (5 acceptance criteria checks) — ✅ PASS
+- [x] Bug: BranchTracker.is_release_in_progress() missing — ✅ FIXED at branch_tracker.py:266
+- [x] Bug: test_tracker_initialization string vs Path — ✅ FIXED at test_ideation_pipeline.py:94
+- [x] Integration tests (19 total) — ✅ 19/19 PASS
+
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

@@ -59,7 +59,7 @@
 | [IDEA-009](IDEA-009-batch-api-toolkit.md) | Generic Anthropic Batch API Toolkit | Batch audit lessons | 2026-03-29 | [IMPLEMENTED] | dev-tooling | Minor | v2.3 | scripts/batch/ toolkit |
 | [IDEA-011](IDEA-011-fix-sp002-coherence.md) | Fix SP-002/.clinerules Coherence | Human (SP-002 recurring FAIL) | 2026-03-29 | [IMPLEMENTED] | fix | Minor | v2.3 | Persistent encoding corruption fixed |
 | [IDEA-012A](IDEA-012A-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-A Foundation | Architect mode | 2026-03-30 | [IMPLEMENTED] | governance | Minor | v2.4 | TECH-SUGGESTIONS-BACKLOG, RULE 11-14 |
-| [IDEA-012B](IDEA-012B-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-B Core Logic | Architect mode | 2026-03-30 | [ACCEPTED] | governance | Medium | v2.4 | SyncDetector, RefinementWorkflow |
+| [IDEA-012B](IDEA-012B-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-B Core Logic | Architect mode | 2026-03-30 | [IMPLEMENTED] | governance | Medium | v2.4 | SyncDetector, RefinementWorkflow |
 | [IDEA-012C](IDEA-012C-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-C Full Features | Architect mode | 2026-03-30 | [ACCEPTED] | governance | Medium | v2.5 | Full pipeline, BranchTracker, DOC-3 auto-gen |
 
 ---

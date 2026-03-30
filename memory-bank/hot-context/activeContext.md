@@ -1,8 +1,8 @@
 ---
 # Active Context
 
-**Last updated:** 2026-03-30T13:13:00Z
-**Active mode:** Architect → Developer (session hybrid)
+**Last updated:** 2026-03-30T13:35:00Z
+**Active mode:** Code
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
 **Consecutive Errors:** `0`
@@ -11,35 +11,33 @@
 ## Git state
 - Branch: `master`
 - `develop`: commit b3f237c (v2.3.0 release)
-- `master`: commit 93679fa (PHASE-A foundation — latest)
+- `master`: commit a4d9696 (IDEA-012B status update)
+- Last commit: docs(governance): update IDEA-012B status to IMPLEMENTED
 - `feature/IDEA-009-batch-toolkit`: DELETED (merged via squash to develop)
 - `fix/IDEA-011-sp002-coherence`: DELETED (merged to develop)
 
 ## Current task
-**Ideation-to-Release Process — PHASE-A Foundation IMPLEMENTED ✅**
+**Ideation-to-Release Process — PHASE-B Core Logic IMPLEMENTED ✅**
 
-Session objective: Design and implement the complete ad-hoc idea governance model.
+Session objective: Implement the complete ad-hoc idea governance model.
 
 Completed in this session:
-- ✅ Full design document: `plans/governance/PLAN-ideation-to-release-full-process.md`
-- ✅ Three-phase implementation plan: IDEA-012A/B/C
-- ✅ TECH-SUGGESTIONS-BACKLOG.md created (revived tech_parking_lot)
-- ✅ RULE 11, 12, 13, 14 added to .clinerules
-- ✅ SP-002 updated to v2.7.0 with new rules
-- ✅ template/.clinerules and template/docs/ideas/TECH-SUGGESTIONS-BACKLOG.md updated
-- ✅ IDEAS-BACKLOG.md updated with new statuses and IDEA-012A/B/C entries
+- ✅ PHASE-A Foundation: TECH-SUGGESTIONS-BACKLOG, RULE 11-14, template updates
+- ✅ PHASE-B Core Logic: SyncDetector + RefinementWorkflow (commit 3a8a963)
+- ✅ IDEA-012A marked as [IMPLEMENTED]
+- ✅ IDEA-012B marked as [IMPLEMENTED]
+- ✅ IDEA-012C (PHASE-C) still pending: Full pipeline, BranchTracker, DOC-3 auto-gen
 
 ## Last result
+- Commit `3a8a963`: feat(governance): Ideation-to-Release PHASE-B core logic
+- Commit `a4d9696`: docs(governance): update IDEA-012B status to IMPLEMENTED
 - SP-002 coherence check: **6 PASS | 0 FAIL | 1 WARN**
-- Commit `93679fa`: feat(governance): Ideation-to-Release process PHASE-A foundation
-- Commit `76430e6`: chore(prompts): update SP-002 to v2.7.0 with RULE 11-14
-- All coherence checks pass
 
 ## Next step(s)
-- [ ] IDEA-012A marked as [IMPLEMENTED] in backlog
-- [ ] IDEA-012B (PHASE-B) — next implementation: SyncDetector + RefinementWorkflow
+- [x] IDEA-012A marked as [IMPLEMENTED]
+- [x] IDEA-012B marked as [IMPLEMENTED]
+- [ ] IDEA-012C (PHASE-C) — pending implementation
 - [ ] Push master to origin
-- [ ] Decide: continue with PHASE-B now or defer?
 
 ## Blockers / Open questions
 - SP-007 Gem Gemini requires manual deployment at https://gemini.google.com > Gems

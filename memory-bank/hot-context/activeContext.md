@@ -9,10 +9,15 @@
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `develop-v2.5` (scoped release branch)
-- Based on: `develop` (bd9c0a8)
-- Purpose: Release v2.5 with ADR-012 (canonical docs) + ADR-013 (squash merge prohibition)
-- Tracked by: `origin/develop-v2.5`
+- Branch: `develop`
+- Last commit: `cd4db9e` — feat(v2.5): create v2.5 canonical docs (DOC-1..DOC-5) and update pointers
+- HEAD: v2.5.0 tag on master
+
+## Release Status
+- **v2.5.0 RELEASED** ✅
+- Tag: `v2.5.0` on master
+- Master merged from `develop-v2.5`
+- Develop fast-forwarded to master
 
 ## Current task
 **ADR-012 Canonical Docs Cumulative + GitFlow Enforcement — MERGED to develop**
@@ -59,12 +64,8 @@ Completed:
 - [ ] Fast-forward develop to main after release freeze (per RULE 10.4)
 
 ## Next step(s)
-- [ ] Create v2.5 canonical docs (DOC-1..DOC-5-v2.5-*.md) on develop-v2.5
-- [ ] QA pass — coherence audit
-- [ ] Human approves v2.5 release
-- [ ] Tag v2.5.0 on develop-v2.5
-- [ ] Merge develop-v2.5 → master
-- [ ] Fast-forward develop → master
+- [ ] Return to wild development on develop
+- [ ] develop-v2.5 branch can be kept for traceability (per RULE 10.3)
 
 ## ADR-013: Squash Merge Prohibition
 - [x] RULE 10.3 updated: forbid squash merge and --delete-branch for traceability

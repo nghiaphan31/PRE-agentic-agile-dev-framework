@@ -59,7 +59,7 @@ All 10 commits now on develop. ADR-011 created. DOC-3-CURRENT.md updated with AD
 | Tracking method | Option B: One IDEA per phase (live-test process) |
 
 ## Last Git commit
-`ca29b7e` docs: update DOC-4-CURRENT pointer to v2.4
+`4f0ba2a` chore(gitflow): add docs/ and plans/ to RULE 5.1 versioned list, update DOC-4 gitflow chapter
 
 ## Recent commits (this session)
 - `4a3828c` chore(gitflow): RULE 10 — keep branches after merge, add develop ff step, fix 5.1 folders
@@ -68,3 +68,5 @@ All 10 commits now on develop. ADR-011 created. DOC-3-CURRENT.md updated with AD
 - `ffa35a0` docs(memory): update activeContext after gitflow RULE 10 update
 - `340fc06` docs(v2.4): add DOC-4-Operations-Guide with comprehensive GitFlow reference chapter
 - `ca29b7e` docs: update DOC-4-CURRENT pointer to v2.4
+- `65764a8` docs(memory): update activeContext after DOC-4 gitflow chapter and pointer
+- `4f0ba2a` chore(gitflow): add docs/ and plans/ to RULE 5.1 versioned list, update DOC-4 gitflow chapter

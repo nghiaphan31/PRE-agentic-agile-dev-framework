@@ -118,10 +118,13 @@ EVERYTHING must be versioned under Git, without exception:
 - System prompts (prompts/SP-*.md and prompts/README.md)
 
 
-- Plans and architecture documents (workbench/*.md)
+- Plans and architecture documents (plans/ and workbench/*.md)
 
 
 - QA reports (docs/qa/*.md)
+
+
+- Canonical documentation (docs/releases/*/ and docs/DOC-*-CURRENT.md)
 
 
 - The workbench template (template/)

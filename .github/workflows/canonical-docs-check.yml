@@ -24,12 +24,12 @@ jobs:
       
       - name: Check DOC pointer consistency
         run: |
-          # Extract versions from each DOC-*-CURRENT.md
-          DOC1_VER=$(grep -oP 'Current release:\s*v\K[0-9]+\.[0-9]+' docs/DOC-1-CURRENT.md)
-          DOC2_VER=$(grep -oP 'Current release:\s*v\K[0-9]+\.[0-9]+' docs/DOC-2-CURRENT.md)
-          DOC3_VER=$(grep -oP 'Current release:\s*v\K[0-9]+\.[0-9]+' docs/DOC-3-CURRENT.md)
-          DOC4_VER=$(grep -oP 'Current release:\s*v\K[0-9]+\.[0-9]+' docs/DOC-4-CURRENT.md)
-          DOC5_VER=$(grep -oP 'Current release:\s*v\K[0-9]+\.[0-9]+' docs/DOC-5-CURRENT.md)
+          # Extract versions from each DOC-*-CURRENT.md (using sed for portability)
+          DOC1_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-1-CURRENT.md | head -1)
+          DOC2_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-2-CURRENT.md | head -1)
+          DOC3_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-3-CURRENT.md | head -1)
+          DOC4_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-4-CURRENT.md | head -1)
+          DOC5_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-5-CURRENT.md | head -1)
           
           echo "DOC-1: v$DOC1_VER"
           echo "DOC-2: v$DOC2_VER"
@@ -55,8 +55,8 @@ jobs:
             ["DOC-5"]=200
           )
           
-          # Get current version from DOC-1-CURRENT.md
-          CURRENT_VER=$(grep -oP 'Current release:\s*v\K[0-9]+\.[0-9]+' docs/DOC-1-CURRENT.md)
+          # Get current version from DOC-1-CURRENT.md (using sed for portability)
+          CURRENT_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-1-CURRENT.md | head -1)
           
           for doc in DOC-1 DOC-2 DOC-3 DOC-4 DOC-5; do
             DOC_FILE="docs/releases/v${CURRENT_VER}/${doc}-v${CURRENT_VER}-"*.md
@@ -73,7 +73,7 @@ jobs:
       
       - name: Check cumulative flag in front matter
         run: |
-          CURRENT_VER=$(grep -oP 'Current release:\s*v\K[0-9]+\.[0-9]+' docs/DOC-1-CURRENT.md)
+          CURRENT_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-1-CURRENT.md | head -1)
           
           for doc in DOC-1 DOC-2 DOC-3 DOC-4 DOC-5; do
             DOC_FILE="docs/releases/v${CURRENT_VER}/${doc}-v${CURRENT_VER}-"*.md

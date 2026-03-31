@@ -1,7 +1,7 @@
 ---
 # Active Context
 
-**Last updated:** 2026-03-30T14:50:00Z
+**Last updated:** 2026-03-31T18:32:00Z
 **Active mode:** Code
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
@@ -10,38 +10,32 @@
 
 ## Git state
 - Branch: `develop`
-- `develop`: commit 98c130f (GITFLOW remediation complete — 10 cherry-picks from master)
-- `master`: commit a4d9696 (ahead of develop, ADR-011 pending sync)
-- Last commit on develop: docs(memory): IDEA-012C QA verified — 19/19 tests pass, execution tracker updated
-- GITFLOW violation: Option A cherry-pick remediation complete (ADR-011)
+- Last commit: `4beae0f` — docs(memory): update activeContext after RULE 5.1 docs/folders fix
 
 ## Current task
-**GITFLOW violation remediated — Option A cherry-pick (10 commits to develop)**
-
-Session objective: Implement the complete ad-hoc idea governance model.
-
-Completed across sessions:
-- ✅ PHASE-A Foundation: TECH-SUGGESTIONS-BACKLOG, RULE 11-14, template updates
-- ✅ PHASE-B Core Logic: SyncDetector + RefinementWorkflow
-- ✅ PHASE-C Full Features: BranchTracker, IntakeAgent, ExecutionTracker, Dashboard
-- ✅ PHASE-5 QA: IDEA-012C verified (19/19 integration tests PASS)
-
-All IDEA-012A/B/C now [IMPLEMENTED] + QA complete
+**All 5 user requests from prior session completed:**
+1. ✅ Complete gitflow explanation provided
+2. ✅ 4 gitflow clarifications applied (keep branches, IDEA triage, develop ff, folders list)
+3. ✅ GitFlow reference doc created (DOC-4-v2.4-Operations-Guide.md with mermaid diagrams)
+4. ✅ SP-002/.clinerules sync issue fully explained (write access log, root cause)
+5. ✅ PowerShell clarified — only specific `+=` array concatenation in pipeline is problematic
 
 ## Last result
-All 10 commits now on develop. ADR-011 created. DOC-3-CURRENT.md updated with AD-HOC WORK section.
+- `.clinerules`: RULE 10/5.1 updated with all 4 clarifications
+- `prompts/SP-002`: rebuilt from `.clinerules` (0 diff, 6/6 SPs passing)
+- `docs/releases/v2.4/DOC-4-v2.4-Operations-Guide.md`: created with full GitFlow reference + mermaid
+- `docs/DOC-4-CURRENT.md`: pointer updated to v2.4
+- Temp files cleaned up
 
 ## Next step(s)
-- [x] GITFLOW violation remediated (ADR-011)
-- [x] AD-HOC WORK section added to DOC-3-CURRENT.md
-- [ ] Push develop to origin
+- [ ] Push develop to origin (if not already pushed)
 
 ## Blockers / Open questions
 - SP-007 Gem Gemini requires manual deployment at https://gemini.google.com > Gems
 
 ## Coherence Status (SP-002 v2.7.0)
 - SP-001 (Modelfile): PASS
-- SP-002 (.clinerules): PASS (v2.7.0 — RULE 11-14 added)
+- SP-002 (.clinerules): PASS (v2.7.0 — RULE 5.1 folders list complete, RULE 10 branches kept)
 - SP-003 (.roomodes product-owner): PASS
 - SP-004 (.roomodes scrum-master): PASS
 - SP-005 (.roomodes developer): PASS
@@ -59,14 +53,17 @@ All 10 commits now on develop. ADR-011 created. DOC-3-CURRENT.md updated with AD
 | Tracking method | Option B: One IDEA per phase (live-test process) |
 
 ## Last Git commit
-`4f0ba2a` chore(gitflow): add docs/ and plans/ to RULE 5.1 versioned list, update DOC-4 gitflow chapter
+`4beae0f` docs(memory): update activeContext after RULE 5.1 docs/folders fix
 
 ## Recent commits (this session)
-- `4a3828c` chore(gitflow): RULE 10 — keep branches after merge, add develop ff step, fix 5.1 folders
-- `2ec1fc1` chore(prompts): sync SP-002 with RULE 10 gitflow update — keep branches, develop ff, folders list
-- `31a6bb6` chore(prompts): rebuild SP-002 code block from .clinerules — perfect sync
-- `ffa35a0` docs(memory): update activeContext after gitflow RULE 10 update
-- `340fc06` docs(v2.4): add DOC-4-Operations-Guide with comprehensive GitFlow reference chapter
-- `ca29b7e` docs: update DOC-4-CURRENT pointer to v2.4
-- `65764a8` docs(memory): update activeContext after DOC-4 gitflow chapter and pointer
+- `4beae0f` docs(memory): update activeContext after RULE 5.1 docs/folders fix
 - `4f0ba2a` chore(gitflow): add docs/ and plans/ to RULE 5.1 versioned list, update DOC-4 gitflow chapter
+- `65764a8` docs(memory): update activeContext after DOC-4 gitflow chapter and pointer
+- `ca29b7e` docs: update DOC-4-CURRENT pointer to v2.4
+- `340fc06` docs(v2.4): add DOC-4-Operations-Guide with comprehensive GitFlow reference chapter
+- `ffa35a0` docs(memory): update activeContext after gitflow RULE 10 update
+- `31a6bb6` chore(prompts): rebuild SP-002 code block from .clinerules — perfect sync
+- `2ec1fc1` chore(prompts): sync SP-002 with RULE 10 gitflow update — keep branches, develop ff, folders list
+- `4a3828c` chore(gitflow): RULE 10 — keep branches after merge, add develop ff step, fix 5.1 folders
+
+---

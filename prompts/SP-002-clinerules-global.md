@@ -570,29 +570,112 @@ This rule is documented as ADR-006 in memory-bank/hot-context/decisionLog.md.
 
 
 
-## RULE 11: IDEATION INTAKE — MANDATORY FOR ALL AGENTS
+## RULE 11: SYNCHRONIZATION AWARENESS — MANDATORY FOR ALL AGENTS
+
+Before starting any significant implementation step, check for parallel work that might
+overlap with yours. The Orchestrator runs sync detection at every intake — pay attention.
+
+11.1 — Pre-implementation check: Read the DOC-3 execution chapter to see what other
+       feature branches are active and what files they modify.
+
+11.2 — Overlap detection: If your implementation touches files modified by another
+       active branch, inform the human immediately. Do not create merge conflicts.
+
+11.3 — Merge coordination: Do not merge a branch that creates conflicts with another
+       active branch. Coordinate with the other developer (or human).
+
+11.4 — Sync categories (from Orchestrator scan):
+       - 🔴 CONFLICT: Two ideas require mutually exclusive changes — human must arbitrate
+       - 🟡 REDUNDANCY: Two ideas solve the same problem — merge into single idea
+       - 🔵 DEPENDENCY: Idea B needs Idea A first — reorder, communicate
+       - 🟠 SHARED_LAYER: Multiple ideas touch same component — coordinate timing
+       - 🟢 NO_OVERLAP: No conflicts detected — proceed normally
+
+11.5 — On-demand scan: If the human asks "what else is in flight?", run a full scan
+       of all active ideas and present a sync report.
+
+11.6 — Branch merge: On-demand merging (continuous integration) — merge as soon as
+       a feature is ready, do not wait for scheduled windows.
+
+
+
+
+## RULE 12: CANONICAL DOCS — CUMULATIVE + GITHUB ACTIONS ENFORCEMENT
+
+This rule applies to all modes. It is NON-NEGOTIABLE.
+
+
+### 12.1 -- Cumulative Documentation Requirement
+
+**R-CANON-0**: Each canonical doc in `docs/releases/vX.Y/` is **fully self-contained and cumulative** — it contains the complete state of that document for the entire project history up to vX.Y.
+
+Canonical docs:
+- DOC-1: Product Requirements Document (PRD)
+- DOC-2: Technical Architecture
+- DOC-3: Implementation Plan
+- DOC-4: Operations Guide
+- DOC-5: Release Notes
+
+Minimum line counts for cumulative docs:
+- DOC-1 >= 500 lines
+- DOC-2 >= 500 lines
+- DOC-3 >= 300 lines
+- DOC-4 >= 300 lines
+- DOC-5 >= 200 lines
+
+
+### 12.2 -- GitFlow Rules for Canonical Docs
+
+**R-CANON-1**: Canonical docs on `develop`: Only via feature branch (`feature/canon-doc-*`)
+
+**R-CANON-2**: Canonical docs on `develop-vX.Y`: Only via feature branch scoped to that release
+
+**R-CANON-3**: Direct commits on `develop` or `develop-vX.Y` to canonical docs are **FORBIDDEN**
+
+**R-CANON-4**: Exception: Governance-only commits (ADRs, RULE additions) MAY be committed directly per RULE 10.3 exception
+
+
+### 12.3 -- Consistency Rules
+
+**R-CANON-5**: All 5 canonical docs MUST be updated together for any release
+
+**R-CANON-6**: When merging to `develop-vX.Y`, all 5 DOC-*-vX.Y-*.md files must exist and be consistent
+
+**R-CANON-7**: The `DOC-*-CURRENT.md` pointer files MUST all point to the same release version
+
+
+### 12.4 -- Enforcement
+
+Canonical docs enforcement is enforced by:
+- **Git pre-receive hook** at `.githooks/pre-receive`
+- **GitHub Actions CI** at `.github/workflows/canonical-docs-check.yml`
+- These are deployed to new projects via `deploy-workbench-to-project.ps1`
+
+
+
+## RULE 13: IDEATION INTAKE — MANDATORY FOR ALL AGENTS
 
 Every human input that is not directly related to the agent's current task MUST be routed
 to the Orchestrator Agent for intake processing.
 
-11.1 — Detection: If the human expresses an idea, request, or remark that is outside the
+13.1 — Detection: If the human expresses an idea, request, or remark that is outside the
        scope of your current task, it is an off-topic input.
 
-11.2 — Routing: Route to Orchestrator with: raw idea text, your agent context, human's
+13.2 — Routing: Route to Orchestrator with: raw idea text, your agent context, human's
        exact words. Do not say "I'll look into it" — route immediately.
 
-11.3 — Acknowledgment: The Orchestrator will handle acknowledgment to the human.
+13.3 — Acknowledgment: The Orchestrator will handle acknowledgment to the human.
        Do NOT ignore the input.
 
-11.4 — Intake: The Orchestrator will assign an IDEA/TECH ID, classify the idea
+13.4 — Intake: The Orchestrator will assign an IDEA/TECH ID, classify the idea
        (business or technical), add it to the correct backlog, run sync detection,
        and inform the human with routing confirmation and sync opportunities.
 
-11.5 — Classification:
+13.5 — Classification:
        - BUSINESS (WHAT): User needs, features, product improvements → IDEAS-BACKLOG
        - TECHNICAL (HOW): Implementation approaches, technology choices → TECH-SUGGESTIONS-BACKLOG
 
-11.6 — Refinement options: After intake, the human chooses:
+13.6 — Refinement options: After intake, the human chooses:
        - [A] Refine now — structured requirement/feasibility session
        - [B] Park for later — marked DEFERRED
        - [C] Sync first — resolve overlap with existing ideas before refining
@@ -600,38 +683,7 @@ to the Orchestrator Agent for intake processing.
 
 
 
-## RULE 12: SYNCHRONIZATION AWARENESS — MANDATORY FOR ALL AGENTS
-
-Before starting any significant implementation step, check for parallel work that might
-overlap with yours. The Orchestrator runs sync detection at every intake — pay attention.
-
-12.1 — Pre-implementation check: Read the DOC-3 execution chapter to see what other
-       feature branches are active and what files they modify.
-
-12.2 — Overlap detection: If your implementation touches files modified by another
-       active branch, inform the human immediately. Do not create merge conflicts.
-
-12.3 — Merge coordination: Do not merge a branch that creates conflicts with another
-       active branch. Coordinate with the other developer (or human).
-
-12.4 — Sync categories (from Orchestrator scan):
-       - 🔴 CONFLICT: Two ideas require mutually exclusive changes — human must arbitrate
-       - 🟡 REDUNDANCY: Two ideas solve the same problem — merge into single idea
-       - 🔵 DEPENDENCY: Idea B needs Idea A first — reorder, communicate
-       - 🟠 SHARED_LAYER: Multiple ideas touch same component — coordinate timing
-       - 🟢 NO_OVERLAP: No conflicts detected — proceed normally
-
-12.5 — On-demand scan: If the human asks "what else is in flight?", run a full scan
-       of all active ideas and present a sync report.
-
-12.6 — Branch merge: On-demand merging (continuous integration) — merge as soon as
-       a feature is ready, do not wait for scheduled windows.
-
-
-
-
-## RULE 13: DOC-3 EXECUTION CHAPTER — LIVE AT ALL TIMES
-
+## RULE 14: DOC-3 EXECUTION CHAPTER — LIVE AT ALL TIMES
 The DOC-3 execution tracking chapter is NOT a post-hoc summary. It is a live document
 updated continuously throughout the implementation phase.
 
@@ -670,7 +722,7 @@ updated continuously throughout the implementation phase.
 
 
 
-## RULE 14: TECHNICAL SUGGESTIONS BACKLOG
+## RULE 15: TECHNICAL SUGGESTIONS BACKLOG
 
 Technical suggestions ("How" proposals) are tracked separately from business requirements
 ("What" proposals). They do NOT go directly into PRD or architecture — they are parked,

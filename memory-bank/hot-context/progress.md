@@ -288,9 +288,9 @@
 
 ### v2.6 Coherence Remediation
 - [x] P0 fixes completed (SP-002 sync, DOC-1 freeze, heartbeat gap)
-- [-] P1 triage completed — P1-TRIAGE-2026-04-01-001.md created
-  - 2 items: FIX-IN-PLACE via rebuild_sp002.py
-  - 1 item: TECH DEBT (double subprocess)
+- [x] P1 triage completed — P1-TRIAGE-2026-04-01-001.md created
+  - 2 items: FIX-IN-PLACE via rebuild_sp002.py (SP-002 already in sync)
+  - 1 item: TECH DEBT — fixed double subprocess in checkpoint_heartbeat.py (commit bad0996)
   - 6 items: DOC UPDATE needed
   - 6 items: GOVERNANCE fixes
   - 3 items: README maintenance

@@ -45,3 +45,24 @@ Deux chemins de gouvernance :
 **Statut :** Accepte
 
 (Contenu complet dans docs/ideas/IDEA-003-release-governance.md)
+
+---
+
+## ADR-011 : Anthropic Batch API pour Coherence Audits
+**Date :** 2026-04-01
+**Statut :** Accepte
+
+**Contexte :**
+Les audits de coherence v2.6 (14 P0, 17 P1, 14 P2) ont ete realises via l'API Batch Claude Sonnet. L'API Batch permet un traitement asynchrone de 11 requetes en ~2 minutes pour $1.20 USD, contre plusieurs heures de traitement interactif.
+
+**Decision :**
+- L'Anthropic Batch API est adoptee comme outil standard pour les audits de coherence
+- Les scripts `scripts/batch/submit.py`, `scripts/batch/retrieve.py`, `scripts/batch/poll.py` constituent le toolkit canonical
+- Les resultats sont stockes dans `batch_artifacts/BATCH-YYYY-MM-DD-NNNN.txt` (schema BATCH-date-seq)
+- Un ADR est obligatoire pour documenter l'adoption de nouvelles technologies impactant l'architecture
+
+**Consequences :**
+- Audit de coherence complet en ~2 minutes vs heures interactives
+- Cout reduit ($1.20 vs $20+ pour 11 requetes interactives)
+- Traitement parallele natif pour les audits multi-dimensionnels
+- Necessite une etape de retrieval distincte (model async)

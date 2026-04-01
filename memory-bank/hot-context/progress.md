@@ -1,6 +1,8 @@
 # Project Progress
 
-**Last updated:** 2026-03-31T21:04:00Z
+**Last updated:** 2026-04-01T16:42:00Z
+**Session:** s2026-04-01-architect-001
+**Plan:** PLAN-2026-04-01-001
 
 ## le workbench Infrastructure
 
@@ -46,6 +48,18 @@
 - [x] SP-008 Synthesizer Agent system prompt
 - [x] SP-009 Devil's Advocate Agent system prompt
 - [x] SP-010 Librarian Agent system prompt
+
+### Epic 2: Governance Enhancement v2.5 (PLAN-2026-04-01-001)
+- [x] PLAN-2026-04-01-001 created (governance plan v2.5)
+- [x] Branch created: governance/PLAN-2026-04-01-001-ideation-release-v2
+- [x] Phase 1: Add session-checkpoint.md to hot-context/
+- [x] Phase 1: Implement APPEND ONLY for decisionLog.md
+- [x] Phase 1: Update progress.md with session metadata
+- [ ] Phase 1: Archive TECH-SUGGESTIONS into IDEAS-BACKLOG
+- [ ] Phase 2: Implement heartbeat every 5 minutes
+- [ ] Phase 2: Test crash recovery
+- [ ] Phase 3: MCP integration (v3.0 scope)
+- [ ] Target: Release v2.5
 
 ## v2.0 Release Status
 - [x] DOC-1-v2.0-PRD.md — Frozen (2026-03-28)

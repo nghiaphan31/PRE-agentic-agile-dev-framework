@@ -38,7 +38,8 @@ cumulative: true
 | **Ollama** | Local LLM inference |
 | **proxy.py** | Gemini Chrome proxy |
 | **Memory Bank** | Persistent context storage |
-| **Calypso** | Orchestration scripts |
+| **Calypso** | Orchestration scripts (4-agent pipeline: intake → triage → refinement → execution) |
+| **Anthropic Batch API** | Async batch processing for long-running audit tasks |
 
 ---
 
@@ -57,7 +58,8 @@ memory-bank/
 │   └── session-checkpoint.md  # CRASH RECOVERY
 ├── projectBrief.md        # Vision (root, rarely changes)
 ├── techContext.md         # Stack, commands (root)
-└── archive-cold/          # MCP ONLY access
+├── archive-cold/          # MCP ONLY access
+└── batch_artifacts/       # Anthropic Batch API outputs (BATCH-YYYY-MM-DD-NNNN.txt)
 ```
 
 ### 3.2 RULE MB-3: APPEND ONLY for ADRs

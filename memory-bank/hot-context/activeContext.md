@@ -51,13 +51,18 @@
 
 ## Session s2026-04-01-architect-002
 - [x] Scanned project for obsolete files
-- [x] Deleted 6 HIGH-confidence obsolete files:
-  - memory-bank/projectBrief.md (empty template)
-  - memory-bank/techContext.md (empty template)
-  - docs/ideas/TECH-SUGGESTIONS-BACKLOG.md (empty template)
-  - plans/_review3_appendix.md (orphan)
-  - plans/FIXES-Gemini-Proxy-Robustness-Tracker.md (orphan)
-  - docs/conversations/REFINEMENT-template.md (template in wrong location)
+- [x] Deleted 6 HIGH-confidence obsolete files (commit 6ac2f80)
+
+## Session s2026-04-01-architect-003
+- [x] Deleted 7 more obsolete files:
+  - plans/REVIEW-Gemini-Proxy-Path-Robustness.md (orphan)
+  - plans/REVIEW-Gemini-Proxy-Path-Robustness-Part2.md (orphan)
+  - plans/REVIEW2-Gemini-Proxy-Path-Robustness-After-Fixes.md (orphan)
+  - plans/REVIEW3-Gemini-Proxy-Path-Robustness-After-Review2-Fixes.md (orphan)
+  - scripts/fix_sp002_encoding.py (one-off fix script)
+  - src/hello.py (test file)
+  - src/test_hello.py (test file)
+- [x] 4 untracked plans/governance/ files auto-removed
 
 ## Blockers / Open questions
 - None

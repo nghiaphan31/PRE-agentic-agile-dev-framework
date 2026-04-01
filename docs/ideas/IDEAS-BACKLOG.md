@@ -66,6 +66,7 @@
 | [IDEA-015](IDEA-015-mandatory-release-coherence-audit.md) | Mandatory Coherence Audit Before Release | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Pre-release coherence audit gate |
 | [IDEA-016](IDEA-016-enrich-docs-with-diagrams.md) | Enrich Canonical Docs with Mermaid Diagrams | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Add visual documentation |
 | [IDEA-017](IDEA-017-docs-must-be-cumulative-self-contained.md) | **CRITICAL: Fix Canonical Docs Cumulative Requirement** | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Major | v2.7 | Docs NOT self-contained - P0 issue |
+| [IDEA-018](IDEA-018-rules-authoritative-coherent.md) | **CRITICAL: Make Rules Authoritative and Ensure Rule Coherence** | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Major | v2.7 | Rules not authoritative, contradictions exist |
 
 ---
 

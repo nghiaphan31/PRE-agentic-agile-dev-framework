@@ -160,12 +160,12 @@ Identify any discrepancies in wording, missing rules, or conflicting requirement
         )
     )
 
-with client.messages.batches.create(model=MODEL, tasks=batch_requests) as batch:
-    batch_id = batch.id
-    print(f"[OK] Batch submitted successfully!")
-    print(f"    Batch ID  : {batch_id}")
-    print(f"    Status    : in_progress")
-    BATCH_DIR.mkdir(parents=True, exist_ok=True)
-    BATCH_ID_FILE.write_text(batch_id, encoding="utf-8")
-    print(f"[OK] batch_id saved to {BATCH_ID_FILE}")
-    print(f"\nRun retrieve_batch3.py after 1-4 hours to get results.")
+batch = client.messages.batches.create(requests=batch_requests)
+batch_id = batch.id
+print(f"[OK] Batch submitted successfully!")
+print(f"    Batch ID  : {batch_id}")
+print(f"    Status    : in_progress")
+BATCH_DIR.mkdir(parents=True, exist_ok=True)
+BATCH_ID_FILE.write_text(batch_id, encoding="utf-8")
+print(f"[OK] batch_id saved to {BATCH_ID_FILE}")
+print(f"\nRun retrieve_batch3.py after 1-4 hours to get results.")

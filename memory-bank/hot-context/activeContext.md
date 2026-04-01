@@ -64,6 +64,13 @@
   - docs/qa/v2.6/retrieve_batch{1,2,3}.py (3 retrieval scripts)
   - docs/qa/v2.6/BATCHES/ directory structure
 
+## Session s2026-04-01-code-002
+- [x] Submitted 3 batches to Anthropic API (all in_progress):
+  - BATCH 1 (Code vs DOC): msgbatch_01UciRkApJME9VRggGhUy7Xa
+  - BATCH 2 (Governance): msgbatch_01YaZMR4Ft6FnZJvXK4r6KGZ
+  - BATCH 3 (Prompts): msgbatch_01E6VkmhMnWtp3rQgzjFn1LG
+- [ ] Retrieve results after 1-4 hours with retrieve_batch{1,2,3}.py
+
 ## Blockers / Open questions
 - None
 

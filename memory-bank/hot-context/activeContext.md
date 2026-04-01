@@ -49,6 +49,16 @@
 - [ ] Return to wild development on develop
 - [ ] develop-v2.6 branch can be kept for traceability (per RULE 10.3)
 
+## Session s2026-04-01-architect-002
+- [x] Scanned project for obsolete files
+- [x] Deleted 6 HIGH-confidence obsolete files:
+  - memory-bank/projectBrief.md (empty template)
+  - memory-bank/techContext.md (empty template)
+  - docs/ideas/TECH-SUGGESTIONS-BACKLOG.md (empty template)
+  - plans/_review3_appendix.md (orphan)
+  - plans/FIXES-Gemini-Proxy-Robustness-Tracker.md (orphan)
+  - docs/conversations/REFINEMENT-template.md (template in wrong location)
+
 ## Blockers / Open questions
 - None
 

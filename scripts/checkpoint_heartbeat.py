@@ -51,30 +51,26 @@ def get_git_state():
             text=True, stderr=subprocess.DEVNULL
         ).strip()
         
-        # Get staged and unstaged files
-        staged_result = subprocess.check_output(
+        # Get staged files (single subprocess call)
+        staged_output = subprocess.check_output(
             ["git", "diff", "--cached", "--name-only"],
             text=True, stderr=subprocess.DEVNULL
-        ).strip().split('\n') if subprocess.check_output(
-            ["git", "diff", "--cached", "--name-only"],
-            text=True, stderr=subprocess.DEVNULL
-        ).strip() else []
+        ).strip()
+        staged_result = staged_output.split('\n') if staged_output else []
         
-        unstaged_result = subprocess.check_output(
+        # Get unstaged files (single subprocess call)
+        unstaged_output = subprocess.check_output(
             ["git", "diff", "--name-only"],
             text=True, stderr=subprocess.DEVNULL
-        ).strip().split('\n') if subprocess.check_output(
-            ["git", "diff", "--name-only"],
-            text=True, stderr=subprocess.DEVNULL
-        ).strip() else []
+        ).strip()
+        unstaged_result = unstaged_output.split('\n') if unstaged_output else []
         
-        untracked_result = subprocess.check_output(
+        # Get untracked files (single subprocess call)
+        untracked_output = subprocess.check_output(
             ["git", "ls-files", "--others", "--exclude-standard"],
             text=True, stderr=subprocess.DEVNULL
-        ).strip().split('\n') if subprocess.check_output(
-            ["git", "ls-files", "--others", "--exclude-standard"],
-            text=True, stderr=subprocess.DEVNULL
-        ).strip() else []
+        ).strip()
+        untracked_result = untracked_output.split('\n') if untracked_output else []
         
         return {
             "branch": branch,

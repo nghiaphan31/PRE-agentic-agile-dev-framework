@@ -61,6 +61,7 @@
 | [IDEA-012A](IDEA-012A-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-A Foundation | Architect mode | 2026-03-30 | [IMPLEMENTED] | governance | Minor | v2.4 | TECH-SUGGESTIONS-BACKLOG, RULE 11-14 |
 | [IDEA-012B](IDEA-012B-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-B Core Logic | Architect mode | 2026-03-30 | [IMPLEMENTED] | governance | Medium | v2.4 | SyncDetector, RefinementWorkflow |
 | [IDEA-012C](IDEA-012C-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-C Full Features | Architect mode | 2026-03-30 | [IMPLEMENTED] | governance | Medium | v2.5 | Full pipeline, BranchTracker, DOC-3 auto-gen |
+| [IDEA-013](IDEA-013-batch-toolkit-usability.md) | Improve Batch Toolkit Reusability | Human 2026-04-01 | 2026-04-01 | [IDEA] | dev-tooling | Minor | v2.7 | Fix batch scripts usability |
 
 ---
 

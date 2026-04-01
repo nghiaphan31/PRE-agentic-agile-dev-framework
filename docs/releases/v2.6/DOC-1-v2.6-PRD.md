@@ -1,7 +1,7 @@
 ---
 doc_id: DOC-1
 release: v2.6
-status: Draft
+status: Frozen
 title: Product Requirements Document
 version: 1.0
 date_created: 2026-04-01
@@ -12,7 +12,7 @@ cumulative: true
 
 # DOC-1 — Product Requirements Document (v2.6)
 
-> **Status: DRAFT** -- This document is in draft for v2.6.0 release. It will be frozen upon QA approval.
+> **Status: FROZEN** -- This document was frozen after QA approval and v2.6.0 release audit.
 > **Cumulative: YES** -- This document contains all requirements from v1.0 through v2.6.
 > To understand the full project requirements, read this document from top to bottom.
 > Do not rely on previous release documents -- they are delta-based and incomplete.

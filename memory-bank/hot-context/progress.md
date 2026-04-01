@@ -1,6 +1,6 @@
 # Project Progress
 
-**Last updated:** 2026-04-01T16:42:00Z
+**Last updated:** 2026-04-02T17:30:00Z
 **Session:** s2026-04-01-architect-001
 **Plan:** PLAN-2026-04-01-001
 
@@ -278,6 +278,15 @@
 - [x] TYPE-YYYY-MM-DD-NNN format for IDEA, TECH, ADR, ENH
 - [x] Session IDs: sYYYY-MM-DD-{mode}-{NNN}
 - [x] ENH-2026-04-01-001 and ENH-2026-04-01-002 created for deferred items
+
+### Post-Release QA (v2.6)
+- [x] Coherence Audit executed (2026-04-02 via Anthropic Batch API)
+- [x] 3 batches submitted: Code vs Docs, Governance, Prompt vs .roomodes
+- [x] 11 requests processed; results at `docs/qa/v2.6/BATCHES/RESULTS/`
+- [x] COHERENCE-AUDIT-v2.6.md consolidated report generated
+- **Critical findings:** 14 P0, 17 P1, 14 P2
+- **P0 Blockers:** SP-002 sync broken, DOC-1 still DRAFT, heartbeat delivery gap
+- **P0 Fix:** `python scripts/rebuild_sp002.py` — then rebuild SP-002
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

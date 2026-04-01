@@ -47,42 +47,39 @@ def main():
         raise ValueError("ANTHROPIC_API_KEY environment variable is not set")
     client = anthropic.Anthropic(api_key=api_key)
     
-    batch = client.messages.batches.retrieve(batch_id)
-    print(f"Batch status: {batch.status}")
+    batch = client.messages.batches.retrieve(message_batch_id=batch_id)
+    print(f"Batch status: {batch.processing_status}")
     
-    if batch.status.value == "in_progress":
-        print("[WAIT] Batch is still processing. Try again in 30 minutes.")
-        return
-    
-    if batch.status.value != "ended":
-        print(f"[ERROR] Unexpected batch status: {batch.status.value}")
+    if batch.processing_status != "ended":
+        print(f"[WAIT] Batch status is '{batch.processing_status}'. Try again in 30 minutes.")
         return
     
     print("Retrieving results...")
-    results = client.messages.batches.list_results(batch_id)
+    results = client.messages.batches.results(message_batch_id=batch_id)
     
     report = "# BATCH 2: Governance Coherence Report\n\n"
     report += f"**Batch ID:** {batch_id}\n"
-    report += f"**Processed at:** {batch.processed_at}\n\n"
+    report += f"**Completed at:** {batch.expires_at}\n\n"
     report += "---\n\n"
     
     for result in sorted(results, key=lambda r: r.custom_id):
         custom_id = result.custom_id
         title = CUSTOM_IDS.get(custom_id, custom_id)
         
-        if result.result.type == "error":
+        if result.result.type == "errored":
             report += f"## {title}\n\n"
             report += f"**ERROR:** {result.result.error}\n\n"
             continue
         
-        text_content = ""
-        for content in result.result.content:
-            if content.type == "text":
-                text_content += content.text
-        
-        report += f"## {title}\n\n"
-        report += text_content
-        report += "\n\n---\n\n"
+        if result.result.type == "succeeded":
+            message = result.result.message
+            text_content = ""
+            for content_block in message.content:
+                if hasattr(content_block, 'text'):
+                    text_content += content_block.text
+            report += f"## {title}\n\n"
+            report += text_content
+            report += "\n\n---\n\n"
     
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     REPORT_FILE.write_text(report, encoding="utf-8")

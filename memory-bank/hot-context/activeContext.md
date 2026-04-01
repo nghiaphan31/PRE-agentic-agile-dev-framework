@@ -1,7 +1,7 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-01T17:10:00Z
+**Last updated:** 2026-04-02T17:30:00Z
 **Active mode:** developer
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
@@ -45,9 +45,19 @@
 - docs/releases/v2.6/DOC-{1,2,3,4,5}-v2.6-*.md (NEW - cumulative)
 - docs/DOC-*-CURRENT.md (updated to v2.6)
 
+## Coherence Audit (v2.6 Post-Release)
+- **Audit completed:** 2026-04-02 via Anthropic Batch API (3 batches, 11 requests)
+- **Report:** `docs/qa/v2.6/COHERENCE-AUDIT-v2.6.md`
+- **Findings:** 14 P0, 17 P1, 14 P2 across 3 dimensions
+- **Critical:** SP-002 sync broken → run `python scripts/rebuild_sp002.py`
+- **Critical:** DOC-1 still DRAFT; v2.6.0 tag validity questioned
+- **Critical:** Heartbeat delivery gap (Phase 2 unchecked) despite "RELEASED" status
+
 ## Next step(s)
+- [ ] Fix P0: Run `python scripts/rebuild_sp002.py` to sync SP-002
+- [ ] Fix P0: Freeze DOC-1 or retract v2.6.0 tag
+- [ ] Fix P0: Resolve heartbeat delivery gap or formally defer to v2.7
 - [ ] Return to wild development on develop
-- [ ] develop-v2.6 branch can be kept for traceability (per RULE 10.3)
 
 ## Session s2026-04-01-architect-002
 - [x] Scanned project for obsolete files

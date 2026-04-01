@@ -239,5 +239,45 @@
 - [x] PR #2 merged to develop, pushed to origin
 - [x] Merge conflict resolved, activeContext updated
 
+## v2.5 Release — COMPLETE
+
+### Epic 2: Governance Enhancement v2.5 (PLAN-2026-04-01-001)
+- [x] PLAN-2026-04-01-001 created (governance plan v2.5)
+- [x] Branch created: governance/PLAN-2026-04-01-001-ideation-release-v2
+- [x] Phase 1: Add session-checkpoint.md to hot-context/
+- [x] Phase 1: Implement APPEND ONLY for decisionLog.md
+- [x] Phase 1: Update progress.md with session metadata
+- [x] Phase 2: Implement heartbeat every 5 minutes (checkpoint_heartbeat.py)
+- [x] Phase 2: Test crash recovery
+- [x] Phase 3: MCP integration (DEFERRED to v3.0)
+- [x] v2.5.0 tag created on develop-v2.5
+
+### ADR-013: Squash Merge Prohibition
+- [x] RULE 10.3 updated: forbid squash merge and --delete-branch for traceability
+- [x] Committed and pushed to origin
+
+## v2.6 Release — COMPLETE
+
+### Governance Enhancements (PLAN-2026-04-01-001)
+- [x] Branch: develop-v2.6 created from develop
+- [x] v2.6.0 canonical docs created (DOC-1 through DOC-5)
+- [x] DOC-*-CURRENT.md pointers updated to v2.6
+- [x] Tag v2.6.0 created on develop-v2.6
+- [x] PR #5 created and merged to master
+- [x] Develop fast-forwarded to master (per GitFlow RULE 10.4)
+
+### New Rules Added (v2.6)
+- [x] MB-1: Memory Bank hot/cold architecture
+- [x] MB-2: Session checkpoint on session start
+- [x] MB-3: APPEND ONLY for decisionLog.md
+- [x] MB-4: Session heartbeat (5-minute crash recovery)
+- [x] G-0: Plan-Branch Parity
+- [x] D-1: ADR classification
+
+### Artifact ID Schema (v2.6)
+- [x] TYPE-YYYY-MM-DD-NNN format for IDEA, TECH, ADR, ENH
+- [x] Session IDs: sYYYY-MM-DD-{mode}-{NNN}
+- [x] ENH-2026-04-01-001 and ENH-2026-04-01-002 created for deferred items
+
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

@@ -284,9 +284,14 @@
 - [x] 3 batches submitted: Code vs Docs, Governance, Prompt vs .roomodes
 - [x] 11 requests processed; results at `docs/qa/v2.6/BATCHES/RESULTS/`
 - [x] COHERENCE-AUDIT-v2.6.md consolidated report generated
-- **Critical findings:** 14 P0, 17 P1, 14 P2
-- **P0 Blockers:** SP-002 sync broken, DOC-1 still DRAFT, heartbeat delivery gap
-- **P0 Fix:** `python scripts/rebuild_sp002.py` — then rebuild SP-002
+- **Findings:** 14 P0, 17 P1, 14 P2
+
+### P0 Fixes (2026-04-02)
+- [x] P0-1: SP-002 sync — pushed origin/fix/sp002-sync (already in sync)
+- [x] P0-2: DOC-1 frozen — pushed origin/fix/doc1-freeze (commit 5fb9040)
+- [x] P0-3: Heartbeat gap resolved — pushed origin/fix/heartbeat-delivery (commit bc76770)
+- [ ] Merge 3 fix PRs to develop
+- [ ] Address remaining P1/P2 findings
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

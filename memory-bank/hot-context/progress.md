@@ -56,10 +56,10 @@
 - [x] Phase 1: Implement APPEND ONLY for decisionLog.md
 - [x] Phase 1: Update progress.md with session metadata
 - [ ] Phase 1: Archive TECH-SUGGESTIONS into IDEAS-BACKLOG
-- [ ] Phase 2: Implement heartbeat every 5 minutes
-- [ ] Phase 2: Test crash recovery
+- [x] Phase 2: Implement heartbeat every 5 minutes
+- [x] Phase 2: Test crash recovery
 - [ ] Phase 3: MCP integration (v3.0 scope)
-- [ ] Target: Release v2.5
+- [x] Target: Release v2.5
 
 ## v2.0 Release Status
 - [x] DOC-1-v2.0-PRD.md — Frozen (2026-03-28)

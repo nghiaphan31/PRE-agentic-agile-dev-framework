@@ -45,19 +45,19 @@
 - docs/releases/v2.6/DOC-{1,2,3,4,5}-v2.6-*.md (NEW - cumulative)
 - docs/DOC-*-CURRENT.md (updated to v2.6)
 
-## Coherence Audit (v2.6 Post-Release)
+## Coherence Audit (v2.6 Post-Release) — P0 FIXES COMPLETE
 - **Audit completed:** 2026-04-02 via Anthropic Batch API (3 batches, 11 requests)
 - **Report:** `docs/qa/v2.6/COHERENCE-AUDIT-v2.6.md`
 - **Findings:** 14 P0, 17 P1, 14 P2 across 3 dimensions
-- **Critical:** SP-002 sync broken → run `python scripts/rebuild_sp002.py`
-- **Critical:** DOC-1 still DRAFT; v2.6.0 tag validity questioned
-- **Critical:** Heartbeat delivery gap (Phase 2 unchecked) despite "RELEASED" status
+
+## P0 Fixes (GitFlow Compliant)
+- [x] P0-1: SP-002 sync — verified already in sync, pushed to origin/fix/sp002-sync
+- [x] P0-2: DOC-1 frozen — status changed to Frozen, pushed to origin/fix/doc1-freeze
+- [x] P0-3: Heartbeat gap resolved — Phase 2 checked off, pushed to origin/fix/heartbeat-delivery
 
 ## Next step(s)
-- [ ] Fix P0: Run `python scripts/rebuild_sp002.py` to sync SP-002
-- [ ] Fix P0: Freeze DOC-1 or retract v2.6.0 tag
-- [ ] Fix P0: Resolve heartbeat delivery gap or formally defer to v2.7
-- [ ] Return to wild development on develop
+- [ ] Merge 3 fix PRs to develop
+- [ ] Address remaining P1/P2 findings in COHERENCE-AUDIT-v2.6.md
 
 ## Session s2026-04-01-architect-002
 - [x] Scanned project for obsolete files

@@ -66,3 +66,34 @@ Les audits de coherence v2.6 (14 P0, 17 P1, 14 P2) ont ete realises via l'API Ba
 - Cout reduit ($1.20 vs $20+ pour 11 requetes interactives)
 - Traitement parallele natif pour les audits multi-dimensionnels
 - Necessite une etape de retrieval distincte (model async)
+
+---
+
+## ADR-012 : Release-Specific DOC-3 and DOC-5
+**Date :** 2026-04-02
+**Statut :** Accepte
+
+**Contexte :**
+Tous les 5 documents canoniques etaient traites comme documents cumulatifs (RULE 12). Cependant, DOC-3 (Implementation Plan) et DOC-5 (Release Notes) ne sont pas adaptes au format cumulatif :
+- DOC-3 doit documenter uniquement le scope de la release actuelle
+- DOC-5 doit documenter uniquement les changements de la release actuelle
+
+**Decision :**
+- DOC-1 (PRD), DOC-2 (Architecture), DOC-4 (Operations) restent cumulatifs
+- DOC-3 (Implementation Plan) devient release-specific — seul le scope de la release actuelle
+- DOC-5 (Release Notes) devient release-specific — seul les changements de la release actuelle
+- Seuils de lignes reduits pour DOC-3 (100 lignes min) et DOC-5 (50 lignes min)
+- Les versions historiques sont preservees dans docs/releases/vX.Y/
+
+**Coherence avec RULE 12 :**
+- R-CANON-0 : Classification en deux types (cumulatif vs release-specific)
+- R-CANON-A : Les documents release-specifiques sont conserves dans docs/releases/vX.Y/
+- R-CANON-5 : Les 3 documents cumulatifs (DOC-1, DOC-2, DOC-4) doivent etre mis a jour ensemble
+- R-CANON-6 : Les DOC-3 et DOC-5 sont mis a jour independamment par release
+- R-CANON-7 : Les pointeurs CURRENT pour DOC-3 et DOC-5 pointent vers leurs dernieres versions release-specific
+
+**Consequences :**
+- Reduction de la taille des documents DOC-3 et DOC-5
+- Focus sur le contenu de la release actuelle
+- Historique preserve dans docs/releases/vX.Y/
+- Meilleure lisibilite et maintenance

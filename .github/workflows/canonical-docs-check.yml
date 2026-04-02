@@ -22,47 +22,41 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Check DOC pointer consistency
+      - name: Check cumulative doc pointer consistency (DOC-1, DOC-2, DOC-4)
         run: |
-          # Extract versions from each DOC-*-CURRENT.md (using sed for portability)
+          # Extract versions from cumulative DOC pointers
           DOC1_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-1-CURRENT.md | head -1)
           DOC2_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-2-CURRENT.md | head -1)
-          DOC3_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-3-CURRENT.md | head -1)
           DOC4_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-4-CURRENT.md | head -1)
-          DOC5_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-5-CURRENT.md | head -1)
           
-          echo "DOC-1: v$DOC1_VER"
-          echo "DOC-2: v$DOC2_VER"
-          echo "DOC-3: v$DOC3_VER"
-          echo "DOC-4: v$DOC4_VER"
-          echo "DOC-5: v$DOC5_VER"
+          echo "DOC-1 (cumulative): v$DOC1_VER"
+          echo "DOC-2 (cumulative): v$DOC2_VER"
+          echo "DOC-4 (cumulative): v$DOC4_VER"
           
-          # All must match
-          if [[ "$DOC1_VER" != "$DOC2_VER" ]] || [[ "$DOC2_VER" != "$DOC3_VER" ]] || \
-             [[ "$DOC3_VER" != "$DOC4_VER" ]] || [[ "$DOC4_VER" != "$DOC5_VER" ]]; then
-            echo "::error::DOC pointers are inconsistent across files"
+          # Cumulative docs (DOC-1, DOC-2, DOC-4) must all match
+          if [[ "$DOC1_VER" != "$DOC2_VER" ]] || [[ "$DOC2_VER" != "$DOC4_VER" ]]; then
+            echo "::error::Cumulative DOC pointers are inconsistent (DOC-1, DOC-2, DOC-4 must match)"
             exit 1
           fi
+          echo "PASS: Cumulative DOC pointers are consistent"
       
-      - name: Check cumulative nature of docs
+      - name: Check cumulative nature of DOC-1, DOC-2, DOC-4
         run: |
           # Minimum line counts for cumulative docs
-          declare -A MIN_LINES=(
+          declare -A MIN_LINES_CUMULATIVE=(
             ["DOC-1"]=500
             ["DOC-2"]=500
-            ["DOC-3"]=300
             ["DOC-4"]=300
-            ["DOC-5"]=200
           )
           
-          # Get current version from DOC-1-CURRENT.md (using sed for portability)
+          # Get current version from DOC-1-CURRENT.md
           CURRENT_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-1-CURRENT.md | head -1)
           
-          for doc in DOC-1 DOC-2 DOC-3 DOC-4 DOC-5; do
+          for doc in DOC-1 DOC-2 DOC-4; do
             DOC_FILE="docs/releases/v${CURRENT_VER}/${doc}-v${CURRENT_VER}-"*.md
             if [[ -f "$DOC_FILE" ]]; then
               LINE_COUNT=$(wc -l < "$DOC_FILE")
-              MIN=${MIN_LINES[$doc]}
+              MIN=${MIN_LINES_CUMULATIVE[$doc]}
               if [[ "$LINE_COUNT" -lt "$MIN" ]]; then
                 echo "::error::$DOC_FILE appears to be delta-based ($LINE_COUNT lines, expected >= $MIN for cumulative)"
                 exit 1
@@ -71,11 +65,11 @@ jobs:
             fi
           done
       
-      - name: Check cumulative flag in front matter
+      - name: Check cumulative flag in front matter for DOC-1, DOC-2, DOC-4
         run: |
           CURRENT_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-1-CURRENT.md | head -1)
           
-          for doc in DOC-1 DOC-2 DOC-3 DOC-4 DOC-5; do
+          for doc in DOC-1 DOC-2 DOC-4; do
             DOC_FILE="docs/releases/v${CURRENT_VER}/${doc}-v${CURRENT_VER}-"*.md
             if [[ -f "$DOC_FILE" ]]; then
               if ! grep -q "cumulative: true" "$DOC_FILE"; then
@@ -85,3 +79,42 @@ jobs:
               echo "PASS: $DOC_FILE has cumulative: true flag"
             fi
           done
+      
+      - name: Check release-specific docs format (DOC-3, DOC-5)
+        run: |
+          # Release-specific minimum line counts
+          declare -A MIN_LINES_RELEASE_SPECIFIC=(
+            ["DOC-3"]=100
+            ["DOC-5"]=50
+          )
+          
+          # Get DOC-3 version from DOC-3-CURRENT.md
+          DOC3_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-3-CURRENT.md | head -1)
+          DOC5_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-5-CURRENT.md | head -1)
+          
+          echo "DOC-3 (release-specific): v$DOC3_VER"
+          echo "DOC-5 (release-specific): v$DOC5_VER"
+          
+          # Check DOC-3
+          DOC3_FILE="docs/releases/v${DOC3_VER}/DOC-3-v${DOC3_VER}-"*.md
+          if [[ -f "$DOC3_FILE" ]]; then
+            LINE_COUNT=$(wc -l < "$DOC3_FILE")
+            MIN=${MIN_LINES_RELEASE_SPECIFIC[DOC-3]}
+            if [[ "$LINE_COUNT" -lt "$MIN" ]]; then
+              echo "::error::$DOC3_FILE is too short ($LINE_COUNT lines, expected >= $MIN for release-specific)"
+              exit 1
+            fi
+            echo "PASS: $DOC3_FILE has $LINE_COUNT lines (>= $MIN for release-specific)"
+          fi
+          
+          # Check DOC-5
+          DOC5_FILE="docs/releases/v${DOC5_VER}/DOC-5-v${DOC5_VER}-"*.md
+          if [[ -f "$DOC5_FILE" ]]; then
+            LINE_COUNT=$(wc -l < "$DOC5_FILE")
+            MIN=${MIN_LINES_RELEASE_SPECIFIC[DOC-5]}
+            if [[ "$LINE_COUNT" -lt "$MIN" ]]; then
+              echo "::error::$DOC5_FILE is too short ($LINE_COUNT lines, expected >= $MIN for release-specific)"
+              exit 1
+            fi
+            echo "PASS: $DOC5_FILE has $LINE_COUNT lines (>= $MIN for release-specific)"
+          fi

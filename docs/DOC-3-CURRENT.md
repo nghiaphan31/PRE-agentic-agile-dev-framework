@@ -1,13 +1,13 @@
 # DOC-3 — Implementation Plan (Current)
 
-**Current release:** v2.6
-**File:** [docs/releases/v2.6/DOC-3-v2.6-Implementation-Plan.md](releases/v2.6/DOC-3-v2.6-Implementation-Plan.md)
+**Current release:** v2.10
+**File:** [docs/releases/v2.10/DOC-3-v2.10-Implementation-Plan.md](releases/v2.10/DOC-3-v2.10-Implementation-Plan.md)
 **Status:** Draft
-**Git tag:** (pending v2.6.0 release)
+**Git tag:** (pending v2.10.0 release)
 
-**Previous release:** [docs/releases/v2.5/DOC-3-v2.5-Implementation-Plan.md](releases/v2.5/DOC-3-v2.5-Implementation-Plan.md) (`v2.5.0`)
+**Previous release:** [docs/releases/v2.9/DOC-3-v2.9-Implementation-Plan.md](releases/v2.9/DOC-3-v2.9-Implementation-Plan.md) (`v2.9.0`)
 
 ---
 
-> To update this pointer, edit this file when a new release is tagged.
-> Format: update `Current release`, `File`, `Status`, and `Git tag` fields above.
+> **Note:** Starting with v2.10, DOC-3 is **release-specific** (not cumulative).
+> Historical implementation plans are preserved in their respective `docs/releases/vX.Y/` directories.

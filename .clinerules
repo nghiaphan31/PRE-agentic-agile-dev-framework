@@ -553,28 +553,25 @@ overlap with yours. The Orchestrator runs sync detection at every intake — pay
 
 
 
-## RULE 12: CANONICAL DOCS — CUMULATIVE + GITHUB ACTIONS ENFORCEMENT
+## RULE 12: CANONICAL DOCS — CUMULATIVE + RELEASE-SPECIFIC + GITHUB ACTIONS ENFORCEMENT
 
 This rule applies to all modes. It is NON-NEGOTIABLE.
 
 
-### 12.1 -- Cumulative Documentation Requirement
+### 12.1 -- Documentation Classification
 
-**R-CANON-0**: Each canonical doc in `docs/releases/vX.Y/` is **fully self-contained and cumulative** — it contains the complete state of that document for the entire project history up to vX.Y.
+**R-CANON-0**: Canonical docs are classified into two types:
 
-Canonical docs:
-- DOC-1: Product Requirements Document (PRD)
-- DOC-2: Technical Architecture
-- DOC-3: Implementation Plan
-- DOC-4: Operations Guide
-- DOC-5: Release Notes
+| Type | Documents | Requirement |
+|------|-----------|-------------|
+| **Cumulative** | DOC-1 (PRD), DOC-2 (Architecture), DOC-4 (Operations) | Fully self-contained — complete history up to vX.Y |
+| **Release-Specific** | DOC-3 (Implementation Plan), DOC-5 (Release Notes) | Only this release's content — historical preserved in `docs/releases/vX.Y/` |
 
-Minimum line counts for cumulative docs:
-- DOC-1 >= 500 lines
-- DOC-2 >= 500 lines
-- DOC-3 >= 300 lines
-- DOC-4 >= 300 lines
-- DOC-5 >= 200 lines
+**R-CANON-A**: Historical release-specific docs (DOC-3/DOC-5) are preserved in their respective `docs/releases/vX.Y/` directories.
+
+Minimum line counts:
+- **Cumulative docs:** DOC-1 >= 500 lines, DOC-2 >= 500 lines, DOC-4 >= 300 lines
+- **Release-specific docs:** DOC-3 >= 100 lines, DOC-5 >= 50 lines
 
 
 ### 12.2 -- GitFlow Rules for Canonical Docs
@@ -590,11 +587,11 @@ Minimum line counts for cumulative docs:
 
 ### 12.3 -- Consistency Rules
 
-**R-CANON-5**: All 5 canonical docs MUST be updated together for any release
+**R-CANON-5**: All 3 cumulative docs (DOC-1, DOC-2, DOC-4) MUST be updated together for any release
 
-**R-CANON-6**: When merging to `develop-vX.Y`, all 5 DOC-*-vX.Y-*.md files must exist and be consistent
+**R-CANON-6**: When merging to `develop-vX.Y`, the 3 cumulative DOC-*-vX.Y-*.md files must exist and be consistent. DOC-3 and DOC-5 are release-specific and updated independently per release.
 
-**R-CANON-7**: The `DOC-*-CURRENT.md` pointer files MUST all point to the same release version
+**R-CANON-7**: The `DOC-*-CURRENT.md` pointer files for cumulative docs (DOC-1, DOC-2, DOC-4) MUST all point to the same release version. DOC-3-CURRENT and DOC-5-CURRENT point to their respective latest release-specific files.
 
 
 ### 12.4 -- Enforcement

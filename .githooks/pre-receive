@@ -13,12 +13,15 @@ CANON_PATTERNS=(
   "docs/DOC-5-CURRENT.md"
 )
 
-MIN_LINES=(
-  500  # DOC-1
-  500  # DOC-2
-  300  # DOC-3
-  300  # DOC-4
-  200  # DOC-5
+# Minimum line counts by doc type
+# Cumulative: DOC-1 (500), DOC-2 (500), DOC-4 (300)
+# Release-specific: DOC-3 (100), DOC-5 (50)
+declare -A MIN_LINES_CUMULATIVE=(
+  ["DOC-1"]=500
+  ["DOC-2"]=500
+  ["DOC-3"]=100
+  ["DOC-4"]=300
+  ["DOC-5"]=50
 )
 
 # Check if any canonical docs were modified
@@ -32,13 +35,11 @@ check_canonical_docs() {
   modified_files=$(git diff --name-only "$old_rev" "$new_rev")
   
   # Check each canonical doc pattern
-  local i=0
   for pattern in "${CANON_PATTERNS[@]}"; do
     if echo "$modified_files" | grep -q "$pattern"; then
       check_feature_branch "$old_rev" "$new_rev" "$pattern"
-      check_cumulative "$new_rev" "$pattern" "${MIN_LINES[$i]}"
+      check_doc_format "$new_rev" "$pattern"
     fi
-    ((i++))
   done
 }
 
@@ -71,19 +72,58 @@ check_feature_branch() {
   done
 }
 
-check_cumulative() {
+check_doc_format() {
   local rev="$1"
   local file="$2"
-  local min_lines="$3"
   
-  # Get line count of the doc at new revision
+  # Get the doc content
+  local doc_content
+  doc_content=$(git show "$rev:$file" 2>/dev/null) || return 0
+  
+  # Extract doc name from path (e.g., "DOC-1" from "docs/DOC-1-CURRENT.md")
+  local doc_name
+  doc_name=$(echo "$file" | sed -n 's|docs/DOC-\([0-9]*\)-CURRENT.md|DOC-\1|p')
+  
+  # Check for cumulative flag in front matter
+  local cumulative_flag
+  cumulative_flag=$(echo "$doc_content" | sed -n '/^---$/,/^---$/p' | grep -i "cumulative:" | head -1 | sed 's/.*cumulative: *//i' | tr -d ' ')
+  
+  # Get line count of the doc
   local line_count
-  line_count=$(git show "$rev:$file" 2>/dev/null | wc -l)
+  line_count=$(echo "$doc_content" | wc -l)
   
-  if [[ "$line_count" -lt "$min_lines" ]]; then
-    echo "ERROR: Canonical doc '$file' appears to be delta-based ($line_count lines, expected >= $min_lines)" >&2
-    echo "       Canonical docs must be CUMULATIVE -- include all content from previous releases" >&2
-    exit 1
+  # Determine minimum lines based on cumulative flag and doc type
+  local min_lines
+  if [[ "$cumulative_flag" == "true" ]]; then
+    # Cumulative docs have higher thresholds
+    case "$doc_name" in
+      DOC-1) min_lines=500 ;;
+      DOC-2) min_lines=500 ;;
+      DOC-3) min_lines=300 ;;
+      DOC-4) min_lines=300 ;;
+      DOC-5) min_lines=200 ;;
+      *) min_lines=100 ;;
+    esac
+    if [[ "$line_count" -lt "$min_lines" ]]; then
+      echo "ERROR: Canonical doc '$file' appears to be delta-based ($line_count lines, expected >= $min_lines for cumulative)" >&2
+      echo "       Cumulative docs must include all content from previous releases" >&2
+      exit 1
+    fi
+  else
+    # Release-specific docs have lower thresholds
+    # For DOC-3 and DOC-5 without cumulative:true, apply release-specific thresholds
+    case "$doc_name" in
+      DOC-3) min_lines=100 ;;
+      DOC-5) min_lines=50 ;;
+      *)
+        # Unknown doc without cumulative flag - be lenient
+        min_lines=50
+        ;;
+    esac
+    if [[ "$line_count" -lt "$min_lines" ]]; then
+      echo "ERROR: Canonical doc '$file' is too short ($line_count lines, expected >= $min_lines)" >&2
+      exit 1
+    fi
   fi
 }
 

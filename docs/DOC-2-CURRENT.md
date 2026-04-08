@@ -1,10 +1,8 @@
 # DOC-2 — Architecture (Current)
 
-**Current release:** v2.9
-**File:** [docs/releases/v2.9/DOC-2-v2.9-Architecture.md](releases/v2.9/DOC-2-v2.9-Architecture.md)
+**Current release:** v2.10
+**File:** [docs/releases/v2.10/DOC-2-v2.10-Architecture.md](releases/v2.10/DOC-2-v2.10-Architecture.md)
 **Status:** Draft
-**Git tag:** (pending v2.9.0 release)
+**Git tag:** (pending v2.10.0 release)
 
-**Previous release:** [docs/releases/v2.8/DOC-2-v2.8-Architecture.md](releases/v2.8/DOC-2-v2.8-Architecture.md) (`v2.8.0`)
-
----
+**Previous release:** [docs/releases/v2.9/DOC-2-v2.9-Architecture.md](releases/v2.9/DOC-2-v2.9-Architecture.md) (`v2.9.0`)

@@ -1,19 +1,19 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T17:19:00Z
+**Last updated:** 2026-04-08T17:27:55Z
 **Active mode:** developer
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minimax` (default via OpenRouter)
 **Session ID:** s2026-04-08-developer-002
-**Branch:** feature/TECH-002-github-actions-trigger
+**Branch:** feature/TECH-002-add-triggers
 **Plan:** v2.12 planning — TECH-002 GitHub Actions extension
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `feature/TECH-002-github-actions-trigger` (derived from develop)
-- Last commit: f2ceb60 — feat(TECH-002): add GitHub Actions workflow for PR merge detection
+- Branch: `feature/TECH-002-add-triggers` (derived from develop)
+- Last commit: 75fdf4c — feat(TECH-002): add push trigger and nightly schedule to GitHub Actions workflow
 
 ## v2.11 Release Complete ✅
 

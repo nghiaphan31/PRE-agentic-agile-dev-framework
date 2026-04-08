@@ -383,3 +383,74 @@ The existing `BranchTracker` class (in `src/calypso/branch_tracker.py`) already 
 - Added scope placeholder creation requirement (R-005)
 
 **Next Step:** Human to decide which implementation approach (A/B/C) to pursue.
+
+---
+
+## Post-Implementation Notes
+
+### R-005 Gap Discovery and Remediation
+
+During implementation review (2026-04-08), it was discovered that **R-005 ("Auto-create next release scope when tag is created") was NOT initially implemented** despite being clearly defined in the refinement requirements (lines 60-64).
+
+**What happened:**
+1. Implementation focused on the Git hook trigger (Option A) and GitHub Actions workflow (Option B) for detecting merged features
+2. R-005 (scope placeholder creation on tag) was identified as a separate, later-phase feature
+3. During user questioning about the workflow behavior, it was noted that R-005 requirements were not met
+4. A separate feature branch was created to implement R-005 via a tag creation trigger in GitHub Actions
+
+**Root cause:**
+- The refinement-to-implementation handoff did not include a requirements verification step
+- Implementation proceeded with a subset of requirements without explicit checklist sign-off
+- No mechanism existed to verify all R-00N requirements against delivered code
+
+**Fix applied:**
+- Added `on: create` trigger to GitHub Actions workflow for tag creation events
+- Implemented logic to detect new tag pattern (vX.Y.0) and create corresponding `develop-v{X+1}.0` placeholder
+
+### Verification Gap Identified
+
+This incident highlights a **verification gap in the refinement-to-implementation handoff**:
+- Refinement produces requirements (R-001, R-002, ...)
+- Implementation consumes requirements but may not implement all of them
+- No verification step ensures all requirements are addressed before task closure
+
+---
+
+## Process Improvement Note
+
+### Mandatory Requirements Verification
+
+To prevent similar gaps in future implementations:
+
+1. **All refinement requirements (R-001 through R-00N) must be verified against actual implementation** before marking a task complete.
+
+2. **Orchestrator should check each requirement against delivered code** before closing:
+   - R-001: Verify git query logic exists and parses correctly
+   - R-002: Verify branch name extraction patterns are implemented
+   - R-003: Verify backlog cross-reference logic is present
+   - R-004: Verify release scope update mechanism exists
+   - R-005: Verify scope placeholder creation on tag is implemented
+   - (And so on for all R-00N requirements)
+
+3. **A requirements checklist should be included in the implementation task instructions:**
+   ```markdown
+   ## Implementation Checklist
+   
+   Before closing this task, verify:
+   - [ ] R-001: <description> - Implemented in <file> at lines <X-Y>
+   - [ ] R-002: <description> - Implemented in <file> at lines <X-Y>
+   - [ ] R-003: <description> - Implemented in <file> at lines <X-Y>
+   - [ ] R-004: <description> - Implemented in <file> at lines <X-Y>
+   - [ ] R-005: <description> - Implemented in <file> at lines <X-Y>
+   - [ ] All requirements verified by: <signature>
+   ```
+
+4. **Non-Orchestrator agents must report R-00N coverage** in their handoff state before attempt_completion.
+
+5. **Incomplete requirements should block task completion** unless explicitly deferred via ADR.
+
+### Related Process Documents
+
+- See ADR-013: Acceptance criteria for co-accepting IDEA-014 and IDEA-015
+- See DOC-4 Chapter 12: Release gate and mandatory verification steps
+- See DOC-3 Implementation Plan: Per-idea checklist template

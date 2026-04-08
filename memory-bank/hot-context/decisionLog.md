@@ -45,13 +45,52 @@
   - Fast-forward merge from feature branches to develop completed successfully
 - **Consequences:** v2.14 planning can begin; all release tracking now governed by RELEASE.md
 
-## ADR-017: IDEA-026 Session Lifecycle Automation
+## ADR-017: TECH-005 Timebox-First Naming Correction
 - **Date:** 2026-04-08
-- **Context:** IDEA-019 implemented checkpoint_heartbeat.py with --log-conversation, but automation was not wired
+- **Context:** Original TECH-005 used wrong pattern `feature/{IDEA-NNN}/{YYYY}Q{N}-{slug}` — creates hundreds of single-branch folders. User correction: `feature/{Timebox}/{IDEA-NNN}-{slug}` groups by timebox instead.
+- **Decision:** Correct TECH-005 pattern; status updated to [REFINED]
+- **Consequences:** TECH-005 awaiting ACCEPTED/REJECTED decision. If accepted, RULE 10.1 feature branch naming will change.
+
+## ADR-018: IDEA-026 Session Lifecycle Automation
 - **Decision:** Implement 4 components:
   1. .vscode/tasks.json with Start/Stop/Status heartbeat tasks
   2. RULE 2 item 7: conversation logging before attempt_completion
   3. .github/workflows/conversation-check.yml CI validation
   4. .github/workflows/heartbeat-check.yml CI validation
 - **Consequences:** Heartbeat and conversation logging now automated with CI enforcement
+
+## ADR-018: TECH-004 Master Traceability Tree — Deferred to v2.15
+- **Date:** 2026-04-08
+- **Context:** TECH-004 proposes extending ADR-006 with lab/, bugfix/, release/ branches and refining workflow
+- **Decision:** DEFER to v2.15
+- **Rationale:**
+  - ADR-006 implemented 2026-03-28 — too soon for another GitFlow change
+  - v2.14 should be stabilization, not feature expansion
+  - TECH-004 concepts are sound but timing is wrong
+- **Concepts Accepted (for v2.15):**
+  - `lab/` branch type for ad-hoc experimental work
+  - `bugfix/` branch type for pre-release cold fixes
+  - Refining workflow (lab→feature→develop Z-pattern)
+- **Concepts Deferred:**
+  - `release/vX.Y.Z` buffer branch (vs develop-vX.Y dual-buffer complexity)
+  - Release parallelism (develop continues while release stabilizes)
+- **Implementation:** See docs/conversations/REFINEMENT-2026-04-08-TECH-004.md
+- **Consequences:** RULE 10 extension planned for v2.15; no immediate changes required
+
+## ADR-019: TECH-004 Re-Refinement — `--no-ff` Extracted for v2.14
+
+- **Date:** 2026-04-08
+- **Context:** User feedback identified two critical elements missing from original TECH-004 refinement: (1) `--no-ff` merge strategy, (2) naming convention analysis
+- **Decision:** PARTIAL AMENDMENT to ADR-018
+- **Key Findings:**
+  1. `--no-ff`: NOT currently mandated in ADR-006/RULE 10. TECH-004 requires it for all Planned Dev, Ad-Hoc, and Cold Fix branches. **CHANGE MAGNITUDE: MINIMAL** — single directive addition to RULE 10
+  2. Naming convention `feature/YYYY/QN/T-xxx-name`: BREAKING CHANGE vs ADR-006's `feature/{IDEA-NNN}-{slug}`. Requires broader design evaluation
+- **Revised Decision:**
+  - TECH-004 DEFERRED to v2.15 (unchanged)
+  - **`--no-ff` ACCEPTED as standalone RULE 10 amendment for v2.14** — traceability benefit, separable from naming convention, low implementation risk
+  - Naming convention DEFERRED — hybrid pattern discovered: `feature/{IDEA-NNN}/{YYYY}Q{N}-{slug}` — captured as TECH-005
+- **Implementation Path:**
+  - v2.14: Accept `--no-ff` only (1-sentence RULE 10 change)
+  - v2.15: Implement TECH-004 branch types + refining workflow + TECH-005 hybrid naming
+- **Consequences:** RULE 10 will be updated in v2.14 with `--no-ff` mandate; TECH-005 created for naming pattern evaluation
 

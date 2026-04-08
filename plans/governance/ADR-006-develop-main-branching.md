@@ -44,7 +44,7 @@ develop-vX.Y ← Scoped backlog branch. Created when IDEAS are formally triaged 
 | `main` | Production state. **Frozen.** Only receives merge commits from `develop-vX.Y` branches at release time. Tags mark releases. | Never deleted. Never committed to directly. |
 | `develop` | **Wild mainline.** Ad-hoc features, experiments, quick fixes — any feature, any time. No formal scope. | Long-lived. Never deleted. Always the base for `develop-vX.Y` branches. |
 | `develop-vX.Y` | **Scoped backlog branch.** Created when a set of IDEAs is formally triaged for vX.Y. All release-scope work lands here. | Long-lived during development. Merged to `main` at release. Deleted after merge, replaced by next `develop-vX.Y+1`. |
-| `feature/{IDEA-NNN}-{slug}` | Single feature or fix. | Branch from `develop` (ad-hoc) or `develop-vX.Y` (scoped), merge back via PR, then delete. |
+| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop` (ad-hoc) or `develop-vX.Y` (scoped), merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
 | `hotfix/vX.Y.Z` | Emergency production fix. | Branched from the production tag on `main`. Merged to `main` and `develop`, then deleted. |
 
 ### The `vX.Y` Version — Two and Only Two Long-Lived Contexts
@@ -156,7 +156,7 @@ The separation enforces discipline:
 | `main` | Production state. **Frozen.** Only receives merge commits from `develop-vX.Y`. Tags mark releases. | Never deleted. Never committed to directly. |
 | `develop` | **Wild mainline.** Ad-hoc features, experiments, quick fixes. No formal scope. | Long-lived. Never deleted. Always the base for `develop-vX.Y`. |
 | `develop-vX.Y` | **Scoped backlog.** Created when IDEAs are formally triaged for vX.Y. All release-scope work lands here. | Created at release planning. Deleted after merge to `main`. |
-| `feature/{IDEA-NNN}-{slug}` | Single feature or fix. | Branch from `develop` or `develop-vX.Y`, merge back via PR, then delete. |
+| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop` or `develop-vX.Y`, merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
 | `hotfix/vX.Y.Z` | Emergency production fix. | Branched from production tag on `main`. Merged to `main` and `develop`, then deleted. |
 
 ---

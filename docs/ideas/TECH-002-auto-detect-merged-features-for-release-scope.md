@@ -1,11 +1,12 @@
 ---
 title: "TECH-002: Auto-Detect Merged Features for Release Scope"
-description: "Automatically detect features merged to develop since last release and add them to next release scope"
+description: "Automatically detect features merged to develop since last release and add them to next release scope. The release scope MUST include ALL commits on develop since the previous release tag (R-006)."
 status: "[REFINED]"
 complexity: 7
 captured: 2026-04-08
 source: Developer mode (routing from IDEA-019 context)
 owner: Architect
+enriched: 2026-04-08
 
 ## Problem Statement
 
@@ -62,6 +63,28 @@ The system MUST:
 - Detect when a new release is tagged (vX.Y.0)
 - Automatically create a placeholder `develop-v{X+1}.0` branch or documentation
 - Initialize the new scope with an empty or "TBD" feature list
+
+### R-006: All Commits on develop Since Previous Release (ACCEPTANCE CRITERION)
+**This is a mandatory acceptance criterion for the TECH-002 implementation.**
+
+The scope of the next release MUST include **ALL commits on `develop` since the previous release tag**. This is a non-negotiable requirement that ensures:
+
+1. **Completeness**: No merged feature is inadvertently excluded from a release
+2. **Traceability**: Every commit since the last release is accounted for in the next release scope
+3. **Auditability**: The release scope can be verified by comparing against `git log vX.Y.0..develop`
+
+**Implications for implementation:**
+- The detection mechanism MUST use Git tags as the authoritative boundary (not dates, not manual cutoff)
+- The detection MUST capture ALL merge commits to `develop` since the last `vX.Y.0` tag
+- Non-feature commits (e.g., hotfixes, governance commits, docs-only changes) MUST also be included in the scope
+- Any commit on `develop` that is NOT part of the next release scope MUST be explicitly justified and documented (e.g., via ADR)
+
+**Verification:**
+```bash
+# To verify scope completeness:
+git log v2.10.0..develop --oneline | wc -l  # All commits since last release
+# The release scope should account for ALL of these commits
+```
 
 ## Feasibility Analysis
 

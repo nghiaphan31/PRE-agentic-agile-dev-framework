@@ -289,6 +289,54 @@ def memory_query(semantic_query: str, top_k: int = 5) -> list:
 
 
 # ---------------------------------------------------------------------------
+# Tool: log_conversation
+# ---------------------------------------------------------------------------
+
+@mcp.tool()
+def log_conversation() -> str:
+    """
+    Log the current conversation session to docs/conversations/.
+
+    This captures session metadata from activeContext.md and creates a
+    conversation log file with RULE 8.3 (Conversation Log Mandate).
+
+    Returns:
+        JSON string with the path to the created conversation file.
+    """
+    # Import and call the log_conversation function from checkpoint_heartbeat
+    script_path = Path(__file__).parent.parent.parent / "scripts" / "checkpoint_heartbeat.py"
+
+    if not script_path.exists():
+        return json.dumps({
+            "error": f"checkpoint_heartbeat.py not found at {script_path}",
+            "hint": "Run manually: python scripts/checkpoint_heartbeat.py --log-conversation",
+        })
+
+    try:
+        result = subprocess.run(
+            [sys.executable, str(script_path), "--log-conversation"],
+            capture_output=True,
+            text=True,
+            cwd=Path(__file__).parent.parent.parent,
+        )
+
+        if result.returncode != 0:
+            return json.dumps({
+                "error": "checkpoint_heartbeat.py --log-conversation failed",
+                "stderr": result.stderr[-500:],
+            })
+
+        return json.dumps({
+            "status": "success",
+            "message": "Conversation logged successfully",
+            "output": result.stdout.strip(),
+        })
+
+    except Exception as e:
+        return json.dumps({"error": str(e)})
+
+
+# ---------------------------------------------------------------------------
 # Tool: memory_archive
 # ---------------------------------------------------------------------------
 
@@ -363,7 +411,7 @@ def main():
     print(f"  Transport: {args.transport}")
     if args.transport == "sse":
         print(f"  Port: {args.port}")
-    print(f"  Tools: launch_factory, check_batch_status, retrieve_backlog, memory_query, memory_archive")
+    print(f"  Tools: launch_factory, check_batch_status, retrieve_backlog, memory_query, log_conversation, memory_archive")
     print(f"  Batch artifacts dir: {BATCH_ARTIFACTS_DIR}")
     print(f"  Memory bank dir: {MEMORY_BANK_DIR}")
     print()

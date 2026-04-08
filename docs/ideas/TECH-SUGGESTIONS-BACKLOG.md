@@ -27,6 +27,7 @@ Technical suggestions ("How" proposals) are tracked separately from business req
 |----|-------|----------|--------|------------|-------|
 | TECH-001 | Investigate MinMax M2.7 Batch API Support | 2026-04-01 | [IDEA] | 6/10 | Lower costs vs Anthropic batch |
 | TECH-002 | Auto-Detect Merged Features for Release Scope | 2026-04-08 | [ACCEPTED] | 7/10 | All options implemented: Option A (Git Hook), Option B (PR merge trigger), Option C (push/nightly), R-005 (tag-creation trigger) |
+| TECH-003 | Single Source of Truth for Release Tracking | 2026-04-08 | [PROPOSED] | 3/10 | Create RELEASE.md as authoritative release tracking |
 
 ---
 

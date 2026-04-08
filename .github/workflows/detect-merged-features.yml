@@ -3,6 +3,10 @@ on:
   pull_request:
     types: [closed]
     branches: [develop]
+  push:
+    branches: [develop]
+  schedule:
+    - cron: '0 2 * * *'
 
 jobs:
   detect:

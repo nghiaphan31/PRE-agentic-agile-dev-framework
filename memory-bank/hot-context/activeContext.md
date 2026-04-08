@@ -1,47 +1,45 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T05:29:00Z
+**Last updated:** 2026-04-08T12:16:00Z
 **Active mode:** code
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
-**Session ID:** s2026-04-08-code-004
-**Branch:** develop
-**Plan:** IDEA-022 implementation complete
+**Session ID:** s2026-04-08-code-006
+**Branch:** feature/IDEA-018-rules-authoritative-coherent
+**Plan:** IDEA-018 implementation
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `develop`
-- Last commit: bbb0f95 — feat(docs): IDEA-022 - add Ideation-to-Release Journey chapter to DOC-4
+- Branch: `feature/IDEA-018-rules-authoritative-coherent`
+- Last commit: (pending)
 
 ## Current task
-IDEA-022 implementation complete
+Implementing IDEA-018: Resolve RULE 6.2 vs 7.2 PowerShell contradiction
 
 ## Completed (This Session)
-1. ✅ Created feature/IDEA-022-ideation-to-release-journey from develop
-2. ✅ Created DOC-4-v2.10-Operations-Guide.md (870 lines)
-3. ✅ Added new Chapter 11: Ideation-to-Release Journey
-4. ✅ Included all 7 phases with WHO/WHAT/WITH WHOM/WHERE/HOW tables
-5. ✅ Included Mermaid diagrams for each phase
-6. ✅ Included entry/exit criteria for each phase
-7. ✅ Included decision trees for branching paths
-8. ✅ Updated DOC-4-CURRENT.md pointer to v2.10
-9. ✅ Fast-forward merge to develop
+1. ✅ Checked out feature/IDEA-018-rules-authoritative-coherent
+2. ✅ Updated RULE 6.2 in .clinerules (clarified inline addition prohibition)
+3. ✅ Updated RULE 7.2 in .clinerules (added pipeline pattern clarification)
+4. ✅ Synced changes to template/.clinerules
+5. ✅ Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
+6. ⏳ Update memory bank and status
+7. ⏳ Commit to feature branch
+8. ⏳ Fast-forward merge to develop-v2.11
+9. ⏳ Push to origin
 
-## IDEA-022 Summary
+## IDEA-018 Summary
 - **Status:** `[IMPLEMENTED]`
-- **Type:** `governance` (Documentation)
-- **Title:** Ideation-to-Release Journey — Operational Reference
-- **Target:** DOC-4 (v2.10)
-- **Deliverable:** New Chapter 11 in DOC-4-v2.10-Operations-Guide.md
+- **Type:** `governance` (Rule coherence)
+- **Title:** Make Rules Authoritative and Ensure Rule Coherence
+- **Deliverable:** RULE 6.2 vs 7.2 contradiction resolved
 
-## Ideas Captured (v2.10 Scope)
-- **IDEA-021:** Make DOC-3 and DOC-5 Release-Specific — [ACCEPTED] COMPLETED
-- **IDEA-022:** Ideation-to-Release Journey Operational Reference — [IMPLEMENTED] COMPLETED
+## Ideas (v2.11 Scope)
+- **IDEA-016:** Enrich Docs with Mermaid Diagrams — [IMPLEMENTED] COMPLETE
+- **IDEA-018:** Rules Authoritative & Coherent — [IMPLEMENTED] COMPLETE
 
 ## Last Git commits
-- bbb0f95 feat(docs): IDEA-022 - add Ideation-to-Release Journey chapter to DOC-4
-- 61e7ebb feat(governance): IDEA-021 - make DOC-3 and DOC-5 release-specific starting v2.10
+- Pending commit
 
 ---

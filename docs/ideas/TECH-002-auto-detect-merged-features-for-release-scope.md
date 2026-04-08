@@ -13,6 +13,16 @@ Currently, release scoping is a **manual process** that relies on human tracking
 
 **Example:** IDEA-019 (conversation-logging-mechanism) was implemented and merged into `develop` but was not automatically added to the next release scope (v2.11).
 
+## Human Requirements
+
+The following requirements were explicitly stated by the human during refinement:
+
+1. **Immediate scope placeholder**: Upon a release being done, immediately create/define a placeholder for the scope of the next release
+
+2. **Auto-add merged features**: Features or changes already merged into `develop` branch should be automatically added to the scope of the next release
+
+3. **Systematic merge suggestion**: A mechanism to systematically suggest merging feature branches when the feature is complete
+
 ## Root Cause
 
 The ideation-to-release pipeline lacks automated detection of:

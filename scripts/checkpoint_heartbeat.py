@@ -26,11 +26,15 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+import re
 
 # Configuration
 CHECKPOINT_PATH = Path("memory-bank/hot-context/session-checkpoint.md")
+ACTIVECONTEXT_PATH = Path("memory-bank/hot-context/activeContext.md")
 HEARTBEAT_INTERVAL = 300  # 5 minutes in seconds
 PID_FILE = Path(".checkpoint_heartbeat.pid")
+CONVERSATIONS_DIR = Path("docs/conversations")
+CONVERSATIONS_README = Path("docs/conversations/README.md")
 
 
 def get_git_state():
@@ -270,6 +274,161 @@ def stop_heartbeat():
         print("No heartbeat process running")
 
 
+def read_active_context():
+    """Read session metadata from activeContext.md."""
+    if not ACTIVECONTEXT_PATH.exists():
+        return {}
+    
+    metadata = {}
+    content = ACTIVECONTEXT_PATH.read_text()
+    
+    # Parse frontmatter-like metadata
+    in_frontmatter = False
+    for line in content.split('\n'):
+        if line.strip() == '---':
+            in_frontmatter = not in_frontmatter
+            continue
+        if in_frontmatter and ':' in line:
+            key, value = line.split(':', 1)
+            metadata[key.strip()] = value.strip()
+    
+    # Also extract non-frontmatter fields
+    for line in content.split('\n'):
+        if line.startswith('**Session ID:**'):
+            metadata['session_id'] = line.split('**Session ID:**')[1].strip()
+        elif line.startswith('**Active mode:**'):
+            metadata['mode'] = line.split('**Active mode:**')[1].strip()
+        elif line.startswith('**Current task**'):
+            metadata['current_task'] = line.split('**Current task**')[1].strip()
+    
+    return metadata
+
+
+def generate_slug(session_id):
+    """Generate a slug from session ID for filename."""
+    # Extract meaningful parts from session_id like s2026-04-08-architect-002
+    # Returns: 2026-04-08-architect-002
+    if session_id.startswith('s'):
+        session_id = session_id[1:]
+    # Replace any colons or special chars with dashes
+    slug = re.sub(r'[^a-zA-Z0-9-]', '-', session_id)
+    # Remove trailing dash if present
+    slug = slug.rstrip('-')
+    return slug
+
+
+def log_conversation():
+    """Log the current conversation session to docs/conversations/."""
+    now = datetime.now(timezone.utc)
+    date_str = now.strftime('%Y-%m-%d')
+    
+    # Get source from SESSION_MODE env var or fallback to 'code'
+    source = os.environ.get('SESSION_MODE', 'code')
+    
+    # Read session metadata
+    active_context = read_active_context()
+    checkpoint_metadata = read_checkpoint_metadata()
+    
+    # Determine session_id
+    session_id = active_context.get('session_id') or checkpoint_metadata.get('session_id')
+    if not session_id:
+        session_id = f"s{date_str}-{source}-001"
+    
+    # Generate slug from session_id
+    slug = generate_slug(session_id)
+    
+    # Generate filename: {YYYY-MM-DD}-{source}-{slug}.md
+    filename = f"{date_str}-{source}-{slug}.md"
+    
+    # Ensure conversations directory exists
+    CONVERSATIONS_DIR.mkdir(parents=True, exist_ok=True)
+    
+    # Prepare conversation content
+    conversation_content = f"""---
+session_id: {session_id}
+mode: {source}
+date: {date_str}
+source: {source}
+duration: ~{active_context.get('duration', 'N/A')}
+---
+
+# Conversation Summary
+
+**Mode:** {source}
+**Session ID:** {session_id}
+**Date:** {date_str}
+
+## Session Context
+
+{active_context.get('current_task', 'N/A')}
+
+## Source Reference
+
+This conversation was captured via `checkpoint_heartbeat.py --log-conversation`.
+
+## Notes
+
+<!-- Add conversation summary, key decisions, and outcomes below -->
+"""
+    
+    # Write conversation file
+    conversation_file = CONVERSATIONS_DIR / filename
+    conversation_file.write_text(conversation_content)
+    print(f"Conversation logged: {conversation_file}")
+    
+    # Update README.md with new entry
+    if CONVERSATIONS_README.exists():
+        readme_content = CONVERSATIONS_README.read_text()
+    else:
+        readme_content = """# Conversation Log Index
+
+This folder contains AI conversation logs that informed the project design.
+These files are **read-only after creation** — they are historical records, not canonical docs.
+
+## How to Use
+
+1. When saving a new AI conversation, add an entry to this table.
+2. Set triage status to `Not yet triaged`.
+3. Mine the conversation for ideas and create `IDEA-NNN.md` entries in `docs/ideas/`.
+4. Update triage status to `Fully triaged` when all findings are captured.
+
+## Triage Status Values
+
+- `Not yet triaged` — conversation saved but not yet mined for ideas
+- `Partially triaged` — some findings captured, review incomplete
+- `Fully triaged` — all significant findings captured as IDEA-NNN entries or explicitly dismissed
+
+---
+
+## Conversation Registry
+
+| Date | Source | File | Ideas Generated | Triage Status |
+|---|---|---|---|---|
+"""
+    
+    # Find the table and add new entry before the last |
+    # Check if entry already exists
+    if filename in readme_content:
+        print(f"Entry already exists in README: {filename}")
+        return str(conversation_file)
+    
+    # Find the last row in the table (ends with |)
+    lines = readme_content.split('\n')
+    insert_index = None
+    for i, line in enumerate(lines):
+        if line.startswith('|') and '---' not in line and 'Date | Source' not in line:
+            insert_index = i
+    
+    if insert_index is not None:
+        new_entry = f"| {date_str} | {source.capitalize()} | [{filename}]({filename}) | TBD | Not yet triaged |"
+        lines.insert(insert_index + 1, new_entry)
+        readme_content = '\n'.join(lines)
+        CONVERSATIONS_README.write_text(readme_content)
+        print(f"Updated README: {CONVERSATIONS_README}")
+    
+    return str(conversation_file)
+
+
 def show_status():
     """Show current checkpoint status."""
     if CHECKPOINT_PATH.exists():
@@ -305,6 +464,7 @@ def main():
     parser.add_argument('--stop', action='store_true', help='Stop heartbeat loop')
     parser.add_argument('--once', action='store_true', help='Write single heartbeat')
     parser.add_argument('--status', action='store_true', help='Show checkpoint status')
+    parser.add_argument('--log-conversation', action='store_true', help='Log current conversation session')
     
     args = parser.parse_args()
     
@@ -312,6 +472,8 @@ def main():
         stop_heartbeat()
     elif args.status:
         show_status()
+    elif args.log_conversation:
+        log_conversation()
     elif args.once:
         git_state = get_git_state()
         write_checkpoint_with_git_state(git_state)

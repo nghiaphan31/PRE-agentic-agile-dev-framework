@@ -127,3 +127,103 @@ Suite a la completion de IDEA-012A/B/C qui implementent la gouvernance idee-to-r
 **Sync Analysis:**
 - 🟢 NO_OVERLAP: IDEA-012A/B/C = implementation machinery, IDEA-022 = operational runbook
 - 🟢 NO_DEPENDENCY: Pas de dependance sur des branches ou idees actives
+
+---
+
+## ADR-015 : Co-Acceptance of IDEA-014 and IDEA-015
+**Date :** 2026-04-08
+**Statut :** Accepted
+
+**Contexte :**
+IDEA-014 (Canonical Docs Status Governance) et IDEA-015 (Mandatory Release Coherence Audit) ont été affinés ensemble lors de la session REFINEMENT-2026-04-08-003. L'affinage a révélé que ces idées sont **complémentaires et interdépendantes** :
+
+| Aspect | IDEA-014 | IDEA-015 |
+|--------|----------|----------|
+| **Rôle** | Politique/Spécification | Application/Mise en œuvre |
+| **Livrable** | Amélioration de la RÈGLE 8, définition du cycle de vie des statuts | Passerelle de version GitHub Actions |
+| **Validation** | Règles de transition de statut documentées | Règles de transition de statut suivies |
+
+**Insight clé :** IDEA-014 fournit la **SPÉCIFICATION** (ce que doit être le cycle de vie des statuts), tandis que IDEA-015 fournit l'**APPLICATION** (comment s'assurer que le cycle de vie est respecté). Aucune idée n'est complète sans l'autre.
+
+**Décision :**
+**Co-accepter IDEA-014 et IDEA-015 ensemble comme [ACCEPTED] pour la v2.7.**
+
+Cette décision est basée sur :
+1. **Atomicité** : Les idées ont été affinées ensemble et dépendent l'une de l'autre pour une mise en œuvre complète
+2. **Complétude** : Le critère d'acceptation AC-4 de IDEA-014 ne peut être vérifié sans la passerelle de version de IDEA-015
+3. **Intégrité de la gouvernance** : Une politique sans application est inefficace ; une application sans politique est sans direction
+
+**Mises à jour des statuts :**
+
+| Idée | Statut précédent | Nouveau statut | Notes |
+|------|------------------|----------------|-------|
+| IDEA-014 | [REFINED] | [ACCEPTED] | Co-acceptée avec IDEA-015 |
+| IDEA-015 | [REFINED] | [ACCEPTED] | Co-acceptée avec IDEA-014 |
+
+**Fichiers mis à jour :**
+- docs/ideas/IDEAS-BACKLOG.md — Status IDEA-014 et IDEA-015 changés vers [ACCEPTED]
+- docs/ideas/IDEA-014-canonical-docs-status-governance.md — Status changé vers [ACCEPTED], historique mis à jour
+- docs/ideas/IDEA-015-mandatory-release-coherence-audit.md — Status changé vers [ACCEPTED], historique mis à jour
+- docs/ideas/ADR-013-co-accept-idea-014-015.md — NOUVEAU: Document d'ADR pour la co-acceptation
+
+**Conséquences :**
+
+### Positives
+- **Complétude de la gouvernance** : La politique et l'application sont désormais formellement acceptées
+- **Intégrité des versions** : La version v2.7 inclura à la fois la définition du cycle de vie des statuts et son mécanisme d'application
+- **Clarté de la documentation** : Les documents canoniques auront des transitions de statut explicites et des vérifications automatisées
+
+### Négatives
+- **Complexité de mise en œuvre** : Les deux idées doivent être mises en œuvre ensemble, nécessitant une coordination
+- **Charge de test** : La passerelle de version (IDEA-015) doit être testée avec le cycle de vie des statuts (IDEA-014) pour s'assurer qu'ils fonctionnent ensemble
+
+### Atténuations
+- **Mise en œuvre par phases** : IDEA-014 (mises à jour des RÈGLES) peut être mise en œuvre en premier, suivie de IDEA-015 (passerelle de version)
+- **Documentation partagée** : DOC-4 sera mis à jour pour documenter à la fois le cycle de vie des statuts et la procédure de la passerelle de version
+
+**Prochaines étapes :**
+1. **Mettre à jour la RÈGLE 8** : Ajouter la définition explicite du cycle de vie des statuts (Brouillon → En revue → Gelé)
+2. **Implémenter la passerelle de version** : Créer `.github/workflows/release-gate.yml` pour appliquer le statut Gelé lors du marquage de la version
+3. **Mettre à jour la documentation** : DOC-4 doit documenter à la fois le cycle de vie des statuts et la procédure de la passerelle de version
+4. **Coordonner la mise en œuvre** : S'assurer que IDEA-014 et IDEA-015 sont mises en œuvre de manière synchronisée
+
+**Dépendances :**
+
+| Dépendance | Type | Raison |
+|------------|------|--------|
+| IDEA-015 | Prérequis | Le critère AC-4 de IDEA-014 nécessite la passerelle de version de IDEA-015 |
+| RÈGLE 8 | Gouvernance | Doit être mis à jour pour inclure la définition du cycle de vie des statuts |
+| DOC-4 | Documentation | Doit documenter à la fois le cycle de vie des statuts et la passerelle de version |
+
+**Contexte historique :**
+La version v2.6 présentait une lacune critique de gouvernance : DOC-1 était toujours marqué comme "Brouillon" alors qu'il aurait dû être "Gelé". Cela était symptomatique d'un manque d'application, et non d'un manque de politique. La RÈGLE 8.1 stipulait déjà que les documents Gelés sont en lecture seule — elle n'était tout simplement pas appliquée. Cet ADR comble cette lacune en acceptant à la fois la politique (IDEA-014) et son application (IDEA-015) ensemble.
+
+---
+
+## ADR-014 : IDEA-020 — Authoritative Orchestrator as Default Mode
+**Date :** 2026-04-08
+**Statut :** ACCEPTED
+
+**Contexte :**
+IDEA-020 a ete capture avec une hypothese incorrecte: que le mode orchestrator devait etre defini dans .roomodes. Analyse ulterieure a revele que orchestrator est un mode NATIF de Roo Code (built-in), pas un mode custom. Le fichier .roomodes ne definit que les modes persona custom (product-owner, scrum-master, developer, qa-engineer).
+
+**Decision :**
+- Hard blocker #1 RESOLVED: Orchestrator mode already exists as built-in
+- Remaining blockers:
+  - #2: No autonomous mode-switching mechanism (Roo Code limitation)
+  - #3: No handoff state schema defined
+- Focus on:
+  1. Investigate Roo Code configuration for default mode
+  2. Implement mandatory handoff protocol via .clinerules rules
+  3. Define handoff state schema in memory-bank/hot-context/handoff-state.md
+
+**Fichiers mis a jour :**
+- docs/ideas/IDEA-020-orchestrator-authoritative-default.md — Status [ACCEPTED], corrected problem statement
+- docs/ideas/IDEAS-BACKLOG.md — IDEA-020 status changed to [ACCEPTED]
+- memory-bank/hot-context/handoff-state.md — NEW: handoff state schema defined
+
+**Consequences :**
+- Orchestrator is built-in and available immediately
+- Need to investigate default mode configuration in Roo Code
+- Handoff protocol requires .clinerules rules addition
+- Target release: v2.10

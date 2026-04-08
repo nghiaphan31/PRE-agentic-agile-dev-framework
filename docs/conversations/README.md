@@ -29,3 +29,5 @@ These files are **read-only after creation** — they are historical records, no
 | 2026-04-01 | Human + AI | [2026-04-01-code-p1-triage-v2.6.md](2026-04-01-code-p1-triage-v2.6.md) | IDEA-013, IDEA-014, IDEA-015, IDEA-016, IDEA-017, IDEA-018, IDEA-019, TECH-001 | Not yet triaged |
 | 2026-04-02 | Human | [2026-04-02-orchestrator-intake-IDEA-020.md](2026-04-02-orchestrator-intake-IDEA-020.md) | IDEA-020 | Not yet triaged |
 | 2026-04-08 | Orchestrator | [REFINEMENT-2026-04-08-001.md](REFINEMENT-2026-04-08-001.md) | IDEA-022 | Not yet triaged |
+| 2026-04-08 | Architect | [REFINEMENT-2026-04-08-002.md](REFINEMENT-2026-04-08-002.md) | IDEA-019 | Not yet triaged |
+| 2026-04-08 | Code | [2026-04-08-code-2026-04-08-architect-002.md](2026-04-08-code-2026-04-08-architect-002.md) | TBD | Not yet triaged |

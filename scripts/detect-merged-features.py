@@ -161,11 +161,7 @@ def get_merged_features_since_tag(tag: str, target_branch: str = "develop") -> l
         parents = parts[2].split()
         commit_date = parts[3] if len(parts) > 3 else ""
 
-        # Only process merge commits
-        if len(parents) < 2:
-            continue
-
-        # Extract branch name
+        # Extract branch name (works for both merge commits and regular commits)
         branch_name = extract_branch_name(commit_message)
 
         # Only track meaningful branches

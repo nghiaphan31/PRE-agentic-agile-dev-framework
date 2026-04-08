@@ -44,8 +44,10 @@ develop-vX.Y ← Scoped backlog branch. Created when IDEAS are formally triaged 
 | `main` | Production state. **Frozen.** Only receives merge commits from `develop-vX.Y` branches at release time. Tags mark releases. | Never deleted. Never committed to directly. |
 | `develop` | **Wild mainline.** Ad-hoc features, experiments, quick fixes — any feature, any time. No formal scope. | Long-lived. Never deleted. Always the base for `develop-vX.Y` branches. |
 | `develop-vX.Y` | **Scoped backlog branch.** Created when a set of IDEAs is formally triaged for vX.Y. All release-scope work lands here. | Long-lived during development. Merged to `main` at release. Deleted after merge, replaced by next `develop-vX.Y+1`. |
-| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop` (ad-hoc) or `develop-vX.Y` (scoped), merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
-| `hotfix/vX.Y.Z` | Emergency production fix. | Branched from the production tag on `main`. Merged to `main` and `develop`, then deleted. |
+| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. **Active Dev.** | Branch from `develop` (ad-hoc) or `develop-vX.Y` (scoped), merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
+| `lab/{Timebox}/{slug}` | Experimental spike or research. **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop`, merge back or archive when sprint ends. Examples: `lab/2026-Q2/Spike-GraphQL`, `lab/Sprint-42/Spike-Auth` |
+| `bugfix/{Timebox}/{Ticket}-{slug}` | Planned bug fix (not emergency). **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop-vX.Y` or `develop`, merge back via PR. Examples: `bugfix/2026-Q2/T-305-UI-Align`, `bugfix/Sprint-42/T-310-API-Timeout` |
+| `hotfix/{Ticket}` | Emergency production fix. **Production.** No timebox — tied to semantic version. | Branched from the production tag on `main`. Merged to `main` and `develop`, then deleted. Example: `hotfix/T-202-DB-Leak` |
 
 ### The `vX.Y` Version — Two and Only Two Long-Lived Contexts
 
@@ -62,12 +64,14 @@ The version number `vX.Y` appears in exactly **two long-lived places** and **one
 ```
 develop ─────────────────────────────────────────────────────── (wild mainline, always alive)
    │
-   ├── feature/IDEA-009 ── PR ── merge ──► develop  (ad-hoc, anytime)
+   ├── feature/2026-Q2/IDEA-009 ── PR ── merge ──► develop  (ad-hoc, anytime)
    │
    └── develop-v2.3 ──────────────────────────────────────────── (scoped backlog, weeks/months)
            │
-           ├── feature/IDEA-010 ── PR ── merge ──► develop-v2.3  (scoped)
-           ├── feature/IDEA-011 ── PR ── merge ──► develop-v2.3  (scoped)
+           ├── feature/2026-Q2/IDEA-010 ── PR ── merge ──► develop-v2.3  (scoped)
+           ├── feature/2026-Q2/IDEA-011 ── PR ── merge ──► develop-v2.3  (scoped)
+           ├── bugfix/2026-Q2/T-305-UI ── PR ── merge ──► develop-v2.3  (scoped)
+           ├── lab/2026-Q2/Spike-GraphQL ── PR ── merge ──► develop-v2.3  (scoped)
            │
            └── merge ──────────────────────────────────────► main  (v2.3.0 tag)
                    │
@@ -156,8 +160,10 @@ The separation enforces discipline:
 | `main` | Production state. **Frozen.** Only receives merge commits from `develop-vX.Y`. Tags mark releases. | Never deleted. Never committed to directly. |
 | `develop` | **Wild mainline.** Ad-hoc features, experiments, quick fixes. No formal scope. | Long-lived. Never deleted. Always the base for `develop-vX.Y`. |
 | `develop-vX.Y` | **Scoped backlog.** Created when IDEAs are formally triaged for vX.Y. All release-scope work lands here. | Created at release planning. Deleted after merge to `main`. |
-| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop` or `develop-vX.Y`, merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
-| `hotfix/vX.Y.Z` | Emergency production fix. | Branched from production tag on `main`. Merged to `main` and `develop`, then deleted. |
+| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. **Active Dev.** | Branch from `develop` or `develop-vX.Y`, merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
+| `lab/{Timebox}/{slug}` | Experimental spike or research. **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop`, merge back or archive when sprint ends. Examples: `lab/2026-Q2/Spike-GraphQL`, `lab/Sprint-42/Spike-Auth` |
+| `bugfix/{Timebox}/{Ticket}-{slug}` | Planned bug fix (not emergency). **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop-vX.Y` or `develop`, merge back via PR. Examples: `bugfix/2026-Q2/T-305-UI-Align`, `bugfix/Sprint-42/T-310-API-Timeout` |
+| `hotfix/{Ticket}` | Emergency production fix. **Production.** No timebox — tied to semantic version. | Branched from production tag on `main`. Merged to `main` and `develop`, then deleted. Example: `hotfix/T-202-DB-Leak` |
 
 ---
 

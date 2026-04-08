@@ -842,11 +842,11 @@ Only one pending handoff can exist at a time.
 
 ### 16.5 — Default Mode
 
-**NOTE — Roo Code Limitation:** The Orchestrator is the authoritative default mode by convention/policy. However, Roo Code does not provide a programmatic way to set a default mode that persists across sessions. The human must manually select Orchestrator mode at session start via `Ctrl+Shift+P` → "Roo Code: Switch Mode" → "Orchestrator".
+**Auto-Switch Instruction:** At the start of each session, invoke `switch_mode("orchestrator")` to automatically transfer control to the Orchestrator mode. The `switch_mode` tool works autonomously — no human approval required.
 
 All mode switches should be driven by the Orchestrator. Non-Orchestrator modes must NOT assume they are the entry point.
 
-See DOC-4 §13 for the manual procedure to set Orchestrator as your default mode.
+See DOC-4 §13 for additional context on mode switching.
 
 
 

@@ -3,8 +3,31 @@
 # Location: .githooks/pre-receive-detect
 # Enable by running: git config core.hooksPath .githooks
 #
-# This hook runs when a push is received. It detects features merged to develop
-# since the last release tag and reports them for release scope tracking.
+# =============================================================================
+# SCOPE & PURPOSE
+# =============================================================================
+# This hook detects features merged to develop since the last release tag
+# and reports them for release scope tracking.
+#
+# It is a LOCAL hook designed for developer workstations that push directly
+# to the develop branch (bypassing PRs).
+#
+# =============================================================================
+# WHEN THIS HOOK RUNS vs GITHUB ACTIONS
+# =============================================================================
+# LOCAL HOOK (this file):
+#   - Fires on: Direct push to develop (git push origin develop)
+#   - Use case: Developer workstations that push without PR workflow
+#   - Behavior: Outputs report only, does NOT auto-commit or modify files
+#
+# GITHUB ACTIONS WORKFLOW (.github/workflows/detect-merged-features.yml):
+#   - Fires on: PR merged to develop (pull_request type: closed, merged: true)
+#   - Use case: All PR-based workflows (GitHub UI, gh CLI, etc.)
+#   - Behavior: Detects features AND creates a PR to update release scope
+#
+# BOTH mechanisms detect the same feature merges — they are complementary.
+# The local hook is for direct pushes; the GitHub Actions workflow handles PRs.
+# =============================================================================
 #
 # IMPORTANT: This is a LOCAL hook. Each team member must set it up locally:
 #   git config core.hooksPath .githooks

@@ -1,0 +1,32 @@
+name: Detect Merged Features
+on:
+  pull_request:
+    types: [closed]
+    branches: [develop]
+
+jobs:
+  detect:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history for git log
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Detect and add merged features
+        run: python scripts/detect-merged-features.py --verbose
+      - name: Create PR for scope update
+        if: success() && github.event.repository.fork == false
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "feat(TECH-002): auto-detect merged features to release scope"
+          title: "TECH-002: Auto-detect merged features"
+          body: "Automated PR from detect-merged-features workflow"
+          branch: "chore/tech-002-scope-update"
+          delete-branch: true

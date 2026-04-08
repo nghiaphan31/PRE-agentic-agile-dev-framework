@@ -71,7 +71,7 @@
 | [IDEA-020](IDEA-020-orchestrator-authoritative-default.md) | Authoritative Orchestrator as Default Mode | Human 2026-04-02 | 2026-04-08 | [IMPLEMENTED] | governance | Major | v2.11 | RULE 16 added - mandatory handoff protocol |
 | [IDEA-021](IDEA-021-release-specific-docs-3-5.md) | Make DOC-3 and DOC-5 Release-Specific | Human 2026-04-02 | 2026-04-08 | [IMPLEMENTED] | governance | Major | v2.11 | DOC-3/5 release-specific - v2.11 complete |
 
-| [IDEA-022](IDEA-022-ideation-to-release-journey.md) | Ideation-to-Release Journey — Operational Reference | Human request + Orchestrator intake | 2026-04-08 | [IDEA] | governance | Medium | v2.10 | New documentation chapter in DOC-4 |
+| [IDEA-022](IDEA-022-ideation-to-release-journey.md) | Ideation-to-Release Journey — Operational Reference | Human request + Orchestrator intake | 2026-04-08 | [IMPLEMENTED] | governance | Medium | v2.12 | Administrative closure — Chapter 11 complete, IDEA-022 process documented in DOC-4 v2.12 |
 | [IDEA-025](IDEA-025-verify-refinement-requirements.md) | Verify Refinement Requirements Before Implementation Close | TECH-002 implementation gap (R-005) | 2026-04-08 | [IMPLEMENTED] | governance | Medium | v2.12 | Requirement verification gate - handoff-state.md schema v2.0, DOC-3/DOC-4 updated |
 
 ---

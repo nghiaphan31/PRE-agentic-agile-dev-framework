@@ -107,7 +107,7 @@
 
 ### IDEAS in Scope
 - [x] IDEA-025: Verify Refinement Requirements Before Implementation Close [IMPLEMENTED]
-- [ ] IDEA-022: Ideation-to-Release Journey [IN PROGRESS]
+- [x] IDEA-022: Ideation-to-Release Journey [IMPLEMENTED]
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

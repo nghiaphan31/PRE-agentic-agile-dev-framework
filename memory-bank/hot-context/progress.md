@@ -105,14 +105,15 @@
 
 ## Technical Infrastructure
 
-### TECH-002: Auto-Detect Merged Features [IMPLEMENTED]
+### TECH-002: Auto-Detect Merged Features [IMPLEMENTED + MERGED]
 - [x] Implemented Option A: Git Hook + Script
 - [x] Created scripts/detect-merged-features.py
 - [x] Created .githooks/pre-receive-detect
 - [x] Enhanced src/calypso/branch_tracker.py with improved IDEA/TECH extraction
 - [x] Detects ALL branches merged to develop (no type restrictions)
 - [x] Auto-adds detected features to next release DOC-3
-- [x] Branch: feature/TECH-002-auto-detect-merged-features (fd0a1ef)
+- [x] Branch: feature/TECH-002-auto-detect-merged-features (merged to develop)
+- [x] Fast-forward merge: e2b7439
 
 ## Product Features
 

@@ -80,8 +80,57 @@ class Branch:
 
     @staticmethod
     def _extract_idea_id(name: str) -> Optional[str]:
-        """Extract IDEA-NNN from branch name"""
+        """
+        Extract IDEA-NNN from branch name or commit message.
+
+        Supports multiple patterns:
+        - Branch names: feature/IDEA-019-conversation-logging
+        - Merge messages: Merge branch 'feature/IDEA-019-conversation-logging'
+        - Squash merge prefix: IDEA-019: Implement feature...
+        - Standalone: IDEA-019
+        """
+        # Pattern 1: Branch name with IDEA-NNN
+        match = re.search(r'(?:feature/|fix/)(IDEA-\d+)', name)
+        if match:
+            return match.group(1)
+
+        # Pattern 2: Merge message - Extract from branch reference
+        match = re.search(r"Merge branch '[^']*?(IDEA-\d+)", name)
+        if match:
+            return match.group(1)
+
+        # Pattern 3: Squash merge commit prefix
+        match = re.match(r'^(IDEA-\d+):', name.strip())
+        if match:
+            return match.group(1)
+
+        # Pattern 4: Generic IDEA-NNN anywhere in string
         match = re.search(r'(IDEA-\d+)', name)
+        return match.group(1) if match else None
+
+    @staticmethod
+    def extract_from_commit_message(message: str) -> Optional[str]:
+        """
+        Extract IDEA-NNN from a commit message.
+
+        Args:
+            message: The commit message to parse
+
+        Returns:
+            IDEA-NNN if found, None otherwise.
+        """
+        # Try squash-merge prefix first
+        match = re.match(r'^(IDEA-\d+):', message.strip())
+        if match:
+            return match.group(1)
+
+        # Try to find in branch reference within merge message
+        match = re.search(r"Merge branch '[^']*?(IDEA-\d+)", message)
+        if match:
+            return match.group(1)
+
+        # Generic pattern
+        match = re.search(r'(IDEA-\d+)', message)
         return match.group(1) if match else None
 
     def to_dict(self) -> dict:

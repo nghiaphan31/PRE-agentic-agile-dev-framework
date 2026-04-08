@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+# pre-receive-detect — Hook to detect merged features on push to develop
+# Location: .githooks/pre-receive-detect
+# Enable by running: git config core.hooksPath .githooks
+#
+# This hook runs when a push is received. It detects features merged to develop
+# since the last release tag and reports them for release scope tracking.
+#
+# IMPORTANT: This is a LOCAL hook. Each team member must set it up locally:
+#   git config core.hooksPath .githooks
+#
+# The hook does NOT auto-commit or modify any files — it only outputs a report.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DETECT_SCRIPT="$SCRIPT_DIR/../scripts/detect-merged-features.py"
+
+# Colors for output (if terminal supports it)
+if [[ -t 1 ]]; then
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    YELLOW='\033[1;33m'
+    BLUE='\033[0;34m'
+    NC='\033[0m' # No Color
+else
+    RED=''
+    GREEN=''
+    YELLOW=''
+    BLUE=''
+    NC=''
+fi
+
+echo -e "${BLUE}[pre-receive-detect]${NC} Hook activated"
+
+# Parse pre-receive input
+# Format: <old-value> <new-value> <ref-name>
+while read old_rev new_rev ref; do
+    # Only process refs/heads/develop
+    if [[ "$ref" != "refs/heads/develop" ]]; then
+        continue
+    fi
+
+    echo -e "${BLUE}[pre-receive-detect]${NC} Processing push to ${GREEN}develop${NC}"
+
+    # Check if this is a force push
+    if ! git rev-parse --verify "$old_rev" &>/dev/null; then
+        echo -e "${YELLOW}[pre-receive-detect]${NC} WARNING: Force push detected to develop"
+        echo -e "${YELLOW}[pre-receive-detect]${NC} Cannot reliably detect merged features from force push."
+        echo -e "${YELLOW}[pre-receive-detect]${NC} Run 'python scripts/detect-merged-features.py --tag <last-tag>' manually."
+        continue
+    fi
+
+    # Get the commits being added (first-parent only to avoid noise from merged branches)
+    echo -e "${BLUE}[pre-receive-detect]${NC} Checking for merged features..."
+
+    # Run the detection script if it exists
+    if [[ -f "$DETECT_SCRIPT" ]]; then
+        # Use Python to get merge commits and detect features
+        python "$DETECT_SCRIPT" --verbose 2>&1 || true
+    else
+        echo -e "${YELLOW}[pre-receive-detect]${NC} WARNING: detect-merged-features.py not found at $DETECT_SCRIPT"
+        echo -e "${YELLOW}[pre-receive-detect]${NC} Falling back to basic merge detection..."
+
+        # Basic fallback: detect merge commits
+        merges=$(git log --first-parent --merges "$old_rev..$new_rev" --format="%s" 2>/dev/null || true)
+
+        if [[ -n "$merges" ]]; then
+            echo -e "${BLUE}[pre-receive-detect]${NC} Merge commits detected:"
+            echo "$merges" | while read -r msg; do
+                echo -e "  ${GREEN}✓${NC} $msg"
+
+                # Extract IDEA ID if present
+                if [[ "$msg" =~ (IDEA-[0-9]+) ]]; then
+                    echo -e "    ${BLUE}→${NC} Found: ${GREEN}${BASH_REMATCH[1]}${NC}"
+                fi
+            done
+        else
+            echo -e "${BLUE}[pre-receive-detect]${NC} No merge commits detected in this push."
+        fi
+    fi
+
+    echo -e "${BLUE}[pre-receive-detect]${NC} Hook completed successfully."
+    echo ""
+
+done
+
+exit 0

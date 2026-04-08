@@ -15,6 +15,7 @@ Technical suggestions ("How" proposals) are tracked separately from business req
 | Status | Meaning |
 |--------|---------|
 | `[IDEA]` | Captured, not yet evaluated |
+| `[REFINED]` | Requirements and feasibility analyzed; awaiting implementation decision |
 | `[INVESTIGATING]` | Under technical investigation |
 | `[ACCEPTED]` | Approved for implementation |
 | `[REJECTED]` | Not feasible or not worth the effort |
@@ -25,7 +26,7 @@ Technical suggestions ("How" proposals) are tracked separately from business req
 | ID | Title | Captured | Status | Complexity | Notes |
 |----|-------|----------|--------|------------|-------|
 | TECH-001 | Investigate MinMax M2.7 Batch API Support | 2026-04-01 | [IDEA] | 6/10 | Lower costs vs Anthropic batch |
-| TECH-002 | Auto-Detect Merged Features for Release Scope | 2026-04-08 | [REFINED] | 7/10 | IDEA-019 catalyst; human requirements added (scope placeholder, auto-add merged, merge suggestion) |
+| TECH-002 | Auto-Detect Merged Features for Release Scope | 2026-04-08 | [ACCEPTED] | 7/10 | Option A (Git Hook + Script) implemented; Option B (CI/CD) and Option C (Orchestrator) available as alternatives |
 
 ---
 

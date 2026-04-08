@@ -242,3 +242,36 @@ IDEA-020 a ete capture avec une hypothese incorrecte: que le mode orchestrator d
 - IDEA-020 status updated to [IMPLEMENTED] in IDEAS-BACKLOG.md
 
 **Target release:** v2.11 (updated from v2.10)
+
+---
+
+## ADR-015 : IDEA-021 Release-Specific DOC-3 and DOC-5
+
+**Date:** 2026-04-08
+**Statut:** IMPLEMENTED
+
+**Contexte:**
+DOC-3 (Implementation Plan) et DOC-5 (Release Notes) etaient trait comme documents cumulatifs contenant l'historique complet. Cependant, par definition:
+- DOC-3 devrait documenter uniquement le scope de cette release
+- DOC-5 devrait documenter uniquement les changements de cette release
+
+**Decision:**
+- DOC-1 (PRD), DOC-2 (Architecture), DOC-4 (Operations) restent cumulatifs
+- DOC-3 (Implementation Plan) devient release-specific
+- DOC-5 (Release Notes) devient release-specific
+- Les versions historiques sont preservees dans docs/releases/vX.Y/
+
+**Implementation:**
+- RULE 12 updated in .clinerules (R-CANON-0 through R-CANON-7)
+- template/.clinerules synced
+- SP-002 rebuilt via scripts/rebuild_sp002.py
+- .githooks/pre-receive updated for release-specific validation
+- .github/workflows/canonical-docs-check.yml updated
+- v2.10: Created DOC-3-v2.10 and DOC-5-v2.10 (release-specific)
+- v2.11: Created DOC-3-v2.11 and DOC-5-v2.11 (release-specific)
+- DOC-3-CURRENT.md and DOC-5-CURRENT.md point to latest release
+
+**Consequences:**
+- DOC-3 et DOC-5 ne contiennent que le contenu de la release courante
+- Historique preserve dans docs/releases/vX.Y/
+- Line count minimums: DOC-3 >= 100 lines, DOC-5 >= 50 lines

@@ -1,11 +1,11 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T12:38:00Z
+**Last updated:** 2026-04-08T12:48:00Z
 **Active mode:** code
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
-**Session ID:** s2026-04-08-code-007
+**Session ID:** s2026-04-08-code-008
 **Branch:** develop-v2.11
 **Plan:** Available for next IDEA implementation
 **Consecutive Errors:** `0`
@@ -13,32 +13,36 @@
 
 ## Git state
 - Branch: `develop-v2.11`
-- Last commit: ec686e7 — merge(fix): IDEA-018 merge conflict resolved
+- Last commit: 38f117a — feat(governance): IDEA-020 - add RULE 16 mandatory handoff protocol
 
 ## Current task
-IDEA-020 implementation — RULE 16 added with mandatory handoff protocol
+IDEA-021 implementation — Complete release-specific DOC-3 and DOC-5 for v2.11
 
 ## Completed (This Session)
-1. ✅ Analyzed existing handoff-state.md on develop-v2.11
-2. ✅ Added RULE 16 (Mandatory Handoff Protocol) to .clinerules
-3. ✅ Synced RULE 16 to template/.clinerules
-4. ✅ Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
-5. ✅ Updated IDEA-020 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
-6. ✅ Updated IDEA-020 file with implementation details
+1. ✅ Verified IDEA-021 was mostly implemented in v2.10 (RULE 12, v2.10 docs)
+2. ✅ Created DOC-5-v2.11-Release-Notes.md (release-specific, 85 lines)
+3. ✅ Updated DOC-3-CURRENT.md to point to v2.11
+4. ✅ Updated DOC-5-CURRENT.md to point to v2.11
+5. ✅ Updated IDEA-021 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
+6. ✅ Updated IDEA-021 file with implementation details
 
-## IDEA-020 Summary
+## IDEA-021 Summary
 - **Status:** `[IMPLEMENTED]`
-- **Type:** `governance` (Orchestrator as default)
-- **Title:** Authoritative Orchestrator as Default Mode
-- **Deliverable:** RULE 16 added — mandatory handoff protocol with handoff-state.md schema
+- **Type:** `governance` (DOC-3/5 release-specific)
+- **Title:** Make DOC-3 and DOC-5 Release-Specific Snapshots
+- **Deliverable:** RULE 12 updated, DOC-3/5 release-specific for v2.10 and v2.11
 
 ## Ideas (v2.11 Scope)
+- **IDEA-014:** Canonical Docs Status Governance — [IMPLEMENTED] COMPLETE
+- **IDEA-015:** Mandatory Release Coherence Audit — [IMPLEMENTED] COMPLETE
 - **IDEA-016:** Enrich Docs with Mermaid Diagrams — [IMPLEMENTED] COMPLETE
 - **IDEA-018:** Rules Authoritative & Coherent — [IMPLEMENTED] COMPLETE
 - **IDEA-020:** Orchestrator as Default Mode — [IMPLEMENTED] COMPLETE
+- **IDEA-021:** DOC-3/5 Release-Specific — [IMPLEMENTED] COMPLETE
+- **IDEA-024:** Mandatory Backlog Maintenance — [IMPLEMENTED] COMPLETE
 
 ## Last Git commits
-- ec686e7 merge(fix): IDEA-018 merge conflict resolved - IDEA-018 rules authoritative
-- 1d3aa22 fix(rules): resolve RULE 6.2 vs 7.2 PowerShell contradiction - IDEA-018
+- 38f117a feat(governance): IDEA-020 - add RULE 16 mandatory handoff protocol
+- 0beb844 docs(memory): IDEA-018 - update activeContext for completion
 
 ---

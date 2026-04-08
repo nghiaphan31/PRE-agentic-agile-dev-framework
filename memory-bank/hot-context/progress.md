@@ -56,12 +56,16 @@
 - [x] Updated .githooks/pre-receive enforcement (release-specific line thresholds)
 - [x] Updated .github/workflows/canonical-docs-check.yml (release-specific validation)
 - [x] Created docs/releases/v2.10/ directory
-- [x] Created DOC-3-v2.10-Implementation-Plan.md (release-specific, ~120 lines)
-- [x] Created DOC-5-v2.10-Release-Notes.md (release-specific, ~65 lines)
+- [x] Created DOC-3-v2.10-Implementation-Plan.md (release-specific, 215 lines)
+- [x] Created DOC-5-v2.10-Release-Notes.md (release-specific, 67 lines)
 - [x] Updated DOC-3-CURRENT.md pointer to v2.10
 - [x] Updated DOC-5-CURRENT.md pointer to v2.10
-- [x] Validated prompts sync (6 PASS, 1 WARN for SP-007 manual)
 - [x] Fast-forward merge to develop
+- [x] v2.11: Created DOC-3-v2.11-Implementation-Plan.md (release-specific, 159 lines)
+- [x] v2.11: Created DOC-5-v2.11-Release-Notes.md (release-specific, 85 lines)
+- [x] v2.11: Updated DOC-3-CURRENT.md pointer to v2.11
+- [x] v2.11: Updated DOC-5-CURRENT.md pointer to v2.11
+- [x] v2.11: Updated IDEA-021 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
 - [x] Memory Bank updated
 
 ### IDEA-022: Ideation-to-Release Journey [COMPLETED]

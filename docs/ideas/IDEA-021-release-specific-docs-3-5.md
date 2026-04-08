@@ -87,5 +87,47 @@ R-CANON-3: Historical DOC-3 and DOC-5 preserved in docs/releases/vX.Y/
 | Date | Status | Notes |
 |------|--------|-------|
 | 2026-04-02 | [IDEA] | Captured from human remark |
+| 2026-04-02 | [ACCEPTED] | Triaged for v2.10 |
+| 2026-04-08 | [IMPLEMENTED] | Completed for v2.11 - RULE 12 updated, DOC-3/5 release-specific |
+
+---
+
+## Implementation Details (v2.11)
+
+### Completed Changes
+
+1. **RULE 12 Updated** - .clinerules modified to specify:
+   - DOC-1, DOC-2, DOC-4 are cumulative
+   - DOC-3, DOC-5 are release-specific
+   - Historical preserved in docs/releases/vX.Y/
+
+2. **v2.10 Implementation** (already done):
+   - Created DOC-3-v2.10-Implementation-Plan.md (release-specific)
+   - Created DOC-5-v2.10-Release-Notes.md (release-specific)
+   - Updated .githooks/pre-receive for release-specific validation
+   - Updated .github/workflows/canonical-docs-check.yml
+
+3. **v2.11 Completion**:
+   - Created DOC-3-v2.11-Implementation-Plan.md (release-specific, 159 lines)
+   - Created DOC-5-v2.11-Release-Notes.md (release-specific, 85 lines)
+   - Updated DOC-3-CURRENT.md to point to v2.11
+   - Updated DOC-5-CURRENT.md to point to v2.11
+
+### Files Modified/Created
+
+| File | Action |
+|------|--------|
+| `.clinerules` | Modified (RULE 12) |
+| `template/.clinerules` | Synced |
+| `prompts/SP-002-clinerules-global.md` | Synced |
+| `.githooks/pre-receive` | Updated enforcement |
+| `.github/workflows/canonical-docs-check.yml` | Updated CI |
+| `docs/releases/v2.10/DOC-3-v2.10-Implementation-Plan.md` | Created |
+| `docs/releases/v2.10/DOC-5-v2.10-Release-Notes.md` | Created |
+| `docs/releases/v2.11/DOC-3-v2.11-Implementation-Plan.md` | Created |
+| `docs/releases/v2.11/DOC-5-v2.11-Release-Notes.md` | Created |
+| `docs/DOC-3-CURRENT.md` | Updated pointer |
+| `docs/DOC-5-CURRENT.md` | Updated pointer |
+| `docs/ideas/IDEAS-BACKLOG.md` | Updated status |
 
 ---

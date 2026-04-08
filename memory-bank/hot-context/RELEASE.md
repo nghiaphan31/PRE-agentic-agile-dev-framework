@@ -1,7 +1,7 @@
 # Release Tracking
 
-**Current Released Version:** v2.13.0  
-**Current Draft Version:** v2.14 (on branch develop)
+**Current Released Version:** v2.14.0
+**Current Draft Version:** v2.15 (on branch develop)
 
 ---
 
@@ -24,6 +24,7 @@
 | v2.11 | v2.11.0 | 2026-04-07 | main | Frozen | docs/releases/v2.11/DOC-5-v2.11-Release-Notes.md |
 | v2.12 | v2.12.0 | 2026-04-08 | main | Frozen | docs/releases/v2.12/DOC-5-v2.12-Release-Notes.md |
 | v2.13 | v2.13.0 | 2026-04-08 | main | Frozen | docs/releases/v2.13/DOC-5-v2.13-Release-Notes.md |
+| v2.14 | v2.14.0 | 2026-04-08 | main | Frozen | docs/releases/v2.14/DOC-5-v2.14-Release-Notes.md |
 
 ---
 
@@ -31,31 +32,26 @@
 
 | Version | Branch | Status | Target Release Date |
 |---------|--------|--------|---------------------|
-| v2.14 | develop | In Progress | TBD |
+| v2.15 | develop | In Progress | TBD |
 
 ---
 
-## v2.14 Scope
+## v2.15 Scope
 
-**Current draft version:** v2.14
+**Current draft version:** v2.15
 **Status:** IN PROGRESS
-**Base:** v2.13.0 (most recent tag)
+**Base:** v2.14.0 (most recent tag)
 **Branch:** develop
 
-### Commits Since v2.13.0
+### Commits Since v2.14.0
 
 | Commit | Description | Date |
 |--------|-------------|------|
-| 274b659 | feat(IDEA-026): session lifecycle automation - wire heartbeat and conversation logging | 2026-04-08 |
-| a1b2c3d | feat(TECH-004/TECH-005): update RULE 10 with enhanced GitFlow branch types and timebox naming | 2026-04-08 |
 
 ### Features in Scope
 
 | IDEA | Title | Status |
 |------|-------|--------|
-| IDEA-026 | Session Lifecycle Automation — Wire Heartbeat and Conversation Logging | [IMPLEMENTED] |
-| TECH-004 | Master Traceability Tree — Enhanced Git Flow | [IMPLEMENTED] |
-| TECH-005 | Timebox-First Branch Naming Convention | [IMPLEMENTED] |
 
 ---
 

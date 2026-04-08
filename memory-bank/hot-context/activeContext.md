@@ -14,7 +14,7 @@ Fallback State: Not triggered
 
 ## Current task
 
-TECH-004 intake completed — awaiting human refinement decision
+IDEA-027 implementation completed — Orchestrator default mode documented as Roo Code limitation
 
 ## Last result
 

@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-04-08
 
-**Active mode:** architect
+**Active mode:** developer
 
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 
@@ -14,16 +14,19 @@ Fallback State: Not triggered
 
 ## Current task
 
-Refine TECH-003 (Single Source of Truth for Release Tracking) — define precise schema, update protocol, consistency enforcement
+Fix 2 critical QA blockers for v2.13 release
 
 ## Last result
 
-TECH-003 refined: precise schema defined (location, sections, update protocol, consistency enforcement). Status updated to [REFINED] in TECH-SUGGESTIONS-BACKLOG.md. Refinement session log created.
+Fixed both QA blockers:
+1. Renamed .githooks/pre-receive-detect → .githooks/pre-receive-merged-features (matches docs)
+2. Removed `if len(parents) < 2: continue` filter in detect-merged-features.py line 164-166 (R-006 compliance)
+Committed as 1d18282
 
 ## Next step(s)
 
-- [ ] Git commit all changes
-- [ ] Handoff to Developer mode for implementation (release-consistency-check.yml + .clinerules update)
+- [ ] QA re-validation
+- [ ] Tag v2.13.0 release
 
 ## Blockers / Open questions
 
@@ -31,12 +34,12 @@ None
 
 ## Last Git commit
 
-79ac777 (feat(governance): add TECH-003 release tracking single source of truth)
+1d18282 (fix(blocker): resolve v2.13 QA blockers for release tag)
 
 ## Release Summary
 
 **v2.12.0** — Latest released version (2026-04-08)
 - Governance Enhancement Release
 
-**v2.13** — Current draft (EMPTY - no ideas accepted)
+**v2.13** — Draft (blocked by QA validation)
 

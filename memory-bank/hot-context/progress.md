@@ -1,8 +1,8 @@
 # Project Progress
 
-**Last updated:** 2026-04-02T16:01:00Z
-**Session:** s2026-04-02-code-003
-**Plan:** IDEA-021
+**Last updated:** 2026-04-08T05:30:00Z
+**Session:** s2026-04-08-code-004
+**Plan:** IDEA-022
 
 ## le workbench Infrastructure
 
@@ -61,6 +61,18 @@
 - [x] Updated DOC-3-CURRENT.md pointer to v2.10
 - [x] Updated DOC-5-CURRENT.md pointer to v2.10
 - [x] Validated prompts sync (6 PASS, 1 WARN for SP-007 manual)
+- [x] Fast-forward merge to develop
+- [x] Memory Bank updated
+
+### IDEA-022: Ideation-to-Release Journey [COMPLETED]
+- [x] Created feature/IDEA-022-ideation-to-release-journey from develop
+- [x] Created DOC-4-v2.10-Operations-Guide.md (870 lines cumulative)
+- [x] Added Chapter 11: Ideation-to-Release Journey
+- [x] Documented all 7 phases with WHO/WHAT/WITH WHOM/WHERE/HOW tables
+- [x] Included Mermaid diagrams for each phase
+- [x] Included entry/exit criteria for each phase
+- [x] Included decision trees for branching paths
+- [x] Updated DOC-4-CURRENT.md pointer to v2.10
 - [x] Fast-forward merge to develop
 - [x] Memory Bank updated
 

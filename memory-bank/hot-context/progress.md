@@ -128,6 +128,27 @@
 - [x] Branch: feature/TECH-002-auto-detect-merged-features (merged to develop)
 - [x] Fast-forward merge: e2b7439
 
+### TECH-002 R-005: Tag Creation Trigger [IMPLEMENTED - PENDING MERGE]
+- [x] Created feature/TECH-002-r005-tag-creation-trigger from develop
+- [x] Added `create` event trigger to `.github/workflows/detect-merged-features.yml`:
+  - Triggers on: `create` event with tags matching `v*.*.*`
+  - Job condition updated: `|| (github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v'))`
+- [x] Added `--tag-creation` CLI flag to detect-merged-features.py
+- [x] Added `create_next_release_scope()` function:
+  - Parses tag (v2.11.0) → determines next version (v2.12)
+  - Creates `docs/releases/v2.12/` directory
+  - Creates `DOC-3-v2.12-Implementation-Plan.md` skeleton with TBD features
+  - Creates `EXECUTION-TRACKER-v2.12.md`
+- [x] Updated `main()` to handle tag-creation mode:
+  - Extracts tag from `refs/tags/v*.*.*` format
+  - Calls `create_next_release_scope(tag)` to create next release scope
+  - Detects merged features since tag and adds to NEW scope
+  - Creates PR for human review
+- [x] Updated workflow step to pass `--tag-creation "${{ github.ref }}"` on tag events
+- [x] YAML syntax validated
+- [x] Dry-run test passed: `python scripts/detect-merged-features.py --tag-creation "refs/tags/v2.11.0" --dry-run --verbose`
+- [x] Commit: a62b410 — pending merge to develop
+
 ## Product Features
 
 ### Epic 0: Release Governance Model

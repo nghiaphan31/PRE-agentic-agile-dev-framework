@@ -1,21 +1,20 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T17:37:49Z
+**Last updated:** 2026-04-08T17:57:00Z
 **Active mode:** developer
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minimax` (default via OpenRouter)
 **Session ID:** s2026-04-08-developer-002
-**Branch:** develop
-**Plan:** v2.12 planning — TECH-002 GitHub Actions extension
+**Branch:** feature/TECH-002-r005-tag-creation-trigger
+**Plan:** v2.12 planning — R-005 tag-creation trigger implementation
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `develop` (after fast-forward merge)
-- Last commit: de03da4 — fix(.github): correct job condition in detect-merged-features workflow
-- Previous: 42f916b (before merge)
-- Merge: Fast-forward, no conflicts
+- Branch: `feature/TECH-002-r005-tag-creation-trigger`
+- Last commit: a62b410 — feat(TECH-002): add tag-creation trigger for R-005 auto-release-scope
+- Base: develop
 
 ## v2.11 Release Complete ✅
 
@@ -23,12 +22,6 @@
 **Version:** v2.11.0
 **Tag:** v2.11.0 (on master)
 **Release Branch:** develop-v2.11 (kept for traceability)
-
-### Release Summary
-- 8 governance features implemented
-- All tests pass (47 pytest)
-- Documentation coherence: PASS
-- Prompts sync: 6 PASS | 1 WARN (SP-007 manual deploy)
 
 ### Day 0 Actions Completed
 1. ✅ Merged develop-v2.11 to master (fast-forward)
@@ -38,16 +31,31 @@
 5. ✅ Deleted RC1 tag v2.11.0-rc1
 6. ✅ Pushed develop to origin
 
-## TECH-002 Implementation Complete ✅
+## TECH-002 Full Implementation (All Options) ✅
 
 **Feature:** Auto-detect merged features for release scope
-**Branch:** feature/TECH-002-fix-job-condition (merged to develop)
 
-### Deliverables completed
+### R-005: Tag Creation Trigger ✅ (JUST COMPLETED)
+- Branch: `feature/TECH-002-r005-tag-creation-trigger` (pending merge)
+- **Changes:**
+  - `.github/workflows/detect-merged-features.yml`: Added `create` event trigger for `v*.*.*` tags
+  - Updated job condition: `|| (github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v'))`
+  - Added `--tag-creation` CLI flag to detect-merged-features.py
+  - Added `create_next_release_scope()` function:
+    - Parses tag (v2.11.0) → next version (v2.12)
+    - Creates `docs/releases/v2.12/` directory
+    - Creates `DOC-3-v2.12-Implementation-Plan.md` skeleton with TBD features
+    - Creates `EXECUTION-TRACKER-v2.12.md`
+  - Updated `main()` to handle tag-creation mode
+  - Workflow step conditionally passes `--tag-creation "${{ github.ref }}"` on tag events
+
+### All TECH-002 Deliverables
+- Option A: Local git hook (`.githooks/pre-receive-detect`) ✅
+- Option B: GitHub Actions PR merge trigger ✅
+- Option C: Push + nightly schedule triggers ✅
+- R-005: Tag creation trigger ✅
 - `scripts/detect-merged-features.py` - Core detection script ✅
-- `.githooks/pre-receive-detect` - Local hook for direct pushes ✅
 - `src/calypso/branch_tracker.py` - Branch tracking integration ✅
-- `.github/workflows/detect-merged-features.yml` - GitHub Actions workflow ✅
   - Trigger: `pull_request` (closed, merged)
   - Trigger: `push` (on develop, develop-v* branches)
   - Trigger: `schedule` (nightly at 02:00 UTC)

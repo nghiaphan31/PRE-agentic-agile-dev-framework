@@ -44,11 +44,15 @@
 
 ### Commits Since v2.13.0
 
-_No commits yet._
+| Commit | Description | Date |
+|--------|-------------|------|
+| 274b659 | feat(IDEA-026): session lifecycle automation - wire heartbeat and conversation logging | 2026-04-08 |
 
 ### Features in Scope
 
-_To be determined._
+| IDEA | Title | Status |
+|------|-------|--------|
+| IDEA-026 | Session Lifecycle Automation — Wire Heartbeat and Conversation Logging | [IMPLEMENTED] |
 
 ---
 

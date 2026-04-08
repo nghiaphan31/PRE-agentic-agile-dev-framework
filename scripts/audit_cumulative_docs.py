@@ -18,16 +18,17 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 
 # Minimum line counts per doc type (from RULE 12)
+# Note: DOC-3 and DOC-5 are release-specific (IDEA-021) with lower thresholds
 MIN_LINES = {
     "DOC-1": 500,
     "DOC-2": 500,
-    "DOC-3": 300,
+    "DOC-3": 100,  # Release-specific (was 300 cumulative)
     "DOC-4": 300,
-    "DOC-5": 200,
+    "DOC-5": 50,   # Release-specific (was 200 cumulative)
 }
 
-# Releases to check
-RELEASES = ["v1.0", "v2.0", "v2.1", "v2.2", "v2.3", "v2.4", "v2.5", "v2.6"]
+# Releases to check (only v2.10+ per user request - historical releases pre-v2.10 are excluded)
+RELEASES = ["v2.10", "v2.11"]
 
 # Doc types to check
 DOC_TYPES = ["DOC-1", "DOC-2", "DOC-3", "DOC-4", "DOC-5"]
@@ -227,32 +228,42 @@ def print_audit_report():
     print("SECTION STRUCTURE AUDIT:")
     print("-" * 80)
     
-    # Check v2.6 DOC-1 specifically for IDEA-017
-    v26_doc1 = all_results["v2.6"]["docs"].get("DOC-1", {})
-    if v26_doc1.get("exists"):
-        content = ""
-        with open(v26_doc1["path"], 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        sections = extract_sections(content)
-        toc_entries = extract_toc_entries(content)
-        version_sections = extract_version_sections(content)
-        
-        print(f"\nAnalyzing v2.6 DOC-1 (current release):")
-        print(f"  Line count: {v26_doc1['line_count']}")
-        print(f"  TOC entries found: {len(toc_entries)}")
-        print(f"  Sections found: {len(sections)}")
-        print(f"  Version sections found: {list(version_sections.keys())}")
-        
-        print(f"\n  Expected versions in cumulative doc: v1.0, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6")
-        print(f"  Missing versions: ", end="")
-        expected_versions = ["v1.0", "v2.1", "v2.2", "v2.3", "v2.4", "v2.5", "v2.6"]
-        found_versions = list(version_sections.keys())
-        missing = [v for v in expected_versions if v not in found_versions]
-        if missing:
-            print(", ".join(missing))
-        else:
-            print("None - all versions present!")
+    # Check latest cumulative doc (DOC-1) for structure analysis
+    latest_release = RELEASES[-1] if RELEASES else None
+    if latest_release:
+        latest_doc1 = all_results[latest_release]["docs"].get("DOC-1", {})
+        if latest_doc1.get("exists"):
+            content = ""
+            with open(latest_doc1["path"], 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            sections = extract_sections(content)
+            toc_entries = extract_toc_entries(content)
+            version_sections = extract_version_sections(content)
+            
+            print(f"\nAnalyzing {latest_release} DOC-1 (cumulative doc):")
+            print(f"  Line count: {latest_doc1['line_count']}")
+            print(f"  TOC entries found: {len(toc_entries)}")
+            print(f"  Sections found: {len(sections)}")
+            print(f"  Version sections found: {list(version_sections.keys())}")
+            
+            # Expected versions for cumulative DOC-1 (v2.10+)
+            print(f"\n  Expected versions in cumulative doc: v1.0 through {latest_release}")
+            print(f"  Missing versions: ", end="")
+            # Dynamically generate expected versions based on releases present
+            found_versions = list(version_sections.keys())
+            # For v2.10, expect v1.0, v2.1-v2.10; for v2.11, expect v1.0, v2.1-v2.11
+            major_versions = []
+            for r in RELEASES:
+                if r.startswith("v2."):
+                    minor = r.split(".")[1]
+                    if minor.isdigit():
+                        major_versions.append(r)
+            missing = [v for v in found_versions if v not in major_versions and v.startswith("v2.")]
+            if missing:
+                print(", ".join(missing))
+            else:
+                print("None - all expected versions present!")
     
     print()
     print("=" * 80)

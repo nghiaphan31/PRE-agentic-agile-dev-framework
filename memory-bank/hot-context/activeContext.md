@@ -75,12 +75,13 @@ v2.11 Day -2 dry run: RC1 tag created on develop-v2.11
 | IDEA-015 | Mandatory Release Coherence Audit | [IMPLEMENTED] |
 | IDEA-016 | Enrich Docs with Mermaid Diagrams | [IMPLEMENTED] |
 | IDEA-018 | Rules Authoritative & Coherent | [IMPLEMENTED] |
+| IDEA-019 | Conversation Logging Mechanism | [IMPLEMENTED] |
 | IDEA-020 | Orchestrator as Default Mode | [IMPLEMENTED] |
 | IDEA-021 | DOC-3/5 Release-Specific | [IMPLEMENTED] |
 | IDEA-024 | Mandatory Backlog Maintenance | [IMPLEMENTED] |
 
 ## Last Git commits
-- 109903a fix(audit): skip validation of historical releases pre-v2.10
-- 38f117a feat(governance): IDEA-020 - add RULE 16 mandatory handoff protocol
+- 0c140be docs(ideas): refine TECH-002 with human requirements for release automation
+- 4450e40 docs(releases): add IDEA-019 to v2.11 review summary and release notes
 
 ---

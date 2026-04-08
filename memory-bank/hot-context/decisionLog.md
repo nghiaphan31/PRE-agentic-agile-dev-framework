@@ -227,3 +227,18 @@ IDEA-020 a ete capture avec une hypothese incorrecte: que le mode orchestrator d
 - Need to investigate default mode configuration in Roo Code
 - Handoff protocol requires .clinerules rules addition
 - Target release: v2.10
+
+---
+
+## ADR-014 Update (2026-04-08) : IDEA-020 IMPLEMENTED
+
+**Statut :** IMPLEMENTED
+
+**Implementation completed:**
+- RULE 16 (Mandatory Handoff Protocol) added to .clinerules
+- RULE 16 synced to template/.clinerules
+- SP-002 rebuilt via scripts/rebuild_sp002.py (byte-for-byte match verified)
+- handoff-state.md schema already existed on develop-v2.11 (added in commit 9d3f7a8)
+- IDEA-020 status updated to [IMPLEMENTED] in IDEAS-BACKLOG.md
+
+**Target release:** v2.11 (updated from v2.10)

@@ -1,14 +1,14 @@
 # IDEA-020: Authoritative Orchestrator as Default Mode
 
-**ID:** IDEA-020  
-**Title:** Authoritative Orchestrator as Default Mode  
-**Source:** Human (direct remark)  
-**Captured:** 2026-04-02  
-**Status:** [ACCEPTED]  
-**Type:** governance  
-**Tier:** Major  
-**Target Release:** v2.10  
-**Disposition:** Proceed with implementation — Orchestrator is built-in, focus on default config + handoff protocol
+**ID:** IDEA-020
+**Title:** Authoritative Orchestrator as Default Mode
+**Source:** Human (direct remark)
+**Captured:** 2026-04-02
+**Status:** [IMPLEMENTED]
+**Type:** governance
+**Tier:** Major
+**Target Release:** v2.11
+**Disposition:** Implementation complete — RULE 16 added with mandatory handoff protocol
 
 ---
 
@@ -139,5 +139,6 @@ This refinement removes the incorrect assumption that Orchestrator mode needs to
 |------|--------|-------|
 | 2026-04-02 | [IDEA] | Captured from human remark |
 | 2026-04-08 | [ACCEPTED] | Corrected understanding — Orchestrator is built-in; focus on default config + handoff protocol |
+| 2026-04-08 | [IMPLEMENTED] | RULE 16 added with mandatory handoff protocol; handoff-state.md schema in place |
 
 ---

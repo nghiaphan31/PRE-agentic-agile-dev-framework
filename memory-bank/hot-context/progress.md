@@ -159,7 +159,15 @@
 - [x] Updated RULE 7.2 in .clinerules (added pipeline pattern clarification)
 - [x] Synced changes to template/.clinerules
 - [x] Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
-- [x] Fast-forward merge to develop-v2.11 pending
+- [x] Fast-forward merge to develop-v2.11
+
+### IDEA-020: Orchestrator as Default Mode [COMPLETED]
+- [x] Analyzed existing handoff-state.md on develop-v2.11
+- [x] Added RULE 16 (Mandatory Handoff Protocol) to .clinerules
+- [x] Synced RULE 16 to template/.clinerules
+- [x] Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
+- [x] Updated IDEA-020 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
+- [x] Updated IDEA-020 file with implementation details
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

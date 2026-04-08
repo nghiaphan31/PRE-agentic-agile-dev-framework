@@ -4,7 +4,7 @@
 **Title:** Dummy Session-Start Task for Orchestrator Mode Switch
 **Source:** Human (direct suggestion)
 **Captured:** 2026-04-08
-**Status:** [NEEDS_MORE_INFO]
+**Status:** [ACCEPTED]
 **Type:** technical
 **Tier:** Minor
 **Target Release:** TBD
@@ -24,20 +24,21 @@ Human wants a workaround for the Roo Code limitation: Orchestrator cannot be set
 
 ## Technical Analysis
 
-**Initial assumption:** The `switch_mode` tool **requires human approval** — an agent cannot autonomously switch modes.
+**Confirmed by Gemini:** The `switch_mode` tool works autonomously — no human approval required. As long as:
+1. The target mode exists in the configuration (`.roomodes` for custom modes, or built-in like Orchestrator)
+2. The current persona has permission to use the tool
 
-**Human feedback:** "i thought i did see automatic switch between modes"
+**This means:** A dummy task at session start CAN autonomously switch to Orchestrator mode!
 
-**Research needed:** 
-- Verify if switch_mode has an automatic mode
-- Check Roo Code documentation for auto-switch capability
-- Look for any existing examples in the workbench
+### Implementation Approach
 
-## Research Questions
+1. **Add instruction to RULE 16.5 in .clinerules:**
+   - At session start, any mode should invoke `switch_mode("orchestrator")`
+   - This provides automatic mode switch to Orchestrator
 
-- Is there any way to make `switch_mode` automatic (without human approval)?
-- Could a VS Code task or extension hook handle this at startup?
-- Is there an MCP tool or command that can be triggered programmatically?
+2. Test the workflow:
+   - Start in any mode (e.g., `ask`)
+   - Verify it auto-switches to Orchestrator
 
 ## Status History
 

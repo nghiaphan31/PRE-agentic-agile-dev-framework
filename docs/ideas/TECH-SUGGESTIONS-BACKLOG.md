@@ -30,7 +30,7 @@ Technical suggestions ("How" proposals) are tracked separately from business req
 | TECH-003 | Single Source of Truth for Release Tracking | 2026-04-08 | [IMPLEMENTED] | 3/10 | Implemented: release-consistency-check.yml created, .clinerules RULE 2 updated, DOC-5/DOC-3-CURRENT.md fixed. |
 | TECH-004 | Master Traceability Tree | 2026-04-08 | [IMPLEMENTED] | 5/10 | TECH-002/003 traceability, overlap detection, SHARED_LAYER coordination. |
 | TECH-005 | Hybrid Naming Convention | 2026-04-08 | [IDEA] | 3/10 | proposal to blend IDEA/TECH prefixes with feature/bugfix/lab/hotfix. |
-| TECH-006 | Dummy Task Mode Switch | 2026-04-08 | [NEEDS_MORE_INFO] | 2/10 | Human reports seeing automatic switch — verify if switch_mode can be auto. |
+| TECH-006 | Dummy Task Mode Switch | 2026-04-08 | [ACCEPTED] | 2/10 | Viable — switch_mode works autonomously. Implementation: add switch instruction to RULE 16.5 |
 | TECH-004 | Master Traceability Tree — Enhanced Git Flow | 2026-04-08 | [IMPLEMENTED] | 8/10 | RULE 10 updated with lab/, bugfix/, release/ branches; Refining workflow (lab→feature); Hot vs Cold fix separation. Implemented in v2.14 scope. |
 | TECH-005 | Timebox-First Branch Naming Convention | 2026-04-08 | [IMPLEMENTED] | 3/10 | RULE 10 updated: feature/{Timebox}/{IDEA-NNN}-{slug} pattern. Implemented in v2.14 scope. |
 

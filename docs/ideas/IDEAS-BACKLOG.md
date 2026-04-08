@@ -67,12 +67,13 @@
 | [IDEA-016](IDEA-016-enrich-docs-with-diagrams.md) | Enrich Canonical Docs with Mermaid Diagrams | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Add visual documentation |
 | [IDEA-017](IDEA-017-docs-must-be-cumulative-self-contained.md) | **CRITICAL: Fix Canonical Docs Cumulative Requirement** | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Major | v2.7 | Docs NOT self-contained - P0 issue |
 | [IDEA-018](IDEA-018-rules-authoritative-coherent.md) | **CRITICAL: Make Rules Authoritative and Ensure Rule Coherence** | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Major | v2.7 | Rules not authoritative, contradictions exist |
-| [IDEA-019](IDEA-019-conversation-logging-mechanism.md) | Implement Conversation Logging Mechanism | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Conversation logging not triggering |
+| [IDEA-019](IDEA-019-conversation-logging-mechanism.md) | Implement Conversation Logging Mechanism | Human 2026-04-01 | 2026-04-01 | [ACCEPTED] | governance | Minor | v2.10 | Conversation logging not triggering |
 | [IDEA-020](IDEA-020-orchestrator-authoritative-default.md) | Authoritative Orchestrator as Default Mode | Human 2026-04-02 | 2026-04-02 | [IDEA] | governance | Major | v2.8 | Orchestrator must drive all mode switches |
 | [IDEA-021](IDEA-021-release-specific-docs-3-5.md) | Make DOC-3 and DOC-5 Release-Specific | Human 2026-04-02 | 2026-04-02 | [ACCEPTED] | governance | Major | v2.10 | DOC-3/5 should be snapshots not cumulative |
 
 | [IDEA-022](IDEA-022-ideation-to-release-journey.md) | Ideation-to-Release Journey — Operational Reference | Human request + Orchestrator intake | 2026-04-08 | [IDEA] | governance | Medium | v2.10 | New documentation chapter in DOC-4 |
--------
+| [IDEA-023](IDEA-023-systematic-raw-conversation-capture.md) | Systematic Raw Conversation Capture | Human 2026-04-08 | 2026-04-08 | `[IDEA]` | business | TBD | TBD | Systematic logging of all raw conversations; resolved via IDEA-019 implementation |
+ -------
 
 ---
 

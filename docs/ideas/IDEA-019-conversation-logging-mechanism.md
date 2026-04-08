@@ -1,14 +1,14 @@
 ---
 id: IDEA-019
 title: Implement Conversation Logging Mechanism
-status: [IDEA]
+status: [REFINED]
 target_release: [v2.7]
 source: Human (2026-04-01)
 source_files: RULE 8.3, docs/conversations/
 captured: 2026-04-01
 captured_by: Developer mode
-refined_by: 
-refinement_session: 
+refined_by: Architect mode
+refinement_session: REFINEMENT-2026-04-08-002
 ---
 
 ## Description
@@ -57,6 +57,7 @@ Type: GOVERNANCE
 | Date | Status | Notes |
 |------|--------|-------|
 | 2026-04-01 | [IDEA] | Captured from human question |
+| 2026-04-08 | [REFINED] | Refinement session REFINEMENT-2026-04-08-002 |
 
 ## Session Mechanism Issues (Findings)
 
@@ -70,12 +71,40 @@ From examining `memory-bank/hot-context/session-checkpoint.md`:
 | Conversation logging | Not auto-triggered at session end |
 | Crash recovery | Session checkpoint mechanism exists but not started for today's session |
 
-## Required Actions (Refined)
+## Refined Solution
 
-1. **Fix SESSION_MODE env var** — Tool must set this when starting a session
-2. **Fix session ID generation** — Generate fresh ID `sYYYY-MM-DD-{mode}-{NNN}` per session start
-3. **Start heartbeat automatically** — Or provide clear CLI instructions
-4. **Auto-trigger conversation logging** — At session end (attempt_completion), log conversation
-5. **CI check** — Verify session checkpoint updated within last 24h
+### Technical Approach: Extend checkpoint_heartbeat.py
 
----
+Rather than creating a new script, extend the existing `checkpoint_heartbeat.py` with a `--log-conversation` flag that:
+1. Captures session metadata from `activeContext.md` and `session-checkpoint.md`
+2. Generates the conversation filename: `{YYYY-MM-DD}-{source}-{slug}.md`
+3. Creates the conversation file with structured content
+4. Updates `docs/conversations/README.md` with new entry
+
+### Trigger Conditions
+
+| Trigger | Action |
+|---------|--------|
+| Mode starts | Auto-start heartbeat (via VS Code task or shell profile) |
+| Every 5 minutes | Heartbeat updates session-checkpoint.md |
+| Session ends (`attempt_completion`) | Agent manually calls `checkpoint_heartbeat.py --log-conversation` |
+
+### Acceptance Criteria
+
+| AC | Description |
+|----|-------------|
+| AC-1 | `session-checkpoint.md` shows current date when heartbeat is running |
+| AC-2 | `SESSION_MODE` env var is set correctly by the tool |
+| AC-3 | `checkpoint_heartbeat.py --log-conversation` creates conversation file |
+| AC-4 | Entry added to `docs/conversations/README.md` |
+| AC-5 | CI workflow checks conversation file creation |
+
+### File Modifications
+
+| File | Change |
+|------|--------|
+| `scripts/checkpoint_heartbeat.py` | Add `--log-conversation` command |
+| `memory-bank/hot-context/session-checkpoint.md` | Update template to include `conversation_logged` field |
+| `.vscode/tasks.json` | Add "Start Heartbeat" task |
+| `.vscode/settings.json` | Add `sessionScript` configuration |
+| `.github/workflows/conversation-check.yml` | New CI workflow for conversation logging |

@@ -1,6 +1,6 @@
 # TECH-004: Master Traceability Tree — Enhanced Git Flow with Full Traceability
 
-**Status:** [IDEA]  
+**Status:** [ACCEPTED] — Branch types (lab/, bugfix/) and --no-ff accepted for v2.14. Release buffer and parallelism deferred.
 **Captured:** 2026-04-08  
 **Source:** User discussion with Gemini  
 **Classification:** TECHNICAL (How)  

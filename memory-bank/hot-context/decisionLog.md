@@ -94,3 +94,13 @@
   - v2.15: Implement TECH-004 branch types + refining workflow + TECH-005 hybrid naming
 - **Consequences:** RULE 10 will be updated in v2.14 with `--no-ff` mandate; TECH-005 created for naming pattern evaluation
 
+## ADR-020: TECH-004/005 User Override — Full Acceptance
+- **Date:** 2026-04-08
+- **Context:** User decided to accept full implementation including TECH-004's lab/ and bugfix/ branch types (contrary to original deferral to v2.15)
+- **Decision:** ACCEPT TECH-004 branch types (lab/, bugfix/) and TECH-005 despite original deferral decision
+- **Scope Accepted:**
+  - TECH-004: lab/, bugfix/ branch types and --no-ff merge strategy for v2.14
+  - TECH-004: release/ buffer branch and parallelism remain DEFERRED to v2.15
+  - TECH-005: Timebox-first naming convention feature/{Timebox}/{IDEA-NNN}-{slug}
+- **Consequences:** RULE 10.1 branch type table will be updated; TECH-004/TECH-005 status updated to [ACCEPTED] in backlogs
+

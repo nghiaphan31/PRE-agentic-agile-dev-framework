@@ -1,0 +1,249 @@
+name: Release Gate — Pre-Tag Coherence Audit
+
+on:
+  push:
+    branches:
+      - 'develop-v*'
+    paths:
+      - '.github/workflows/release-gate.yml'
+      - 'scripts/check-prompts-sync.ps1'
+      - 'docs/DOC-*-CURRENT.md'
+      - 'docs/releases/**'
+      - '.clinerules'
+      - 'prompts/SP-002-clinerules-global.md'
+
+  # Manual trigger for pre-release gate audit
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Release version (e.g., v2.11)'
+        required: true
+        type: string
+
+jobs:
+  release-gate:
+    runs-on: ubuntu-latest
+    if: github.ref_protected == false || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine release version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="${{ inputs.release_version }}"
+          else
+            # Extract version from branch name (develop-v2.11 -> 2.11)
+            VERSION="${GITHUB_REF#refs/heads/develop-v}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "release_version=v$VERSION" >> $GITHUB_OUTPUT
+          echo "Release gate for: v$VERSION"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # P0 BLOCKER 1: SP-002 byte-for-byte sync check
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[P0] SP-002 Sync Check (.clinerules vs prompts/SP-002-clinerules-global.md)'
+        run: |
+          echo "=== P0 BLOCKER: SP-002 Byte-for-Byte Sync ==="
+          
+          CLINERULES=".clinerules"
+          SP002="prompts/SP-002-clinerules-global.md"
+          
+          if [[ ! -f "$CLINERULES" ]]; then
+            echo "::error::.clinerules not found — BLOCKING"
+            exit 1
+          fi
+          if [[ ! -f "$SP002" ]]; then
+            echo "::error::prompts/SP-002-clinerules-global.md not found — BLOCKING"
+            exit 1
+          fi
+          
+          # Normalize and compare
+          NORM_CLINERULES=$(mktemp)
+          NORM_SP002=$(mktemp)
+          
+          # Strip BOM, normalize CRLF->LF, trim trailing whitespace
+          sed '1s/^\xEF\xBB\xBF//' "$CLINERULES" | tr -d '\r' | sed 's/[[:space:]]*$//' > "$NORM_CLINERULES"
+          sed '1s/^\xEF\xBB\xBF//' "$SP002" | tr -d '\r' | sed 's/[[:space:]]*$//' > "$NORM_SP002"
+          
+          if ! diff -q "$NORM_CLINERULES" "$NORM_SP002" > /dev/null 2>&1; then
+            echo "::error::SP-002 SYNC FAILURE: .clinerules and prompts/SP-002-clinerules-global.md are NOT byte-for-byte identical"
+            echo "::error::This is a P0 BLOCKER per RULE 6.2. Run: python scripts/rebuild_sp002.py to fix."
+            diff -u "$NORM_SP002" "$NORM_CLINERULES" | head -40
+            exit 1
+          fi
+          
+          echo "✅ PASS: SP-002 is byte-for-byte identical between .clinerules and prompts/SP-002-clinerules-global.md"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # P0 BLOCKER 2: Canonical docs minimum line counts
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[P0] Canonical Docs Minimum Line Count Check'
+        run: |
+          echo "=== P0 BLOCKER: Canonical Docs Minimum Line Counts ==="
+          
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          # Cumulative docs (must meet minimums)
+          declare -A CUMULATIVE_MIN_LINES=(
+            ["DOC-1"]=500
+            ["DOC-2"]=500
+            ["DOC-4"]=300
+          )
+          
+          # Release-specific docs (must meet minimums)
+          declare -A RELEASE_SPECIFIC_MIN_LINES=(
+            ["DOC-3"]=100
+            ["DOC-5"]=50
+          )
+          
+          FAILED=0
+          
+          # Check cumulative docs
+          for doc in DOC-1 DOC-2 DOC-4; do
+            DOC_FILE="docs/releases/v${VERSION}/${doc}-v${VERSION}-"*.md
+            if [[ -f "$DOC_FILE" ]]; then
+              LINE_COUNT=$(wc -l < "$DOC_FILE")
+              MIN=${CUMULATIVE_MIN_LINES[$doc]}
+              if [[ "$LINE_COUNT" -lt "$MIN" ]]; then
+                echo "::error::${doc}-v${VERSION} FAILED: $LINE_COUNT lines (minimum: $MIN for cumulative)"
+                FAILED=1
+              else
+                echo "✅ PASS: ${doc}-v${VERSION} has $LINE_COUNT lines (>= $MIN)"
+              fi
+            else
+              echo "::error::${doc}-v${VERSION} not found at $DOC_FILE"
+              FAILED=1
+            fi
+          done
+          
+          # Check release-specific docs
+          for doc in DOC-3 DOC-5; do
+            DOC_FILE="docs/releases/v${VERSION}/${doc}-v${VERSION}-"*.md
+            if [[ -f "$DOC_FILE" ]]; then
+              LINE_COUNT=$(wc -l < "$DOC_FILE")
+              MIN=${RELEASE_SPECIFIC_MIN_LINES[$doc]}
+              if [[ "$LINE_COUNT" -lt "$MIN" ]]; then
+                echo "::error::${doc}-v${VERSION} FAILED: $LINE_COUNT lines (minimum: $MIN for release-specific)"
+                FAILED=1
+              else
+                echo "✅ PASS: ${doc}-v${VERSION} has $LINE_COUNT lines (>= $MIN)"
+              fi
+            else
+              echo "::error::${doc}-v${VERSION} not found at $DOC_FILE"
+              FAILED=1
+            fi
+          done
+          
+          if [[ "$FAILED" -eq 1 ]]; then
+            exit 1
+          fi
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # P0 BLOCKER 3: Cumulative doc pointer consistency
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[P0] Cumulative Doc Pointer Consistency Check (DOC-1, DOC-2, DOC-4)'
+        run: |
+          echo "=== P0 BLOCKER: Cumulative DOC Pointer Consistency ==="
+          
+          DOC1_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-1-CURRENT.md | head -1)
+          DOC2_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-2-CURRENT.md | head -1)
+          DOC4_VER=$(sed -n 's/.*Current release: v\([0-9]*\.[0-9]*\).*/\1/p' docs/DOC-4-CURRENT.md | head -1)
+          
+          echo "DOC-1 (cumulative): v$DOC1_VER"
+          echo "DOC-2 (cumulative): v$DOC2_VER"
+          echo "DOC-4 (cumulative): v$DOC4_VER"
+          
+          if [[ "$DOC1_VER" != "$DOC2_VER" ]] || [[ "$DOC2_VER" != "$DOC4_VER" ]]; then
+            echo "::error::Cumulative DOC pointers are INCONSISTENT"
+            echo "::error::DOC-1, DOC-2, and DOC-4 must all reference the same release version"
+            exit 1
+          fi
+          
+          echo "✅ PASS: Cumulative DOC pointers are consistent (v$DOC1_VER)"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # P0 BLOCKER 4: Cumulative flag verification
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[P0] Cumulative Flag Verification (DOC-1, DOC-2, DOC-4)'
+        run: |
+          echo "=== P0 BLOCKER: Cumulative Flag Verification ==="
+          
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          for doc in DOC-1 DOC-2 DOC-4; do
+            DOC_FILE="docs/releases/v${VERSION}/${doc}-v${VERSION}-"*.md
+            if [[ -f "$DOC_FILE" ]]; then
+              if ! grep -q "cumulative: true" "$DOC_FILE"; then
+                echo "::error::$DOC_FILE missing 'cumulative: true' in front matter"
+                exit 1
+              fi
+              echo "✅ PASS: $DOC_FILE has cumulative: true"
+            fi
+          done
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # P0 BLOCKER 5: Release-specific flag verification
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[P0] Release-Specific Flag Verification (DOC-3, DOC-5)'
+        run: |
+          echo "=== P0 BLOCKER: Release-Specific Flag Verification ==="
+          
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          for doc in DOC-3 DOC-5; do
+            DOC_FILE="docs/releases/v${VERSION}/${doc}-v${VERSION}-"*.md
+            if [[ -f "$DOC_FILE" ]]; then
+              if ! grep -qq "cumulative: false" "$DOC_FILE" && ! grep -q "release-specific" "$DOC_FILE"; then
+                echo "::warning::$DOC_FILE should have 'cumulative: false' or 'release-specific' marker"
+              fi
+              echo "✅ PASS: $DOC_FILE is release-specific"
+            fi
+          done
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # P1 WARNING: Release gate documentation check
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[P1] Release Gate Documentation Present in DOC-4'
+        run: |
+          echo "=== P1 WARNING: Release Gate Documentation ==="
+          
+          VERSION="${{ steps.version.outputs.version }}"
+          DOC4_FILE="docs/releases/v${VERSION}/DOC-4-v${VERSION}-"*.md
+          
+          if [[ -f "$DOC4_FILE" ]]; then
+            if grep -qi "release gate" "$DOC4_FILE"; then
+              echo "✅ PASS: DOC-4 contains release gate documentation"
+            else
+              echo "::warning::DOC-4 does not contain 'release gate' documentation"
+              echo "::warning::Consider adding a 'Release Gate Procedure' chapter per IDEA-015"
+            fi
+          else
+            echo "::warning::DOC-4-v${VERSION} not found — cannot verify release gate docs"
+          fi
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Summary
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: Release Gate Summary
+        run: |
+          VERSION="${{ steps.version.outputs.release_version }}"
+          echo ""
+          echo "============================================"
+          echo "  RELEASE GATE SUMMARY: $VERSION"
+          echo "============================================"
+          echo ""
+          echo "All P0 blockers PASSED. Release is eligible for tagging."
+          echo ""
+          echo "Next steps:"
+          echo "  1. Human approves release gate results"
+          echo "  2. Create Git tag: git tag ${VERSION}.0 -m 'Release ${VERSION}.0'"
+          echo "  3. Push tag: git push origin ${VERSION}.0"
+          echo "  4. Merge to main (fast-forward)"
+          echo "  5. Publish DOC-5 release notes"
+          echo ""

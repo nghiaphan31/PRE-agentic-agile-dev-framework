@@ -684,6 +684,11 @@ to the Orchestrator Agent for intake processing.
        - [B] Park for later — marked DEFERRED
        - [C] Sync first — resolve overlap with existing ideas before refining
 
+13.7 — Release gate reference: All releases MUST pass the mandatory release gate
+       before tagging. See `.github/workflows/release-gate.yml` and DOC-4 Chapter 12.
+       No release tag may be created on `main` unless all P0 blockers pass.
+       (Per IDEA-015, enforced starting v2.11)
+
 
 
 

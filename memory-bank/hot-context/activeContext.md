@@ -1,13 +1,13 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T08:15:00Z
-**Active mode:** architect
+**Last updated:** 2026-04-08T08:27:00Z
+**Active mode:** developer
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
-**Session ID:** s2026-04-08-architect-002
+**Session ID:** s2026-04-08-architect-002 (handoff to developer)
 **Branch:** develop-v2.10
-**Plan:** IDEA-020 refinement
+**Plan:** IDEA-018 refinement commit
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
@@ -16,26 +16,24 @@
 - Last commit: 25ef389 — feat(conversations): implement IDEA-019 conversation logging mechanism
 
 ## Current task
-IDEA-020 refinement complete — accepted with corrected understanding
+Commit IDEA-018 refinement: resolve RULE 6.2 vs 7.2 PowerShell contradiction
 
 ## Completed (This Session)
-1. ✅ Read IDEA-020, session-checkpoint.md, activeContext.md
-2. ✅ Corrected understanding: Orchestrator is built-in Roo Code mode (NOT in .roomodes)
-3. ✅ Updated IDEA-020 problem statement and approach
-4. ✅ Changed IDEA-020 status from [IDEA] to [ACCEPTED] in IDEAS-BACKLOG.md
-5. ✅ Created memory-bank/hot-context/handoff-state.md with handoff state schema
-6. ✅ Added ADR-014 to decisionLog.md
+1. ✅ Architect: Identified RULE 6.2 vs 7.2 contradiction in .clinerules
+2. ✅ Architect: Root cause analysis (inline addition vs pipeline pattern)
+3. ✅ Architect: Resolution proposed (clarify wording, not change intent)
+4. ✅ Architect: Documented Roo Code constraint (single atomic tool calls limit)
+5. ✅ Architect: Updated IDEA-018 with resolution and next steps
+6. ✅ Architect: Updated IDEAS-BACKLOG.md with new disposition
+7. ✅ Switched to Developer mode for commit
 
 ## Ideas Status
+- **IDEA-018:** Make Rules Authoritative and Ensure Rule Coherence — [PARTIAL]
+  - RULE 6.2 vs 7.2 contradiction: RESOLVED
+  - Systemic audit: PENDING
 - **IDEA-020:** Authoritative Orchestrator as Default Mode — [ACCEPTED]
-
-## Remaining Implementation Tasks (for IDEA-020)
-- Investigate Roo Code default mode configuration
-- Add handoff protocol rules to .clinerules
-- Test handoff state schema
 
 ## Last Git commits
 - 25ef389 feat(conversations): implement IDEA-019 conversation logging mechanism
-- 1806b6a (develop-v2.10 prior) — feat(docs): complete v2.10 cumulative docs for RULE 12 consistency
 
 ---

@@ -31,6 +31,7 @@ v2.11 is a **Governance Release** focused on documentation coherence, backlog ma
 | Mandatory Release Coherence Audit | GitHub Actions release gate workflow added | IDEA-015 |
 | Mermaid Diagrams in Docs | 8 diagrams added to DOC-1 and DOC-3 | IDEA-016 |
 | Rules Authoritative & Coherent | Rules reorganized for consistency | IDEA-018 |
+| Conversation Logging Mechanism | `checkpoint_heartbeat.py --log-conversation` flag added | IDEA-019 |
 | Orchestrator as Default Mode | RULE 16 mandatory handoff protocol | IDEA-020 |
 | DOC-3/5 Release-Specific | Release-specific format for DOC-3 and DOC-5 | IDEA-021 |
 | Mandatory Backlog Maintenance | Backlog maintenance items in RULE 2 | IDEA-024 |

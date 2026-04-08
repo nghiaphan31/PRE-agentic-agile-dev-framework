@@ -23,7 +23,7 @@
 
 ### 1.1 Release Scope Summary
 
-This release introduces **7 governance features** focused on documentation discipline, release coherence, and operational rigor. No application code changes are included — this is a pure governance release that establishes the regulatory framework for all future development.
+This release introduces **8 governance features** focused on documentation discipline, release coherence, and operational rigor. No application code changes are included — this is a pure governance release that establishes the regulatory framework for all future development.
 
 ---
 
@@ -52,6 +52,7 @@ This release introduces **7 governance features** focused on documentation disci
 | **IDEA-015** | Mandatory Release Coherence Audit | RULE 13: 5-day pre-release gate, `release-gate.yml` | `.github/workflows/`, DOC-4 Ch 12 |
 | **IDEA-016** | Enrich Docs with Mermaid Diagrams | 8 diagrams added across DOC-1 and DOC-3 | `docs/releases/v2.11/DOC-3-v2.11-Implementation-Plan.md` |
 | **IDEA-018** | Rules Authoritative & Coherent | RULE 6.2 clarified, RULE 7.2 pipeline pattern | `.clinerules`, `prompts/SP-002` |
+| **IDEA-019** | Conversation Logging Mechanism | Implemented `scripts/checkpoint_heartbeat.py` with `--log-conversation` flag | `scripts/checkpoint_heartbeat.py`, `memory-bank/` |
 | **IDEA-020** | Authoritative Orchestrator Default | RULE 16: Mandatory Handoff Protocol | `.clinerules`, `memory-bank/hot-context/handoff-state.md` |
 | **IDEA-021** | Release-Specific DOC-3/5 | RULE 12: DOC-3/5 now release-specific, DOC-1/2/4 cumulative | `DOC-3-CURRENT.md`, `DOC-5-CURRENT.md` |
 | **IDEA-024** | Mandatory Backlog Maintenance | RULE 2 updated with backlog maintenance items | `.clinerules`, `memory-bank/` |
@@ -82,6 +83,12 @@ Added 8 Mermaid diagrams across documentation:
 #### IDEA-018 — Rules Authoritative & Coherent
 - **RULE 6.2** clarified: Verification procedure for SP-XXX prompt updates
 - **RULE 7.2** codified: PowerShell pipeline pattern for file concatenation (forbidden pattern documented)
+
+#### IDEA-019 — Conversation Logging Mechanism
+Introduced automated conversation logging via `scripts/checkpoint_heartbeat.py`:
+- Added `--log-conversation` flag to enable session conversation capture
+- Conversations saved to `docs/conversations/` with structured naming
+- Integrates with Conversation Log Mandate (RULE 8)
 
 #### IDEA-020 — Authoritative Orchestrator Default
 Introduced **RULE 16** — Mandatory Handoff Protocol:
@@ -171,7 +178,7 @@ Updated **RULE 2** with mandatory Memory Bank maintenance items:
 ### 7.1 Release Readiness
 
 - [ ] Review release notes (`DOC-5-v2.11-Release-Notes.md`)
-- [ ] Verify all 7 features implemented
+- [ ] Verify all 8 features implemented
 - [ ] Confirm Python tests pass (47/47)
 - [ ] Confirm documentation coherence validated
 - [ ] Confirm GitFlow compliance checked

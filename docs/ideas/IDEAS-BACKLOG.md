@@ -67,7 +67,7 @@
 | [IDEA-016](IDEA-016-enrich-docs-with-diagrams.md) | Enrich Canonical Docs with Mermaid Diagrams | Human 2026-04-01 | 2026-04-08 | [IMPLEMENTED] | governance | Minor | v2.11 | 8 Mermaid diagrams added (DOC-1: 5, DOC-3: 3) |
 | [IDEA-017](IDEA-017-docs-must-be-cumulative-self-contained.md) | **CRITICAL: Fix Canonical Docs Cumulative Requirement** | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Major | v2.7 | Docs NOT self-contained - P0 issue |
 | [IDEA-018](IDEA-018-rules-authoritative-coherent.md) | **CRITICAL: Make Rules Authoritative and Ensure Rule Coherence** | Human 2026-04-01 | 2026-04-08 | [IMPLEMENTED] | governance | Major | v2.11 | RULE 6.2 vs 7.2 contradiction resolved |
-| [IDEA-019](IDEA-019-conversation-logging-mechanism.md) | Implement Conversation Logging Mechanism | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Conversation logging not triggering |
+| [IDEA-019](IDEA-019-conversation-logging-mechanism.md) | Implement Conversation Logging Mechanism | Human 2026-04-01 | 2026-04-08 | [IMPLEMENTED] | governance | Minor | v2.11 | Conversation logging via checkpoint_heartbeat.py |
 | [IDEA-020](IDEA-020-orchestrator-authoritative-default.md) | Authoritative Orchestrator as Default Mode | Human 2026-04-02 | 2026-04-08 | [IMPLEMENTED] | governance | Major | v2.11 | RULE 16 added - mandatory handoff protocol |
 | [IDEA-021](IDEA-021-release-specific-docs-3-5.md) | Make DOC-3 and DOC-5 Release-Specific | Human 2026-04-02 | 2026-04-08 | [IMPLEMENTED] | governance | Major | v2.11 | DOC-3/5 release-specific - v2.11 complete |
 

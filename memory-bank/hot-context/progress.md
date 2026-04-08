@@ -76,6 +76,21 @@
 - [x] Fast-forward merge to develop
 - [x] Memory Bank updated
 
+### IDEA-016: Enrich Docs with Mermaid Diagrams [COMPLETED]
+- [x] Checked out feature/IDEA-016-enrich-docs-with-diagrams from develop-v2.11
+- [x] Added 5 Mermaid diagrams to DOC-1-v2.9-PRD.md:
+  - §1.4 System Architecture Summary (graph TB)
+  - §1.5 Three LLM Backend Modes Comparison (graph LR)
+  - §1.6 Memory Bank Hot/Cold Architecture (graph LR)
+  - §13.1 Calypso Orchestration Phases (flowchart LR)
+  - §14.2 Sync Detection Flow (flowchart TD)
+- [x] Added 3 Mermaid diagrams to DOC-3-v2.10-Implementation-Plan.md:
+  - §2 Ideation-to-Release Pipeline (flowchart TD)
+  - §2.2 GitFlow Branch Lifecycle (gitGraph)
+  - §3.3 Definition of Done Flow (flowchart LR)
+- [x] Updated IDEA-016 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
+- [x] Fast-forward merge to develop-v2.11 pending
+
 ### IDEA-014: Canonical Docs Status Governance [COMPLETED]
 - [x] RULE 8: Documentation Discipline implemented
 - [x] The Two Spaces (Frozen vs Draft) established

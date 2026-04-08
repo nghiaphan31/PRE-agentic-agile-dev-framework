@@ -72,6 +72,53 @@ The objective is to define a **unified and enriched** system that combines:
 | **Memory Bank** | Persistent context across sessions (Git-versioned) |
 | **Agile Personas** | RBAC-controlled role simulation |
 
+**Source:** [IDEA-016 §1.4]
+
+```mermaid
+graph TB
+    subgraph "Windows Laptop (pc)"
+        RC[Roo Code<br/>VS Code Extension]
+        RB[Memory Bank<br/>Reader/Writer]
+        AM[Agile Personas<br/>.roomodes]
+        RR[Rules<br/>.clinerules]
+    end
+    
+    subgraph "LLM Backend (Switchable)"
+        LLM[("LLM Switcher")]
+    end
+    
+    subgraph "Mode 1: Local (Tailscale)"
+        OLLAMA[Ollama<br/>calypso:11434]
+        MODEL1[Qwen3-14B<br/>T=0.15]
+    end
+    
+    subgraph "Mode 2: Proxy (Clipboard)"
+        PROXY[proxy.py<br/>localhost:8000]
+        CLIP[Windows<br/>Clipboard]
+        GEM[Gemini Chrome<br/>Human]
+    end
+    
+    subgraph "Mode 3: Cloud (API)"
+        ANTH[Anthropic API<br/>api.anthropic.com]
+        MODEL3[Claude Sonnet<br/>Automated]
+    end
+    
+    RC --> RB
+    RC --> AM
+    RC --> RR
+    RC --> LLM
+    LLM --> OLLAMA
+    LLM --> PROXY
+    LLM --> ANTH
+    OLLAMA --> MODEL1
+    PROXY --> CLIP
+    CLIP <--> GEM
+    ANTH --> MODEL3
+    
+    style LLM fill:#f96
+    style RC fill:#9f9
+```
+
 ### 1.5 Three LLM Backend Modes
 
 | Mode | Provider | Cost | Human Intervention | Data Sovereignty |
@@ -79,6 +126,46 @@ The objective is to define a **unified and enriched** system that combines:
 | **Local Mode** | Ollama (Qwen3-14B) | Free | None | Total (100% local) |
 | **Proxy Mode** | Gemini Chrome | Free | Copy-paste | Partial (Google) |
 | **Cloud Mode** | Claude Sonnet | Paid | None | Partial (Anthropic) |
+
+**Source:** [IDEA-016 §1.5]
+
+```mermaid
+graph LR
+    subgraph "Local Mode"
+        L1[Ollama<br/>calypso:11434]
+        L2[Free]
+        L3[100% Private]
+        L4[No Human]
+    end
+    
+    subgraph "Proxy Mode"
+        P1[Gemini Chrome<br/>Clipboard]
+        P2[Free]
+        P3[Partial<br/>Google]
+        P4[Copy-Paste]
+    end
+    
+    subgraph "Cloud Mode"
+        C1[Anthropic API<br/>api.anthropic.com]
+        C2[Paid]
+        C3[Partial<br/>Anthropic]
+        C4[No Human]
+    end
+    
+    L1 --> L2
+    L1 --> L3
+    L1 --> L4
+    P1 --> P2
+    P1 --> P3
+    P1 --> P4
+    C1 --> C2
+    C1 --> C3
+    C1 --> C4
+    
+    style L1 fill:#bbf
+    style P1 fill:#bfb
+    style C1 fill:#fbb
+```
 
 ### 1.6 Memory Bank Architecture
 
@@ -102,6 +189,37 @@ memory-bank/
 ```
 
 **Critical:** Files in `archive-cold/` MUST NOT be read directly by the agent. Access via `memory:query` MCP tool or Librarian Agent (SP-010).
+
+**Source:** [IDEA-016 §1.6]
+
+```mermaid
+graph LR
+    subgraph "hot-context/ (Read Directly)"
+        HB[activeContext.md<br/>progress.md<br/>decisionLog.md<br/>systemPatterns.md<br/>productContext.md<br/>session-checkpoint.md]
+    end
+    
+    subgraph "Cold Zone Firewall"
+        FW[("MUST NOT<br/>read directly")]
+    end
+    
+    subgraph "archive-cold/ (MCP Only)"
+        CB[completed-tickets/<br/>sprint-logs/]
+    end
+    
+    subgraph "batch_artifacts/"
+        BA[(Anthropic<br/>Batch API)]
+    end
+    
+    HB --> FW
+    FW -.->|"memory:query<br/>MCP tool"| CB
+    CB -.->|"Librarian Agent<br/>SP-010"| FW
+    BA -->|"Batch outputs"| HB
+    
+    style HB fill:#9f9
+    style FW fill:#f96
+    style CB fill:#bbf
+    style BA fill:#fbb
+```
 
 ---
 
@@ -424,6 +542,50 @@ This release focuses on documentation enrichment and clarification. The v2.8 con
 | Phase 4 | Synthesized | Challenges | Devil's Advocate (SP-009) |
 | Phase 5 | Challenges | Refined Idea | Human |
 
+**Source:** [IDEA-016 §13.1]
+
+```mermaid
+flowchart LR
+    subgraph "Phase 1"
+        P1[Human<br/>Raw Idea]
+    end
+    
+    subgraph "Phase 2"
+        P2A[PRD]
+        P2B[4 Expert<br/>Agents]
+        P2C[Architecture]
+        P2D[Security]
+        P2E[UX]
+        P2F[QA]
+    end
+    
+    subgraph "Phase 3"
+        P3[Synthesizer<br/>SP-008]
+    end
+    
+    subgraph "Phase 4"
+        P4[Devil's Advocate<br/>SP-009]
+    end
+    
+    subgraph "Phase 5"
+        P5[Human<br/>Refined Idea]
+    end
+    
+    P1 -->|"Intake"| P2A
+    P2A -->|"Batch API"| P2B
+    P2B --> P2C
+    P2B --> P2D
+    P2B --> P2E
+    P2B --> P2F
+    P2C & P2D & P2E & P2F -->|"Expert Reports"| P3
+    P3 -->|"Synthesized View"| P4
+    P4 -->|"Challenges"| P5
+    
+    style P1 fill:#9f9
+    style P5 fill:#9f9
+    style P2B fill:#bbf
+```
+
 ### 13.2 Phase 2: Expert Batch Review
 
 **Source:** [src/calypso/orchestrator_phase2.py](src/calypso/orchestrator_phase2.py:1)
@@ -447,6 +609,31 @@ This release focuses on documentation enrichment and clarification. The v2.8 con
 ### 14.2 Sync Detection Flow
 
 **Source:** [.clinerules](.clinerules:1) RULE 11
+
+**Source:** [IDEA-016 §14.2]
+
+```mermaid
+flowchart TD
+    START[New Idea or<br/>Feature Request] --> SCAN[Sync Scan<br/>Check Active Branches]
+    SCAN --> OVERLAP{Overlap<br/>Detected?}
+    OVERLAP -->|Yes| CATEGORY{Category?}
+    OVERLAP -->|No| CONTINUE[Proceed Normally]
+    CATEGORY -->|CONFLICT| ARBITRATE[Human<br/>Arbitration]
+    CATEGORY -->|REDUNDANCY| MERGE[Merge Ideas]
+    CATEGORY -->|DEPENDENCY| REORDER[Reorder +<br/>Communicate]
+    CATEGORY -->|SHARED_LAYER| COORDINATE[Coordinate<br/>Timing]
+    ARBITRATE --> RESULT
+    MERGE --> RESULT
+    REORDER --> RESULT
+    COORDINATE --> RESULT
+    RESULT[Update IDEAs-BACKLOG<br/>+ Notify Human]
+    CONTINUE --> UPDATE[Update IDEAs-BACKLOG]
+    
+    style START fill:#9f9
+    style ARBITRATE fill:#f96
+    style RESULT fill:#bbf
+    style CONTINUE fill:#9f9
+```
 
 ---
 

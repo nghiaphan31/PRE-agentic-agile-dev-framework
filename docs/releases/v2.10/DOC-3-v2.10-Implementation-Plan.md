@@ -44,6 +44,36 @@ type: release-specific
 
 ---
 
+**Source:** [IDEA-016 §2]
+
+```mermaid
+flowchart TD
+    START[Idea<br/>Capture] --> TRIAGE[Triage<br/>Session]
+    TRIAGE -->|Accepted| SCOPE[Add to<br/>Backlog]
+    TRIAGE -->|Rejected| ARCHIVE[Archive]
+    SCOPE --> PLAN[Plan<br/>Release]
+    PLAN --> CREATE[Create<br/>develop-vX.Y]
+    CREATE --> DEV[Development<br/>on Feature Branch]
+    DEV --> PR[Pull Request]
+    PR --> REVIEW[Code Review]
+    REVIEW -->|Pass| MERGE[Merge to<br/>develop-vX.Y]
+    REVIEW -->|Fail| DEV
+    MERGE --> QA[QA Pass]
+    QA -->|Pass| DOCS[Documentation<br/>Update]
+    DOCS --> FREEZE[Release Freeze<br/>5 days before]
+    FREEZE --> FINAL[Final Review]
+    FINAL -->|Approved| TAG[Tag vX.Y.0]
+    TAG --> MAIN[Merge to<br/>main]
+    TAG --> ANNOUNCE[Announcement<br/>DOC-5 + GitHub]
+    MAIN --> CONTINUE[Continue on<br/>develop]
+    
+    style START fill:#9f9
+    style TAG fill:#f96
+    style MAIN fill:#bbf
+```
+
+---
+
 ## 2. Key Implementation Decisions
 
 *(This section documents significant architectural or implementation decisions made in v2.10, with brief cross-references to prior releases where relevant.)*
@@ -63,7 +93,33 @@ type: release-specific
 - DOC-5 documents only what changed in this release
 - Reduced doc bloat and clearer focus per release
 
-### 2.2 Previous Release Decisions
+### 2.2 Branch Strategy Diagram
+
+**Source:** [IDEA-016 §2.2]
+
+```mermaid
+gitGraph
+    commit id: "develop"
+    commit id: "develop-v2.10"
+    branch feature/IDEA-014
+    commit id: "IDEA-014"
+    checkout develop-v2.10
+    merge feature/IDEA-014
+    branch feature/IDEA-015
+    commit id: "IDEA-015"
+    checkout develop-v2.10
+    merge feature/IDEA-015
+    branch feature/IDEA-016
+    commit id: "IDEA-016"
+    checkout develop-v2.10
+    merge feature/IDEA-016
+    commit id: "v2.10.0-rc1"
+    commit id: "v2.10.0"
+    checkout main
+    merge develop-v2.10 id: "v2.10.0" tag: "v2.10.0"
+```
+
+### 2.3 Previous Release Decisions
 
 For historical implementation decisions, see:
 - [DOC-3-v2.9-Implementation-Plan.md](../v2.9/DOC-3-v2.9-Implementation-Plan.md) (v2.9 decisions)
@@ -100,6 +156,40 @@ develop (wild mainline)
 - [ ] QA report generated
 - [ ] Human approves final release
 - [ ] Tag v2.10.0 pushed to origin
+
+**Source:** [IDEA-016 §3.3]
+
+```mermaid
+flowchart LR
+    START[New IDEA] --> SCOPE{In v2.10<br/>Scope?}
+    SCOPE -->|No| DEFER[Deferred to<br/>Next Release]
+    SCOPE -->|Yes| DEV{Development<br/>Complete?}
+    DEV -->|No| WORK[Work on<br/>Feature Branch]
+    DEV -->|Yes| PR{Pull Request<br/>Review?}
+    PR -->|Fail| WORK
+    PR -->|Pass| DOCS{Cumulative Docs<br/>Updated?}
+    DOCS -->|No| UPDATE[Update DOC-1/2/4]
+    DOCS -->|Yes| CI{CI Pipeline<br/>Passing?}
+    CI -->|Fail| FIX[Fix Issues]
+    CI -->|Yes| QA{QA Report<br/>Generated?}
+    QA -->|No| GENERATE[Generate<br/>QA Report]
+    QA -->|Yes| FREEZE{Release Freeze<br/>Complete?}
+    FREEZE -->|No| WAIT[Wait for<br/>Freeze Period]
+    FREEZE -->|Yes| APPROVE{Human<br/>Approves?}
+    APPROVE -->|No| REVIEW[Additional<br/>Review]
+    APPROVE -->|Yes| TAG[Tag v2.10.0]
+    UPDATE --> CI
+    FIX --> CI
+    GENERATE --> FREEZE
+    WAIT --> FREEZE
+    REVIEW --> APPROVE
+    TAG --> DONE[Done]
+    DEFER --> DONE
+    
+    style START fill:#9f9
+    style TAG fill:#f96
+    style DONE fill:#9f9
+```
 
 ---
 

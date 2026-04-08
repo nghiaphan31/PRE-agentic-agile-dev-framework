@@ -1,47 +1,49 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T05:29:00Z
+**Last updated:** 2026-04-08T12:11:00Z
 **Active mode:** code
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
-**Session ID:** s2026-04-08-code-004
-**Branch:** develop
-**Plan:** IDEA-022 implementation complete
+**Session ID:** s2026-04-08-code-005
+**Branch:** feature/IDEA-016-enrich-docs-with-diagrams
+**Plan:** IDEA-016 implementation complete
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `develop`
-- Last commit: bbb0f95 — feat(docs): IDEA-022 - add Ideation-to-Release Journey chapter to DOC-4
+- Branch: `feature/IDEA-016-enrich-docs-with-diagrams`
+- Last commit: 22e55f5 — docs(memory): IDEA-022 - update activeContext and progress for completion
 
 ## Current task
-IDEA-022 implementation complete
+IDEA-016 implementation complete
 
 ## Completed (This Session)
-1. ✅ Created feature/IDEA-022-ideation-to-release-journey from develop
-2. ✅ Created DOC-4-v2.10-Operations-Guide.md (870 lines)
-3. ✅ Added new Chapter 11: Ideation-to-Release Journey
-4. ✅ Included all 7 phases with WHO/WHAT/WITH WHOM/WHERE/HOW tables
-5. ✅ Included Mermaid diagrams for each phase
-6. ✅ Included entry/exit criteria for each phase
-7. ✅ Included decision trees for branching paths
-8. ✅ Updated DOC-4-CURRENT.md pointer to v2.10
-9. ✅ Fast-forward merge to develop
+1. ✅ Checked out feature/IDEA-016-enrich-docs-with-diagrams
+2. ✅ Added 5 Mermaid diagrams to DOC-1-v2.9-PRD.md:
+   - §1.4 System Architecture Summary (graph TB)
+   - §1.5 Three LLM Backend Modes Comparison (graph LR)
+   - §1.6 Memory Bank Hot/Cold Architecture (graph LR)
+   - §13.1 Calypso Orchestration Phases (flowchart LR)
+   - §14.2 Sync Detection Flow (flowchart TD)
+3. ✅ Added 3 Mermaid diagrams to DOC-3-v2.10-Implementation-Plan.md:
+   - §2 Ideation-to-Release Pipeline (flowchart TD)
+   - §2.2 GitFlow Branch Lifecycle (gitGraph)
+   - §3.3 Definition of Done Flow (flowchart LR)
+4. ✅ Updated IDEA-016 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
+5. ✅ Fast-forward merge to develop-v2.11 pending
 
-## IDEA-022 Summary
+## IDEA-016 Summary
 - **Status:** `[IMPLEMENTED]`
-- **Type:** `governance` (Documentation)
-- **Title:** Ideation-to-Release Journey — Operational Reference
-- **Target:** DOC-4 (v2.10)
-- **Deliverable:** New Chapter 11 in DOC-4-v2.10-Operations-Guide.md
+- **Type:** `governance` (Documentation enrichment)
+- **Title:** Enrich Canonical Docs with Mermaid Diagrams
+- **Target:** DOC-1 (v2.9), DOC-3 (v2.10)
+- **Deliverable:** 8 Mermaid diagrams added
 
-## Ideas Captured (v2.10 Scope)
-- **IDEA-021:** Make DOC-3 and DOC-5 Release-Specific — [ACCEPTED] COMPLETED
-- **IDEA-022:** Ideation-to-Release Journey Operational Reference — [IMPLEMENTED] COMPLETED
+## Ideas (v2.11 Scope)
+- **IDEA-016:** Enrich Docs with Mermaid Diagrams — [IMPLEMENTED] COMPLETE
 
 ## Last Git commits
-- bbb0f95 feat(docs): IDEA-022 - add Ideation-to-Release Journey chapter to DOC-4
-- 61e7ebb feat(governance): IDEA-021 - make DOC-3 and DOC-5 release-specific starting v2.10
+- 22e55f5 docs(memory): IDEA-022 - update activeContext and progress for completion
 
 ---

@@ -34,6 +34,31 @@
 
 ---
 
+## v2.13 Scope
+
+**Current draft version:** v2.13
+**Status:** IN PROGRESS
+**Base:** v2.12.0 (most recent tag)
+**Branch:** develop-v2.12
+
+### Commits Since v2.12.0
+
+| Commit | Description | Feature/Idea |
+|--------|-------------|--------------|
+| d62e504 | feat(tech): enrich TECH-002 with R-006 all-commits-on-develop requirement | TECH-002: Auto-Detect Merged Features for Release Scope |
+| d82e7ff | docs(memory): update memory bank per RULE 2 - activeContext, decisionLog, progress | Governance: Memory Bank maintenance |
+| 79ac777 | feat(governance): add TECH-003 release tracking single source of truth | TECH-003: Single Source of Truth for Release Tracking |
+| 2131070 | docs(memory): update activeContext after v2.12.0 release tagging | Governance: Memory Bank maintenance |
+
+### Features in Scope
+
+| Feature | Type | Status | Notes |
+|---------|------|--------|-------|
+| TECH-002: Auto-Detect Merged Features for Release Scope | Technical | ACCEPTED | Enriched with R-006 requirement |
+| TECH-003: Single Source of Truth for Release Tracking | Technical | PROPOSED | RELEASE.md created |
+
+---
+
 **Last updated:** 2026-04-08
 
 **Source:** This is the operational source of truth for release tracking.

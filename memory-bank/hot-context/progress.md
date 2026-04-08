@@ -1,8 +1,8 @@
 # Project Progress
 
-**Last updated:** 2026-04-08T13:58:00Z
-**Session:** s2026-04-08-orchestrator-001
-**Plan:** v2.11 pre-release ready
+**Last updated:** 2026-04-08T17:06:00Z
+**Session:** s2026-04-08-developer-002
+**Plan:** v2.12 planning
 
 ## le workbench Infrastructure
 
@@ -102,6 +102,17 @@
 ### IDEA-024: Mandatory Backlog Maintenance [IMPLEMENTED]
 - [x] Implemented via IDEA-020 handoff protocol
 - [x] Backlog status updates tracked in session handoffs
+
+## Technical Infrastructure
+
+### TECH-002: Auto-Detect Merged Features [IMPLEMENTED]
+- [x] Implemented Option A: Git Hook + Script
+- [x] Created scripts/detect-merged-features.py
+- [x] Created .githooks/pre-receive-detect
+- [x] Enhanced src/calypso/branch_tracker.py with improved IDEA/TECH extraction
+- [x] Detects ALL branches merged to develop (no type restrictions)
+- [x] Auto-adds detected features to next release DOC-3
+- [x] Branch: feature/TECH-002-auto-detect-merged-features (fd0a1ef)
 
 ## Product Features
 

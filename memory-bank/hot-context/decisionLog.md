@@ -45,3 +45,13 @@
   - Fast-forward merge from feature branches to develop completed successfully
 - **Consequences:** v2.14 planning can begin; all release tracking now governed by RELEASE.md
 
+## ADR-017: IDEA-026 Session Lifecycle Automation
+- **Date:** 2026-04-08
+- **Context:** IDEA-019 implemented checkpoint_heartbeat.py with --log-conversation, but automation was not wired
+- **Decision:** Implement 4 components:
+  1. .vscode/tasks.json with Start/Stop/Status heartbeat tasks
+  2. RULE 2 item 7: conversation logging before attempt_completion
+  3. .github/workflows/conversation-check.yml CI validation
+  4. .github/workflows/heartbeat-check.yml CI validation
+- **Consequences:** Heartbeat and conversation logging now automated with CI enforcement
+

@@ -21,7 +21,7 @@
 - [x] Phase 11: prompts/ registry synchronized (SP-001..006 PASS, SP-007 WARN manual)
 - [x] Phase 12: check-prompts-sync.ps1 v2 + pre-commit hook operational
 
-## Epic 2: Documentation Governance (IDEA-014, IDEA-015, IDEA-017, IDEA-018, IDEA-020, IDEA-021, IDEA-024, IDEA-025)
+## Epic 2: Documentation Governance (IDEA-014, IDEA-015, IDEA-017, IDEA-018, IDEA-020, IDEA-021, IDEA-024, IDEA-025, IDEA-026)
 
 ### IDEA-014: Canonical Docs Status Governance [IMPLEMENTED]
 - [x] RULE 8: Documentation Discipline implemented
@@ -118,6 +118,7 @@
 ### IDEAS in Scope
 - [x] IDEA-025: Verify Refinement Requirements Before Implementation Close [IMPLEMENTED]
 - [x] IDEA-022: Ideation-to-Release Journey [IMPLEMENTED]
+- [x] IDEA-026: Session Lifecycle Automation — Wire Heartbeat and Conversation Logging [IMPLEMENTED]
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

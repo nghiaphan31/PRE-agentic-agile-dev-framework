@@ -61,8 +61,21 @@ Before closing any task (before attempt_completion), you MUST update:
 
 5. docs/ideas/TECH-SUGGESTIONS-BACKLOG.md  (update status for any TECH suggestion whose status was modified or decisions made during this session)
 
-> **Note:** If SP-002 (.clinerules) was modified, increment its version per RULE 6.2 protocol.
 
+6. **RELEASE.md update (if release state changed):**
+   - If new release tag was created: update Released Versions table
+   - If new draft was started: update Draft Version table
+   - If new commits/features: update Commits Since table in the current draft scope section
+   - If feature added to scope: update Features in Scope table
+   - Update Last updated timestamp
+
+7. **Conversation logging:**
+   - Before calling attempt_completion, execute: `python scripts/checkpoint_heartbeat.py --log-conversation`
+   - This saves session metadata to `docs/conversations/{YYYY-MM-DD}-{source}-{slug}.md`
+   - If the script fails or returns non-zero, log the error but DO NOT block completion
+   - RULE 8.3 Conversation Log Mandate requires all conversations be saved
+
+> **Note:** If SP-002 (.clinerules) was modified, increment its version per RULE 6.2 protocol.
 > **Clarification:** If an agent completes work on an IDEA (whether accepting, refining, implementing, etc.), it MUST update that IDEA's status in the backlog before closing the task.
 
 

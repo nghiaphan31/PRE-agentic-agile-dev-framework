@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Heartbeat",
+      "type": "shell",
+      "command": "python scripts/checkpoint_heartbeat.py --start",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never",
+        "panel": "dedicated"
+      },
+      "runOptions": {
+        "runOn": "default"
+      }
+    },
+    {
+      "label": "Stop Heartbeat",
+      "type": "shell",
+      "command": "python scripts/checkpoint_heartbeat.py --stop",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Heartbeat Status",
+      "type": "shell",
+      "command": "python scripts/checkpoint_heartbeat.py --status",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      }
+    }
+  ]
+}

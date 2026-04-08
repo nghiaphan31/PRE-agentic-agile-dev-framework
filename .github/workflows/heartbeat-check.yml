@@ -1,0 +1,95 @@
+name: Heartbeat Freshness Check
+
+on:
+  # Run frequently to catch stale sessions
+  schedule:
+    - cron: '*/15 * * * *'  # Every 15 minutes
+  # Also run on push to detect broken heartbeat starts
+  push:
+    branches:
+      - 'develop'
+      - 'develop-v*'
+  # Manual trigger for debugging
+  workflow_dispatch:
+
+jobs:
+  heartbeat-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Check session checkpoint freshness
+        id: freshness
+        run: |
+          echo "=== Heartbeat Freshness Check ==="
+          
+          CHECKPOINT="memory-bank/hot-context/session-checkpoint.md"
+          
+          if [ ! -f "$CHECKPOINT" ]; then
+            echo "::warning::No session-checkpoint.md found — heartbeat may not be running"
+            echo "fresh=false" >> $GITHUB_OUTPUT
+            echo "age_minutes=999" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Get last modified time
+          LAST_MOD=$(stat -c %Y "$CHECKPOINT" 2>/dev/null || stat -f %m "$CHECKPOINT" 2>/dev/null)
+          NOW=$(date +%s)
+          AGE_SECONDS=$((NOW - LAST_MOD))
+          AGE_MINUTES=$((AGE_SECONDS / 60))
+          
+          echo "Checkpoint age: $AGE_MINUTES minutes"
+          echo "age_minutes=$AGE_MINUTES" >> $GITHUB_OUTPUT
+          
+          # Check if fresh (within 15 minutes)
+          if [ $AGE_MINUTES -lt 15 ]; then
+            echo "fresh=true" >> $GITHUB_OUTPUT
+            echo "✓ Checkpoint is fresh (last updated $AGE_MINUTES minutes ago)"
+          else
+            echo "fresh=false" >> $GITHUB_OUTPUT
+            echo "✗ Checkpoint is stale (last updated $AGE_MINUTES minutes ago)"
+          fi
+
+      - name: Extract checkpoint metadata
+        if: steps.freshness.outputs.fresh == 'true'
+        run: |
+          echo "=== Checkpoint Metadata ==="
+          
+          CHECKPOINT="memory-bank/hot-context/session-checkpoint.md"
+          
+          # Extract session_id
+          SESSION_ID=$(grep "^session_id:" "$CHECKPOINT" | cut -d: -f2- | tr -d ' ')
+          echo "Session ID: ${SESSION_ID:-unknown}"
+          
+          # Extract status
+          STATUS=$(grep "^status:" "$CHECKPOINT" | cut -d: -f2- | tr -d ' ')
+          echo "Status: ${STATUS:-unknown}"
+          
+          # Extract last heartbeat
+          LAST_HB=$(grep "^last_heartbeat:" "$CHECKPOINT" | cut -d: -f2- | tr -d ' ')
+          echo "Last Heartbeat: ${LAST_HB:-unknown}"
+
+      - name: Fail if heartbeat is stale on develop
+        if: steps.freshness.outputs.fresh == 'false'
+        run: |
+          echo "::error::Heartbeat is stale!"
+          echo "::error::session-checkpoint.md was last updated ${AGE_MINUTES} minutes ago"
+          echo "::error::Expected: < 15 minutes"
+          echo "::error::"
+          echo "::error::To fix:"
+          echo "::error::  1. Run 'Tasks: Start Heartbeat' in VS Code"
+          echo "::error::  2. Or run: python scripts/checkpoint_heartbeat.py --start"
+          echo "::error::"
+          echo "::error::This failure indicates the heartbeat automation is broken."
+          exit 1
+
+      - name: Warning only on main (heartbeat not expected)
+        if: github.ref == 'refs/heads/main' && steps.freshness.outputs.fresh == 'false'
+        run: |
+          echo "::warning::Heartbeat stale on main branch"
+          echo "::warning::This is expected — main is a frozen release branch"
+          echo "::warning::No action required."

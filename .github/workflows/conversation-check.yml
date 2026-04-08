@@ -1,0 +1,98 @@
+name: Conversation Logging Check
+
+on:
+  # Run on every push to detect missing conversation logs
+  push:
+    branches:
+      - 'develop'
+      - 'develop-v*'
+      - 'main'
+  # Also run on pull request
+  pull_request:
+    branches:
+      - 'develop'
+      - 'develop-v*'
+      - 'main'
+
+jobs:
+  conversation-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Check for recent conversation files
+        id: check
+        run: |
+          echo "=== Conversation Logging Check ==="
+          
+          # Check docs/conversations/ exists
+          if [ ! -d "docs/conversations" ]; then
+            echo "::warning::docs/conversations/ directory does not exist"
+            echo "has_conversations=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Find conversation files from last 48 hours
+          SINCE=$(date -d '48 hours ago' +%Y-%m-%d)
+          RECENT_FILES=$(find docs/conversations -name "*.md" -type f -newermt "$SINCE" 2>/dev/null | wc -l)
+          
+          echo "Conversation files in last 48 hours: $RECENT_FILES"
+          echo "has_conversations=$([ "$RECENT_FILES" -gt 0 ] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+          
+          # List recent files for debugging
+          if [ "$RECENT_FILES" -gt 0 ]; then
+            echo "Recent conversation files:"
+            find docs/conversations -name "*.md" -type f -newermt "$SINCE" -exec basename {} \;
+          fi
+
+      - name: Validate conversation file format
+        if: steps.check.outputs.has_conversations == 'true'
+        run: |
+          echo "=== Validating Conversation File Format ==="
+          
+          SINCE=$(date -d '48 hours ago' +%Y-%m-%d)
+          
+          # Check each recent conversation file for required frontmatter
+          for file in $(find docs/conversations -name "*.md" -type f -newermt "$SINCE"); do
+            echo "Checking: $file"
+            
+            # Must have session_id in frontmatter
+            if ! grep -q "^session_id:" "$file"; then
+              echo "::error::Missing session_id in $file"
+              exit 1
+            fi
+            
+            # Must have mode in frontmatter
+            if ! grep -q "^mode:" "$file"; then
+              echo "::error::Missing mode in $file"
+              exit 1
+            fi
+            
+            # Must have date in frontmatter
+            if ! grep -q "^date:" "$file"; then
+              echo "::error::Missing date in $file"
+              exit 1
+            fi
+            
+            echo "  ✓ Valid format"
+          done
+
+      - name: Update conversations README if needed
+        run: |
+          echo "=== Checking conversations README ==="
+          
+          if [ ! -f "docs/conversations/README.md" ]; then
+            echo "::warning::docs/conversations/README.md missing — will be created by heartbeat script"
+          fi
+
+      - name: Fail if no recent conversations on develop/main
+        if: steps.check.outputs.has_conversations == 'false'
+        run: |
+          echo "::error::No conversation files found in last 48 hours!"
+          echo "::error::RULE 8.3 requires all conversations be logged."
+          echo "::error::Ensure checkpoint_heartbeat.py --log-conversation runs at session end."
+          exit 1

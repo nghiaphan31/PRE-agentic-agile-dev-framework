@@ -31,3 +31,4 @@ These files are **read-only after creation** — they are historical records, no
 | 2026-04-08 | Orchestrator | [REFINEMENT-2026-04-08-001.md](REFINEMENT-2026-04-08-001.md) | IDEA-022 | Not yet triaged |
 | 2026-04-08 | Architect | [REFINEMENT-2026-04-08-002.md](REFINEMENT-2026-04-08-002.md) | IDEA-019 | Not yet triaged |
 | 2026-04-08 | Code | [2026-04-08-code-2026-04-08-architect-002.md](2026-04-08-code-2026-04-08-architect-002.md) | TBD | Not yet triaged |
+| 2026-04-08 | Code | [2026-04-08-code-2026-04-01-architect-001.md](2026-04-08-code-2026-04-01-architect-001.md) | TBD | Not yet triaged |

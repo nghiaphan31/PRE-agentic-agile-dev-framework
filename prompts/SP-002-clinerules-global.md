@@ -1,8 +1,8 @@
 ﻿---
 id: SP-002
 name: Global Roo Code Directives (.clinerules)
-version: 2.7.0
-last_updated: 2026-03-30
+version: 2.8.0
+last_updated: 2026-04-08
 status: active
 hors_git: false
 target_type: roo_clinerules
@@ -117,6 +117,12 @@ Before closing any task (before attempt_completion), you MUST update:
    - If new commits/features: update Commits Since table in the current draft scope section
    - If feature added to scope: update Features in Scope table
    - Update Last updated timestamp
+
+7. **Conversation logging:**
+   - Before calling attempt_completion, execute: `python scripts/checkpoint_heartbeat.py --log-conversation`
+   - This saves session metadata to `docs/conversations/{YYYY-MM-DD}-{source}-{slug}.md`
+   - If the script fails or returns non-zero, log the error but DO NOT block completion
+   - RULE 8.3 Conversation Log Mandate requires all conversations be saved
 
 > **Note:** If SP-002 (.clinerules) was modified, increment its version per RULE 6.2 protocol.
 

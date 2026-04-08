@@ -1,14 +1,15 @@
 ---
 id: IDEA-026
 title: Session Lifecycle Automation — Wire Heartbeat and Conversation Logging
-status: [REFINED]
-target_release: TBD
+status: [IMPLEMENTED]
+target_release: v2.14
 source: Analysis gap identified during conversation logging and heartbeat review
 source_files: docs/ideas/IDEA-019-conversation-logging-mechanism.md, scripts/checkpoint_heartbeat.py
 captured: 2026-04-08
 captured_by: Code mode agent
 refined_by: Architect mode
 refinement_session: REFINEMENT-2026-04-08-003
+implemented: 2026-04-08
 ---
 
 ## Description

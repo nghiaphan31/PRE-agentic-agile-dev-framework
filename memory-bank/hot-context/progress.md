@@ -1,27 +1,25 @@
 # Project Progress
 
-**Last updated:** 2026-04-08T11:53:00Z
-**Session:** s2026-04-08-code-007
-**Plan:** v2.11 release planning - IDEA-015 completed
+**Last updated:** 2026-04-08T05:30:00Z
+**Session:** s2026-04-08-code-004
+**Plan:** IDEA-022
 
-## v2.11 Development Started
+## le workbench Infrastructure
 
-### Setup Complete
-- [x] Created `develop-v2.11` from `develop`
-- [x] Pushed `develop-v2.11` to origin
-- [x] Created feature branches for all v2.11 ideas
-
-### v2.11 Scope (7 Ideas - Governance Release)
-
-| IDEA | Title | Status | Tier |
-|------|-------|--------|------|
-| IDEA-014 | Canonical Docs Status Governance | **IMPLEMENTED** | Minor |
-| IDEA-015 | Mandatory Release Coherence Audit | **IMPLEMENTED** | Minor |
-| IDEA-016 | Enrich Docs with Mermaid Diagrams | PARTIAL | Minor |
-| IDEA-018 | Rules Authoritative & Coherent | PARTIAL | Major |
-| IDEA-020 | Authoritative Orchestrator Default | ACCEPTED | Major |
-| IDEA-021 | DOC-3/5 Release-Specific | ACCEPTED | Major |
-| IDEA-024 | Mandatory Backlog Maintenance | **IMPLEMENTED** | Minor |
+### Setup Phase
+- [x] Phase 0: Clean VS Code + Roo Code base (fresh reinstall)
+- [x] Phase 1: Ollama + models installed (14b and 8b — deviations 32b→14b and 7b→8b)
+- [x] Phase 2: Git repository initialized with complete .gitignore
+- [x] Phase 3: Custom Modelfile (uadf-agent, T=0.15, ctx=131072, base 14b)
+- [x] Phase 4: .roomodes (4 Agile personas with Git rules)
+- [x] Phase 5: Memory Bank (7 files) + .clinerules (9 rules)
+- [x] Phase 6: proxy.py v2.1.1 (Gemini Chrome server, SSE)
+- [x] Phase 7: Gem Gemini Chrome configured
+- [x] Phase 8: Roo Code 3-mode LLM switcher — completed
+- [x] Phase 9: End-to-end tests validated
+- [x] Phase 10: Anthropic Claude Sonnet API configured (operational — used for Batch API reviews)
+- [x] Phase 11: prompts/ registry synchronized (SP-001..006 PASS, SP-007 WARN manual)
+- [x] Phase 12: check-prompts-sync.ps1 v2 + pre-commit hook operational
 
 ## Epic 2: Documentation Governance (IDEA-014, IDEA-015, IDEA-017, IDEA-020, IDEA-021)
 
@@ -37,6 +35,7 @@
 - [x] Verified all docs cumulative: true front matter
 - [x] GitHub Actions CI validation passed (5/5 PASS)
 - [x] Memory bank updated
+- [x] Commit pending
 
 ### IDEA-020: Deterministic Docs from Sources [COMPLETED]
 - [x] Branched: feature/IDEA-020-deterministic-docs-from-sources from develop
@@ -77,45 +76,82 @@
 - [x] Fast-forward merge to develop
 - [x] Memory Bank updated
 
-### IDEA-024: Mandatory Backlog Maintenance [IMPLEMENTED - v2.11]
-- [x] RULE 2 updated with items 3-5
-- [x] .clinerules updated
-- [x] template/.clinerules synced
-- [x] SP-002 rebuilt via scripts/rebuild_sp002.py
-- [x] Created IDEA-024 doc file
-- [x] Committed to feature/IDEA-024-mandatory-backlog-maintenance
+### IDEA-016: Enrich Docs with Mermaid Diagrams [COMPLETED]
+- [x] Checked out feature/IDEA-016-enrich-docs-with-diagrams from develop-v2.11
+- [x] Added 5 Mermaid diagrams to DOC-1-v2.9-PRD.md:
+  - §1.4 System Architecture Summary (graph TB)
+  - §1.5 Three LLM Backend Modes Comparison (graph LR)
+  - §1.6 Memory Bank Hot/Cold Architecture (graph LR)
+  - §13.1 Calypso Orchestration Phases (flowchart LR)
+  - §14.2 Sync Detection Flow (flowchart TD)
+- [x] Added 3 Mermaid diagrams to DOC-3-v2.10-Implementation-Plan.md:
+  - §2 Ideation-to-Release Pipeline (flowchart TD)
+  - §2.2 GitFlow Branch Lifecycle (gitGraph)
+  - §3.3 Definition of Done Flow (flowchart LR)
+- [x] Updated IDEA-016 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
+- [x] Fast-forward merge to develop-v2.11 pending
 
-### IDEA-014: Canonical Docs Status Governance [IMPLEMENTED - v2.11]
-- [x] Documented findings: v2.9 docs still show Draft status
-- [x] Resolution: IDEA-015 handles at release time
-- [x] Feature branch created: feature/IDEA-014-canonical-docs-status-governance
-- [x] Merged to develop-v2.11
+### IDEA-014: Canonical Docs Status Governance [COMPLETED]
+- [x] RULE 8: Documentation Discipline implemented
+- [x] The Two Spaces (Frozen vs Draft) established
+- [x] Idea Capture Mandate implemented
+- [x] Conversation Log Mandate implemented
 
-### IDEA-015: Mandatory Release Coherence Audit [IMPLEMENTED - v2.11]
-- [x] Created .github/workflows/release-gate.yml with P0/P1 blocker checks
-- [x] Added Chapter 12 (Release Gate Procedure) to DOC-4-v2.11
-- [x] Added DOC-3-v2.11 with release gate pre-checklist
-- [x] Updated RULE 13.7 with release gate reference
-- [x] Synced template/.clinerules
-- [x] Rebuilt SP-002 (byte-for-byte match verified)
-- [x] Committed to feature/IDEA-015-mandatory-release-coherence-audit
-- [x] Merged to develop-v2.11
+### IDEA-015: Mandatory Release Coherence Audit [PENDING]
+- [ ] Pre-release audit checklist (5 days before target)
+- [ ] Scope freeze verification
+- [ ] Documentation coherence check
+- [ ] Code coherence verification
 
-### IDEA-016: Enrich Docs with Mermaid Diagrams [IN PROGRESS - v2.11]
-- [ ] DOC-2 fully implemented
-- [ ] DOC-1 needs diagrams
-- [ ] DOC-3 needs diagrams
-- [ ] Feature branch created: feature/IDEA-016-enrich-docs-with-diagrams
+## Product Features
 
-### IDEA-018: Rules Authoritative & Coherent [IN PROGRESS - v2.11]
-- [ ] RULE 6.2 vs 7.2 contradiction resolved
-- [ ] Systemic audit pending
-- [ ] Feature branch created: feature/IDEA-018-rules-authoritative-coherent
+### Epic 0: Release Governance Model
+- [x] Governance model designed (universal: workbench + application projects)
+- [x] PLAN-release-governance.md written (931 lines, 15 sections)
+- [x] Human approval of plan
+- [x] PHASE-0: Governance restructure — ALL 13 STEPS COMPLETE (commit 905d418)
+- [x] Draft v2.0 canonical docs (DOC-1..3-v2.0) — commit fc211cb
+- [x] PHASE-A: Hot/Cold memory restructure (IDEA-001) — commit bd1bf7d
+- [x] PHASE-B: Template folder enrichment — commit 137e977
+- [x] PHASE-C: Calypso orchestration scripts (IDEA-002) — commit 2220121
+- [x] PHASE-D: Global Brain (Chroma/Librarian Agent) — commit ba61920
+- [x] PHASE-E: v2.0 release finalization — DOC-4, DOC-5, QA pass, tag v2.0.0
 
-### IDEA-020: Authoritative Orchestrator Default [PENDING - v2.11]
-- [ ] Orchestrator is built-in
-- [ ] Focus on default config + handoff protocol
-- [ ] Feature branch created: feature/IDEA-020-orchestrator-authoritative-default
+### Epic 1: Agentic Agile Workbench Architecture (DOC6)
+- [x] DOC6-PRD-AGENTIC-AGILE-PROCESS.md drafted (first Gemini conversation)
+- [x] _Agentic Workbench Architecture Explained .md drafted (second Gemini conversation)
+- [x] Batch 1 — DOC6 Expert Review submitted + retrieved → DOC6-REVIEW-RESULTS.md
+- [x] Batch 2 — DOC6 Deep Review submitted + retrieved → DOC6-REVIEW-RESULTS2.md
+- [x] DOC6 v2.6 full audit completed
+
+---
+
+### IDEA-022: Ideation-to-Release Journey Operational Reference [IDEA]
+- [ ] Create feature branch for DOC-4 chapter enrichment
+- [ ] Draft new "Ideation-to-Release Journey" chapter in DOC-4
+- [ ] Document all phases with WHO/WHAT/WITH WHOM/WHERE/HOW
+- [ ] Include decision trees for branching paths
+- [ ] Update DOC-4 to v2.10 with new chapter
+- [ ] QA pass on new chapter
+- [ ] Merge to develop
+
+## Epic 2: Documentation Governance (IDEA-014, IDEA-015, IDEA-017, IDEA-020, IDEA-021, IDEA-022)
+
+### IDEA-021: Release-Specific DOC-3 and DOC-5 [COMPLETED]
+- [x] Created feature/IDEA-021-release-specific-docs-3-5 from develop
+- [x] Updated RULE 12 in .clinerules (DOC-3/DOC-5 release-specific, DOC-1/2/4 cumulative)
+- [x] Synced RULE 12 to template/.clinerules
+- [x] Rebuilt SP-002 via scripts/rebuild_sp002.py (byte-for-byte match verified)
+- [x] Updated .githooks/pre-receive enforcement (release-specific line thresholds)
+- [x] Updated .github/workflows/canonical-docs-check.yml (release-specific validation)
+- [x] Created docs/releases/v2.10/ directory
+- [x] Created DOC-3-v2.10-Implementation-Plan.md (release-specific, ~120 lines)
+- [x] Created DOC-5-v2.10-Release-Notes.md (release-specific, ~65 lines)
+- [x] Updated DOC-3-CURRENT.md pointer to v2.10
+- [x] Updated DOC-5-CURRENT.md pointer to v2.10
+- [x] Validated prompts sync (6 PASS, 1 WARN for SP-007 manual)
+- [x] Fast-forward merge to develop
+- [x] Memory Bank updated
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

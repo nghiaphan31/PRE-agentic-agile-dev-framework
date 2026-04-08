@@ -321,6 +321,7 @@ def log_conversation():
     """Log the current conversation session to docs/conversations/."""
     now = datetime.now(timezone.utc)
     date_str = now.strftime('%Y-%m-%d')
+    time_str = now.strftime('%H%M%S')  # Add timestamp for uniqueness
     
     # Get source from SESSION_MODE env var or fallback to 'code'
     source = os.environ.get('SESSION_MODE', 'code')
@@ -329,15 +330,14 @@ def log_conversation():
     active_context = read_active_context()
     checkpoint_metadata = read_checkpoint_metadata()
     
-    # Determine session_id
-    session_id = active_context.get('session_id') or checkpoint_metadata.get('session_id')
-    if not session_id:
-        session_id = f"s{date_str}-{source}-001"
+    # Determine conversation_id (unique per conversation, not per session)
+    # Use timestamp to ensure uniqueness within the same day/mode
+    conversation_id = f"s{date_str}-{source}-{time_str}"
     
-    # Generate slug from session_id
-    slug = generate_slug(session_id)
+    # Generate slug from conversation_id
+    slug = generate_slug(conversation_id)
     
-    # Generate filename: {YYYY-MM-DD}-{source}-{slug}.md
+    # Generate filename: {YYYY-MM-DD}-{source}-{timestamp}.md
     filename = f"{date_str}-{source}-{slug}.md"
     
     # Ensure conversations directory exists
@@ -345,7 +345,7 @@ def log_conversation():
     
     # Prepare conversation content
     conversation_content = f"""---
-session_id: {session_id}
+conversation_id: {conversation_id}
 mode: {source}
 date: {date_str}
 source: {source}
@@ -355,7 +355,7 @@ duration: ~{active_context.get('duration', 'N/A')}
 # Conversation Summary
 
 **Mode:** {source}
-**Session ID:** {session_id}
+**Conversation ID:** {conversation_id}
 **Date:** {date_str}
 
 ## Session Context
@@ -420,7 +420,7 @@ These files are **read-only after creation** — they are historical records, no
             insert_index = i
     
     if insert_index is not None:
-        new_entry = f"| {date_str} | {source.capitalize()} | [{filename}]({filename}) | TBD | Not yet triaged |"
+        new_entry = f"| {date_str} | {source.capitalize()} | [{filename}]({filename}) | {conversation_id} | Not yet triaged |"
         lines.insert(insert_index + 1, new_entry)
         readme_content = '\n'.join(lines)
         CONVERSATIONS_README.write_text(readme_content)

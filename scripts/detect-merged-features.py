@@ -135,7 +135,7 @@ def get_merged_features_since_tag(tag: str, target_branch: str = "develop") -> l
     result = subprocess.run(
         [
             "git", "log", f"{tag}..{target_branch}",
-            "--first-parent", "--merges",
+            "--first-parent", "--all",
             "--format=%H|%s|%P|%ci"
         ],
         capture_output=True,

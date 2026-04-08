@@ -19,6 +19,7 @@
 | `[REFINED]` | Requirements complete, awaiting triage |
 | `[ACCEPTED]` | Approved for a specific release |
 | `[IMPLEMENTING]` | Feature branch active development |
+| `[PARTIAL]` | Partially implemented; gaps remain |
 | `[IMPLEMENTED]` | Built, tested, in a released version |
 | `[DEFERRED]` | Good idea, but not this release |
 | `[REJECTED]` | Will never be implemented (reason documented) |
@@ -61,19 +62,19 @@
 | [IDEA-012A](IDEA-012A-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-A Foundation | Architect mode | 2026-03-30 | [IMPLEMENTED] | governance | Minor | v2.4 | TECH-SUGGESTIONS-BACKLOG, RULE 11-14 |
 | [IDEA-012B](IDEA-012B-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-B Core Logic | Architect mode | 2026-03-30 | [IMPLEMENTED] | governance | Medium | v2.4 | SyncDetector, RefinementWorkflow |
 | [IDEA-012C](IDEA-012C-phases-implementation-idea-to-release.md) | Ideation-to-Release PHASE-C Full Features | Architect mode | 2026-03-30 | [IMPLEMENTED] | governance | Medium | v2.5 | Full pipeline, BranchTracker, DOC-3 auto-gen |
-| [IDEA-013](IDEA-013-batch-toolkit-usability.md) | Improve Batch Toolkit Reusability | Human 2026-04-01 | 2026-04-01 | [IDEA] | dev-tooling | Minor | v2.7 | Fix batch scripts usability |
-| [IDEA-014](IDEA-014-canonical-docs-status-governance.md) | Fix Canonical Docs Status Governance | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Draft/Frozen status inconsistencies |
-| [IDEA-015](IDEA-015-mandatory-release-coherence-audit.md) | Mandatory Coherence Audit Before Release | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Pre-release coherence audit gate |
-| [IDEA-016](IDEA-016-enrich-docs-with-diagrams.md) | Enrich Canonical Docs with Mermaid Diagrams | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Add visual documentation |
-| [IDEA-017](IDEA-017-docs-must-be-cumulative-self-contained.md) | **CRITICAL: Fix Canonical Docs Cumulative Requirement** | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Major | v2.7 | Docs NOT self-contained - P0 issue |
-| [IDEA-018](IDEA-018-rules-authoritative-coherent.md) | **CRITICAL: Make Rules Authoritative and Ensure Rule Coherence** | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Major | v2.7 | Rules not authoritative, contradictions exist |
+| [IDEA-013](IDEA-013-batch-toolkit-usability.md) | Improve Batch Toolkit Reusability | Human 2026-04-01 | 2026-04-01 | [IMPLEMENTED] | dev-tooling | Minor | v2.7 | Toolkit is truly reusable, zero hardcoded paths, lessons-learned implemented |
+| [IDEA-014](IDEA-014-canonical-docs-status-governance.md) | Fix Canonical Docs Status Governance | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Canonical docs still show Draft status; no automated Frozen status check |
+| [IDEA-015](IDEA-015-mandatory-release-coherence-audit.md) | Mandatory Coherence Audit Before Release | Human 2026-04-01 | 2026-04-01 | [IDEA] | governance | Minor | v2.7 | Audit process exists but NOT as automated release gate |
+| [IDEA-016](IDEA-016-enrich-docs-with-diagrams.md) | Enrich Canonical Docs with Mermaid Diagrams | Human 2026-04-01 | 2026-04-01 | [PARTIAL] | governance | Minor | v2.7 | DOC-2 fully implemented; DOC-1 and DOC-3 need diagrams |
+| [IDEA-017](IDEA-017-docs-must-be-cumulative-self-contained.md) | **CRITICAL: Fix Canonical Docs Cumulative Requirement** | Human 2026-04-01 | 2026-04-01 | [IMPLEMENTED] | governance | Major | v2.7 | Line counts exceed minimums; CI enforcement exists; v2.7 remediation validated |
+| [IDEA-018](IDEA-018-rules-authoritative-coherent.md) | **CRITICAL: Make Rules Authoritative and Ensure Rule Coherence** | Human 2026-04-01 | 2026-04-01 | [PARTIAL] | governance | Major | v2.7 | Enforcement exists for canonical docs; RULE contradiction unresolved |
 | [IDEA-019](IDEA-019-conversation-logging-mechanism.md) | Implement Conversation Logging Mechanism | Human 2026-04-01 | 2026-04-01 | [IMPLEMENTED] | governance | Minor | v2.10 | Conversation logging implemented via checkpoint_heartbeat.py --log-conversation |
-| [IDEA-020](IDEA-020-orchestrator-authoritative-default.md) | Authoritative Orchestrator as Default Mode | Human 2026-04-02 | 2026-04-02 | [IDEA] | governance | Major | v2.8 | Orchestrator must drive all mode switches |
+| [IDEA-020](IDEA-020-orchestrator-authoritative-default.md) | Authoritative Orchestrator as Default Mode | Human 2026-04-02 | 2026-04-02 | [IDEA] | governance | Major | v2.8 | Orchestrator NOT defined as mode in .roomodes |
 | [IDEA-021](IDEA-021-release-specific-docs-3-5.md) | Make DOC-3 and DOC-5 Release-Specific | Human 2026-04-02 | 2026-04-02 | [ACCEPTED] | governance | Major | v2.10 | DOC-3/5 should be snapshots not cumulative |
 
 | [IDEA-022](IDEA-022-ideation-to-release-journey.md) | Ideation-to-Release Journey — Operational Reference | Human request + Orchestrator intake | 2026-04-08 | [IMPLEMENTED] | governance | Medium | v2.10 | New documentation chapter in DOC-4 |
 | [IDEA-023](IDEA-023-systematic-raw-conversation-capture.md) | Systematic Raw Conversation Capture | Human 2026-04-08 | 2026-04-08 | [SUPERSEDED] | business | TBD | TBD | Redundant with IDEA-019 conversation logging |
-| [IDEA-024](IDEA-024-mandatory-backlog-maintenance.md) | Mandatory Backlog Maintenance in RULE 2 | Code mode analysis | 2026-04-08 | [IDEA] | governance | Minor | TBD | Close loophole in RULE 2 enforcement |
+| [IDEA-024](IDEA-024-mandatory-backlog-maintenance.md) | Mandatory Backlog Maintenance in RULE 2 | Code mode analysis | 2026-04-08 | [IDEA] | governance | Minor | TBD | Backlog files NOT in RULE 2 mandatory updates |
  -------
 
 ---

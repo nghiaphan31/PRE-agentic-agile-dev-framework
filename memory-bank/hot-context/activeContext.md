@@ -1,44 +1,44 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T05:29:00Z
-**Active mode:** code
+**Last updated:** 2026-04-08T08:46:00Z
+**Active mode:** developer
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
-**Session ID:** s2026-04-08-code-004
-**Branch:** develop
-**Plan:** IDEA-022 implementation complete
-**Consecutive Errors:** `0`
-**Fallback State:** Not triggered
+**Session ID:** s2026-04-08-developer-001
+**Branch:** develop-v2.11
+**Plan:** v2.11 release planning
 
 ## Git state
-- Branch: `develop`
+- Branch: `develop-v2.11` (newly created from `develop`)
 - Last commit: bbb0f95 — feat(docs): IDEA-022 - add Ideation-to-Release Journey chapter to DOC-4
 
 ## Current task
-IDEA-022 implementation complete
+Starting v2.11 development
 
 ## Completed (This Session)
-1. ✅ Created feature/IDEA-022-ideation-to-release-journey from develop
-2. ✅ Created DOC-4-v2.10-Operations-Guide.md (870 lines)
-3. ✅ Added new Chapter 11: Ideation-to-Release Journey
-4. ✅ Included all 7 phases with WHO/WHAT/WITH WHOM/WHERE/HOW tables
-5. ✅ Included Mermaid diagrams for each phase
-6. ✅ Included entry/exit criteria for each phase
-7. ✅ Included decision trees for branching paths
-8. ✅ Updated DOC-4-CURRENT.md pointer to v2.10
-9. ✅ Fast-forward merge to develop
+1. ✅ Identified 7 ideas targeting v2.11
+2. ✅ Created `develop-v2.11` from `develop`
+3. ✅ Pushed `develop-v2.11` to origin
+4. ✅ Created feature branches for v2.11 ideas:
+   - feature/IDEA-014-canonical-docs-status-governance
+   - feature/IDEA-015-mandatory-release-coherence-audit
+   - feature/IDEA-016-enrich-docs-with-diagrams
+   - feature/IDEA-018-rules-authoritative-coherent
+   - feature/IDEA-020-orchestrator-authoritative-default
+   - feature/IDEA-024-mandatory-backlog-maintenance
 
-## IDEA-022 Summary
-- **Status:** `[IMPLEMENTED]`
-- **Type:** `governance` (Documentation)
-- **Title:** Ideation-to-Release Journey — Operational Reference
-- **Target:** DOC-4 (v2.10)
-- **Deliverable:** New Chapter 11 in DOC-4-v2.10-Operations-Guide.md
+## v2.11 Scope (Governance Release)
 
-## Ideas Captured (v2.10 Scope)
-- **IDEA-021:** Make DOC-3 and DOC-5 Release-Specific — [ACCEPTED] COMPLETED
-- **IDEA-022:** Ideation-to-Release Journey Operational Reference — [IMPLEMENTED] COMPLETED
+| IDEA | Title | Status | Type | Tier |
+|------|-------|--------|------|------|
+| IDEA-014 | Canonical Docs Status Governance | ACCEPTED | governance | Minor |
+| IDEA-015 | Mandatory Release Coherence Audit | ACCEPTED | governance | Minor |
+| IDEA-016 | Enrich Docs with Mermaid Diagrams | PARTIAL | governance | Minor |
+| IDEA-018 | Rules Authoritative & Coherent | PARTIAL | governance | Major |
+| IDEA-020 | Authoritative Orchestrator Default | ACCEPTED | governance | Major |
+| IDEA-021 | DOC-3/5 Release-Specific | ACCEPTED | governance | Major |
+| IDEA-024 | Mandatory Backlog Maintenance | ACCEPTED | governance | Minor |
 
 ## Last Git commits
 - bbb0f95 feat(docs): IDEA-022 - add Ideation-to-Release Journey chapter to DOC-4

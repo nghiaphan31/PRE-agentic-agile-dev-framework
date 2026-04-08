@@ -99,6 +99,17 @@
 - [x] v2.11: Updated DOC-5-CURRENT.md pointer to v2.11
 - [x] Memory Bank updated
 
+### TECH-002: GitHub Actions for PR Merge Detection [IN PROGRESS]
+- [x] Created feature/TECH-002-github-actions-trigger from develop
+- [x] Created `.github/workflows/detect-merged-features.yml`
+  - Triggers on: pull_request closed (merged == true) to develop
+  - Action: Runs detect-merged-features.py and creates scope update PR
+- [x] Updated `.githooks/pre-receive-detect` with clarifying comments
+  - Local hook: for direct pushes to develop
+  - GitHub Actions: for PR merges to develop
+- [x] YAML syntax validated
+- [ ] Merge feature branch to develop
+
 ### IDEA-024: Mandatory Backlog Maintenance [IMPLEMENTED]
 - [x] Implemented via IDEA-020 handoff protocol
 - [x] Backlog status updates tracked in session handoffs

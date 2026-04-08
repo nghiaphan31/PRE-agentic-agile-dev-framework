@@ -1,19 +1,19 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T17:06:00Z
+**Last updated:** 2026-04-08T17:19:00Z
 **Active mode:** developer
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minimax` (default via OpenRouter)
 **Session ID:** s2026-04-08-developer-002
-**Branch:** develop
-**Plan:** v2.11 released; TECH-002 merged to develop
+**Branch:** feature/TECH-002-github-actions-trigger
+**Plan:** v2.12 planning — TECH-002 GitHub Actions extension
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `develop`
-- Last commit: e2b7439 — Merge branch 'feature/TECH-002-auto-detect-merged-features' into develop
+- Branch: `feature/TECH-002-github-actions-trigger` (derived from develop)
+- Last commit: f2ceb60 — feat(TECH-002): add GitHub Actions workflow for PR merge detection
 
 ## v2.11 Release Complete ✅
 
@@ -38,16 +38,19 @@
 
 ## Current task
 
-TECH-002 merged to develop. Fast-forward merge completed successfully.
+TECH-002 GitHub Actions workflow added. Feature branch ready for PR.
 
-## TECH-002 Implementation ✅ (merged)
+## TECH-002 Implementation (in progress)
 
 **Feature:** Auto-detect merged features for release scope
-**Branch:** feature/TECH-002-auto-detect-merged-features (merged to develop)
-**Merge commit:** e2b7439 (fast-forward)
+**Branch:** feature/TECH-002-github-actions-trigger
 
-### Deliverables
-- `scripts/detect-merged-features.py` - Core detection script
+### Deliverables completed
+- `scripts/detect-merged-features.py` - Core detection script ✅
+- `.githooks/pre-receive-detect` - Local hook for direct pushes ✅
+- `.github/workflows/detect-merged-features.yml` - GitHub Actions for PR merges ✅
+
+### Next: Merge feature branch to develop
 - `.githooks/pre-receive-detect` - Pre-receive hook
 - `src/calypso/branch_tracker.py` - Enhanced IDEA/TECH ID extraction
 

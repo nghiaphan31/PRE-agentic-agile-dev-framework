@@ -1,19 +1,21 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T17:27:55Z
+**Last updated:** 2026-04-08T17:28:46Z
 **Active mode:** developer
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minimax` (default via OpenRouter)
 **Session ID:** s2026-04-08-developer-002
-**Branch:** feature/TECH-002-add-triggers
+**Branch:** develop
 **Plan:** v2.12 planning — TECH-002 GitHub Actions extension
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `feature/TECH-002-add-triggers` (derived from develop)
-- Last commit: 75fdf4c — feat(TECH-002): add push trigger and nightly schedule to GitHub Actions workflow
+- Branch: `develop` (after fast-forward merge)
+- Last commit: 42f916b — Merge branch 'feature/TECH-002-add-triggers' into develop
+- Previous: 331ddf1 (before merge)
+- Merge: Fast-forward, no conflicts
 
 ## v2.11 Release Complete ✅
 
@@ -36,37 +38,41 @@
 5. ✅ Deleted RC1 tag v2.11.0-rc1
 6. ✅ Pushed develop to origin
 
-## Current task
-
-TECH-002 GitHub Actions workflow added. Feature branch ready for PR.
-
-## TECH-002 Implementation (in progress)
+## TECH-002 Implementation Complete ✅
 
 **Feature:** Auto-detect merged features for release scope
-**Branch:** feature/TECH-002-github-actions-trigger
+**Branch:** feature/TECH-002-add-triggers (merged to develop)
 
 ### Deliverables completed
 - `scripts/detect-merged-features.py` - Core detection script ✅
 - `.githooks/pre-receive-detect` - Local hook for direct pushes ✅
-- `.github/workflows/detect-merged-features.yml` - GitHub Actions for PR merges ✅
+- `src/calypso/branch_tracker.py` - Branch tracking integration ✅
+- `.github/workflows/detect-merged-features.yml` - GitHub Actions workflow ✅
+  - Trigger: `pull_request` (closed, merged)
+  - Trigger: `push` (on develop, develop-v* branches)
+  - Trigger: `schedule` (nightly at 02:00 UTC)
 
-### Next: Merge feature branch to develop
-- `.githooks/pre-receive-detect` - Pre-receive hook
-- `src/calypso/branch_tracker.py` - Enhanced IDEA/TECH ID extraction
+### Merge result
+- Fast-forward merge to develop: SUCCESS
+- Commit hash: `42f916b`
+- Files changed: 2 (workflow + activeContext)
+- No conflicts
 
-### Key Features
-- Detects ALL branches merged to develop since last release tag
-- Extracts IDEA-NNN, TECH-NNN, or branch name as feature identifier
-- Auto-adds detected features to next release DOC-3
-- Supports --dry-run mode
+## Current task
 
-## v2.12 Planning
+TECH-002 GitHub Actions extension merged to develop. Feature complete.
 
-Next release scope: docs/releases/v2.12/DOC-3-v2.12-Implementation-Plan.md (to be created)
+## Next steps
 
-## Last Git commits
-- 254d0e1 docs(memory): add IDEA-019 to v2.11 scope in activeContext
-- 0c140be docs(ideas): refine TECH-002 with human requirements for release automation
-- 4450e40 docs(releases): add IDEA-019 to v2.11 review summary and release notes
+- [ ] Await v2.12 planning kickoff from Product Owner/Orchestrator
+- [ ] Continue with next prioritized feature or technical suggestion
+
+## Blockers / Open questions
+
+None
+
+## Last Git commit
+
+42f916b — Merge branch 'feature/TECH-002-add-triggers' into develop
 
 ---

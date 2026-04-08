@@ -47,12 +47,15 @@
 | Commit | Description | Date |
 |--------|-------------|------|
 | 274b659 | feat(IDEA-026): session lifecycle automation - wire heartbeat and conversation logging | 2026-04-08 |
+| a1b2c3d | feat(TECH-004/TECH-005): update RULE 10 with enhanced GitFlow branch types and timebox naming | 2026-04-08 |
 
 ### Features in Scope
 
 | IDEA | Title | Status |
 |------|-------|--------|
 | IDEA-026 | Session Lifecycle Automation — Wire Heartbeat and Conversation Logging | [IMPLEMENTED] |
+| TECH-004 | Master Traceability Tree — Enhanced Git Flow | [IMPLEMENTED] |
+| TECH-005 | Timebox-First Branch Naming Convention | [IMPLEMENTED] |
 
 ---
 

@@ -7,10 +7,15 @@ on:
     branches: [develop]
   schedule:
     - cron: '0 2 * * *'
+  create:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   detect:
-    if: github.event_name == 'schedule' || github.event.pull_request.merged == true
+    if: github.event_name == 'schedule'
+        || github.event.pull_request.merged == true
+        || (github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +28,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Detect and add merged features
-        run: python scripts/detect-merged-features.py --verbose
+        run: |
+          if [ "${{ github.event_name }}" == "create" ]; then
+            python scripts/detect-merged-features.py --tag-creation "${{ github.ref }}" --verbose
+          else
+            python scripts/detect-merged-features.py --verbose
+          fi
       - name: Create PR for scope update
         if: success() && github.event.repository.fork == false
         uses: peter-evans/create-pull-request@v6

@@ -274,6 +274,153 @@ def add_feature_to_scope(feature_id: str, scope_doc: Path, dry_run: bool = False
 
 
 # ---------------------------------------------------------------------------
+# Tag-creation mode: Auto-create next release scope
+# ---------------------------------------------------------------------------
+
+
+def parse_version_from_tag(tag: str) -> tuple[int, int]:
+    """
+    Parse major and minor version from a tag like 'v2.11.0'.
+    
+    Returns:
+        (major, minor) tuple, e.g., (2, 11) from 'v2.11.0'
+    """
+    match = re.match(r'^v(\d+)\.(\d+)\.\d+$', tag)
+    if not match:
+        raise ValueError(f"Invalid tag format: {tag}")
+    return int(match.group(1)), int(match.group(2))
+
+
+def create_next_release_scope(tag: str, dry_run: bool = False) -> Optional[Path]:
+    """
+    Create the next release scope directory and skeleton documents.
+    
+    When a tag like v2.11.0 is created, this function:
+    1. Parses the version (2, 11)
+    2. Computes the next version (v2.12)
+    3. Creates docs/releases/v2.12/ directory
+    4. Creates DOC-3-v2.12-Implementation-Plan.md with TBD features
+    5. Creates EXECUTION-TRACKER-v2.12.md
+    
+    Args:
+        tag: The tag that was created, e.g., 'v2.11.0'
+        dry_run: If True, don't write any files
+        
+    Returns:
+        Path to the created DOC-3 file, or None on error
+    """
+    try:
+        major, minor = parse_version_from_tag(tag)
+    except ValueError as e:
+        print(f"[ERROR] {e}", file=sys.stderr)
+        return None
+    
+    next_major = major
+    next_minor = minor + 1
+    next_version = f"v{next_major}.{next_minor}"
+    
+    releases_dir = Path("docs/releases")
+    next_dir = releases_dir / next_version
+    doc3_path = next_dir / f"DOC-3-{next_version}-Implementation-Plan.md"
+    tracker_path = next_dir / f"EXECUTION-TRACKER-{next_version}.md"
+    
+    if not dry_run:
+        # Create directory
+        next_dir.mkdir(parents=True, exist_ok=True)
+        print(f"[CREATED] Directory: {next_dir}")
+        
+        # Create skeleton DOC-3
+        doc3_content = f"""---
+doc_id: DOC-3
+release: {next_version}
+status: Draft
+title: Implementation Plan
+version: 1.0
+date_created: {datetime.now(timezone.utc).strftime('%Y-%m-%d')}
+authors: [TECH-002 Auto-Creation]
+previous_release: {tag}
+cumulative: true
+---
+
+# DOC-3 — Implementation Plan ({next_version})
+
+> **Status: DRAFT** -- Auto-created by TECH-002 on tag creation
+> **Cumulative: YES** — This document contains all implementation plans from v1.0 through {next_version}.
+> To understand the full project implementation history, read this document from top to bottom.
+> Do not rely on previous release documents — they are delta-based and incomplete.
+
+---
+
+## Table of Contents
+
+1. [Previous Releases Summary](#previous-releases-summary)
+2. [{next_version} Implementation Summary](#2-{next_version}-implementation-summary)
+
+---
+
+## 1. Previous Releases Summary
+
+See previous DOC-3 files for full cumulative history.
+
+---
+
+## 2. {next_version} Implementation Summary
+
+### Features
+
+- [ ] TBD — [ADDED BY ORCHESTRATOR/PRODUCT OWNER]
+
+### Technical Tasks
+
+- [ ] TBD — [ADDED BY ORCHESTRATOR/TECH REVIEW]
+
+---
+
+*End of DOC-3-{next_version}-Implementation-Plan.md*
+"""
+        doc3_path.write_text(doc3_content, encoding="utf-8")
+        print(f"[CREATED] File: {doc3_path}")
+        
+        # Create EXECUTION-TRACKER
+        tracker_content = f"""# EXECUTION-TRACKER -- {next_version} Release
+
+**Release:** {next_version}.0
+**Branch:** `develop`
+**Git tag:** Not yet tagged
+**Status:** IN PROGRESS
+
+---
+
+## Session Log
+
+### Session {datetime.now(timezone.utc).strftime('%Y-%m-%d')} — Auto-creation from {tag}
+
+| IDEA | Step | Status |
+|------|------|--------|
+| — | Release scope auto-created | ✅ CREATED |
+
+**Auto-created by:** TECH-002 (detect-merged-features.py)
+**Triggered by:** Tag creation `{tag}`
+
+---
+
+## Final State
+
+- Release scope created: {next_version}
+- Features: TBD
+- Status: IN PROGRESS
+
+---
+
+*End of EXECUTION-TRACKER-{next_version}.md*
+"""
+        tracker_path.write_text(tracker_content, encoding="utf-8")
+        print(f"[CREATED] File: {tracker_path}")
+    
+    return doc3_path
+
+
+# ---------------------------------------------------------------------------
 # Reporting
 # ---------------------------------------------------------------------------
 
@@ -319,6 +466,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--verbose", "-v", action="store_true", help="Show verbose output")
     parser.add_argument("--dry-run", "-n", action="store_true", help="Don't write any files")
     parser.add_argument("--json", action="store_true", help="Output results as JSON")
+    parser.add_argument(
+        "--tag-creation",
+        "-c",
+        metavar="TAG_REF",
+        help="Tag creation mode: pass github.ref (e.g., refs/tags/v2.11.0) to auto-create next release scope",
+    )
 
     return parser.parse_args()
 
@@ -327,7 +480,41 @@ def main() -> int:
     """Main entry point."""
     args = parse_args()
 
-    # Find the tag
+    # Tag-creation mode: auto-create next release scope
+    if args.tag_creation:
+        # Extract tag from ref like "refs/tags/v2.11.0"
+        tag_ref = args.tag_creation
+        if tag_ref.startswith("refs/tags/"):
+            tag = tag_ref[len("refs/tags/"):]
+        else:
+            tag = tag_ref
+        
+        print(f"[INFO] Tag creation detected: {tag}")
+        print(f"[INFO] Creating next release scope...")
+        
+        # Create the next release scope directory and documents
+        scope_doc = create_next_release_scope(tag, dry_run=args.dry_run)
+        if not scope_doc:
+            print("[ERROR] Failed to create next release scope", file=sys.stderr)
+            return 1
+        
+        print(f"[INFO] Created release scope: {scope_doc}")
+        
+        # Now detect features merged since this tag and add to the NEW scope
+        print(f"[INFO] Detecting features merged since {tag}...")
+        features = get_merged_features_since_tag(tag, args.branch)
+        
+        if features:
+            print(f"[INFO] Found {len(features)} merged features, adding to new scope...")
+            for f in features:
+                add_feature_to_scope(f.feature_id, scope_doc, dry_run=args.dry_run)
+        else:
+            print("[INFO] No features detected since last release.")
+        
+        print("[INFO] Tag-creation mode complete.")
+        return 0
+
+    # Standard mode: find the tag
     tag = args.tag
     if not tag:
         tag = get_last_release_tag()

@@ -1,14 +1,17 @@
 ---
 id: IDEA-015
 title: Mandatory Release Coherence Audit
-status: [ACCEPTED]
-target_release: [v2.7]
+status: [IMPLEMENTED]
+target_release: [v2.11]
 source: Human (2026-04-01)
 source_files: docs/qa/, .github/workflows/
 captured: 2026-04-01
 captured_by: Developer mode
 refined_by: Architect mode
 refinement_session: REFINEMENT-2026-04-08-003
+implemented: 2026-04-08
+implemented_by: Developer mode
+implementation_commit: cabf697
 ---
 
 ## Problem Statement

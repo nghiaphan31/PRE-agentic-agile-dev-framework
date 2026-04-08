@@ -1,8 +1,8 @@
 # Project Progress
 
-**Last updated:** 2026-04-08T08:58:00Z
-**Session:** s2026-04-08-code-005
-**Plan:** v2.11 release planning - IDEA-024 completed
+**Last updated:** 2026-04-08T11:53:00Z
+**Session:** s2026-04-08-code-007
+**Plan:** v2.11 release planning - IDEA-015 completed
 
 ## v2.11 Development Started
 
@@ -15,8 +15,8 @@
 
 | IDEA | Title | Status | Tier |
 |------|-------|--------|------|
-| IDEA-014 | Canonical Docs Status Governance | ACCEPTED | Minor |
-| IDEA-015 | Mandatory Release Coherence Audit | ACCEPTED | Minor |
+| IDEA-014 | Canonical Docs Status Governance | **IMPLEMENTED** | Minor |
+| IDEA-015 | Mandatory Release Coherence Audit | **IMPLEMENTED** | Minor |
 | IDEA-016 | Enrich Docs with Mermaid Diagrams | PARTIAL | Minor |
 | IDEA-018 | Rules Authoritative & Coherent | PARTIAL | Major |
 | IDEA-020 | Authoritative Orchestrator Default | ACCEPTED | Major |
@@ -85,16 +85,21 @@
 - [x] Created IDEA-024 doc file
 - [x] Committed to feature/IDEA-024-mandatory-backlog-maintenance
 
-### IDEA-014: Canonical Docs Status Governance [PENDING - v2.11]
-- [ ] Implement RULE 8 lifecycle fully
-- [ ] Feature branch created: feature/IDEA-014-canonical-docs-status-governance
+### IDEA-014: Canonical Docs Status Governance [IMPLEMENTED - v2.11]
+- [x] Documented findings: v2.9 docs still show Draft status
+- [x] Resolution: IDEA-015 handles at release time
+- [x] Feature branch created: feature/IDEA-014-canonical-docs-status-governance
+- [x] Merged to develop-v2.11
 
-### IDEA-015: Mandatory Release Coherence Audit [PENDING - v2.11]
-- [ ] Pre-release audit checklist (5 days before target)
-- [ ] Scope freeze verification
-- [ ] Documentation coherence check
-- [ ] Code coherence verification
-- [ ] Feature branch created: feature/IDEA-015-mandatory-release-coherence-audit
+### IDEA-015: Mandatory Release Coherence Audit [IMPLEMENTED - v2.11]
+- [x] Created .github/workflows/release-gate.yml with P0/P1 blocker checks
+- [x] Added Chapter 12 (Release Gate Procedure) to DOC-4-v2.11
+- [x] Added DOC-3-v2.11 with release gate pre-checklist
+- [x] Updated RULE 13.7 with release gate reference
+- [x] Synced template/.clinerules
+- [x] Rebuilt SP-002 (byte-for-byte match verified)
+- [x] Committed to feature/IDEA-015-mandatory-release-coherence-audit
+- [x] Merged to develop-v2.11
 
 ### IDEA-016: Enrich Docs with Mermaid Diagrams [IN PROGRESS - v2.11]
 - [ ] DOC-2 fully implemented

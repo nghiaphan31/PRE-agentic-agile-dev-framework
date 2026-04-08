@@ -4,41 +4,119 @@
 **Title:** Authoritative Orchestrator as Default Mode  
 **Source:** Human (direct remark)  
 **Captured:** 2026-04-02  
-**Status:** [IDEA]  
+**Status:** [ACCEPTED]  
 **Type:** governance  
 **Tier:** Major  
-**Target Release:** v2.8  
+**Target Release:** v2.10  
+**Disposition:** Proceed with implementation — Orchestrator is built-in, focus on default config + handoff protocol
 
 ---
 
-## Problem Statement
+## Key Correction (2026-04-08)
 
-The current orchestration model is incomplete. Observations:
+**The `orchestrator` mode is a BUILT-IN Roo Code mode — NOT defined in `.roomodes`.**
 
-1. **Human had to manually prompt mode switches** — e.g., "switch to QA Engineer mode" should not require human intervention
+The `.roomodes` file only defines **custom persona modes** (product-owner, scrum-master, developer, qa-engineer). The Orchestrator is a native Roo Code mode that already exists.
+
+**Hard blocker #1 is RESOLVED:** Orchestrator mode already exists in Roo Code.
+
+**Remaining hard blockers to address:**
+- **#2:** No autonomous mode-switching mechanism (Roo Code limitation — mode switches require human or VS Code action)
+- **#3:** No handoff state schema defined
+
+---
+
+## Problem Statement (Corrected)
+
+The current orchestration model has gaps:
+
+1. **Orchestrator is not the default entry point** — human must manually invoke orchestrator mode
 2. **No automatic handoff protocol** — when one agent completes a task, there is no enforced mechanism to return control to the orchestrator
-3. **Orchestrator is not the default entry point** — the human must know to invoke the orchestrator
+3. **Mode switches require human intervention** — Roo Code cannot autonomously switch modes
 
-## Proposed Solution
+---
 
-### 1. Orchestrator as Default Mode
-- The Orchestrator Agent should be the **default mode** for the workbench
-- When any task is received, the Orchestrator is invoked first
-- The Orchestrator then delegates to specialized personas (QA Engineer, Developer, etc.) as needed
+## Proposed Solution (Refined)
 
-### 2. Mandatory Handoff Protocol
-- After completing any task, an agent MUST return control to the Orchestrator
-- This ensures the Orchestrator can:
-  - Assess the completed work
-  - Determine the next appropriate step
-  - Route to the correct agent or persona
-  - Enforce process compliance
+### 1. Make Orchestrator the Default Entry Point
+- **Investigate:** Roo Code configuration for default mode on startup
+- **Action:** If `.roomodes` or VS Code settings can set default mode, configure `orchestrator` as default
+- **Fallback:** Document the procedure for users to set Orchestrator as default manually
 
-### 3. Mode Switching Should Be Orchestrator-Driven
-- Instead of humans prompting "switch to QA Engineer mode", the Orchestrator should:
-  - Detect when QA validation is needed
-  - Automatically switch to QA Engineer mode
-  - Receive results back and continue orchestration
+### 2. Mandatory Handoff Protocol via .clinerules
+- Add rules to `.clinerules` that mandate returning control to Orchestrator after task completion
+- Define clear handoff trigger patterns (e.g., before `attempt_completion`)
+- The Orchestrator receives completion status and determines next steps
+
+### 3. Handoff State Schema
+- Define a minimal state schema for handoff communication
+- Store in `memory-bank/hot-context/session-checkpoint.md` or create `memory-bank/hot-context/handoff-state.md`
+- Schema fields: task_id, originating_mode, completion_status, output_summary, next_action_recommendation
+
+---
+
+## Architecture: Handoff State Schema
+
+```yaml
+handoff_state:
+  version: "1.0"
+  handoff_id: "H-{timestamp}-{sequence}"
+  timestamp: ISO8601
+  
+  from_agent:
+    mode: "developer" | "qa-engineer" | "product-owner" | "scrum-master"
+    session_id: string
+    task_id: string
+    
+  task_completion:
+    status: "completed" | "blocked" | "needs_decision"
+    output_summary: string  # Brief description of what was done
+    artifacts_created: [string]  # File paths
+    artifacts_modified: [string]
+    
+  next_action:
+    recommendation: "continue" | "handoff" | "escalate" | "complete"
+    suggested_mode: string  # Which mode should handle next
+    urgency: "low" | "normal" | "high" | "critical"
+    
+  orchestrator_receipt:
+    received_at: ISO8601
+    acknowledged: boolean
+```
+
+---
+
+## Affected Documents
+
+| Document | Action |
+|----------|--------|
+| `.clinerules` | Add mandatory handoff protocol rules |
+| `memory-bank/hot-context/handoff-state.md` | Create new — handoff state schema |
+| `memory-bank/hot-context/session-checkpoint.md` | Update to incorporate handoff state |
+| `docs/ideas/IDEAS-BACKLOG.md` | Update IDEA-020 status to [ACCEPTED] |
+
+---
+
+## Implementation Steps
+
+1. **Investigate default mode configuration**
+   - Research if Roo Code supports setting default mode via settings or .roomodes
+   - Document findings
+
+2. **Define handoff state schema**
+   - Create `memory-bank/hot-context/handoff-state.md` with YAML schema
+   - Update session-checkpoint.md to reference handoff state
+
+3. **Add handoff rules to .clinerules**
+   - Rule: Before `attempt_completion`, agent MUST write handoff state
+   - Rule: Orchestrator mode reads handoff state on activation
+   - Rule: Non-Orchestrator modes must NOT assume they are the entry point
+
+4. **Test the handoff protocol**
+   - Verify handoff state is written on task completion
+   - Verify Orchestrator can read and act on handoff state
+
+---
 
 ## Motivation
 
@@ -48,26 +126,10 @@ The human user expects a self-managing workflow where:
 3. Specialized agents are invoked as needed
 4. The Orchestrator maintains state and determines next steps
 
-Currently, the human must manually manage mode transitions, which defeats the purpose of having an Orchestrator.
-
-## Affected Documents
-
-- `.roomodes` — default mode configuration
-- `.clinerules` — handoff protocol rules
-- `prompts/SP-008` or new orchestrator prompt — Orchestrator behavior specification
-- `memory-bank/hot-context/session-checkpoint.md` — session state management
-
-## Technical Considerations
-
-1. **Roo Code Mode Switching** — Investigate if mode switching can be triggered programmatically by the AI agent itself, not just by human prompts
-2. **Session State** — The Orchestrator must maintain enough context to determine next steps after any agent completes
-3. **Handoff Detection** — Need a clear signal/pattern that indicates task completion and return of control
-
-## Questions for Refinement
-
-1. Can Roo Code be configured to always start in Orchestrator mode?
-2. Is there an existing mechanism for an agent to trigger a mode switch autonomously?
-3. What minimal state must be preserved during handoff?
+This refinement removes the incorrect assumption that Orchestrator mode needs to be created. It focuses on:
+- Making the existing Orchestrator the default entry point
+- Implementing a handoff protocol so control returns to Orchestrator
+- Defining state schema for handoff communication
 
 ---
 
@@ -76,5 +138,6 @@ Currently, the human must manually manage mode transitions, which defeats the pu
 | Date | Status | Notes |
 |------|--------|-------|
 | 2026-04-02 | [IDEA] | Captured from human remark |
+| 2026-04-08 | [ACCEPTED] | Corrected understanding — Orchestrator is built-in; focus on default config + handoff protocol |
 
 ---

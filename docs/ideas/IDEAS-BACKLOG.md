@@ -69,7 +69,7 @@
 | [IDEA-017](IDEA-017-docs-must-be-cumulative-self-contained.md) | **CRITICAL: Fix Canonical Docs Cumulative Requirement** | Human 2026-04-01 | 2026-04-01 | [IMPLEMENTED] | governance | Major | v2.7 | Line counts exceed minimums; CI enforcement exists; v2.7 remediation validated |
 | [IDEA-018](IDEA-018-rules-authoritative-coherent.md) | **CRITICAL: Make Rules Authoritative and Ensure Rule Coherence** | Human 2026-04-01 | 2026-04-01 | [PARTIAL] | governance | Major | v2.7 | Enforcement exists for canonical docs; RULE contradiction unresolved |
 | [IDEA-019](IDEA-019-conversation-logging-mechanism.md) | Implement Conversation Logging Mechanism | Human 2026-04-01 | 2026-04-01 | [IMPLEMENTED] | governance | Minor | v2.10 | Conversation logging implemented via checkpoint_heartbeat.py --log-conversation |
-| [IDEA-020](IDEA-020-orchestrator-authoritative-default.md) | Authoritative Orchestrator as Default Mode | Human 2026-04-02 | 2026-04-02 | [IDEA] | governance | Major | v2.8 | Orchestrator NOT defined as mode in .roomodes |
+| [IDEA-020](IDEA-020-orchestrator-authoritative-default.md) | Authoritative Orchestrator as Default Mode | Human 2026-04-02 | 2026-04-08 | [ACCEPTED] | governance | Major | v2.10 | Orchestrator is built-in; focus on default config + handoff protocol |
 | [IDEA-021](IDEA-021-release-specific-docs-3-5.md) | Make DOC-3 and DOC-5 Release-Specific | Human 2026-04-02 | 2026-04-02 | [ACCEPTED] | governance | Major | v2.10 | DOC-3/5 should be snapshots not cumulative |
 
 | [IDEA-022](IDEA-022-ideation-to-release-journey.md) | Ideation-to-Release Journey — Operational Reference | Human request + Orchestrator intake | 2026-04-08 | [IMPLEMENTED] | governance | Medium | v2.10 | New documentation chapter in DOC-4 |

@@ -127,3 +127,33 @@ Suite a la completion de IDEA-012A/B/C qui implementent la gouvernance idee-to-r
 **Sync Analysis:**
 - 🟢 NO_OVERLAP: IDEA-012A/B/C = implementation machinery, IDEA-022 = operational runbook
 - 🟢 NO_DEPENDENCY: Pas de dependance sur des branches ou idees actives
+
+---
+
+## ADR-014 : IDEA-020 — Authoritative Orchestrator as Default Mode
+**Date :** 2026-04-08
+**Statut :** ACCEPTED
+
+**Contexte :**
+IDEA-020 a ete capture avec une hypothese incorrecte: que le mode orchestrator devait etre defini dans .roomodes. Analyse ulterieure a revele que orchestrator est un mode NATIF de Roo Code (built-in), pas un mode custom. Le fichier .roomodes ne definit que les modes persona custom (product-owner, scrum-master, developer, qa-engineer).
+
+**Decision :**
+- Hard blocker #1 RESOLVED: Orchestrator mode already exists as built-in
+- Remaining blockers:
+  - #2: No autonomous mode-switching mechanism (Roo Code limitation)
+  - #3: No handoff state schema defined
+- Focus on:
+  1. Investigate Roo Code configuration for default mode
+  2. Implement mandatory handoff protocol via .clinerules rules
+  3. Define handoff state schema in memory-bank/hot-context/handoff-state.md
+
+**Fichiers mis a jour :**
+- docs/ideas/IDEA-020-orchestrator-authoritative-default.md — Status [ACCEPTED], corrected problem statement
+- docs/ideas/IDEAS-BACKLOG.md — IDEA-020 status changed to [ACCEPTED]
+- memory-bank/hot-context/handoff-state.md — NEW: handoff state schema defined
+
+**Consequences :**
+- Orchestrator is built-in and available immediately
+- Need to investigate default mode configuration in Roo Code
+- Handoff protocol requires .clinerules rules addition
+- Target release: v2.10

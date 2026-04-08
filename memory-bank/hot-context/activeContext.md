@@ -1,49 +1,45 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T12:11:00Z
+**Last updated:** 2026-04-08T12:28:00Z
 **Active mode:** code
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
-**Session ID:** s2026-04-08-code-005
-**Branch:** feature/IDEA-016-enrich-docs-with-diagrams
-**Plan:** IDEA-016 implementation complete
+**Session ID:** s2026-04-08-code-006
+**Branch:** develop-v2.11
+**Plan:** IDEA-018 merge to develop-v2.11
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
 ## Git state
-- Branch: `feature/IDEA-016-enrich-docs-with-diagrams`
-- Last commit: 22e55f5 — docs(memory): IDEA-022 - update activeContext and progress for completion
+- Branch: `develop-v2.11`
+- Merging: feature/IDEA-018-rules-authoritative-coherent
 
 ## Current task
-IDEA-016 implementation complete — pushed to origin/develop-v2.11
+IDEA-018 implementation complete — merging to develop-v2.11
 
 ## Completed (This Session)
-1. ✅ Checked out feature/IDEA-016-enrich-docs-with-diagrams
-2. ✅ Added 5 Mermaid diagrams to DOC-1-v2.9-PRD.md:
-   - §1.4 System Architecture Summary (graph TB)
-   - §1.5 Three LLM Backend Modes Comparison (graph LR)
-   - §1.6 Memory Bank Hot/Cold Architecture (graph LR)
-   - §13.1 Calypso Orchestration Phases (flowchart LR)
-   - §14.2 Sync Detection Flow (flowchart TD)
-3. ✅ Added 3 Mermaid diagrams to DOC-3-v2.10-Implementation-Plan.md:
-   - §2 Ideation-to-Release Pipeline (flowchart TD)
-   - §2.2 GitFlow Branch Lifecycle (gitGraph)
-   - §3.3 Definition of Done Flow (flowchart LR)
-4. ✅ Updated IDEA-016 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
-5. ✅ Fast-forward merge to develop-v2.11 pending
+1. ✅ Checked out feature/IDEA-018-rules-authoritative-coherent
+2. ✅ Updated RULE 6.2 in .clinerules (clarified inline addition prohibition)
+3. ✅ Updated RULE 7.2 in .clinerules (added pipeline pattern clarification)
+4. ✅ Synced changes to template/.clinerules
+5. ✅ Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
+6. ✅ Updated memory bank and status
+7. ✅ Committed to feature branch (1d3aa22)
+8. ✅ Merging to develop-v2.11
+9. ⏳ Push to origin
 
-## IDEA-016 Summary
+## IDEA-018 Summary
 - **Status:** `[IMPLEMENTED]`
-- **Type:** `governance` (Documentation enrichment)
-- **Title:** Enrich Canonical Docs with Mermaid Diagrams
-- **Target:** DOC-1 (v2.9), DOC-3 (v2.10)
-- **Deliverable:** 8 Mermaid diagrams added
+- **Type:** `governance` (Rule coherence)
+- **Title:** Make Rules Authoritative and Ensure Rule Coherence
+- **Deliverable:** RULE 6.2 vs 7.2 contradiction resolved
 
 ## Ideas (v2.11 Scope)
 - **IDEA-016:** Enrich Docs with Mermaid Diagrams — [IMPLEMENTED] COMPLETE
+- **IDEA-018:** Rules Authoritative & Coherent — [IMPLEMENTED] COMPLETE
 
 ## Last Git commits
-- 22e55f5 docs(memory): IDEA-022 - update activeContext and progress for completion
+- 1d3aa22 fix(rules): resolve RULE 6.2 vs 7.2 PowerShell contradiction - IDEA-018
 
 ---

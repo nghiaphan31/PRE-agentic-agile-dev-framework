@@ -153,5 +153,13 @@
 - [x] Fast-forward merge to develop
 - [x] Memory Bank updated
 
+### IDEA-018: Rules Authoritative & Coherent [COMPLETED]
+- [x] Checked out feature/IDEA-018-rules-authoritative-coherent
+- [x] Updated RULE 6.2 in .clinerules (clarified inline addition prohibition)
+- [x] Updated RULE 7.2 in .clinerules (added pipeline pattern clarification)
+- [x] Synced changes to template/.clinerules
+- [x] Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
+- [x] Fast-forward merge to develop-v2.11 pending
+
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

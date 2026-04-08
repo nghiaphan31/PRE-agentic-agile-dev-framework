@@ -318,7 +318,11 @@ you MUST check whether the change impacts a system prompt in prompts/.
 
 5. Include the modified prompts/ files in the same commit as the target files
 
-   **File concatenation:** Never use PowerShell for file concatenation. The pattern `(Get-Content a) + (Get-Content b) | Set-Content out` silently produces a 1-line file with exit code 0 — no error is raised. Use Python instead (see `scripts/rebuild_sp002.py` for the canonical implementation).
+   **File concatenation:** Never use PowerShell **inline addition** for file concatenation. The pattern `(Get-Content a) + (Get-Content b) | Set-Content out` silently produces a 1-line file with exit code 0 — no error is raised.
+
+   **Correct PowerShell pattern:** `Get-Content a, b | Set-Content target.md -Encoding UTF8` This pipeline pattern is acceptable for multi-file assembly.
+
+   **Preferred:** Use Python for all file concatenation (see `scripts/rebuild_sp002.py` for the canonical implementation).
 
    **SP-002 (.clinerules sync):** Use `python scripts/rebuild_sp002.py` — the SP-002 code block must always match `.clinerules` byte-for-byte. Always verify with `git diff prompts/SP-002-clinerules-global.md` before committing.
 
@@ -367,7 +371,7 @@ Whenever a file to be written exceeds approximately 500 lines, you MUST use the 
 3. Verify each temp file was written successfully before proceeding
 
 
-4. Assemble the final file using PowerShell:
+4. Assemble the final file using PowerShell **pipeline pattern**:
 
 
    ```powershell
@@ -378,6 +382,7 @@ Whenever a file to be written exceeds approximately 500 lines, you MUST use the 
 
    ```
 
+   **Note:** This is the ONLY acceptable PowerShell concatenation pattern. The inline addition pattern `(Get-Content a) + (Get-Content b)` is FORBIDDEN.
 
 5. Verify the assembled file (line count, spot-check content)
 

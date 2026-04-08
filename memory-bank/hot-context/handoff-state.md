@@ -9,7 +9,7 @@
 
 **status:** completed
 
-**output_summary:** Implemented TECH-004 (Master Traceability Tree) and TECH-005 (Timebox-First Branch Naming) by updating RULE 10 in all three .clinerules files. Added new branch types (lab/, bugfix/, release/vX.Y.Z), refining workflow section, release buffer parallelism section, and hotfix numbering fix (vX.Y.Z → {Ticket}). Updated SP-002 version to 2.9.0. TECH-SUGGESTIONS-BACKLOG and RELEASE.md updated.
+**output_summary:** Implemented TECH-004 (Master Traceability Tree) and TECH-005 (Timebox-First Branch Naming) by updating RULE 10 in all three .clinerules files. Added new branch types (lab/, bugfix/, release/vX.Y.Z), refining workflow section, release buffer parallelism section, hotfix numbering fix (vX.Y.Z → {Ticket}), and --no-ff merge requirement for traceability. Updated SP-002 version to 2.9.0. TECH-SUGGESTIONS-BACKLOG and RELEASE.md updated.
 
 **artifacts_created:**
 - None

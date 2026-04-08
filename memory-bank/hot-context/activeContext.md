@@ -1,7 +1,7 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T17:28:46Z
+**Last updated:** 2026-04-08T17:37:49Z
 **Active mode:** developer
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minimax` (default via OpenRouter)
@@ -13,8 +13,8 @@
 
 ## Git state
 - Branch: `develop` (after fast-forward merge)
-- Last commit: 42f916b — Merge branch 'feature/TECH-002-add-triggers' into develop
-- Previous: 331ddf1 (before merge)
+- Last commit: de03da4 — fix(.github): correct job condition in detect-merged-features workflow
+- Previous: 42f916b (before merge)
 - Merge: Fast-forward, no conflicts
 
 ## v2.11 Release Complete ✅
@@ -41,7 +41,7 @@
 ## TECH-002 Implementation Complete ✅
 
 **Feature:** Auto-detect merged features for release scope
-**Branch:** feature/TECH-002-add-triggers (merged to develop)
+**Branch:** feature/TECH-002-fix-job-condition (merged to develop)
 
 ### Deliverables completed
 - `scripts/detect-merged-features.py` - Core detection script ✅
@@ -51,16 +51,22 @@
   - Trigger: `pull_request` (closed, merged)
   - Trigger: `push` (on develop, develop-v* branches)
   - Trigger: `schedule` (nightly at 02:00 UTC)
+  - Job condition: `github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/develop') || (github.event_name == 'pull_request' && github.event.merged == true)`
 
-### Merge result
+### Merge history
+1. feature/TECH-002-auto-detect-merged-features → develop: 42f916b (Fast-forward)
+2. feature/TECH-002-add-triggers → develop: 42f916b (Fast-forward)
+3. feature/TECH-002-fix-job-condition → develop: de03da4 (Fast-forward)
+
+### Last merge result
 - Fast-forward merge to develop: SUCCESS
-- Commit hash: `42f916b`
-- Files changed: 2 (workflow + activeContext)
+- Commit hash: `de03da4c898b03f9e00aaa320c50bda97eaee380`
+- Files changed: 2 (.github/workflows/detect-merged-features.yml, memory-bank/hot-context/handoff-state.md)
 - No conflicts
 
 ## Current task
 
-TECH-002 GitHub Actions extension merged to develop. Feature complete.
+TECH-002 GitHub Actions job condition fix merged to develop. Feature complete.
 
 ## Next steps
 
@@ -73,6 +79,6 @@ None
 
 ## Last Git commit
 
-42f916b — Merge branch 'feature/TECH-002-add-triggers' into develop
+de03da4 — fix(.github): correct job condition in detect-merged-features workflow
 
 ---

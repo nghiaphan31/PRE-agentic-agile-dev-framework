@@ -1,6 +1,6 @@
 # IDEA-024: Mandatory Backlog Maintenance in RULE 2
 
-**Status:** [IDEA]
+**Status:** [ACCEPTED]
 
 **Captured:** 2026-04-08
 
@@ -49,8 +49,12 @@ Add `docs/ideas/IDEAS-BACKLOG.md` and `docs/ideas/TECH-SUGGESTIONS-BACKLOG.md` t
 > 1. memory-bank/activeContext.md  (new state, next action)
 > 2. memory-bank/progress.md       (check off completed features)
 > 3. memory-bank/decisionLog.md    (ADR with date, context, decision, consequences)
-> 4. docs/ideas/IDEAS-BACKLOG.md  (update status for any IDEA touched)
-> 5. docs/ideas/TECH-SUGGESTIONS-BACKLOG.md  (update status for any TECH suggestion touched)
+> 4. docs/ideas/IDEAS-BACKLOG.md  (update status for any IDEA whose status was modified or decisions made during this session)
+> 5. docs/ideas/TECH-SUGGESTIONS-BACKLOG.md  (update status for any TECH suggestion whose status was modified or decisions made during this session)
+
+> **Note:** If SP-002 (.clinerules) was modified, increment its version per RULE 6.2 protocol.
+
+> **Clarification:** If an agent completes work on an IDEA (whether accepting, refining, implementing, etc.), it MUST update that IDEA's status in the backlog before closing the task.
 
 ---
 

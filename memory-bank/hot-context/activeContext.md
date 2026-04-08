@@ -1,13 +1,13 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-02T16:01:00Z
-**Active mode:** code
+**Last updated:** 2026-04-08T04:55:00Z
+**Active mode:** orchestrator
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
-**Session ID:** s2026-04-02-code-003
+**Session ID:** s2026-04-08-orchestrator-001
 **Branch:** develop
-**Plan:** IDEA-021 — Release-Specific DOC-3 and DOC-5
+**Plan:** IDEA-021 completed — IDEA-022 intake in progress
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
@@ -16,33 +16,26 @@
 - Last commit: 61e7ebb — feat(governance): IDEA-021 - make DOC-3 and DOC-5 release-specific starting v2.10
 
 ## Current task
-Implement IDEA-021: Make DOC-3 and DOC-5 Release-Specific
+IDEA-021 completion + IDEA-022 intake routing
 
 ## Completed (This Session)
-1. ✅ Created feature/IDEA-021-release-specific-docs-3-5 from develop
-2. ✅ Updated RULE 12 in .clinerules (DOC-3/DOC-5 release-specific)
-3. ✅ Synced RULE 12 to template/.clinerules
-4. ✅ Rebuilt SP-002 via scripts/rebuild_sp002.py (byte-for-byte match)
-5. ✅ Updated .githooks/pre-receive enforcement
-6. ✅ Updated .github/workflows/canonical-docs-check.yml
-7. ✅ Created docs/releases/v2.10/ directory
-8. ✅ Created DOC-3-v2.10-Implementation-Plan.md (release-specific, ~120 lines)
-9. ✅ Created DOC-5-v2.10-Release-Notes.md (release-specific, ~65 lines)
-10. ✅ Updated DOC-3-CURRENT.md pointer to v2.10
-11. ✅ Updated DOC-5-CURRENT.md pointer to v2.10
-12. ✅ Validated prompts sync (6 PASS, 1 WARN for SP-007)
-13. ✅ Fast-forward merge to develop
+1. ✅ IDEA-021: Completed release-specific DOC-3 and DOC-5 implementation
+2. ✅ IDEA-022: Created intake for DOC-4 "Ideation-to-Release Journey" chapter
+3. ✅ Sync analysis: 🟢 NO_OVERLAP with IDEA-012A/B/C
+4. ✅ Created docs/ideas/IDEA-022-ideation-to-release-journey.md
+5. ✅ Updated docs/ideas/IDEAS-BACKLOG.md with IDEA-022
 
-## IDEA-021 Summary
-- **Decision:** DOC-3 and DOC-5 become release-specific starting v2.10
-- **Cumulative docs:** DOC-1 (PRD), DOC-2 (Architecture), DOC-4 (Operations) remain cumulative
-- **Line count thresholds:**
-  - DOC-3: 100 lines min (was 300 for cumulative)
-  - DOC-5: 50 lines min (was 200 for cumulative)
-- **Historical preservation:** Previous DOC-3/DOC-5 preserved in docs/releases/vX.Y/
+## IDEA-022 Summary (NEW)
+- **Status:** `[IDEA]`
+- **Type:** `governance` (Documentation)
+- **Title:** Ideation-to-Release Journey — Operational Reference
+- **Target:** DOC-4 (current v2.9, will become v2.10)
+- **Scope:** New chapter documenting the complete journey with WHO/WHAT/WITH WHOM/WHERE/HOW for each phase
+- **Sync Status:** 🟢 NO_OVERLAP (IDEA-012A/B/C = implementation machinery, this = operational runbook)
 
 ## Ideas Captured (v2.10 Scope)
-- **IDEA-021:** Make DOC-3 and DOC-5 Release-Specific — COMPLETED
+- **IDEA-021:** Make DOC-3 and DOC-5 Release-Specific — [ACCEPTED] COMPLETED
+- **IDEA-022:** Ideation-to-Release Journey Operational Reference — [IDEA] Awaiting refinement
 
 ## Last Git commits
 - 61e7ebb feat(governance): IDEA-021 - make DOC-3 and DOC-5 release-specific starting v2.10

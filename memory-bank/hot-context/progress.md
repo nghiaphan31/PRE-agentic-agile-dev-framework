@@ -99,5 +99,32 @@
 
 ---
 
+### IDEA-022: Ideation-to-Release Journey Operational Reference [IDEA]
+- [ ] Create feature branch for DOC-4 chapter enrichment
+- [ ] Draft new "Ideation-to-Release Journey" chapter in DOC-4
+- [ ] Document all phases with WHO/WHAT/WITH WHOM/WHERE/HOW
+- [ ] Include decision trees for branching paths
+- [ ] Update DOC-4 to v2.10 with new chapter
+- [ ] QA pass on new chapter
+- [ ] Merge to develop
+
+## Epic 2: Documentation Governance (IDEA-014, IDEA-015, IDEA-017, IDEA-020, IDEA-021, IDEA-022)
+
+### IDEA-021: Release-Specific DOC-3 and DOC-5 [COMPLETED]
+- [x] Created feature/IDEA-021-release-specific-docs-3-5 from develop
+- [x] Updated RULE 12 in .clinerules (DOC-3/DOC-5 release-specific, DOC-1/2/4 cumulative)
+- [x] Synced RULE 12 to template/.clinerules
+- [x] Rebuilt SP-002 via scripts/rebuild_sp002.py (byte-for-byte match verified)
+- [x] Updated .githooks/pre-receive enforcement (release-specific line thresholds)
+- [x] Updated .github/workflows/canonical-docs-check.yml (release-specific validation)
+- [x] Created docs/releases/v2.10/ directory
+- [x] Created DOC-3-v2.10-Implementation-Plan.md (release-specific, ~120 lines)
+- [x] Created DOC-5-v2.10-Release-Notes.md (release-specific, ~65 lines)
+- [x] Updated DOC-3-CURRENT.md pointer to v2.10
+- [x] Updated DOC-5-CURRENT.md pointer to v2.10
+- [x] Validated prompts sync (6 PASS, 1 WARN for SP-007 manual)
+- [x] Fast-forward merge to develop
+- [x] Memory Bank updated
+
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

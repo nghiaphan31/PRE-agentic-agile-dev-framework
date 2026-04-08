@@ -97,3 +97,33 @@ Tous les 5 documents canoniques etaient traites comme documents cumulatifs (RULE
 - Focus sur le contenu de la release actuelle
 - Historique preserve dans docs/releases/vX.Y/
 - Meilleure lisibilite et maintenance
+
+---
+
+## ADR-013 : Ideation-to-Release Journey — Operational Reference Chapter in DOC-4
+**Date :** 2026-04-08
+**Statut :** Proposal
+
+**Contexte :**
+Suite a la completion de IDEA-012A/B/C qui implementent la gouvernance idee-to-release (regles, outillage, workflows), il manque une documentation operationnelle de reference. Le besoin est de creer un chapitre dedie dans DOC-4 qui decrit le parcours complet avec WHO/WHAT/WITH WHOM/WHERE/HOW pour chaque phase.
+
+**Proposition :**
+- Ajouter un nouveau chapitre dans DOC-4 (Operations Guide)
+- Chapitre: "Ideation-to-Release Journey — Operational Reference"
+- Documenter les 10 phases principales avec:
+  - WHO: Role(s) implique(s)
+  - WHAT: Livrable attendu
+  - WITH WHOM: Collaboration avec autres roles
+  - WHERE: Contexte branche Git
+  - HOW: Outils utilises, entrees/dependances, regles appliquees
+- Inclure les arbres de decision pour les chemins alternatifs
+- Rendre le chapitre exhaustif et detaille
+
+**Consequences :**
+- Documentation operationnelle complete pour les nouveaux membres
+- Reference unique pour comprendre le processus complet
+- Complementaire a IDEA-012A/B/C (implementation vs documentation)
+
+**Sync Analysis:**
+- 🟢 NO_OVERLAP: IDEA-012A/B/C = implementation machinery, IDEA-022 = operational runbook
+- 🟢 NO_DEPENDENCY: Pas de dependance sur des branches ou idees actives

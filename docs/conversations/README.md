@@ -28,3 +28,4 @@ These files are **read-only after creation** — they are historical records, no
 | 2026-03-28 | Claude Batch | [../../plans/batch-doc6-review/DOC6-REVIEW-RESULTS2.md](../../plans/batch-doc6-review/DOC6-REVIEW-RESULTS2.md) | IDEA-001, IDEA-002, IDEA-003 | Fully triaged |
 | 2026-04-01 | Human + AI | [2026-04-01-code-p1-triage-v2.6.md](2026-04-01-code-p1-triage-v2.6.md) | IDEA-013, IDEA-014, IDEA-015, IDEA-016, IDEA-017, IDEA-018, IDEA-019, TECH-001 | Not yet triaged |
 | 2026-04-02 | Human | [2026-04-02-orchestrator-intake-IDEA-020.md](2026-04-02-orchestrator-intake-IDEA-020.md) | IDEA-020 | Not yet triaged |
+| 2026-04-08 | Orchestrator | [REFINEMENT-2026-04-08-001.md](REFINEMENT-2026-04-08-001.md) | IDEA-022 | Not yet triaged |

@@ -102,12 +102,13 @@ Before closing any task (before attempt_completion), you MUST update:
 2. memory-bank/progress.md       (check off completed features)
 
 
+3. docs/releases/vX.Y/EXECUTION-TRACKER-vX.Y.md  (session log entry)
 
 
-If an architecture decision was made during the session:
+4. memory-bank/decisionLog.md    (ADR with date, context, decision, consequences) — ONLY if an architecture decision was made
 
 
-3. memory-bank/decisionLog.md    (ADR with date, context, decision, consequences)
+5. Ensure memory-bank/progress.md and EXECUTION-TRACKER-vX.Y.md are consistent — both files MUST reflect the same status for all items
 
 
 

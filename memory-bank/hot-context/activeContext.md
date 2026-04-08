@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-04-08
 
-**Active mode:** developer
+**Active mode:** orchestrator
 
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 
@@ -14,19 +14,15 @@ Fallback State: Not triggered
 
 ## Current task
 
-Execute v2.12.0 release tagging workflow - COMPLETED
+Answered user question about v2.13 scope
 
 ## Last result
 
-v2.12.0 release tagged and pushed successfully:
-- Merged develop (c5ab2b9) to master (254d0e1..c5ab2b9) via fast-forward
-- Created tag v2.12.0 with message "Release v2.12.0 - Governance Enhancement Release"
-- Pushed tag to origin
-- Fast-forwarded develop to match master (b6359be..c5ab2b9)
+v2.13 scope is EMPTY - no ideas formally accepted yet. TECH-003 (Single Source of Truth for Release Tracking) was created and RELEASE.md established.
 
 ## Next step(s)
 
-- [ ] Await user confirmation of release
+- [ ] Await user decision on v2.13 planning/triage session
 
 ## Blockers / Open questions
 
@@ -34,16 +30,12 @@ None
 
 ## Last Git commit
 
-c5ab2b9 docs(v2.12): close IDEA-022 administratively and create DOC-5
+79ac777 (feat(governance): add TECH-003 release tracking single source of truth)
 
 ## Release Summary
 
-**v2.12.0 - Governance Enhancement Release**
+**v2.12.0** — Latest released version (2026-04-08)
+- Governance Enhancement Release
 
-Included features:
-- TECH-002: Auto-detect merged features for release scope (GitHub Actions + local script)
-- IDEA-025: Verify refinement requirements gate in Orchestrator handoff protocol
-- IDEA-022: Administratively closed (ideation-to-release-journey deferred)
-- Enhanced governance docs and execution tracking
+**v2.13** — Current draft (EMPTY - no ideas accepted)
 
-Branch structure note: Project uses `master` (not `main`) as production branch. No `develop-v2.12` branch existed; all v2.12 work landed on `develop`.

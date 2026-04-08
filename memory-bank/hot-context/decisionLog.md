@@ -341,3 +341,30 @@ TECH-002 a ete capture suite a l'observation que IDEA-019 (conversation-logging-
 - IDEA-003: Release Governance
 - IDEA-019: Conversation Logging Mechanism (catalyseur)
 - IDEA-022: Ideation-to-Release Journey
+
+---
+
+## ADR-018 : Single Source of Truth for Release Tracking
+
+**Date:** 2026-04-08
+**Statut:** ACCEPTED
+
+**Contexte:**
+No authoritative location for release version existed. CHANGELOG.md was stale (v1.0, v2.0 only). DOC-5-CURRENT.md showed v2.11 but v2.12 was the actual released version. Agents could not reliably determine the current release state.
+
+**Decision:**
+- Create `memory-bank/hot-context/RELEASE.md` as the sole authoritative source for:
+  - Current released version: v2.12.0
+  - Current draft version: v2.13
+- All agents MUST consult RELEASE.md for release state before any action
+- RULE 2 (Mandatory Write at Close of Task) updated to require RELEASE.md update at release close
+
+**Fichiers mis a jour:**
+- memory-bank/hot-context/RELEASE.md — NOUVEAU: Single source of truth
+- .clinerules — RULE 2 updated to require RELEASE.md updates
+- docs/ideas/TECH-003-release-tracking-single-source-of-truth.md — Capture TECH-003
+
+**Consequences:**
+- All agents must consult RELEASE.md for release state
+- CHANGELOG.md and DOC-5-CURRENT.md are no longer authoritative
+- Release state tracked in one canonical location

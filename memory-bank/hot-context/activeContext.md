@@ -1,50 +1,47 @@
 ---
 # Active Context
 
-**Last updated:** 2026-04-08T05:38:00Z
+**Last updated:** 2026-04-08T05:56:00Z
 **Active mode:** code
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 **LLM Backend:** `minmax` (default via OpenRouter)
 **Session ID:** s2026-04-08-code-005
 **Branch:** develop-v2.10
-**Plan:** IDEA-021 and IDEA-022 complete, v2.10 branch created
+**Plan:** RULE 12 consistency for v2.10 (all 5 canonical docs)
 **Consecutive Errors:** `0`
 **Fallback State:** Not triggered
 
 ## Git state
 - Branch: `develop-v2.10`
-- Last commit: 22e55f5 — docs(memory): IDEA-022 - update activeContext and progress
+- Last commit: 74e6d75 — feat(docs): complete v2.10 cumulative docs for RULE 12 consistency
 
-## v2.10 Branch Created
-- Created `develop-v2.10` from `develop`
-- Pushed to origin
+## v2.10 Status
+- All 5 canonical docs now exist in v2.10:
+  - DOC-1-v2.10-PRD.md (537 lines, cumulative: true)
+  - DOC-2-v2.10-Architecture.md (998 lines, cumulative: true)
+  - DOC-3-v2.10-Implementation-Plan.md (release-specific)
+  - DOC-4-v2.10-Operations-Guide.md (870 lines, cumulative: true)
+  - DOC-5-v2.10-Release-Notes.md (release-specific)
+- DOC-*-CURRENT.md pointers all updated to v2.10
 
 ## Current task
-IDEA-022 implementation complete
+Complete v2.10 RULE 12 consistency (cumulative docs)
 
 ## Completed (This Session)
-1. ✅ Created feature/IDEA-022-ideation-to-release-journey from develop
-2. ✅ Created DOC-4-v2.10-Operations-Guide.md (870 lines)
-3. ✅ Added new Chapter 11: Ideation-to-Release Journey
-4. ✅ Included all 7 phases with WHO/WHAT/WITH WHOM/WHERE/HOW tables
-5. ✅ Included Mermaid diagrams for each phase
-6. ✅ Included entry/exit criteria for each phase
-7. ✅ Included decision trees for branching paths
-8. ✅ Updated DOC-4-CURRENT.md pointer to v2.10
-9. ✅ Fast-forward merge to develop
+1. ✅ Identified DOC-1 and DOC-2 still at v2.9 (violated RULE 12)
+2. ✅ Created feature/v2.10-cumulative-docs-consistency from develop-v2.10
+3. ✅ Created DOC-1-v2.10-PRD.md (537 lines)
+4. ✅ Created DOC-2-v2.10-Architecture.md (998 lines)
+5. ✅ Updated DOC-1-CURRENT.md and DOC-2-CURRENT.md to v2.10
+6. ✅ Fast-forward merge to develop-v2.10
+7. ✅ Pushed to origin
 
-## IDEA-022 Summary
-- **Status:** `[IMPLEMENTED]`
-- **Type:** `governance` (Documentation)
-- **Title:** Ideation-to-Release Journey — Operational Reference
-- **Target:** DOC-4 (v2.10)
-- **Deliverable:** New Chapter 11 in DOC-4-v2.10-Operations-Guide.md
-
-## Ideas Captured (v2.10 Scope)
-- **IDEA-021:** Make DOC-3 and DOC-5 Release-Specific — [ACCEPTED] COMPLETED
-- **IDEA-022:** Ideation-to-Release Journey Operational Reference — [IMPLEMENTED] COMPLETED
+## v2.10 Scope (All Ideas Implemented)
+- **IDEA-021:** Make DOC-3 and DOC-5 Release-Specific — [IMPLEMENTED]
+- **IDEA-022:** Ideation-to-Release Journey Operational Reference — [IMPLEMENTED]
 
 ## Last Git commits
+- 74e6d75 feat(docs): complete v2.10 cumulative docs for RULE 12 consistency
 - bbb0f95 feat(docs): IDEA-022 - add Ideation-to-Release Journey chapter to DOC-4
 - 61e7ebb feat(governance): IDEA-021 - make DOC-3 and DOC-5 release-specific starting v2.10
 

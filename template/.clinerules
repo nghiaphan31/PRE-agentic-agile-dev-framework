@@ -493,8 +493,11 @@ This rule applies to ALL modes. It is NON-NEGOTIABLE.
 | main | Production state. **Frozen.** Only receives merge commits from develop-vX.Y at release time. Tags mark releases. | Never deleted. Never committed to directly. |
 | develop | **Wild mainline.** Ad-hoc features, experiments, quick fixes. No formal scope. | Long-lived. Never deleted. Always the base for develop-vX.Y. |
 | develop-vX.Y | **Scoped backlog.** Created when IDEAs are formally triaged for vX.Y. All release-scope work lands here. | Created at release planning. Never deleted after merge — kept for traceability. |
-| feature/{IDEA-NNN}-{slug} | Single feature or fix. | Branch from develop or develop-vX.Y, merge back via PR. Never deleted — kept for traceability. |
-| hotfix/vX.Y.Z | Emergency production fix. | Branched from production tag on main. Merged to main and develop. Never deleted — kept for traceability. |
+| feature/{Timebox}/{IDEA-NNN}-{slug} | Single feature or fix grouped by timebox. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from develop or develop-vX.Y, merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
+| lab/{Timebox}/{slug} | Experimental spike or research. **Ad-hoc exploration.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from develop, merge back or archive when sprint ends. Examples: `lab/2026-Q2/Spike-GraphQL`, `lab/Sprint-42/Spike-Auth` |
+| bugfix/{Timebox}/{Ticket}-{slug} | Planned bug fix (not emergency). **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from develop-vX.Y or develop, merge back via PR. Examples: `bugfix/2026-Q2/T-305-UI-Align`, `bugfix/Sprint-42/T-310-API-Timeout` |
+| hotfix/{Ticket} | Emergency production fix. **Production.** No timebox — tied to semantic version. | Branched from the production tag on main. Merged to main and develop, then deleted. Example: `hotfix/T-202-DB-Leak` |
+| release/vX.Y.Z | Release stabilization buffer. Isolates release polish from ongoing development. | Branch from develop when release is ready; all release fixes land here; merged to main and develop when stable. |
 
 ### 10.2 -- Forbidden Actions
 
@@ -507,7 +510,7 @@ This rule applies to ALL modes. It is NON-NEGOTIABLE.
 
 All new development (features, bug fixes, refactors) MUST follow this path:
 
-1. Branch from develop (ad-hoc) or develop-vX.Y (scoped) -> feature/{IDEA-NNN}-{slug} or fix/{description}
+1. Branch from develop (ad-hoc) or develop-vX.Y (scoped) -> `feature/{Timebox}/{IDEA-NNN}-{slug}`
 2. Develop and test on the feature branch
 3. Commit results to the feature branch
 4. Merge via PR to the source branch (fast-forward merge preferred, NO squash merge)
@@ -517,7 +520,14 @@ All new development (features, bug fixes, refactors) MUST follow this path:
 
 > **Exception:** Governance-only commits (ADRs, RULE additions, docs fixes) that do not change application code MAY be committed directly on develop.
 
-### 10.4 -- Release Workflow
+### 10.4 -- Ad-Hoc Workflow (Lab-to-Feature Refining)
+
+For experimental work that may become a production feature:
+
+1. **Strategy A — Direct Promotion:** Branch `lab/{Timebox}/{slug}`, develop, then merge directly to develop when production-ready.
+2. **Strategy B — Refining:** Branch `lab/{Timebox}/{slug}`, then create `feature/{Timebox}/{IDEA-NNN}-{slug}` that **merges the lab first**, then merges the refined feature to develop. This preserves traceability from experiment to product.
+
+### 10.5 -- Release Workflow
 
 1. Create develop-vX.Y from develop when IDEAs are formally triaged for vX.Y
 2. All vX.Y-scope commits land on develop-vX.Y
@@ -530,16 +540,22 @@ All new development (features, bug fixes, refactors) MUST follow this path:
    This restores the invariant: develop is always at or ahead of main, never behind.
 6. Continue on develop for the next release cycle
 
-### 10.5 -- Hotfix Exception
+### 10.6 -- Release Buffer Parallelism
+
+When a release branch (`release/vX.Y.Z`) is active, development for the next release **continues on develop in parallel**. This allows the team to:
+- Polish the current release on `release/vX.Y.Z`
+- Start the next sprint on `develop` simultaneously
+
+### 10.7 -- Hotfix Exception
 
 For critical production bugs:
-1. Branch hotfix/vX.Y.Z from the production tag on main
+1. Branch hotfix/{Ticket} from the production tag on main
 2. Fix and test on the hotfix branch
 3. Merge to main and to develop
 4. Tag vX.Y.Z on both branches
 5. **Keep** the hotfix branch after merge — never delete it (traceability requirement)
 
-### 10.6 -- ADR Reference
+### 10.8 -- ADR Reference
 
 This rule is documented as ADR-006 in memory-bank/hot-context/decisionLog.md.
 

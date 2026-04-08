@@ -2,8 +2,8 @@
 
 **Current release:** v2.12
 **File:** [docs/releases/v2.12/DOC-3-v2.12-Implementation-Plan.md](releases/v2.12/DOC-3-v2.12-Implementation-Plan.md)
-**Status:** Draft
-**Git tag:** (pending v2.12.0 release)
+**Status:** Frozen
+**Git tag:** v2.12.0
 
 **Previous release:** [docs/releases/v2.11/DOC-3-v2.11-Implementation-Plan.md](releases/v2.11/DOC-3-v2.11-Implementation-Plan.md) (`v2.11.0`)
 

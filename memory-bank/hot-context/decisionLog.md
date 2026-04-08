@@ -368,3 +368,21 @@ No authoritative location for release version existed. CHANGELOG.md was stale (v
 - All agents must consult RELEASE.md for release state
 - CHANGELOG.md and DOC-5-CURRENT.md are no longer authoritative
 - Release state tracked in one canonical location
+
+---
+
+## ADR-018 Update: TECH-003 Refined
+
+**Date:** 2026-04-08
+**Statut:** TECH-003 [REFINED]
+
+**Update:** TECH-003 has been refined with precise schema definition:
+
+1. **Schema Specification:** Defined exact table structures (Released Versions, Draft Version, Scope Section)
+2. **Update Protocol:** Established when and how to update RELEASE.md (on release events, commits, scope changes)
+3. **Consistency Enforcement:** Defined GitHub Actions workflow requirements for release-consistency-check.yml
+4. **Artifact Relationships:** Clarified how RELEASE.md interacts with EXECUTION-TRACKER, DOC-5-CURRENT, Git tags
+
+**Implementation remaining:**
+- Create `.github/workflows/release-consistency-check.yml`
+- Update `.clinerules` RULE 2 to include RELEASE.md update protocol

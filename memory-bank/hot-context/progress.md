@@ -88,11 +88,14 @@
 - [x] R-005: Tag creation trigger implemented
 - [x] Fast-forward merge to develop: SUCCESS
 
-### TECH-003: Release Tracking Single Source of Truth [DONE]
+### TECH-003: Release Tracking Single Source of Truth [REFINED]
 - [x] Created memory-bank/hot-context/RELEASE.md
 - [x] Established as sole authoritative source for release state
 - [x] v2.12.0 = current released, v2.13 = current draft
 - [x] ADR-018 documented
+- [x] Refined: precise schema, update protocol, consistency enforcement defined
+- [ ] Implement: release-consistency-check.yml workflow
+- [ ] Implement: .clinerules RULE 2 update
 
 ## Product Features
 

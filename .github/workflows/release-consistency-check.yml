@@ -1,0 +1,275 @@
+name: Release Consistency Check
+
+on:
+  pull_request:
+    branches: [main, develop, 'develop-v*']
+    paths:
+      - 'memory-bank/hot-context/RELEASE.md'
+      - 'docs/DOC-5-CURRENT.md'
+      - 'docs/DOC-3-CURRENT.md'
+      - 'docs/releases/**'
+      - '.github/workflows/release-consistency-check.yml'
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to check (e.g., v2.12)'
+        required: false
+        type: string
+
+jobs:
+  consistency-check:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.ref_protected != true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]] && [[ -n "${{ inputs.version }}" ]]; then
+            VERSION="${{ inputs.version }}"
+          elif [[ "${{ github.event_name }}" == "push" ]] && [[ "${{ github.ref }}" =~ ^refs/tags/v([0-9]+\.[0-9]+) ]]; then
+            VERSION="v${BASH_REMATCH[1]}"
+          else
+            # Extract from RELEASE.md
+            VERSION=$(grep -m1 "Current Draft Version:" memory-bank/hot-context/RELEASE.md | sed 's/.*v\([0-9]*\.[0-9]*\).*/v\1/')
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Checking consistency for: $VERSION"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # CHECK 1: RELEASE.md exists and is readable
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[CHECK 1] RELEASE.md existence'
+        run: |
+          echo "=== CHECK 1: RELEASE.md Existence ==="
+          RELEASE="memory-bank/hot-context/RELEASE.md"
+          if [[ ! -f "$RELEASE" ]]; then
+            echo "::error::RELEASE.md not found at $RELEASE — BLOCKING"
+            exit 1
+          fi
+          echo "✅ PASS: RELEASE.md exists"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # CHECK 2: RELEASE.md schema validation
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[CHECK 2] RELEASE.md schema validation'
+        run: |
+          echo "=== CHECK 2: RELEASE.md Schema Validation ==="
+          
+          RELEASE="memory-bank/hot-context/RELEASE.md"
+          
+          # Check required top-level fields
+          if ! grep -q "Current Released Version:" "$RELEASE"; then
+            echo "::error::RELEASE.md missing 'Current Released Version' field"
+            exit 1
+          fi
+          
+          if ! grep -q "Current Draft Version:" "$RELEASE"; then
+            echo "::error::RELEASE.md missing 'Current Draft Version' field"
+            exit 1
+          fi
+          
+          # Check required sections
+          if ! grep -q "## Released Versions" "$RELEASE"; then
+            echo "::error::RELEASE.md missing '## Released Versions' section"
+            exit 1
+          fi
+          
+          if ! grep -q "## Draft Version" "$RELEASE"; then
+            echo "::error::RELEASE.md missing '## Draft Version' section"
+            exit 1
+          fi
+          
+          # Check for Last updated field
+          if ! grep -q "Last updated:" "$RELEASE"; then
+            echo "::error::RELEASE.md missing 'Last updated' timestamp"
+            exit 1
+          fi
+          
+          echo "✅ PASS: RELEASE.md schema is valid"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # CHECK 3: Git tag consistency with RELEASE.md
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[CHECK 3] Git tag consistency'
+        run: |
+          echo "=== CHECK 3: Git Tag vs RELEASE.md Consistency ==="
+          
+          RELEASE="memory-bank/hot-context/RELEASE.md"
+          
+          # Extract current released version from RELEASE.md
+          CURRENT_VERSION=$(grep "Current Released Version:" "$RELEASE" | sed 's/.*v\([0-9]*\.[0-9]*\.[0-9]*\).*/v\1/')
+          EXPECTED_TAG="$CURRENT_VERSION"
+          
+          # Check if Git tag exists
+          if git tag --list | grep -q "^${EXPECTED_TAG}$"; then
+            echo "✅ PASS: Git tag $EXPECTED_TAG exists"
+          else
+            echo "::error::Git tag $EXPECTED_TAG not found — RELEASE.md claims $CURRENT_VERSION is released"
+            exit 1
+          fi
+          
+          # Verify the tag is on main branch
+          TAG_COMMIT=$(git rev-list -1 "$EXPECTED_TAG")
+          ON_MAIN=$(git branch --contains "$TAG_COMMIT" --format='%(refname:short)' | grep -E '^main$' || true)
+          if [[ -z "$ON_MAIN" ]]; then
+            echo "::warning::Tag $EXPECTED_TAG is not on main branch (may be expected for hotfix)"
+          else
+            echo "✅ PASS: Tag $EXPECTED_TAG is on main branch"
+          fi
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # CHECK 4: DOC-5-CURRENT.md consistency
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[CHECK 4] DOC-5-CURRENT.md consistency'
+        run: |
+          echo "=== CHECK 4: DOC-5-CURRENT.md vs RELEASE.md ==="
+          
+          RELEASE="memory-bank/hot-context/RELEASE.md"
+          DOC5="docs/DOC-5-CURRENT.md"
+          
+          # Get current released version from RELEASE.md
+          RELEASED_VERSION=$(grep "Current Released Version:" "$RELEASE" | sed 's/.*v\([0-9]*\.[0-9]*\).*/v\1/')
+          
+          # Get current version from DOC-5-CURRENT.md
+          if [[ -f "$DOC5" ]]; then
+            DOC5_VERSION=$(grep "Current release:" "$DOC5" | sed 's/.*v\([0-9]*\.[0-9]*\).*/v\1/')
+            
+            if [[ "$DOC5_VERSION" != "$RELEASED_VERSION" ]]; then
+              echo "::error::DOC-5-CURRENT.md points to $DOC5_VERSION but RELEASE.md says current released is $RELEASED_VERSION"
+              exit 1
+            fi
+            
+            echo "✅ PASS: DOC-5-CURRENT.md ($DOC5_VERSION) matches RELEASE.md ($RELEASED_VERSION)"
+          else
+            echo "::warning::DOC-5-CURRENT.md not found"
+          fi
+          
+          # Verify the DOC-5 file exists
+          DOC5_PATH=$(grep -m1 "File:.*DOC-5.*\.md" "$DOC5" | sed 's/.*\[\(.*\)\].*/\1/')
+          if [[ -n "$DOC5_PATH" ]]; then
+            if [[ -f "$DOC5_PATH" ]]; then
+              echo "✅ PASS: DOC-5 file exists at $DOC5_PATH"
+            else
+              echo "::error::DOC-5-CURRENT.md references $DOC5_PATH but file not found"
+              exit 1
+            fi
+          fi
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # CHECK 5: Frozen docs existence for released versions
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[CHECK 5] Frozen docs existence'
+        run: |
+          echo "=== CHECK 5: Frozen Docs for Released Versions ==="
+          
+          RELEASE="memory-bank/hot-context/RELEASE.md"
+          FAILED=0
+          
+          # Parse Released Versions table (skip header and separator)
+          while IFS='|' read -r version tag date branch status doc5path; do
+            # Skip empty lines, header, and separator
+            if [[ -z "$version" ]] || [[ "$version" =~ Version ]] || [[ "$version" =~ ^- ]]; then
+              continue
+            fi
+            version=$(echo "$version" | tr -d ' ')
+            if [[ -z "$version" ]] || [[ ! "$version" =~ ^v[0-9] ]]; then
+              continue
+            fi
+            
+            # Extract major.minor version
+            if [[ "$version" =~ ^v([0-9]+)\.([0-9]+) ]]; then
+              major="${BASH_REMATCH[1]}"
+              minor="${BASH_REMATCH[2]}"
+              doc_dir="docs/releases/v${major}.${minor}/"
+              
+              # Check DOC-5 exists
+              doc5_file=$(grep -m1 "DOC-5" <<< "$doc5path" | sed 's/.*\[\(.*\)\].*/\1/')
+              if [[ -n "$doc5_file" ]] && [[ ! -f "$doc5_file" ]]; then
+                echo "::error::Released version $version: DOC-5 not found at $doc5_file"
+                FAILED=1
+              fi
+            fi
+          done < "$RELEASE"
+          
+          if [[ "$FAILED" -eq 1 ]]; then
+            exit 1
+          fi
+          echo "✅ PASS: All released versions have corresponding frozen docs"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # CHECK 6: Draft version branch existence
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[CHECK 6] Draft version branch exists'
+        run: |
+          echo "=== CHECK 6: Draft Version Branch Existence ==="
+          
+          RELEASE="memory-bank/hot-context/RELEASE.md"
+          
+          # Get draft version and branch
+          DRAFT_VERSION=$(grep "Current Draft Version:" "$RELEASE" | sed 's/.*v\([0-9]*\.[0-9]*\).*/v\1/')
+          DRAFT_BRANCH=$(grep -A1 "## Draft Version" "$RELEASE" | grep -E "^\|.*develop" | head -1 | cut -d'|' -f3 | tr -d ' ')
+          
+          if [[ -z "$DRAFT_BRANCH" ]]; then
+            echo "::warning::Could not determine draft branch from RELEASE.md"
+          else
+            # Check if branch exists locally or remotely
+            if git branch --list "$DRAFT_BRANCH" | grep -q .; then
+              echo "✅ PASS: Draft branch $DRAFT_BRANCH exists"
+            elif git ls-remote --heads origin "$DRAFT_BRANCH" | grep -q .; then
+              echo "✅ PASS: Draft branch $DRAFT_BRANCH exists on remote"
+            else
+              echo "::warning::Draft branch $DRAFT_BRANCH not found (may be normal for new releases)"
+            fi
+          fi
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # CHECK 7: EXECUTION-TRACKER exists for draft
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: '[CHECK 7] EXECUTION-TRACKER for draft version'
+        run: |
+          echo "=== CHECK 7: EXECUTION-TRACKER for Draft Version ==="
+          
+          RELEASE="memory-bank/hot-context/RELEASE.md"
+          
+          # Get draft version
+          DRAFT_VERSION=$(grep "Current Draft Version:" "$RELEASE" | sed 's/.*v\([0-9]*\.[0-9]*\).*/v\1/')
+          
+          # Extract major.minor
+          if [[ "$DRAFT_VERSION" =~ ^v([0-9]+)\.([0-9]+) ]]; then
+            major="${BASH_REMATCH[1]}"
+            minor="${BASH_REMATCH[2]}"
+            tracker="docs/releases/v${major}.${minor}/EXECUTION-TRACKER-v${major}.${minor}.md"
+            
+            if [[ -f "$tracker" ]]; then
+              echo "✅ PASS: EXECUTION-TRACKER exists at $tracker"
+            else
+              echo "::warning::EXECUTION-TRACKER not found at $tracker (will be created on first session)"
+            fi
+          fi
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Summary
+      # ─────────────────────────────────────────────────────────────────────────
+      - name: Summary
+        run: |
+          echo ""
+          echo "═══════════════════════════════════════════════════════════"
+          echo "  Release Consistency Check — Summary"
+          echo "═══════════════════════════════════════════════════════════"
+          VERSION="${{ steps.version.outputs.version }}"
+          echo "  Version checked: $VERSION"
+          echo "  Status: ALL CHECKS PASSED ✅"
+          echo "═══════════════════════════════════════════════════════════"

@@ -1,8 +1,8 @@
 # Project Progress
 
-**Last updated:** 2026-04-08T05:30:00Z
-**Session:** s2026-04-08-code-004
-**Plan:** IDEA-022
+**Last updated:** 2026-04-08T13:58:00Z
+**Session:** s2026-04-08-orchestrator-001
+**Plan:** v2.11 pre-release ready
 
 ## le workbench Infrastructure
 
@@ -21,7 +21,36 @@
 - [x] Phase 11: prompts/ registry synchronized (SP-001..006 PASS, SP-007 WARN manual)
 - [x] Phase 12: check-prompts-sync.ps1 v2 + pre-commit hook operational
 
-## Epic 2: Documentation Governance (IDEA-014, IDEA-015, IDEA-017, IDEA-020, IDEA-021)
+## Epic 2: Documentation Governance (IDEA-014, IDEA-015, IDEA-017, IDEA-018, IDEA-020, IDEA-021, IDEA-024)
+
+### IDEA-014: Canonical Docs Status Governance [IMPLEMENTED]
+- [x] RULE 8: Documentation Discipline implemented
+- [x] The Two Spaces (Frozen vs Draft) established
+- [x] Idea Capture Mandate implemented
+- [x] Conversation Log Mandate implemented
+
+### IDEA-015: Mandatory Release Coherence Audit [IMPLEMENTED]
+- [x] Pre-release audit checklist (5 days before target)
+- [x] Scope freeze verification
+- [x] Documentation coherence check
+- [x] Code coherence verification
+- [x] audit_cumulative_docs.py updated to skip pre-v2.10 releases
+- [x] RC1 validation passed — v2.11 ready for release
+
+### IDEA-016: Enrich Docs with Mermaid Diagrams [IMPLEMENTED]
+- [x] Checked out feature/IDEA-016-enrich-docs-with-diagrams from develop-v2.11
+- [x] Added 5 Mermaid diagrams to DOC-1-v2.9-PRD.md:
+  - §1.4 System Architecture Summary (graph TB)
+  - §1.5 Three LLM Backend Modes Comparison (graph LR)
+  - §1.6 Memory Bank Hot/Cold Architecture (graph LR)
+  - §13.1 Calypso Orchestration Phases (flowchart LR)
+  - §14.2 Sync Detection Flow (flowchart TD)
+- [x] Added 3 Mermaid diagrams to DOC-3-v2.10-Implementation-Plan.md:
+  - §2 Ideation-to-Release Pipeline (flowchart TD)
+  - §2.2 GitFlow Branch Lifecycle (gitGraph)
+  - §3.3 Definition of Done Flow (flowchart LR)
+- [x] Updated IDEA-016 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
+- [x] Fast-forward merge to develop-v2.11
 
 ### IDEA-017: Canonical Docs Cumulative Requirement [COMPLETED]
 - [x] Identified P0 issue: v2.6 docs fail RULE 12 cumulative requirement
@@ -34,21 +63,24 @@
 - [x] Built DOC-5-v2.7-Release-Notes.md (270 lines, exceeds 200 minimum)
 - [x] Verified all docs cumulative: true front matter
 - [x] GitHub Actions CI validation passed (5/5 PASS)
-- [x] Memory bank updated
-- [x] Commit pending
 
-### IDEA-020: Deterministic Docs from Sources [COMPLETED]
-- [x] Branched: feature/IDEA-020-deterministic-docs-from-sources from develop
-- [x] Built DOC-1-v2.8-PRD.md (503 lines, cumulative: true)
-- [x] Built DOC-2-v2.8-Architecture.md (752 lines, cumulative: true)
-- [x] Built DOC-4-v2.8-Operations-Guide.md (381 lines, cumulative: true)
-- [x] Source attribution: All sections cite source files
-- [x] Mermaid diagrams: 5 architecture diagrams in DOC-2
-- [x] Fast-forward merge to develop
-- [x] Updated DOC-*-CURRENT.md pointers to v2.8
-- [x] Memory Bank updated
+### IDEA-018: Rules Authoritative & Coherent [IMPLEMENTED]
+- [x] Checked out feature/IDEA-018-rules-authoritative-coherent
+- [x] Updated RULE 6.2 in .clinerules (clarified inline addition prohibition)
+- [x] Updated RULE 7.2 in .clinerules (added pipeline pattern clarification)
+- [x] Synced changes to template/.clinerules
+- [x] Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
+- [x] Fast-forward merge to develop-v2.11
 
-### IDEA-021: Release-Specific DOC-3 and DOC-5 [COMPLETED]
+### IDEA-020: Orchestrator as Default Mode [IMPLEMENTED]
+- [x] Analyzed existing handoff-state.md on develop-v2.11
+- [x] Added RULE 16 (Mandatory Handoff Protocol) to .clinerules
+- [x] Synced RULE 16 to template/.clinerules
+- [x] Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
+- [x] Updated IDEA-020 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
+- [x] Updated IDEA-020 file with implementation details
+
+### IDEA-021: Release-Specific DOC-3 and DOC-5 [IMPLEMENTED]
 - [x] Created feature/IDEA-021-release-specific-docs-3-5 from develop
 - [x] Updated RULE 12 in .clinerules (DOC-3/DOC-5 release-specific, DOC-1/2/4 cumulative)
 - [x] Synced RULE 12 to template/.clinerules
@@ -62,50 +94,14 @@
 - [x] Updated DOC-5-CURRENT.md pointer to v2.10
 - [x] Fast-forward merge to develop
 - [x] v2.11: Created DOC-3-v2.11-Implementation-Plan.md (release-specific, 159 lines)
-- [x] v2.11: Created DOC-5-v2.11-Release-Notes.md (release-specific, 85 lines)
+- [x] v2.11: Created DOC-5-v2.11-Release-Notes.md (release-specific, 71 lines)
 - [x] v2.11: Updated DOC-3-CURRENT.md pointer to v2.11
 - [x] v2.11: Updated DOC-5-CURRENT.md pointer to v2.11
-- [x] v2.11: Updated IDEA-021 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
 - [x] Memory Bank updated
 
-### IDEA-022: Ideation-to-Release Journey [COMPLETED]
-- [x] Created feature/IDEA-022-ideation-to-release-journey from develop
-- [x] Created DOC-4-v2.10-Operations-Guide.md (870 lines cumulative)
-- [x] Added Chapter 11: Ideation-to-Release Journey
-- [x] Documented all 7 phases with WHO/WHAT/WITH WHOM/WHERE/HOW tables
-- [x] Included Mermaid diagrams for each phase
-- [x] Included entry/exit criteria for each phase
-- [x] Included decision trees for branching paths
-- [x] Updated DOC-4-CURRENT.md pointer to v2.10
-- [x] Fast-forward merge to develop
-- [x] Memory Bank updated
-
-### IDEA-016: Enrich Docs with Mermaid Diagrams [COMPLETED]
-- [x] Checked out feature/IDEA-016-enrich-docs-with-diagrams from develop-v2.11
-- [x] Added 5 Mermaid diagrams to DOC-1-v2.9-PRD.md:
-  - §1.4 System Architecture Summary (graph TB)
-  - §1.5 Three LLM Backend Modes Comparison (graph LR)
-  - §1.6 Memory Bank Hot/Cold Architecture (graph LR)
-  - §13.1 Calypso Orchestration Phases (flowchart LR)
-  - §14.2 Sync Detection Flow (flowchart TD)
-- [x] Added 3 Mermaid diagrams to DOC-3-v2.10-Implementation-Plan.md:
-  - §2 Ideation-to-Release Pipeline (flowchart TD)
-  - §2.2 GitFlow Branch Lifecycle (gitGraph)
-  - §3.3 Definition of Done Flow (flowchart LR)
-- [x] Updated IDEA-016 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
-- [x] Fast-forward merge to develop-v2.11 pending
-
-### IDEA-014: Canonical Docs Status Governance [COMPLETED]
-- [x] RULE 8: Documentation Discipline implemented
-- [x] The Two Spaces (Frozen vs Draft) established
-- [x] Idea Capture Mandate implemented
-- [x] Conversation Log Mandate implemented
-
-### IDEA-015: Mandatory Release Coherence Audit [PENDING]
-- [ ] Pre-release audit checklist (5 days before target)
-- [ ] Scope freeze verification
-- [ ] Documentation coherence check
-- [ ] Code coherence verification
+### IDEA-024: Mandatory Backlog Maintenance [IMPLEMENTED]
+- [x] Implemented via IDEA-020 handoff protocol
+- [x] Backlog status updates tracked in session handoffs
 
 ## Product Features
 
@@ -127,51 +123,6 @@
 - [x] Batch 1 — DOC6 Expert Review submitted + retrieved → DOC6-REVIEW-RESULTS.md
 - [x] Batch 2 — DOC6 Deep Review submitted + retrieved → DOC6-REVIEW-RESULTS2.md
 - [x] DOC6 v2.6 full audit completed
-
----
-
-### IDEA-022: Ideation-to-Release Journey Operational Reference [IDEA]
-- [ ] Create feature branch for DOC-4 chapter enrichment
-- [ ] Draft new "Ideation-to-Release Journey" chapter in DOC-4
-- [ ] Document all phases with WHO/WHAT/WITH WHOM/WHERE/HOW
-- [ ] Include decision trees for branching paths
-- [ ] Update DOC-4 to v2.10 with new chapter
-- [ ] QA pass on new chapter
-- [ ] Merge to develop
-
-## Epic 2: Documentation Governance (IDEA-014, IDEA-015, IDEA-017, IDEA-020, IDEA-021, IDEA-022)
-
-### IDEA-021: Release-Specific DOC-3 and DOC-5 [COMPLETED]
-- [x] Created feature/IDEA-021-release-specific-docs-3-5 from develop
-- [x] Updated RULE 12 in .clinerules (DOC-3/DOC-5 release-specific, DOC-1/2/4 cumulative)
-- [x] Synced RULE 12 to template/.clinerules
-- [x] Rebuilt SP-002 via scripts/rebuild_sp002.py (byte-for-byte match verified)
-- [x] Updated .githooks/pre-receive enforcement (release-specific line thresholds)
-- [x] Updated .github/workflows/canonical-docs-check.yml (release-specific validation)
-- [x] Created docs/releases/v2.10/ directory
-- [x] Created DOC-3-v2.10-Implementation-Plan.md (release-specific, ~120 lines)
-- [x] Created DOC-5-v2.10-Release-Notes.md (release-specific, ~65 lines)
-- [x] Updated DOC-3-CURRENT.md pointer to v2.10
-- [x] Updated DOC-5-CURRENT.md pointer to v2.10
-- [x] Validated prompts sync (6 PASS, 1 WARN for SP-007 manual)
-- [x] Fast-forward merge to develop
-- [x] Memory Bank updated
-
-### IDEA-018: Rules Authoritative & Coherent [COMPLETED]
-- [x] Checked out feature/IDEA-018-rules-authoritative-coherent
-- [x] Updated RULE 6.2 in .clinerules (clarified inline addition prohibition)
-- [x] Updated RULE 7.2 in .clinerules (added pipeline pattern clarification)
-- [x] Synced changes to template/.clinerules
-- [x] Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
-- [x] Fast-forward merge to develop-v2.11
-
-### IDEA-020: Orchestrator as Default Mode [COMPLETED]
-- [x] Analyzed existing handoff-state.md on develop-v2.11
-- [x] Added RULE 16 (Mandatory Handoff Protocol) to .clinerules
-- [x] Synced RULE 16 to template/.clinerules
-- [x] Rebuilt SP-002 via python scripts/rebuild_sp002.py (byte-for-byte match verified)
-- [x] Updated IDEA-020 status to [IMPLEMENTED] in IDEAS-BACKLOG.md
-- [x] Updated IDEA-020 file with implementation details
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

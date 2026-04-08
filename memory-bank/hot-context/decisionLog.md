@@ -275,3 +275,36 @@ DOC-3 (Implementation Plan) et DOC-5 (Release Notes) etaient trait comme documen
 - DOC-3 et DOC-5 ne contiennent que le contenu de la release courante
 - Historique preserve dans docs/releases/vX.Y/
 - Line count minimums: DOC-3 >= 100 lines, DOC-5 >= 50 lines
+
+---
+
+## ADR-016 : Skip Pre-v2.10 Releases in Audit Validation
+
+**Date:** 2026-04-08
+**Statut:** ACCEPTED
+
+**Contexte:**
+L'audit de coherence cumulative (scripts/audit_cumulative_docs.py) validait TOUTES les releases. Cependant, les releases pre-v2.10 ont ete creees avec des criteres de gouvernance differents (line counts beaucoup plus bas). Les appliquer aux releases v1.0-v2.9 cause des echecs de validation qui ne reflettent pas des vrais problemes de gouvernance.
+
+**Decision:**
+- Modifier scripts/audit_cumulative_docs.py pour ne valider que les releases v2.10 et superieures
+- Les releases pre-v2.10 (v1.0 a v2.9) sont exemptees de la validation cumulative
+- Les seuils de lignes (DOC-1: 500, DOC-2: 500, DOC-3: 100, DOC-4: 300, DOC-5: 50) s'appliquent prospectivement a partir de v2.10
+
+**Rationale:**
+- Les regles de gouvernance (RULE 12) ont ete formalisees en v2.10
+- Les releases historiques pre-v2.10 ont ete creees sans ces exigences explicites
+- Appliquer les nouvelles exigences retrospectivement n'est pas equitable
+- La gouvernance s'applique prospectivement
+
+**Implementation:**
+- Commit 109903a: `fix(audit): skip validation of historical releases pre-v2.10`
+- Variable MIN_VERSION = "v2.10" dans audit_cumulative_docs.py
+
+**Fichiers mis a jour:**
+- scripts/audit_cumulative_docs.py — ajout du filtrage par version
+
+**Consequences:**
+- Les releases pre-v2.10 ne sont plus marquees comme echouees dans l'audit
+- L'audit se concentre sur les releases actuelles et futures
+- Cohérence avec laportée prospective de la gouvernance v2.10+

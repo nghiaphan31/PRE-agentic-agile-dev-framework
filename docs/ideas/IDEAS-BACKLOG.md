@@ -73,6 +73,7 @@
 
 | [IDEA-022](IDEA-022-ideation-to-release-journey.md) | Ideation-to-Release Journey — Operational Reference | Human request + Orchestrator intake | 2026-04-08 | [IMPLEMENTED] | governance | Medium | v2.10 | New documentation chapter in DOC-4 |
 | [IDEA-023](IDEA-023-systematic-raw-conversation-capture.md) | Systematic Raw Conversation Capture | Human 2026-04-08 | 2026-04-08 | [SUPERSEDED] | business | TBD | TBD | Redundant with IDEA-019 conversation logging |
+| [IDEA-024](IDEA-024-mandatory-backlog-maintenance.md) | Mandatory Backlog Maintenance in RULE 2 | Code mode analysis | 2026-04-08 | [IDEA] | governance | Minor | TBD | Close loophole in RULE 2 enforcement |
  -------
 
 ---

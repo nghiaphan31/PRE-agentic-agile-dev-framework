@@ -1,6 +1,6 @@
 # Technical Suggestions Backlog
 
-**Last updated:** 2026-04-01
+**Last updated:** 2026-04-08
 
 ## How to Use
 
@@ -25,7 +25,8 @@ Technical suggestions ("How" proposals) are tracked separately from business req
 | ID | Title | Captured | Status | Complexity | Notes |
 |----|-------|----------|--------|------------|-------|
 | TECH-001 | Investigate MinMax M2.7 Batch API Support | 2026-04-01 | [IDEA] | 6/10 | Lower costs vs Anthropic batch |
+| TECH-002 | Auto-Detect Merged Features for Release Scope | 2026-04-08 | [IDEA] | 7/10 | IDEA-019 catalyst; release governance automation |
 
 ---
 
-*Generated 2026-04-01*
+*Generated 2026-04-08*

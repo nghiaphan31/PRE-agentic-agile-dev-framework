@@ -308,3 +308,36 @@ L'audit de coherence cumulative (scripts/audit_cumulative_docs.py) validait TOUT
 - Les releases pre-v2.10 ne sont plus marquees comme echouees dans l'audit
 - L'audit se concentre sur les releases actuelles et futures
 - Cohérence avec laportée prospective de la gouvernance v2.10+
+
+---
+
+## ADR-017 : TECH-002 — Auto-Detect Merged Features for Release Scope
+
+**Date:** 2026-04-08
+**Statut:** [IDEA]
+
+**Contexte:**
+TECH-002 a ete capture suite a l'observation que IDEA-019 (conversation-logging-mechanism) a ete implementee et fusionnee dans `develop` mais n'a pas ete automatiquement ajoutee au scope de la release v2.11. Le processus de release scoping est actuellement manuel.
+
+**Decision:**
+- Capture de TECH-002 comme technical suggestion
+- Fichier cree: `docs/ideas/TECH-002-auto-detect-merged-features-for-release-scope.md`
+- Entrees ajoutees dans `docs/ideas/TECH-SUGGESTIONS-BACKLOG.md`
+
+**Options proposees:**
+1. Option A: Git Hook + Script (Pre-merge) — hook sur `develop` qui extrait l'IDEA ID
+2. Option B: Scheduled Scan (CI/CD) — GitHub Actions nocturne
+3. Option C: On-Demand Orchestrator Command — commande "sync release scope"
+
+**Prochaines etapes:**
+- Architect doit evaluer la complexite (7/10) et choisir l'approche
+- Decision [ACCEPTED]/[REJECTED]/[DEFERRED] a venir
+
+**Fichiers mis a jour:**
+- `docs/ideas/TECH-002-auto-detect-merged-features-for-release-scope.md` — NOUVEAU
+- `docs/ideas/TECH-SUGGESTIONS-BACKLOG.md` — entree TECH-002 ajoutee
+
+**Related Ideas:**
+- IDEA-003: Release Governance
+- IDEA-019: Conversation Logging Mechanism (catalyseur)
+- IDEA-022: Ideation-to-Release Journey

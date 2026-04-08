@@ -44,6 +44,18 @@ v2.11 Day -2 dry run: RC1 tag created on develop-v2.11
 6. ✅ Git commit: 109903a
 7. ✅ Memory bank updated per RULE 2
 
+## Intake Processing (2026-04-08T15:41Z)
+- **Source:** Developer mode (routing from IDEA-019 context)
+- **TECH-002 created:** Auto-Detect Merged Features for Release Scope
+  - Problem: Release scoping is manual, IDEA-019 was missed from v2.11 scope
+  - Complexity: 7/10
+  - Options: Git Hook, Scheduled CI/CD, On-Demand Orchestrator Command
+- **Files updated:**
+  - `docs/ideas/TECH-002-auto-detect-merged-features-for-release-scope.md` (NEW)
+  - `docs/ideas/TECH-SUGGESTIONS-BACKLOG.md` (TECH-002 entry added)
+  - `memory-bank/hot-context/decisionLog.md` (ADR-017 logged)
+- **Status:** Awaiting Architect evaluation → [ACCEPTED]/[REJECTED]/[DEFERRED]
+
 ## Audit Results
 - **v2.10:** All 5 docs pass minimum line counts ✓
   - DOC-1: 538 lines (min 500) ✓

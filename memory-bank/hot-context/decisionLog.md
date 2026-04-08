@@ -36,3 +36,12 @@
 - **Decision:** Remove `if len(parents) < 2: continue` to detect ALL commits per R-006 requirement
 - **Consequences:** Script now detects all commits on develop since previous release tag
 
+## ADR-016: v2.13 Release Decisions
+- **Date:** 2026-04-08
+- **Context:** v2.13.0 release completed - TECH-002 and TECH-003 fully implemented and merged
+- **Decision:**
+  - TECH-002 (Auto-Detect Merged Features): All options implemented - Option A (Git Hook), Option B (PR merge trigger), Option C (push/nightly), R-005 (tag-creation trigger), R-006 (all commits detection)
+  - TECH-003 (Single Source of Truth): RELEASE.md established as sole authoritative source, release-consistency-check.yml workflow deployed, .clinerules RULE 2 updated
+  - Fast-forward merge from feature branches to develop completed successfully
+- **Consequences:** v2.14 planning can begin; all release tracking now governed by RELEASE.md
+

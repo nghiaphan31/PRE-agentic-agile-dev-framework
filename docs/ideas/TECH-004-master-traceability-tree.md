@@ -1,11 +1,12 @@
 # TECH-004: Master Traceability Tree — Enhanced Git Flow with Full Traceability
 
-**Status:** [ACCEPTED] — Branch types (lab/, bugfix/) and --no-ff accepted for v2.14. Release buffer and parallelism deferred.
-**Captured:** 2026-04-08  
-**Source:** User discussion with Gemini  
-**Classification:** TECHNICAL (How)  
-**Supersedes:** TECH-001, TECH-002, TECH-003 (unrelated)  
+**Status:** [RELEASED-v2.15] — Extension of ADR-006. Branch types (lab/, bugfix/), stabilization/vX.Y naming, Refining Workflow (lab→feature→develop) implemented via ADR-006-AMEND-001.
+**Captured:** 2026-04-08
+**Source:** User discussion with Gemini
+**Classification:** TECHNICAL (How)
+**Supersedes:** TECH-001, TECH-002, TECH-003 (unrelated)
 **Potential Overlap:** ADR-006 (develop/main branching model)
+**Released:** v2.15 (ADR-006-AMEND-001)
 
 ---
 
@@ -188,7 +189,14 @@ ADR-006 defines the high-level branch model:
 
 ## Next Steps
 
-- [ ] Architect review: Evaluate feasibility and complexity
-- [ ] Sync with ADR-006 author to ensure compatibility
-- [ ] Decision: ACCEPTED / REJECTED / NEEDS_MORE_INFO
-- [ ] If accepted: Update RULE 10 and systemPatterns.md
+- [x] Architect review: Evaluate feasibility and complexity
+- [x] Sync with ADR-006 author to ensure compatibility
+- [x] Decision: ACCEPTED / REJECTED / NEEDS_MORE_INFO
+- [x] Implemented: Update RULE 10 and systemPatterns.md via ADR-006-AMEND-001
+
+## Release History
+
+| Version | Date | Components |
+|---------|------|------------|
+| v2.14 | 2026-04-08 | Branch types (lab/, bugfix/) and --no-ff merge strategy accepted |
+| v2.15 | 2026-04-09 | ADR-006-AMEND-001: stabilization/vX.Y rename, main rename, Refining Workflow (lab→feature→develop) |

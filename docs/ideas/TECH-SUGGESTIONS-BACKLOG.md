@@ -1,6 +1,6 @@
 # Technical Suggestions Backlog
 
-**Last updated:** 2026-04-08
+**Last updated:** 2026-04-09
 
 ## How to Use
 
@@ -28,13 +28,18 @@ Technical suggestions ("How" proposals) are tracked separately from business req
 | TECH-001 | Investigate MinMax M2.7 Batch API Support | 2026-04-01 | [IDEA] | 6/10 | Lower costs vs Anthropic batch |
 | TECH-002 | Auto-Detect Merged Features for Release Scope | 2026-04-08 | [IMPLEMENTED] | 7/10 | All options implemented: Option A (Git Hook), Option B (PR merge trigger), Option C (push/nightly), R-005 (tag-creation trigger). R-006 added: ALL commits on develop since previous release tag MUST be in scope. |
 | TECH-003 | Single Source of Truth for Release Tracking | 2026-04-08 | [IMPLEMENTED] | 3/10 | Implemented: release-consistency-check.yml created, .clinerules RULE 2 updated, DOC-5/DOC-3-CURRENT.md fixed. |
-| TECH-004 | Master Traceability Tree | 2026-04-08 | [ACCEPTED-EXTENSION] | 5/10 | Extension of ADR-006. stabilization/vX.Y replaces release/vX.Y.Z. Refining workflow documented. |
+| TECH-004 | Master Traceability Tree — Enhanced Git Flow | 2026-04-08 | [RELEASED-v2.15] | 8/10 | Extension of ADR-006. lab/, bugfix/ branch types + stabilization/vX.Y rename + Refining Workflow (lab→feature→develop). Released via ADR-006-AMEND-001. |
+| TECH-005 | Hybrid Naming Convention | 2026-04-08 | [DEFERRED] | 3/10 | Superseded by TECH-004 hybrid pattern; deferred to future evaluation |
+| TECH-006 | Dummy Task Mode Switch | 2026-04-08 | [RELEASED-v2.15] | 2/10 | Implemented: Added auto-switch instruction to RULE 16.5 — invoke switch_mode("orchestrator") at session start |
+| TECH-007 | Mechanical `--no-ff` Merge Enforcement | 2026-04-09 | [RELEASED-v2.15] | 3/10 | Option A: GitHub Actions workflow implemented. `.github/workflows/require-merge-commit.yml` creates merge commit with 2 parents verification. |
+
+---
+
 ### v2.15 Scope (Frozen)
 
 | ID | Title | Created | Status | Confidence | Notes |
 |----|-------|---------|--------|------------|-------|
 | TECH-006 | Dummy Task Mode Switch | 2026-04-08 | [RELEASED-v2.15] | 2/10 | Implemented: Added auto-switch instruction to RULE 16.5 — invoke switch_mode("orchestrator") at session start |
-| TECH-004 | Master Traceability Tree — Enhanced Git Flow | 2026-04-08 | [ACCEPTED-EXTENSION] | 8/10 | Extension of ADR-006. stabilization/vX.Y replaces release/vX.Y.Z. Refining workflow (lab→feature→develop) documented. |
 | TECH-007 | Mechanical `--no-ff` Merge Enforcement | 2026-04-09 | [RELEASED-v2.15] | 3/10 | Option A: GitHub Actions workflow implemented. `.github/workflows/require-merge-commit.yml` creates merge commit with 2 parents verification. |
 
 ---

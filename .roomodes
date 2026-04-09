@@ -61,7 +61,7 @@
         "command",
         "mcp"
       ],
-      "source": "builtin"
+      "source": "global"
     }
   ]
 }

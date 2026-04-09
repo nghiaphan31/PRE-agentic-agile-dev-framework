@@ -24,6 +24,18 @@
 - **Decision:** Co-accept both, implement together
 - **Consequences:** New governance ADRs, release gate workflow
 
+## ADR-014: IDEA-030 Refinement — GitHub Actions Branch Patterns + Test Coverage
+
+**Date:** 2026-04-09
+
+**Context:** v2.15 consistency review identified 6 critical gaps in GitHub Actions branch triggers and test coverage.
+
+**Decision:** IDEA-030 refined with two parts:
+- Part A: Fix 3 GitHub Actions workflows to use `stabilization/v*` instead of `develop-v*`
+- Part B: Create 3 new test files for branch naming, DOC-CURRENT pointers, and SP-002 sync
+
+**Consequences:** All v2.16 release validation will use correct stabilization branch pattern.
+
 ## ADR-014: Git Hook Filename Fix for v2.13
 - **Date:** 2026-04-08
 - **Context:** QA blocker - docs reference `.githooks/pre-receive-merged-features` but actual file was `.githooks/pre-receive-detect`

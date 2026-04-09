@@ -1,6 +1,6 @@
 # Active Context
 
-**Last updated:** 2026-04-09T14:30:00Z
+**Last updated:** 2026-04-09T16:18:00Z
 
 **Active mode:** orchestrator
 
@@ -14,34 +14,28 @@ Fallback State: Not triggered
 
 ## Current task
 
-v2.15 Consistency Review — Comprehensive governance system consistency review across 5 phases completed. Review identified 42 findings (13 CRITICAL, 12 MAJOR, 17 MINOR) that must be addressed.
+Refining IDEA-030 (Fix Critical Gaps — GitHub Actions + Test Coverage)
 
 ## Last result
 
-Completed comprehensive v2.15 consistency review across 4 phases - 42 findings (13 CRITICAL, 12 MAJOR, 17 MINOR):
-- Phase 2: Rules & Scripts review — 2 CRITICAL, 2 MAJOR, 2 MINOR
-- Phase 3: Canonical docs review — 2 CRITICAL, 1 MAJOR, 3 MINOR
-- Phase 4: Human journey & GitFlow review — 3 CRITICAL, 8 MAJOR, 10 MINOR
-- Phase 5: Test coverage & robustness review — 6 CRITICAL, 8 MAJOR, 9 MINOR
-- Synthesis report created: `docs/qa/QA-REPORT-v2.15-CONSISTENCY-SYNTHESIS.md`
+IDEA-030 has been refined with [REFINED] status. Two parts defined: Part A (3 GitHub Actions workflow fixes) and Part B (3 new test files).
 
 ## Next step(s)
 
-- [ ] Address 9 P0 action items from review before next release
-- [ ] Create new IDEA entries for: branch naming enforcement tests, checkpoint_heartbeat.py fixes
-- [ ] Orchestrator to triage findings and assign to appropriate agents
+- [x] Refine IDEA-030
+- [x] Update IDEA-030 file
+- [x] Update IDEAS-BACKLOG.md
+- [x] Log refinement session
+- [ ] Update memory-bank files
+- [ ] Commit changes
 
 ## Blockers / Open questions
 
-- P0: GitHub Actions triggers using `develop-v*` instead of `stabilization/v*` (GF-001, GF-002, GF-003)
-- P0: Stale DOC-CURRENT pointers pointing to pre-v2.12 releases
-- P0: Missing test coverage for branch naming enforcement
-- P0: checkpoint_heartbeat.py has bugs causing failures
-- Same `develop-v*` vs `stabilization/v*` issue persists from v2.13 without fix
+None
 
 ## Last Git commit
 
-`c86b2ed` (v2.15 consistency review artifacts)
+`fdca536` docs(ideas): add IDEA-030/031/032 for v2.15 future gaps - P0/P1/P2
 
 ## Release Summary
 

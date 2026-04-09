@@ -119,6 +119,12 @@
 
 ## Product Features
 
+### Epic 4 : Fix Critical Gaps (IDEA-030)
+- [ ] Part A: Fix 3 GitHub Actions workflows (stabilization/v* branch triggers)
+- [ ] Part B: Add 3 new test files (branch naming, DOC-CURRENT, SP-002 sync)
+
+> **Note:** IDEA-031 and IDEA-032 are similar gap fixes targeted for v2.16 (IDEA-031 = Major gaps, IDEA-032 = Minor gaps)
+
 ### Epic 0: Release Governance Model
 - [x] Governance model designed (universal: workbench + application projects)
 - [x] PLAN-release-governance.md written (931 lines, 15 sections)

@@ -104,3 +104,23 @@
   - TECH-005: Timebox-first naming convention feature/{Timebox}/{IDEA-NNN}-{slug}
 - **Consequences:** RULE 10.1 branch type table will be updated; TECH-004/TECH-005 status updated to [ACCEPTED] in backlogs
 
+## ADR-006-AMEND-001: Naming Corrections — stabilization/vX.Y + main
+- **Date:** 2026-04-09
+- **Context:** TECH-004 (Master Traceability Tree) and ADR-006 (GitFlow/RULE 10) sync resolved as **MERGE with EXCISION**. Two naming corrections approved by human during sync session (see `docs/conversations/SYNC-TECH-004-ADR-006-2026-04-09.md`).
+- **Decision:**
+  1. **`develop-vX.Y` → `stabilization/vX.Y`** — The scoped release branch is renamed to `stabilization/vX.Y`. It is a **permanent artifact** (NOT timeboxed), kept after merge for traceability. The `stabilization/` prefix unambiguously signals release preparation, not active development.
+  2. **`master` → `main`** — Standard Git convention. `main` is the canonical production branch (renamed 2026-04-09).
+  3. **`release/vX.Y.Z` EXCISED** — The separate release stabilization buffer concept is removed. `stabilization/vX.Y` subsumes this role. No dual-buffer complexity.
+  4. **Refining Workflow (Strategy B) added** — `lab/{Timebox}/{slug}` → `feature/{Timebox}/{IDEA-NNN}-{slug}` → `develop` Z-pattern documented in `memory-bank/hot-context/systemPatterns.md`.
+- **Supersedes:** ADR-006 (2026-03-28) branch table and RULE 10.1 branch definitions
+- **Files Updated:**
+  - `.clinerules` RULE 10 (all `develop-vX.Y` → `stabilization/vX.Y`, `release/vX.Y.Z` row excised)
+  - `plans/governance/ADR-006-develop-main-branching.md` (renames applied throughout)
+  - `memory-bank/hot-context/systemPatterns.md` (Refining Workflow added — done by Architect)
+  - `docs/ideas/TECH-SUGGESTIONS-BACKLOG.md` (TECH-004 → [ACCEPTED-EXTENSION] — done by Architect)
+- **Consequences:**
+  - All agents MUST use `stabilization/vX.Y` (not `develop-vX.Y`) for scoped release branches
+  - `main` is the sole production branch name going forward
+  - `release/vX.Y.Z` pattern is deprecated and must not be created
+  - Refining Workflow (Strategy B) is now a documented pattern in systemPatterns.md
+

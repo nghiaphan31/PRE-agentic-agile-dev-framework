@@ -1,8 +1,8 @@
 # Active Context
 
-**Last updated:** 2026-04-08
+**Last updated:** 2026-04-09
 
-**Active mode:** developer
+**Active mode:** scrum-master
 
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 
@@ -14,23 +14,27 @@ Fallback State: Not triggered
 
 ## Current task
 
-IDEA-027 implementation completed — Orchestrator default mode documented as Roo Code limitation
+ADR-006 Amendment + RULE 10 update: `develop-vX.Y` → `stabilization/vX.Y`, `master` → `main`, `release/vX.Y.Z` excised (TECH-004 / ADR-006 sync resolution)
 
 ## Last result
 
-TECH-004 Master Traceability Tree captured:
-1. Created docs/ideas/TECH-004-master-traceability-tree.md
-2. Updated TECH-SUGGESTIONS-BACKLOG.md with TECH-004 entry
-3. Identified overlap with ADR-006 (develop/main branching) — TECH-004 is additive
-4. Sync category: 🟠 SHARED_LAYER (both touch GitFlow/RULE 10)
+Sync resolution MERGE with EXCISION completed:
+1. ADR-006-AMEND-001 added to `memory-bank/hot-context/decisionLog.md`
+2. `memory-bank/hot-context/activeContext.md` updated (this file)
+3. Pending: `.clinerules` RULE 10 update (requires Developer mode)
+4. Pending: `plans/governance/ADR-006-develop-main-branching.md` update (requires Developer mode)
+5. Pending: `python scripts/rebuild_sp002.py` (requires Developer mode)
 
 ## Next step(s)
 
-- [ ] Human chooses refinement option: [A] Refine now, [B] Park for later, [C] Sync first with ADR-006
+- [ ] Switch to Developer mode to update `.clinerules` RULE 10 (all `develop-vX.Y` → `stabilization/vX.Y`, remove `release/vX.Y.Z` row, update 10.5/10.6)
+- [ ] Developer: update `plans/governance/ADR-006-develop-main-branching.md` (renames throughout)
+- [ ] Developer: run `python scripts/rebuild_sp002.py`
+- [ ] Developer: git commit `chore(config): ADR-006-AMEND-001 — stabilization/vX.Y + main naming corrections`
 
 ## Blockers / Open questions
 
-None
+None — all decisions approved by human on 2026-04-09
 
 ## Last Git commit
 

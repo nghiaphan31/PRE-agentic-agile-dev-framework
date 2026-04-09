@@ -30,6 +30,32 @@
 
 ---
 
+## v2.17 Scope (In Progress)
+
+**Draft version:** v2.17
+**Status:** In Progress
+**Base:** v2.16.0 (previous tag)
+**Branch:** stabilization/v2.17
+
+### Commits Since v2.16.0
+
+| Commit | Description | Date | IDEA/TECH |
+|--------|-------------|------|-----------|
+| `a449aa0` | fix(.roomodes): change orchestrator source from 'builtin' to 'global' | 2026-04-09 | IDEA-032 |
+| `db423ac` | feat(v2.17): implement IDEA-032 documentation consistency fixes | 2026-04-09 | IDEA-032 |
+| `024cc47` | docs(ideas): update IDEA-031 status to IMPLEMENTED | 2026-04-09 | IDEA-031 |
+| `fddd310` | Merge feature/2026-Q2/IDEA-031 into develop | 2026-04-09 | IDEA-031 |
+| `a76698a` | feat(scripts): implement IDEA-031 scripts reliability fixes | 2026-04-09 | IDEA-031 |
+
+### Features In Scope
+
+| IDEA/TECH | Title | Status |
+|-----------|-------|--------|
+| IDEA-031 | Fix Major Gaps — Scripts Reliability | [IMPLEMENTED] |
+| IDEA-032 | Fix Minor Gaps — Documentation Consistency | [IMPLEMENTED] |
+
+---
+
 ## Draft Version
 
 | Version | Branch | Status | Target Release Date |

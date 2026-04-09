@@ -39,22 +39,40 @@
 ## v2.15 Scope
 
 **Current draft version:** v2.15
-**Status:** IN PROGRESS
+**Status:** Draft
 **Base:** v2.14.0 (most recent tag)
 **Branch:** develop
 
 ### Commits Since v2.14.0
 
-| Commit | Description | Date |
-|--------|-------------|------|
+| Commit | Description | Date | IDEA/TECH |
+|--------|-------------|------|-----------|
+| `2076c2e` | docs(conversations): log v2.14.0 release session | 2026-04-09 | Governance |
+| `fe2fc08` | docs(memory): update handoff state after v2.14.0 release | 2026-04-09 | Governance |
+| `7e8d09f` | docs(memory): handoff to orchestrator after v2.14.0 release | 2026-04-09 | Governance |
+| `f16fb94` | docs(memory): acknowledge handoff - v2.14.0 release confirmed | 2026-04-09 | Governance |
+| `b84fa6d` | feat(governance): IDEA-027 - document Orchestrator default mode limitation | 2026-04-09 | IDEA-027 |
+| `5cb149d` | docs(memory): update activeContext after IDEA-027 implementation | 2026-04-09 | IDEA-027 |
+| `1c9fc81` | feat(governance): add TECH-006 for dummy task mode switch investigation | 2026-04-09 | TECH-006 |
+| `2ef9816` | feat(governance): TECH-006 accepted — switch_mode works autonomously | 2026-04-09 | TECH-006 |
+| `ed1e1bf` | feat(governance): TECH-006 implemented — auto-switch to Orchestrator at session start | 2026-04-09 | TECH-006 |
+| `9aac166` | docs(memory): ADR-006-AMEND-001 — stabilization/vX.Y + main naming corrections | 2026-04-09 | TECH-004 ext |
+| `90ee993` | chore(config): ADR-006-AMEND-001 — stabilization/vX.Y + main naming corrections | 2026-04-09 | TECH-004 ext |
+| `216d7ce` | docs(memory): sync TECH-004/ADR-006 — stabilization/vX.Y + main naming, refine workflow | 2026-04-09 | TECH-004 ext |
+| `6235664` | feat(TECH-007): implement --no-ff merge enforcement workflow | 2026-04-09 | TECH-007 |
+| `0c366ec` | docs(memory): ADR-022 human directive override for TECH-007 | 2026-04-09 | TECH-007 |
 
 ### Features in Scope
 
-| IDEA | Title | Status |
-|------|-------|--------|
+| IDEA/TECH | Title | Status |
+|-----------|-------|--------|
+| IDEA-027 | Orchestrator as Default Entry Point — document limitation, RULE 16.5 auto-switch | [IMPLEMENTED] |
+| TECH-006 | Dummy Task Mode Switch — `switch_mode` works autonomously, no dummy task needed | [IMPLEMENTED] |
+| TECH-004 (extension) | ADR-006-AMEND-001: `stabilization/vX.Y` rename, `main` rename, Refining Workflow (Strategy B) | [ACCEPTED-EXTENSION] |
+| TECH-007 | Mechanical `--no-ff` Merge Enforcement via GitHub Actions (`require-merge-commit.yml`) | [IMPLEMENTED] |
 
 ---
 
-**Last updated:** 2026-04-08
+**Last updated:** 2026-04-09
 
 **Source:** This is the operational source of truth for release tracking.

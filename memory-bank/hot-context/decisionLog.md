@@ -152,3 +152,18 @@
 **Note:** Normal sync detection with ADR-019/ADR-020 was bypassed. Human accepts this.
 
 **Status:** TECH-007 [IMPLEMENTED]
+
+## ADR-023: RELEASE.md Backlog Maintenance Failure — Post-v2.14.0 (2026-04-09)
+
+- **Date:** 2026-04-09
+- **Context:** Human identified that `memory-bank/hot-context/RELEASE.md` was never updated after the v2.14.0 release. The "Commits Since v2.14.0" and "Features in Scope" tables were empty despite 14 commits having landed on `develop` since the tag. This is a maintenance failure: TECH-002 (`scripts/detect-merged-features.py`) was implemented specifically to auto-detect merged features and prevent this gap, but the RELEASE.md update step was not triggered.
+- **Decision:**
+  1. Populate RELEASE.md v2.15 scope retroactively with all 14 commits (IDEA-027, TECH-006, TECH-004 extension, TECH-007, and 4 governance handoff commits).
+  2. Document this failure as an ADR to create institutional memory.
+  3. Identify root cause: TECH-002 detects commits but does NOT automatically write to RELEASE.md — the agent must do so manually per RULE 2. The agent failed to execute RULE 2 item 6 ("RELEASE.md update") after the v2.14.0 release session.
+- **Root Cause:** RULE 2 item 6 was not executed at the close of the v2.14.0 release task. The Scrum Master and Developer agents both closed their sessions without populating the v2.15 draft scope.
+- **Consequences:**
+  - RELEASE.md v2.15 scope is now populated (retroactive fix applied this session).
+  - All agents MUST execute RULE 2 item 6 at task close, especially after a release tag is created.
+  - TECH-002 auto-detection is a detection tool, not a write tool — human or agent must still update RELEASE.md.
+  - Future consideration: TECH-002 could be extended to auto-write RELEASE.md draft scope (new IDEA candidate).

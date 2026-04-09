@@ -14,41 +14,42 @@ Fallback State: Not triggered
 
 ## Current task
 
-TECH-007 Implementation completed
-- Created: `.github/workflows/require-merge-commit.yml`
-- Verifies merge commits have exactly 2 parents (no fast-forward)
-- Status: [IMPLEMENTED]
-- Pending: git commit
+RELEASE.md v2.15 scope maintenance fix — completed.
+- Populated "Commits Since v2.14.0" table with all 14 commits
+- Populated "Features in Scope" table: IDEA-027, TECH-006, TECH-004 ext, TECH-007
+- Added ADR-023 to decisionLog.md documenting the maintenance failure root cause
 
 ## Last result
 
-Sync resolution MERGE with EXCISION completed:
-1. ADR-006-AMEND-001 added to `memory-bank/hot-context/decisionLog.md`
-2. `memory-bank/hot-context/activeContext.md` updated (this file)
-3. Pending: `.clinerules` RULE 10 update (requires Developer mode)
-4. Pending: `plans/governance/ADR-006-develop-main-branching.md` update (requires Developer mode)
-5. Pending: `python scripts/rebuild_sp002.py` (requires Developer mode)
+RELEASE.md v2.15 scope retroactively populated (2026-04-09):
+1. `memory-bank/hot-context/RELEASE.md` — 14 commits + 4 features in scope, status set to Draft
+2. `memory-bank/hot-context/decisionLog.md` — ADR-023 added (maintenance failure root cause)
+3. `memory-bank/hot-context/activeContext.md` — updated (this file)
 
 ## Next step(s)
 
-- [ ] Switch to Developer mode to update `.clinerules` RULE 10 (all `develop-vX.Y` → `stabilization/vX.Y`, remove `release/vX.Y.Z` row, update 10.5/10.6)
+- [ ] Git commit: `chore(release): populate v2.15 scope from develop — 14 commits, IDEA-027, TECH-004/006/007`
+- [ ] (Carry-forward) Switch to Developer mode to update `.clinerules` RULE 10 (all `develop-vX.Y` → `stabilization/vX.Y`, remove `release/vX.Y.Z` row, update 10.5/10.6)
 - [ ] Developer: update `plans/governance/ADR-006-develop-main-branching.md` (renames throughout)
 - [ ] Developer: run `python scripts/rebuild_sp002.py`
-- [ ] Developer: git commit `chore(config): ADR-006-AMEND-001 — stabilization/vX.Y + main naming corrections`
 
 ## Blockers / Open questions
 
-None — all decisions approved by human on 2026-04-09
+None
 
 ## Last Git commit
 
-61318fe (chore: sync v2.13 release docs to archive)
+0c366ec (docs(memory): ADR-022 human directive override for TECH-007)
 
 ## Release Summary
 
-**v2.13.0** — Latest released version (2026-04-08)
-- TECH-002: Auto-Detect Merged Features for Release Scope
-- TECH-003: Single Source of Truth for Release Tracking
+**v2.14.0** — Latest released version (2026-04-09)
+- TECH-004/005: Enhanced GitFlow branch types and timebox-first naming
+- IDEA-026: Session lifecycle automation (heartbeat + conversation logging)
 
-**v2.14** — Draft (in progress)
+**v2.15** — Draft (in progress)
+- IDEA-027: Orchestrator as Default Entry Point
+- TECH-006: Dummy Task Mode Switch (switch_mode autonomous)
+- TECH-004 (extension): ADR-006-AMEND-001 stabilization/vX.Y + main rename
+- TECH-007: --no-ff Merge Enforcement via GitHub Actions
 

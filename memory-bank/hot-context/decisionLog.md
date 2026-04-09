@@ -98,6 +98,20 @@
 - **Implementation Path:**
   - v2.14: Accept `--no-ff` only (1-sentence RULE 10 change)
   - v2.15: Implement TECH-004 branch types + refining workflow + TECH-005 hybrid naming
+
+## ADR-020: v2.15 Consistency Review Findings
+- **Date:** 2026-04-09
+- **Context:** Comprehensive review of v2.15 governance system consistency across rules, scripts, docs, and processes.
+- **Decision:** Identified 42 findings across 5 review phases:
+  - 13 CRITICAL issues including GitHub Actions triggers using wrong branch naming (`develop-v*` vs `stabilization/v*`), stale DOC-CURRENT pointers, missing test coverage
+  - 12 MAJOR issues including pre-receive hook bugs, IDEA-022 journey inconsistencies, checkpoint_heartbeat.py bugs
+  - 17 MINOR issues
+- **Consequences:**
+  - 9 P0 action items must be addressed before next release
+  - 10 P1 action items for v2.16
+  - 8 P2 action items when convenient
+  - Same `develop-v*` vs `stabilization/v*` issue persists from v2.13 without fix
+- **Status:** OPEN — P0 items pending
 - **Consequences:** RULE 10 will be updated in v2.14 with `--no-ff` mandate; TECH-005 created for naming pattern evaluation
 
 ## ADR-020: TECH-004/005 User Override — Full Acceptance

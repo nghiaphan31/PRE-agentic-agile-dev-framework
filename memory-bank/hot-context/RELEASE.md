@@ -74,8 +74,31 @@
 
 ---
 
-**Last updated:** 2026-04-09
+**Last updated:** 2026-04-09T14:30:00Z
 
 **Source:** This is the operational source of truth for release tracking.
 
-**Source:** This is the operational source of truth for release tracking.
+---
+
+## v2.15 Consistency Review Findings
+
+**Review completed:** 2026-04-09
+**Total findings:** 42 (13 CRITICAL, 12 MAJOR, 17 MINOR)
+
+### P0 Items (Must fix before next release)
+1. GitHub Actions triggers using `develop-v*` instead of `stabilization/v*` (GF-001, GF-002, GF-003)
+2. Stale DOC-CURRENT pointers (DOC-1, DOC-2, DOC-4 still pointing to v2.11)
+3. Missing test coverage for branch naming enforcement (TC-008)
+4. checkpoint_heartbeat.py bugs causing failures (TR-005, TR-006)
+5. pre-receive hook bugs (RS-001, RS-002)
+6. Stale DOC-3-CURRENT pointer
+
+### New Ideas Captured
+- IDEA-028: Fix checkpoint_heartbeat.py bugs
+- IDEA-029: Add branch naming enforcement tests
+
+### P1 Items (v2.16 scope)
+- 10 additional issues from review
+
+### P2 Items (When convenient)
+- 8 additional minor issues

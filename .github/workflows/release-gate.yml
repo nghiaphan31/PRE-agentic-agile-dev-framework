@@ -3,7 +3,7 @@ name: Release Gate — Pre-Tag Coherence Audit
 on:
   push:
     branches:
-      - 'develop-v*'
+      - 'stabilization/v*'
     paths:
       - '.github/workflows/release-gate.yml'
       - 'scripts/check-prompts-sync.ps1'

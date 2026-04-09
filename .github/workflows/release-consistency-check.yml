@@ -2,7 +2,7 @@ name: Release Consistency Check
 
 on:
   pull_request:
-    branches: [main, develop, 'develop-v*']
+    branches: [main, develop, 'stabilization/v*']
     paths:
       - 'memory-bank/hot-context/RELEASE.md'
       - 'docs/DOC-5-CURRENT.md'

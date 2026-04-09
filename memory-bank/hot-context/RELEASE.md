@@ -27,15 +27,16 @@
 | v2.14 | v2.14.0 | 2026-04-09 | master | Frozen | docs/releases/v2.14/DOC-5-v2.14-Release-Notes.md |
 | v2.15 | v2.15.0 | 2026-04-09 | master | Frozen | docs/releases/v2.15/DOC-5-v2.15-Release-Notes.md |
 | v2.16 | v2.16.0 | 2026-04-09 | master | Frozen | docs/releases/v2.16/DOC-5-v2.16-Release-Notes.md |
+| v2.17 | v2.17.0 | 2026-04-09 | master | Frozen | docs/releases/v2.17/DOC-5-v2.17-Release-Notes.md |
 
 ---
 
-## v2.17 Scope (In Progress)
+## v2.17 Scope (Released)
 
-**Draft version:** v2.17
-**Status:** In Progress
+**Released version:** v2.17.0
+**Status:** Frozen
 **Base:** v2.16.0 (previous tag)
-**Branch:** stabilization/v2.17
+**Branch:** master
 
 ### Commits Since v2.16.0
 
@@ -47,12 +48,12 @@
 | `fddd310` | Merge feature/2026-Q2/IDEA-031 into develop | 2026-04-09 | IDEA-031 |
 | `a76698a` | feat(scripts): implement IDEA-031 scripts reliability fixes | 2026-04-09 | IDEA-031 |
 
-### Features In Scope
+### Features Released
 
 | IDEA/TECH | Title | Status |
 |-----------|-------|--------|
-| IDEA-031 | Fix Major Gaps — Scripts Reliability | [IMPLEMENTED] |
-| IDEA-032 | Fix Minor Gaps — Documentation Consistency | [IMPLEMENTED] |
+| IDEA-031 | Fix Major Gaps — Scripts Reliability | [RELEASED] |
+| IDEA-032 | Fix Minor Gaps — Documentation Consistency | [RELEASED] |
 
 ---
 
@@ -60,7 +61,7 @@
 
 | Version | Branch | Status | Target Release Date |
 |---------|--------|--------|---------------------|
-| v2.17 | stabilization/v2.17 | In Progress | TBD |
+| v2.18 | TBD | Planned | TBD |
 
 ---
 

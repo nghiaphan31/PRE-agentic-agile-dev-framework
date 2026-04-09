@@ -68,7 +68,7 @@ This `prompts/` folder is the **single source of truth** for all system prompts 
 | ID | Version | Last Updated | File | Name | Deployment Target | Out of Git |
 | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
 | **SP-001** | v1.0.0 | 2026-03-24 | `SP-001-ollama-modelfile-system.md` | System Prompt Ollama Modelfile | `Modelfile` SYSTEM block | No |
-| **SP-002** | v2.8.0 | 2026-04-09 | `SP-002-clinerules-global.md` | Global Roo Code Directives | `.clinerules` (entire file) | No |
+| **SP-002** | v2.9.0 | 2026-04-09 | `SP-002-clinerules-global.md` | Global Roo Code Directives | `.clinerules` (entire file) | No |
 | **SP-003** | v1.2.0 | 2026-03-28 | `SP-003-persona-product-owner.md` | Persona Product Owner | `.roomodes` > `customModes[0].roleDefinition` | No |
 | **SP-004** | v2.2.0 | 2026-03-28 | `SP-004-persona-scrum-master.md` | Persona Scrum Master | `.roomodes` > `customModes[1].roleDefinition` | No |
 | **SP-005** | v1.2.0 | 2026-03-28 | `SP-005-persona-developer.md` | Persona Developer | `.roomodes` > `customModes[2].roleDefinition` | No |

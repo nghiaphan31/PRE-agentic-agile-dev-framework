@@ -317,8 +317,13 @@ def generate_slug(session_id):
     return slug
 
 
-def log_conversation():
-    """Log the current conversation session to docs/conversations/."""
+def log_conversation(conversation_text=None):
+    """Log the current conversation session to docs/conversations/.
+    
+    Args:
+        conversation_text: The actual conversation content to log. If None,
+            a placeholder template is used with instructions to add notes.
+    """
     now = datetime.now(timezone.utc)
     date_str = now.strftime('%Y-%m-%d')
     time_str = now.strftime('%H%M%S')  # Add timestamp for uniqueness
@@ -344,7 +349,9 @@ def log_conversation():
     CONVERSATIONS_DIR.mkdir(parents=True, exist_ok=True)
     
     # Prepare conversation content
-    conversation_content = f"""---
+    if conversation_text:
+        # Use actual conversation content provided
+        conversation_content = f"""---
 conversation_id: {conversation_id}
 mode: {source}
 date: {date_str}
@@ -352,7 +359,7 @@ source: {source}
 duration: ~{active_context.get('duration', 'N/A')}
 ---
 
-# Conversation Summary
+# Conversation Log
 
 **Mode:** {source}
 **Conversation ID:** {conversation_id}
@@ -362,13 +369,48 @@ duration: ~{active_context.get('duration', 'N/A')}
 
 {active_context.get('current_task', 'N/A')}
 
+## Conversation Content
+
+{conversation_text}
+
 ## Source Reference
 
 This conversation was captured via `checkpoint_heartbeat.py --log-conversation`.
+"""
+    else:
+        # Fallback: placeholder template (legacy behavior for backward compatibility)
+        conversation_content = f"""---
+conversation_id: {conversation_id}
+mode: {source}
+date: {date_str}
+source: {source}
+duration: ~{active_context.get('duration', 'N/A')}
+---
+
+# Conversation Log
+
+**Mode:** {source}
+**Conversation ID:** {conversation_id}
+**Date:** {date_str}
+
+## Session Context
+
+{active_context.get('current_task', 'N/A')}
+
+## Conversation Content
+
+<!-- Conversation content was not provided. Add the conversation summary,
+key decisions, and outcomes below. -->
+
+---
 
 ## Notes
 
 <!-- Add conversation summary, key decisions, and outcomes below -->
+
+## Source Reference
+
+This conversation was captured via `checkpoint_heartbeat.py --log-conversation`.
 """
     
     # Write conversation file
@@ -465,6 +507,7 @@ def main():
     parser.add_argument('--once', action='store_true', help='Write single heartbeat')
     parser.add_argument('--status', action='store_true', help='Show checkpoint status')
     parser.add_argument('--log-conversation', action='store_true', help='Log current conversation session')
+    parser.add_argument('--content', type=str, default=None, help='Conversation content to log (use - to read from stdin)')
     
     args = parser.parse_args()
     
@@ -473,7 +516,14 @@ def main():
     elif args.status:
         show_status()
     elif args.log_conversation:
-        log_conversation()
+        # Get conversation content: from --content arg, stdin, or placeholder
+        content = None
+        if args.content == '-':
+            # Read from stdin
+            content = sys.stdin.read()
+        elif args.content:
+            content = args.content
+        log_conversation(content)
     elif args.once:
         git_state = get_git_state()
         write_checkpoint_with_git_state(git_state)

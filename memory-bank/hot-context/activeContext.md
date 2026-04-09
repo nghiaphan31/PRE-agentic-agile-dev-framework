@@ -14,15 +14,19 @@ Fallback State: Not triggered
 
 ## Current task
 
-IDEA-030 fully complete - merged to stabilization/v2.16
+Implementing IDEA-031 (Fix Major Gaps — Scripts Reliability) on feature/2026-Q2/IDEA-031-scripts-reliability
 
 ## Last result
 
-Feature branch merged to stabilization/v2.16 using --no-ff. All 6 files implemented and deployed.
+All 3 gaps implemented and verified:
+- Gap 1: checkpoint_heartbeat.py --content arg works (verified)
+- Gap 2: audit_cumulative_docs.py detects all 18 releases (v1.0-v2.16)
+- Gap 3: .githooks/pre-receive cumulative thresholds fixed
 
 ## Next step(s)
 
-- [x] All tasks complete - IDEA-030 shipped to stabilization/v2.16
+- [ ] Commit changes
+- [ ] Merge to stabilization/v2.16
 
 ## Blockers / Open questions
 

@@ -1,7 +1,7 @@
 # Release Tracking
 
-**Current Released Version:** v2.15.0
-**Current Draft Version:** v2.16 (stabilization/v2.16)
+**Current Released Version:** v2.16.0
+**Current Draft Version:** v2.17 (stabilization/v2.17)
 
 ---
 
@@ -26,6 +26,33 @@
 | v2.13 | v2.13.0 | 2026-04-08 | master | Frozen | docs/releases/v2.13/DOC-5-v2.13-Release-Notes.md |
 | v2.14 | v2.14.0 | 2026-04-09 | master | Frozen | docs/releases/v2.14/DOC-5-v2.14-Release-Notes.md |
 | v2.15 | v2.15.0 | 2026-04-09 | master | Frozen | docs/releases/v2.15/DOC-5-v2.15-Release-Notes.md |
+| v2.16 | v2.16.0 | 2026-04-09 | master | Frozen | docs/releases/v2.16/DOC-5-v2.16-Release-Notes.md |
+
+---
+
+## v2.17 Scope (In Progress)
+
+**Draft version:** v2.17
+**Status:** In Progress
+**Base:** v2.16.0 (previous tag)
+**Branch:** stabilization/v2.17
+
+### Commits Since v2.16.0
+
+| Commit | Description | Date | IDEA/TECH |
+|--------|-------------|------|-----------|
+| `a449aa0` | fix(.roomodes): change orchestrator source from 'builtin' to 'global' | 2026-04-09 | IDEA-032 |
+| `db423ac` | feat(v2.17): implement IDEA-032 documentation consistency fixes | 2026-04-09 | IDEA-032 |
+| `024cc47` | docs(ideas): update IDEA-031 status to IMPLEMENTED | 2026-04-09 | IDEA-031 |
+| `fddd310` | Merge feature/2026-Q2/IDEA-031 into develop | 2026-04-09 | IDEA-031 |
+| `a76698a` | feat(scripts): implement IDEA-031 scripts reliability fixes | 2026-04-09 | IDEA-031 |
+
+### Features In Scope
+
+| IDEA/TECH | Title | Status |
+|-----------|-------|--------|
+| IDEA-031 | Fix Major Gaps — Scripts Reliability | [IMPLEMENTED] |
+| IDEA-032 | Fix Minor Gaps — Documentation Consistency | [IMPLEMENTED] |
 
 ---
 
@@ -33,7 +60,29 @@
 
 | Version | Branch | Status | Target Release Date |
 |---------|--------|--------|---------------------|
-| v2.16 | stabilization/v2.16 | In Progress | TBD |
+| v2.17 | stabilization/v2.17 | In Progress | TBD |
+
+---
+
+## v2.16 Scope (Released)
+
+**Released version:** v2.16.0
+**Status:** Frozen
+**Base:** v2.15.0 (previous tag)
+**Branch:** master 
+
+### Commits Since v2.15.0
+
+| Commit | Description | Date | IDEA/TECH |
+|--------|-------------|------|-----------|
+| `97d1d94` | docs(releases): add v2.16 frozen docs | 2026-04-09 | Governance |
+| `2a9e4a4` | Merge stabilization/v2.16 for v2.16.0 release | 2026-04-09 | Governance |
+
+### Features Released
+
+| IDEA/TECH | Title | Status |
+|-----------|-------|--------|
+| IDEA-030 | Fix Critical Gaps -- GitHub Actions + Test Coverage | [RELEASED] |
 
 ---
 
@@ -74,51 +123,6 @@
 
 ---
 
-## v2.16 Scope (Draft)
-
-**Version:** v2.16
-**Status:** Draft
-**Base:** v2.15.0
-**Branch:** stabilization/v2.16
-
-### Commits Since v2.15.0
-
-| Commit | Description | Date | IDEA/TECH |
-|--------|-------------|------|-----------|
-
-### Features in Scope
-
-| IDEA/TECH | Title | Status |
-|-----------|-------|--------|
-| IDEA-030 | Fix Critical Gaps — GitHub Actions + Test Coverage | [MERGED] |
-
----
-
-**Last updated:** 2026-04-09T17:50:00Z
+**Last updated:** 2026-04-09T18:24:00Z
 
 **Source:** This is the operational source of truth for release tracking.
-
----
-
-## v2.15 Consistency Review Findings
-
-**Review completed:** 2026-04-09
-**Total findings:** 42 (13 CRITICAL, 12 MAJOR, 17 MINOR)
-
-### P0 Items (Must fix before next release)
-1. GitHub Actions triggers using `develop-v*` instead of `stabilization/v*` (GF-001, GF-002, GF-003)
-2. Stale DOC-CURRENT pointers (DOC-1, DOC-2, DOC-4 still pointing to v2.11)
-3. Missing test coverage for branch naming enforcement (TC-008)
-4. checkpoint_heartbeat.py bugs causing failures (TR-005, TR-006)
-5. pre-receive hook bugs (RS-001, RS-002)
-6. Stale DOC-3-CURRENT pointer
-
-### New Ideas Captured
-- IDEA-028: Fix checkpoint_heartbeat.py bugs
-- IDEA-029: Add branch naming enforcement tests
-
-### P1 Items (v2.16 scope)
-- 10 additional issues from review
-
-### P2 Items (When convenient)
-- 8 additional minor issues

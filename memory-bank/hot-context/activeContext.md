@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-04-09
 
-**Active mode:** scrum-master
+**Active mode:** developer
 
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 
@@ -14,24 +14,22 @@ Fallback State: Not triggered
 
 ## Current task
 
-RELEASE.md v2.15 scope maintenance fix — completed.
-- Populated "Commits Since v2.14.0" table with all 14 commits
-- Populated "Features in Scope" table: IDEA-027, TECH-006, TECH-004 ext, TECH-007
-- Added ADR-023 to decisionLog.md documenting the maintenance failure root cause
+Fix P0 blockers for v2.15 release — completed all 4 QA blockers.
 
 ## Last result
 
-RELEASE.md v2.15 scope retroactively populated (2026-04-09):
-1. `memory-bank/hot-context/RELEASE.md` — 14 commits + 4 features in scope, status set to Draft
-2. `memory-bank/hot-context/decisionLog.md` — ADR-023 added (maintenance failure root cause)
-3. `memory-bank/hot-context/activeContext.md` — updated (this file)
+All P0 blockers fixed (2026-04-09):
+1. P0-1: DOC-4-CURRENT.md updated to point to v2.13
+2. P0-2: ADR-024 documented in decisionLog.md (v2.11 cumulative docs gap = historical issue)
+3. P0-3: template/.clinerules RULE 10/12 synced with ADR-006-AMEND-001
+4. P0-4: Created docs/releases/v2.15/ with DOC-3, DOC-5, EXECUTION-TRACKER
+5. DOC-3-CURRENT.md and DOC-5-CURRENT.md updated to v2.15
+6. SP-002 rebuilt via rebuild_sp002.py — verified match
+7. Git commit: `fix(qa): P0 blockers for v2.15 release` (ef97659)
 
 ## Next step(s)
 
-- [ ] Git commit: `chore(release): populate v2.15 scope from develop — 14 commits, IDEA-027, TECH-004/006/007`
-- [ ] (Carry-forward) Switch to Developer mode to update `.clinerules` RULE 10 (all `develop-vX.Y` → `stabilization/vX.Y`, remove `release/vX.Y.Z` row, update 10.5/10.6)
-- [ ] Developer: update `plans/governance/ADR-006-develop-main-branching.md` (renames throughout)
-- [ ] Developer: run `python scripts/rebuild_sp002.py`
+- [ ] QA re-validation of v2.15 release
 
 ## Blockers / Open questions
 
@@ -39,7 +37,7 @@ None
 
 ## Last Git commit
 
-0c366ec (docs(memory): ADR-022 human directive override for TECH-007)
+ef97659 (fix(qa): P0 blockers for v2.15 release)
 
 ## Release Summary
 

@@ -1,8 +1,6 @@
 # Project Progress
 
-**Last updated:** 2026-04-09T10:33:00Z
-**Session:** s2026-04-09-developer-001
-**Plan:** v2.15 P0 blocker fixes
+**Last updated:** 2026-04-09T17:31:00Z
 
 ## le workbench Infrastructure
 
@@ -107,7 +105,7 @@
 - [x] Phase 4: Human journey & GitFlow review (Scrum Master mode) — 3 CRITICAL, 8 MAJOR, 10 MINOR
 - [x] Phase 5: Test coverage & robustness review (QA Engineer mode) — 6 CRITICAL, 8 MAJOR, 9 MINOR
 - [x] Synthesis report created
-- [ ] P0 action items from review
+- [x] P0 action items from review
 
 ### TECH-004: Master Traceability Tree [ACCEPTED-EXTENSION]
 - [x] ADR-006 sync resolved via SYNC session (2026-04-09)
@@ -119,9 +117,9 @@
 
 ## Product Features
 
-### Epic 4 : Fix Critical Gaps (IDEA-030)
-- [ ] Part A: Fix 3 GitHub Actions workflows (stabilization/v* branch triggers)
-- [ ] Part B: Add 3 new test files (branch naming, DOC-CURRENT, SP-002 sync)
+### Epic 4 : Fix Critical Gaps (IDEA-030) [IMPLEMENTED]
+- [x] Part A: Fix 3 GitHub Actions workflows (stabilization/v* branch triggers)
+- [x] Part B: Add 3 new test files (branch naming, DOC-CURRENT, SP-002 sync)
 
 > **Note:** IDEA-031 and IDEA-032 are similar gap fixes targeted for v2.16 (IDEA-031 = Major gaps, IDEA-032 = Minor gaps)
 
@@ -164,11 +162,10 @@
 - [x] QA-REPORT-v2.15-CANONICAL-DOCS-CONSISTENCY.md — Canonical docs consistency (F-01..F-06)
 - [x] QA-REPORT-v2.15-HUMAN-JOURNEY-GITFLOW.md — Human Journey & GitFlow (HJ-001..MS-003)
 
-### P0 Blockers Identified for v2.16
-- [ ] GF-001: Fix `release-gate.yml` trigger: `develop-v*` → `stabilization/v*`
-- [ ] GF-002: Fix `canonical-docs-check.yml` trigger: `develop-v*` → `stabilization/v*`
-- [ ] GF-003: Fix `release-consistency-check.yml` trigger: add `stabilization/v*`
-- [ ] GF-004: Fix `release-gate.yml` version extraction: `develop-v` → `stabilization/v`
+## v2.16 Release Scope
+
+### IDEAS/TECH in Scope
+- [x] IDEA-030: Fix Critical Gaps — GitHub Actions + Test Coverage [IMPLEMENTED]
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

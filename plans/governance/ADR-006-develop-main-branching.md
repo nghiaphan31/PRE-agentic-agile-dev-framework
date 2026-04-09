@@ -1,4 +1,4 @@
-# ADR-006: Adopt `develop` / `develop-vX.Y` / `main` Branching Model
+# ADR-006: Adopt `develop` / `stabilization/vX.Y` / `main` Branching Model
 
 **Status:** Draft  
 **Date:** 2026-03-28  
@@ -15,7 +15,7 @@ The current GitFlow (ADR-005) has a fundamental naming problem:
 - `release/v2.3` was created as the **active development branch** but its name implies it is a branch *preparing a release*
 - Development work was committed directly to `release/v2.3`, making it indistinguishable from a `develop` branch
 - `release/v2.1` and `release/v2.2` had the same problem — they were used for active development, not release preparation
-- Canonical docs were committed directly to `master` after the v2.1/v2.2 tags, violating RULE 10
+- Canonical docs were committed directly to `main` after the v2.1/v2.2 tags, violating RULE 10
 
 This creates confusion: when someone sees `release/v2.3`, they cannot tell if it's:
 - A branch preparing v2.3 for release (minimal commits, finalization work), or
@@ -32,21 +32,21 @@ Additionally, a single `develop` branch conflates two different modes:
 Adopt a **3-branch model** with distinct roles:
 
 ```
-main         ← Frozen production state. Tags mark releases.
-develop      ← Wild mainline. Any feature lands here, any time.
-develop-vX.Y ← Scoped backlog branch. Created when IDEAS are formally triaged for vX.Y.
+main             ← Frozen production state. Tags mark releases.
+develop          ← Wild mainline. Any feature lands here, any time.
+stabilization/vX.Y ← Scoped backlog + release stabilization. Created when IDEAS are formally triaged for vX.Y.
 ```
 
 ### Branch Roles
 
 | Branch | Purpose | Lifecycle |
 |--------|---------|----------|
-| `main` | Production state. **Frozen.** Only receives merge commits from `develop-vX.Y` branches at release time. Tags mark releases. | Never deleted. Never committed to directly. |
-| `develop` | **Wild mainline.** Ad-hoc features, experiments, quick fixes — any feature, any time. No formal scope. | Long-lived. Never deleted. Always the base for `develop-vX.Y` branches. |
-| `develop-vX.Y` | **Scoped backlog branch.** Created when a set of IDEAs is formally triaged for vX.Y. All release-scope work lands here. | Long-lived during development. Merged to `main` at release. Deleted after merge, replaced by next `develop-vX.Y+1`. |
-| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. **Active Dev.** | Branch from `develop` (ad-hoc) or `develop-vX.Y` (scoped), merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
+| `main` | Production state. **Frozen.** Only receives merge commits from `stabilization/vX.Y` branches at release time. Tags mark releases. | Never deleted. Never committed to directly. |
+| `develop` | **Wild mainline.** Ad-hoc features, experiments, quick fixes — any feature, any time. No formal scope. | Long-lived. Never deleted. Always the base for `stabilization/vX.Y` branches. |
+| `stabilization/vX.Y` | **Scoped backlog + release stabilization.** Created when a set of IDEAs is formally triaged for vX.Y. All release-scope work and release polish lands here. **Permanent artifact** — NOT timeboxed. | Long-lived during development. Merged to `main` at release. Never deleted after merge — kept for traceability. |
+| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. **Active Dev.** | Branch from `develop` (ad-hoc) or `stabilization/vX.Y` (scoped), merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
 | `lab/{Timebox}/{slug}` | Experimental spike or research. **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop`, merge back or archive when sprint ends. Examples: `lab/2026-Q2/Spike-GraphQL`, `lab/Sprint-42/Spike-Auth` |
-| `bugfix/{Timebox}/{Ticket}-{slug}` | Planned bug fix (not emergency). **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop-vX.Y` or `develop`, merge back via PR. Examples: `bugfix/2026-Q2/T-305-UI-Align`, `bugfix/Sprint-42/T-310-API-Timeout` |
+| `bugfix/{Timebox}/{Ticket}-{slug}` | Planned bug fix (not emergency). **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `stabilization/vX.Y` or `develop`, merge back via PR. Examples: `bugfix/2026-Q2/T-305-UI-Align`, `bugfix/Sprint-42/T-310-API-Timeout` |
 | `hotfix/{Ticket}` | Emergency production fix. **Production.** No timebox — tied to semantic version. | Branched from the production tag on `main`. Merged to `main` and `develop`, then deleted. Example: `hotfix/T-202-DB-Leak` |
 
 ### The `vX.Y` Version — Two and Only Two Long-Lived Contexts
@@ -57,45 +57,45 @@ The version number `vX.Y` appears in exactly **two long-lived places** and **one
 
 2. **Frozen docs folder** — `docs/releases/v2.3/` is created **after** the tag is applied, as a permanent historical record. It is **never edited** after creation (RULE 8).
 
-3. **Scoped backlog branch** — `develop-v2.3` exists for the duration of the v2.3 development cycle (weeks to months), and is **deleted** after merge to `main`. It is the **only** long-lived branch that carries a version number.
+3. **Scoped backlog branch** — `stabilization/v2.3` exists for the duration of the v2.3 development cycle (weeks to months), and is **never deleted** after merge to `main` (kept for traceability). It is the **only** long-lived branch that carries a version number.
 
-### When `develop-vX.Y` Exists
+### When `stabilization/vX.Y` Exists
 
 ```
 develop ─────────────────────────────────────────────────────── (wild mainline, always alive)
    │
    ├── feature/2026-Q2/IDEA-009 ── PR ── merge ──► develop  (ad-hoc, anytime)
    │
-   └── develop-v2.3 ──────────────────────────────────────────── (scoped backlog, weeks/months)
+   └── stabilization/v2.3 ──────────────────────────────────────────── (scoped backlog + release polish, weeks/months)
            │
-           ├── feature/2026-Q2/IDEA-010 ── PR ── merge ──► develop-v2.3  (scoped)
-           ├── feature/2026-Q2/IDEA-011 ── PR ── merge ──► develop-v2.3  (scoped)
-           ├── bugfix/2026-Q2/T-305-UI ── PR ── merge ──► develop-v2.3  (scoped)
-           ├── lab/2026-Q2/Spike-GraphQL ── PR ── merge ──► develop-v2.3  (scoped)
+           ├── feature/2026-Q2/IDEA-010 ── PR ── merge ──► stabilization/v2.3  (scoped)
+           ├── feature/2026-Q2/IDEA-011 ── PR ── merge ──► stabilization/v2.3  (scoped)
+           ├── bugfix/2026-Q2/T-305-UI ── PR ── merge ──► stabilization/v2.3  (scoped)
+           ├── lab/2026-Q2/Spike-GraphQL ── PR ── merge ──► stabilization/v2.3  (scoped)
            │
            └── merge ──────────────────────────────────────► main  (v2.3.0 tag)
                    │
-                   └── [develop-v2.3 deleted]
+                   └── [stabilization/v2.3 KEPT — never deleted]
                             │
 develop ─────────────────────────────────────────────────────── (continues)
     │
-    └── develop-v2.4 ── branch from develop  (next cycle)
+    └── stabilization/v2.4 ── branch from develop  (next cycle)
 ```
 
-`develop-vX.Y` is created only when:
+`stabilization/vX.Y` is created only when:
 1. A set of IDEAs has been formally triaged and approved for vX.Y scope
 2. The human authorises the scoped backlog branch
-3. It is deleted after `main` receives the merge (vX.Y.0 tag applied)
+3. It is **never deleted** after merge to `main` — kept permanently for traceability
 
-### Why `develop` AND `develop-vX.Y`?
+### Why `develop` AND `stabilization/vX.Y`?
 
 The separation enforces discipline:
 
-| | `develop` | `develop-vX.Y` |
+| | `develop` | `stabilization/vX.Y` |
 |--|--|--|
 | **Scope** | Any feature, any time | Only IDEAs approved for vX.Y |
 | **When created** | Once, at project start | When vX.Y backlog is triaged |
-| **When deleted** | Never | After merge to `main` |
+| **When deleted** | Never | Never (permanent artifact) |
 | **Features** | Wild, exploratory | Disciplined, scoped |
 | **Canonical docs** | N/A | Required before merge |
 
@@ -104,11 +104,12 @@ The separation enforces discipline:
 ## Consequences
 
 ### Positive
-- **Unambiguous naming:** `develop` = wildcard, `develop-vX.Y` = scoped release work
+- **Unambiguous naming:** `develop` = wildcard, `stabilization/vX.Y` = scoped release work
 - **Never commit to `main`:** RULE 10 enforced naturally — `main` only touched at release merges
 - **Clean history:** `develop` shows the full ad-hoc story; `main` only shows release merges
-- **Canonical docs on `develop-vX.Y`:** Release docs created on the scoped branch before merge to `main`
+- **Canonical docs on `stabilization/vX.Y`:** Release docs created on the scoped branch before merge to `main`
 - **Disciplined scoping:** A version branch only exists when IDEAS have been formally triaged for it
+- **Permanent traceability:** `stabilization/vX.Y` is kept after merge — never deleted
 
 ### Negative
 - **Branch rename required:** `release/v2.3` (current) → `develop` (wild mainline)
@@ -116,8 +117,8 @@ The separation enforces discipline:
 - **Existing branches** `release/v1.0`, `release/v2.0`, `release/v2.1`, `release/v2.2` remain as historical records
 
 ### Risks
-- Confusion between `develop` and `develop-vX.Y` until the team adapts. Mitigation: clear naming and RULE 10 documentation.
-- If `develop-vX.Y` is abandoned without merging, its work is not lost — it can be cherry-picked or merged to `develop`.
+- Confusion between `develop` and `stabilization/vX.Y` until the team adapts. Mitigation: clear naming and RULE 10 documentation.
+- If `stabilization/vX.Y` is abandoned without merging, its work is not lost — it can be cherry-picked or merged to `develop`.
 
 ---
 
@@ -129,16 +130,16 @@ The separation enforces discipline:
 3. Update `.roomodes` if any agent references branch names
 4. Update `prompts/SP-002-clinerules-global.md` embedded template
 5. Update `template/.clinerules`
-6. Commit as `chore(governance): ADR-006 — adopt develop/main model with scoped develop-vX.Y branches`
+6. Commit as `chore(governance): ADR-006 — adopt develop/main model with scoped stabilization/vX.Y branches`
 7. Push `develop` to origin
 
 ### Phase 2: First scoped branch
-- When IDEAS-BACKLOG is formally triaged for v2.3, create `develop-v2.3` from `develop`
-- All v2.3-scope work lands on `develop-v2.3`
+- When IDEAS-BACKLOG is formally triaged for v2.3, create `stabilization/v2.3` from `develop`
+- All v2.3-scope work lands on `stabilization/v2.3`
 
 ### Phase 3: Documentation
 1. Update `PLAN-release-governance.md` to supersede ADR-005's branch table
-2. At v2.3 release: create `docs/releases/v2.3/` folder on `develop-v2.3`, merge to `main`
+2. At v2.3 release: create `docs/releases/v2.3/` folder on `stabilization/v2.3`, merge to `main`
 
 ---
 
@@ -157,12 +158,12 @@ The separation enforces discipline:
 
 | Branch | Purpose | Lifecycle |
 |--------|---------|----------|
-| `main` | Production state. **Frozen.** Only receives merge commits from `develop-vX.Y`. Tags mark releases. | Never deleted. Never committed to directly. |
-| `develop` | **Wild mainline.** Ad-hoc features, experiments, quick fixes. No formal scope. | Long-lived. Never deleted. Always the base for `develop-vX.Y`. |
-| `develop-vX.Y` | **Scoped backlog.** Created when IDEAs are formally triaged for vX.Y. All release-scope work lands here. | Created at release planning. Deleted after merge to `main`. |
-| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. **Active Dev.** | Branch from `develop` or `develop-vX.Y`, merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
+| `main` | Production state. **Frozen.** Only receives merge commits from `stabilization/vX.Y`. Tags mark releases. | Never deleted. Never committed to directly. |
+| `develop` | **Wild mainline.** Ad-hoc features, experiments, quick fixes. No formal scope. | Long-lived. Never deleted. Always the base for `stabilization/vX.Y`. |
+| `stabilization/vX.Y` | **Scoped backlog + release stabilization.** Created when IDEAs are formally triaged for vX.Y. All release-scope work and release polish lands here. **Permanent artifact** — NOT timeboxed. | Created at release planning. Never deleted after merge — kept for traceability. |
+| `feature/{Timebox}/{IDEA-NNN}-{slug}` | Single feature or fix. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. **Active Dev.** | Branch from `develop` or `stabilization/vX.Y`, merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
 | `lab/{Timebox}/{slug}` | Experimental spike or research. **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop`, merge back or archive when sprint ends. Examples: `lab/2026-Q2/Spike-GraphQL`, `lab/Sprint-42/Spike-Auth` |
-| `bugfix/{Timebox}/{Ticket}-{slug}` | Planned bug fix (not emergency). **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `develop-vX.Y` or `develop`, merge back via PR. Examples: `bugfix/2026-Q2/T-305-UI-Align`, `bugfix/Sprint-42/T-310-API-Timeout` |
+| `bugfix/{Timebox}/{Ticket}-{slug}` | Planned bug fix (not emergency). **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from `stabilization/vX.Y` or `develop`, merge back via PR. Examples: `bugfix/2026-Q2/T-305-UI-Align`, `bugfix/Sprint-42/T-310-API-Timeout` |
 | `hotfix/{Ticket}` | Emergency production fix. **Production.** No timebox — tied to semantic version. | Branched from production tag on `main`. Merged to `main` and `develop`, then deleted. Example: `hotfix/T-202-DB-Leak` |
 
 ---

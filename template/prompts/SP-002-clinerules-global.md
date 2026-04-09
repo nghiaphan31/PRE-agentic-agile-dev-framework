@@ -1,8 +1,8 @@
 ﻿---
 id: SP-002
 name: Global Roo Code Directives (.clinerules)
-version: 2.7.0
-last_updated: 2026-03-30
+version: 2.9.0
+last_updated: 2026-04-08
 status: active
 hors_git: false
 target_type: roo_clinerules
@@ -102,12 +102,30 @@ Before closing any task (before attempt_completion), you MUST update:
 2. memory-bank/progress.md       (check off completed features)
 
 
-
-
-If an architecture decision was made during the session:
-
-
 3. memory-bank/decisionLog.md    (ADR with date, context, decision, consequences)
+
+
+4. docs/ideas/IDEAS-BACKLOG.md  (update status for any IDEA whose status was modified or decisions made during this session)
+
+
+5. docs/ideas/TECH-SUGGESTIONS-BACKLOG.md  (update status for any TECH suggestion whose status was modified or decisions made during this session)
+
+
+6. **RELEASE.md update (if release state changed):**
+   - If new release tag was created: update Released Versions table
+   - If new draft was started: update Draft Version table
+   - If new commits/features: update Commits Since table in the current draft scope section
+   - If feature added to scope: update Features in Scope table
+   - Update Last updated timestamp
+
+7. **Conversation logging:**
+   - Before calling attempt_completion, execute: `python scripts/checkpoint_heartbeat.py --log-conversation`
+   - This saves session metadata to `docs/conversations/{YYYY-MM-DD}-{source}-{slug}.md`
+   - If the script fails or returns non-zero, log the error but DO NOT block completion
+   - RULE 8.3 Conversation Log Mandate requires all conversations be saved
+
+> **Note:** If SP-002 (.clinerules) was modified, increment its version per RULE 6.2 protocol.
+> **Clarification:** If an agent completes work on an IDEA (whether accepting, refining, implementing, etc.), it MUST update that IDEA's status in the backlog before closing the task.
 
 
 
@@ -313,7 +331,11 @@ you MUST check whether the change impacts a system prompt in prompts/.
 
 5. Include the modified prompts/ files in the same commit as the target files
 
-   **File concatenation:** Never use PowerShell for file concatenation. The pattern `(Get-Content a) + (Get-Content b) | Set-Content out` silently produces a 1-line file with exit code 0 — no error is raised. Use Python instead (see `scripts/rebuild_sp002.py` for the canonical implementation).
+   **File concatenation:** Never use PowerShell **inline addition** for file concatenation. The pattern `(Get-Content a) + (Get-Content b) | Set-Content out` silently produces a 1-line file with exit code 0 — no error is raised.
+
+   **Correct PowerShell pattern:** `Get-Content a, b | Set-Content target.md -Encoding UTF8` This pipeline pattern is acceptable for multi-file assembly.
+
+   **Preferred:** Use Python for all file concatenation (see `scripts/rebuild_sp002.py` for the canonical implementation).
 
    **SP-002 (.clinerules sync):** Use `python scripts/rebuild_sp002.py` — the SP-002 code block must always match `.clinerules` byte-for-byte. Always verify with `git diff prompts/SP-002-clinerules-global.md` before committing.
 
@@ -362,7 +384,7 @@ Whenever a file to be written exceeds approximately 500 lines, you MUST use the 
 3. Verify each temp file was written successfully before proceeding
 
 
-4. Assemble the final file using PowerShell:
+4. Assemble the final file using PowerShell **pipeline pattern**:
 
 
    ```powershell
@@ -373,6 +395,7 @@ Whenever a file to be written exceeds approximately 500 lines, you MUST use the 
 
    ```
 
+   **Note:** This is the ONLY acceptable PowerShell concatenation pattern. The inline addition pattern `(Get-Content a) + (Get-Content b)` is FORBIDDEN.
 
 5. Verify the assembled file (line count, spot-check content)
 
@@ -516,37 +539,47 @@ This rule applies to ALL modes. It is NON-NEGOTIABLE.
 
 | Branch | Purpose | Lifecycle |
 |--------|---------|----------|
-| main | Production state. **Frozen.** Only receives merge commits from develop-vX.Y at release time. Tags mark releases. | Never deleted. Never committed to directly. |
-| develop | **Wild mainline.** Ad-hoc features, experiments, quick fixes. No formal scope. | Long-lived. Never deleted. Always the base for develop-vX.Y. |
-| develop-vX.Y | **Scoped backlog.** Created when IDEAs are formally triaged for vX.Y. All release-scope work lands here. | Created at release planning. Never deleted after merge — kept for traceability. |
-| feature/{IDEA-NNN}-{slug} | Single feature or fix. | Branch from develop or develop-vX.Y, merge back via PR. Never deleted — kept for traceability. |
-| hotfix/vX.Y.Z | Emergency production fix. | Branched from production tag on main. Merged to main and develop. Never deleted — kept for traceability. |
+| main | Production state. **Frozen.** Only receives merge commits from stabilization/vX.Y at release time. Tags mark releases. | Never deleted. Never committed to directly. |
+| develop | **Wild mainline.** Ad-hoc features, experiments, quick fixes. No formal scope. | Long-lived. Never deleted. Always the base for stabilization/vX.Y. |
+| stabilization/vX.Y | **Scoped backlog + release stabilization.** Created when IDEAs are formally triaged for vX.Y. All release-scope work and release polish lands here. **Permanent artifact** — NOT timeboxed. | Created at release planning. Never deleted after merge — kept for traceability. |
+| feature/{Timebox}/{IDEA-NNN}-{slug} | Single feature or fix grouped by timebox. Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from develop or stabilization/vX.Y, merge back via PR, then delete. Examples: `feature/2026-Q2/IDEA-101-authentication`, `feature/Sprint-42/IDEA-101-authentication` |
+| lab/{Timebox}/{slug} | Experimental spike or research. **Ad-hoc exploration.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from develop, merge back or archive when sprint ends. Examples: `lab/2026-Q2/Spike-GraphQL`, `lab/Sprint-42/Spike-Auth` |
+| bugfix/{Timebox}/{Ticket}-{slug} | Planned bug fix (not emergency). **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from stabilization/vX.Y or develop, merge back via PR. Examples: `bugfix/2026-Q2/T-305-UI-Align`, `bugfix/Sprint-42/T-310-API-Timeout` |
+| hotfix/{Ticket} | Emergency production fix. **Production.** No timebox — tied to semantic version. | Branched from the production tag on main. Merged to main and develop, then deleted. Example: `hotfix/T-202-DB-Leak` |
 
 ### 10.2 -- Forbidden Actions
 
 - **NEVER** commit directly on main after a release tag
 - **NEVER** commit on a branch that has been merged to main (use a new branch instead)
 - **NEVER** commit feature work directly on a release or main branch -- use feature branches
-- **ALL** new development (features, refactors, fixes) MUST target develop, develop-vX.Y, or a feature branch derived from them
+- **ALL** new development (features, refactors, fixes) MUST target develop, stabilization/vX.Y, or a feature branch derived from them
 
 ### 10.3 -- Feature Branch Workflow
 
 All new development (features, bug fixes, refactors) MUST follow this path:
 
-1. Branch from develop (ad-hoc) or develop-vX.Y (scoped) -> feature/{IDEA-NNN}-{slug} or fix/{description}
+1. Branch from develop (ad-hoc) or stabilization/vX.Y (scoped) -> `feature/{Timebox}/{IDEA-NNN}-{slug}`
 2. Develop and test on the feature branch
 3. Commit results to the feature branch
-4. Merge via PR to the source branch (fast-forward or squash)
+4. Merge via PR to the source branch **using `--no-ff`** (always create a merge commit, even if fast-forward is possible)
 5. **Keep** the feature branch after merge — never delete it (traceability requirement)
+6. **NEVER** use `--delete-branch` when merging PRs — the branch MUST be kept for traceability
 
 > **Exception:** Governance-only commits (ADRs, RULE additions, docs fixes) that do not change application code MAY be committed directly on develop.
 
-### 10.4 -- Release Workflow
+### 10.4 -- Ad-Hoc Workflow (Lab-to-Feature Refining)
 
-1. Create develop-vX.Y from develop when IDEAs are formally triaged for vX.Y
-2. All vX.Y-scope commits land on develop-vX.Y
-3. When ready: create frozen docs in docs/releases/vX.Y/, tag vX.Y.0 on develop-vX.Y, merge to main
-4. **Keep** develop-vX.Y after merge — never delete it (traceability requirement)
+For experimental work that may become a production feature:
+
+1. **Strategy A — Direct Promotion:** Branch `lab/{Timebox}/{slug}`, develop, then merge directly to develop when production-ready.
+2. **Strategy B — Refining:** Branch `lab/{Timebox}/{slug}`, then create `feature/{Timebox}/{IDEA-NNN}-{slug}` that **merges the lab first**, then merges the refined feature to develop. This preserves traceability from experiment to product.
+
+### 10.5 -- Release Workflow
+
+1. Create stabilization/vX.Y from develop when IDEAs are formally triaged for vX.Y
+2. All vX.Y-scope commits land on stabilization/vX.Y
+3. When ready: create frozen docs in docs/releases/vX.Y/, tag vX.Y.0 on stabilization/vX.Y, merge to main
+4. **Keep** stabilization/vX.Y after merge — never delete it (traceability requirement)
 5. **Fast-forward develop to main** immediately after release merge:
    ```
    git checkout develop && git merge --ff main
@@ -554,84 +587,144 @@ All new development (features, bug fixes, refactors) MUST follow this path:
    This restores the invariant: develop is always at or ahead of main, never behind.
 6. Continue on develop for the next release cycle
 
-### 10.5 -- Hotfix Exception
+### 10.6 -- Release Buffer Parallelism
+
+When a stabilization/vX.Y branch is active, development for the next release **continues on develop in parallel**. This allows the team to:
+- Polish the current release on `stabilization/vX.Y`
+- Start the next sprint on `develop` simultaneously
+
+### 10.7 -- Hotfix Exception
 
 For critical production bugs:
-1. Branch hotfix/vX.Y.Z from the production tag on main
+1. Branch hotfix/{Ticket} from the production tag on main
 2. Fix and test on the hotfix branch
 3. Merge to main and to develop
 4. Tag vX.Y.Z on both branches
 5. **Keep** the hotfix branch after merge — never delete it (traceability requirement)
 
-### 10.6 -- ADR Reference
+### 10.8 -- ADR Reference
 
 This rule is documented as ADR-006 in memory-bank/hot-context/decisionLog.md.
 
 
 
 
-## RULE 11: IDEATION INTAKE — MANDATORY FOR ALL AGENTS
-
-Every human input that is not directly related to the agent's current task MUST be routed
-to the Orchestrator Agent for intake processing.
-
-11.1 — Detection: If the human expresses an idea, request, or remark that is outside the
-       scope of your current task, it is an off-topic input.
-
-11.2 — Routing: Route to Orchestrator with: raw idea text, your agent context, human's
-       exact words. Do not say "I'll look into it" — route immediately.
-
-11.3 — Acknowledgment: The Orchestrator will handle acknowledgment to the human.
-       Do NOT ignore the input.
-
-11.4 — Intake: The Orchestrator will assign an IDEA/TECH ID, classify the idea
-       (business or technical), add it to the correct backlog, run sync detection,
-       and inform the human with routing confirmation and sync opportunities.
-
-11.5 — Classification:
-       - BUSINESS (WHAT): User needs, features, product improvements → IDEAS-BACKLOG
-       - TECHNICAL (HOW): Implementation approaches, technology choices → TECH-SUGGESTIONS-BACKLOG
-
-11.6 — Refinement options: After intake, the human chooses:
-       - [A] Refine now — structured requirement/feasibility session
-       - [B] Park for later — marked DEFERRED
-       - [C] Sync first — resolve overlap with existing ideas before refining
-
-
-
-
-## RULE 12: SYNCHRONIZATION AWARENESS — MANDATORY FOR ALL AGENTS
+## RULE 11: SYNCHRONIZATION AWARENESS — MANDATORY FOR ALL AGENTS
 
 Before starting any significant implementation step, check for parallel work that might
 overlap with yours. The Orchestrator runs sync detection at every intake — pay attention.
 
-12.1 — Pre-implementation check: Read the DOC-3 execution chapter to see what other
+11.1 — Pre-implementation check: Read the DOC-3 execution chapter to see what other
        feature branches are active and what files they modify.
 
-12.2 — Overlap detection: If your implementation touches files modified by another
+11.2 — Overlap detection: If your implementation touches files modified by another
        active branch, inform the human immediately. Do not create merge conflicts.
 
-12.3 — Merge coordination: Do not merge a branch that creates conflicts with another
+11.3 — Merge coordination: Do not merge a branch that creates conflicts with another
        active branch. Coordinate with the other developer (or human).
 
-12.4 — Sync categories (from Orchestrator scan):
+11.4 — Sync categories (from Orchestrator scan):
        - 🔴 CONFLICT: Two ideas require mutually exclusive changes — human must arbitrate
        - 🟡 REDUNDANCY: Two ideas solve the same problem — merge into single idea
        - 🔵 DEPENDENCY: Idea B needs Idea A first — reorder, communicate
        - 🟠 SHARED_LAYER: Multiple ideas touch same component — coordinate timing
        - 🟢 NO_OVERLAP: No conflicts detected — proceed normally
 
-12.5 — On-demand scan: If the human asks "what else is in flight?", run a full scan
+11.5 — On-demand scan: If the human asks "what else is in flight?", run a full scan
        of all active ideas and present a sync report.
 
-12.6 — Branch merge: On-demand merging (continuous integration) — merge as soon as
+11.6 — Branch merge: On-demand merging (continuous integration) — merge as soon as
        a feature is ready, do not wait for scheduled windows.
 
 
 
 
-## RULE 13: DOC-3 EXECUTION CHAPTER — LIVE AT ALL TIMES
+## RULE 12: CANONICAL DOCS — CUMULATIVE + RELEASE-SPECIFIC + GITHUB ACTIONS ENFORCEMENT
 
+This rule applies to all modes. It is NON-NEGOTIABLE.
+
+
+### 12.1 -- Documentation Classification
+
+**R-CANON-0**: Canonical docs are classified into two types:
+
+| Type | Documents | Requirement |
+|------|-----------|-------------|
+| **Cumulative** | DOC-1 (PRD), DOC-2 (Architecture), DOC-4 (Operations) | Fully self-contained — complete history up to vX.Y |
+| **Release-Specific** | DOC-3 (Implementation Plan), DOC-5 (Release Notes) | Only this release's content — historical preserved in `docs/releases/vX.Y/` |
+
+**R-CANON-A**: Historical release-specific docs (DOC-3/DOC-5) are preserved in their respective `docs/releases/vX.Y/` directories.
+
+Minimum line counts:
+- **Cumulative docs:** DOC-1 >= 500 lines, DOC-2 >= 500 lines, DOC-4 >= 300 lines
+- **Release-specific docs:** DOC-3 >= 100 lines, DOC-5 >= 50 lines
+
+
+### 12.2 -- GitFlow Rules for Canonical Docs
+
+**R-CANON-1**: Canonical docs on `develop`: Only via feature branch (`feature/canon-doc-*`)
+
+**R-CANON-2**: Canonical docs on `stabilization/vX.Y`: Only via feature branch scoped to that release
+
+**R-CANON-3**: Direct commits on `develop` or `stabilization/vX.Y` to canonical docs are **FORBIDDEN**
+
+**R-CANON-4**: Exception: Governance-only commits (ADRs, RULE additions) MAY be committed directly per RULE 10.3 exception
+
+
+### 12.3 -- Consistency Rules
+
+**R-CANON-5**: All 3 cumulative docs (DOC-1, DOC-2, DOC-4) MUST be updated together for any release
+
+**R-CANON-6**: When merging to `stabilization/vX.Y`, the 3 cumulative DOC-*-vX.Y-*.md files must exist and be consistent. DOC-3 and DOC-5 are release-specific and updated independently per release.
+
+**R-CANON-7**: The `DOC-*-CURRENT.md` pointer files for cumulative docs (DOC-1, DOC-2, DOC-4) MUST all point to the same release version. DOC-3-CURRENT and DOC-5-CURRENT point to their respective latest release-specific files.
+
+
+### 12.4 -- Enforcement
+
+Canonical docs enforcement is enforced by:
+- **Git pre-receive hook** at `.githooks/pre-receive`
+- **GitHub Actions CI** at `.github/workflows/canonical-docs-check.yml`
+- These are deployed to new projects via `deploy-workbench-to-project.ps1`
+
+
+
+## RULE 13: IDEATION INTAKE — MANDATORY FOR ALL AGENTS
+
+Every human input that is not directly related to the agent's current task MUST be routed
+to the Orchestrator Agent for intake processing.
+
+13.1 — Detection: If the human expresses an idea, request, or remark that is outside the
+       scope of your current task, it is an off-topic input.
+
+13.2 — Routing: Route to Orchestrator with: raw idea text, your agent context, human's
+       exact words. Do not say "I'll look into it" — route immediately.
+
+13.3 — Acknowledgment: The Orchestrator will handle acknowledgment to the human.
+       Do NOT ignore the input.
+
+13.4 — Intake: The Orchestrator will assign an IDEA/TECH ID, classify the idea
+       (business or technical), add it to the correct backlog, run sync detection,
+       and inform the human with routing confirmation and sync opportunities.
+
+13.5 — Classification:
+       - BUSINESS (WHAT): User needs, features, product improvements → IDEAS-BACKLOG
+       - TECHNICAL (HOW): Implementation approaches, technology choices → TECH-SUGGESTIONS-BACKLOG
+
+13.6 — Refinement options: After intake, the human chooses:
+       - [A] Refine now — structured requirement/feasibility session
+       - [B] Park for later — marked DEFERRED
+       - [C] Sync first — resolve overlap with existing ideas before refining
+
+13.7 — Release gate reference: All releases MUST pass the mandatory release gate
+       before tagging. See `.github/workflows/release-gate.yml` and DOC-4 Chapter 12.
+       No release tag may be created on `main` unless all P0 blockers pass.
+       (Per IDEA-015, enforced starting v2.11)
+
+
+
+
+## RULE 14: DOC-3 EXECUTION CHAPTER — LIVE AT ALL TIMES
 The DOC-3 execution tracking chapter is NOT a post-hoc summary. It is a live document
 updated continuously throughout the implementation phase.
 
@@ -670,7 +763,7 @@ updated continuously throughout the implementation phase.
 
 
 
-## RULE 14: TECHNICAL SUGGESTIONS BACKLOG
+## RULE 15: TECHNICAL SUGGESTIONS BACKLOG
 
 Technical suggestions ("How" proposals) are tracked separately from business requirements
 ("What" proposals). They do NOT go directly into PRD or architecture — they are parked,
@@ -691,6 +784,67 @@ evaluated, and integrated appropriately.
 14.5 — Creates requirements: If a technical suggestion generates business needs,
        it routes back to IDEAS-BACKLOG as a separate idea.
 
+
+
+
+## RULE 16: MANDATORY HANDOFF PROTOCOL — ORCHESTRATOR AS DEFAULT
+
+This rule implements IDEA-020: Authoritative Orchestrator as Default Mode.
+The `orchestrator` mode is a BUILT-IN Roo Code mode (not defined in `.roomodes`).
+
+
+### 16.1 — Handoff State Schema
+
+When any non-Orchestrator agent completes a task (before `attempt_completion`), it MUST
+write a handoff state to `memory-bank/hot-context/handoff-state.md`.
+
+Schema fields:
+- `handoff_id`: Unique identifier (H-{timestamp}-{sequence})
+- `from_agent.mode`: The mode completing the task
+- `from_agent.session_id`: Session identifier
+- `from_agent.task_id`: Task being completed
+- `task_completion.status`: "completed" | "blocked" | "needs_decision"
+- `task_completion.output_summary`: Brief description of what was done
+- `task_completion.artifacts_created`: List of created file paths
+- `task_completion.artifacts_modified`: List of modified file paths
+- `next_action.recommendation`: "continue" | "handoff" | "escalate" | "complete"
+- `next_action.suggested_mode`: Which mode should handle next
+- `next_action.urgency`: "low" | "normal" | "high" | "critical"
+- `orchestrator_receipt.received_at`: ISO8601 timestamp
+- `orchestrator_receipt.acknowledged`: boolean
+- `orchestrator_receipt.acknowledged_by`: Orchestrator session_id
+- `orchestrator_receipt.notes`: Orchestrator's assessment
+
+
+### 16.2 — Before attempt_completion
+
+Non-Orchestrator agents MUST write handoff state to `memory-bank/hot-context/handoff-state.md`
+before calling `attempt_completion`. The Orchestrator reads this file on activation to
+determine next steps.
+
+
+### 16.3 — Orchestrator on Activation
+
+When Orchestrator mode activates, it MUST:
+1. Read `memory-bank/hot-context/handoff-state.md`
+2. Check for pending handoffs (`acknowledged: false`)
+3. Set `acknowledged: true` and add `orchestrator_receipt` fields
+4. Determine next action based on `next_action.recommendation`
+
+
+### 16.4 — State Reset
+
+After Orchestrator acknowledges a handoff, the file is cleared for the next handoff.
+Only one pending handoff can exist at a time.
+
+
+### 16.5 — Default Mode
+
+**Auto-Switch Instruction:** At the start of each session, invoke `switch_mode("orchestrator")` to automatically transfer control to the Orchestrator mode. The `switch_mode` tool works autonomously — no human approval required.
+
+All mode switches should be driven by the Orchestrator. Non-Orchestrator modes must NOT assume they are the entry point.
+
+See DOC-4 §13 for additional context on mode switching.
 
 
 

@@ -1,8 +1,6 @@
 # Project Progress
 
-**Last updated:** 2026-04-08T18:31:00Z
-**Session:** s2026-04-08-developer-003
-**Plan:** v2.12 implementation
+**Last updated:** 2026-04-09T17:31:00Z
 
 ## le workbench Infrastructure
 
@@ -98,7 +96,32 @@
 - [x] Implement: .clinerules RULE 2 update
 - [x] Fast-forward merge to develop: SUCCESS
 
+## v2.15 Consistency Review
+
+### v2.15 Consistency Review
+- [x] Phase 1: Document analysis (Ask mode)
+- [x] Phase 2: Rules & Scripts review (Code mode) — 2 CRITICAL, 2 MAJOR, 2 MINOR
+- [x] Phase 3: Canonical docs review (Architect mode) — 2 CRITICAL, 1 MAJOR, 3 MINOR
+- [x] Phase 4: Human journey & GitFlow review (Scrum Master mode) — 3 CRITICAL, 8 MAJOR, 10 MINOR
+- [x] Phase 5: Test coverage & robustness review (QA Engineer mode) — 6 CRITICAL, 8 MAJOR, 9 MINOR
+- [x] Synthesis report created
+- [x] P0 action items from review
+
+### TECH-004: Master Traceability Tree [ACCEPTED-EXTENSION]
+- [x] ADR-006 sync resolved via SYNC session (2026-04-09)
+- [x] TECH-004 → [ACCEPTED-EXTENSION] status confirmed (extension to RULE 10, not release-scoped)
+- [x] RULE 10.1 branch table updated: develop-vX.Y → stabilization/vX.Y, master → main
+- [x] `--no-ff` merge strategy accepted for all Planned Dev, Ad-Hoc, Cold Fix branches
+- [x] ADR-006 rebuilt from canonical sources
+- [x] SP-002 rebuilt via scripts/rebuild_sp002.py
+
 ## Product Features
+
+### Epic 4 : Fix Critical Gaps (IDEA-030) [IMPLEMENTED]
+- [x] Part A: Fix 3 GitHub Actions workflows (stabilization/v* branch triggers)
+- [x] Part B: Add 3 new test files (branch naming, DOC-CURRENT, SP-002 sync)
+
+> **Note:** IDEA-031 and IDEA-032 are similar gap fixes targeted for v2.16 (IDEA-031 = Major gaps, IDEA-032 = Minor gaps)
 
 ### Epic 0: Release Governance Model
 - [x] Governance model designed (universal: workbench + application projects)
@@ -119,6 +142,30 @@
 - [x] IDEA-025: Verify Refinement Requirements Before Implementation Close [IMPLEMENTED]
 - [x] IDEA-022: Ideation-to-Release Journey [IMPLEMENTED]
 - [x] IDEA-026: Session Lifecycle Automation — Wire Heartbeat and Conversation Logging [IMPLEMENTED]
+
+## v2.15 Release Scope
+
+### IDEAS/TECH in Scope
+- [x] IDEA-027: Orchestrator as Default Entry Point [IMPLEMENTED]
+- [x] TECH-006: Dummy Task Mode Switch — switch_mode autonomous [IMPLEMENTED]
+- [x] TECH-004 (extension): ADR-006-AMEND-001 stabilization/vX.Y + master rename [ACCEPTED-EXTENSION]
+- [x] TECH-007: --no-ff Merge Enforcement via GitHub Actions [IMPLEMENTED]
+
+### Release Status
+- [x] v2.15.0 tag created (2026-04-09)
+- [x] Released to origin
+
+## v2.15 Post-Release QA Reviews
+
+### QA Reports Completed (2026-04-09)
+- [x] QA-REPORT-v2.15-RULES-CONSISTENCY.md — Rules & Scripts consistency (F-001..F-007)
+- [x] QA-REPORT-v2.15-CANONICAL-DOCS-CONSISTENCY.md — Canonical docs consistency (F-01..F-06)
+- [x] QA-REPORT-v2.15-HUMAN-JOURNEY-GITFLOW.md — Human Journey & GitFlow (HJ-001..MS-003)
+
+## v2.16 Release Scope
+
+### IDEAS/TECH in Scope
+- [x] IDEA-030: Fix Critical Gaps — GitHub Actions + Test Coverage [IMPLEMENTED]
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

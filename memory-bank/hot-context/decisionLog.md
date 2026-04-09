@@ -24,6 +24,18 @@
 - **Decision:** Co-accept both, implement together
 - **Consequences:** New governance ADRs, release gate workflow
 
+## ADR-014: IDEA-030 Refinement — GitHub Actions Branch Patterns + Test Coverage
+
+**Date:** 2026-04-09
+
+**Context:** v2.15 consistency review identified 6 critical gaps in GitHub Actions branch triggers and test coverage.
+
+**Decision:** IDEA-030 refined with two parts:
+- Part A: Fix 3 GitHub Actions workflows to use `stabilization/v*` instead of `develop-v*`
+- Part B: Create 3 new test files for branch naming, DOC-CURRENT pointers, and SP-002 sync
+
+**Consequences:** All v2.16 release validation will use correct stabilization branch pattern.
+
 ## ADR-014: Git Hook Filename Fix for v2.13
 - **Date:** 2026-04-08
 - **Context:** QA blocker - docs reference `.githooks/pre-receive-merged-features` but actual file was `.githooks/pre-receive-detect`
@@ -48,6 +60,12 @@
 ## ADR-017: TECH-005 Timebox-First Naming Correction
 - **Date:** 2026-04-08
 - **Context:** Original TECH-005 used wrong pattern `feature/{IDEA-NNN}/{YYYY}Q{N}-{slug}` — creates hundreds of single-branch folders. User correction: `feature/{Timebox}/{IDEA-NNN}-{slug}` groups by timebox instead.
+
+## ADR-018: TECH-007 `--no-ff` Enforcement Capture
+- **Date:** 2026-04-09
+- **Context:** RULE 10.3 mandates `--no-ff` but has zero mechanical enforcement. Human asked "How do we enforce --no-ff?"
+- **Decision:** Capture as TECH-007 [IDEA] with 3 options: GitHub Actions workflow (A), pre-receive hook (B), or both (C)
+- **Consequences:** TECH-007 created, backlog updated, awaiting human refinement choice
 - **Decision:** Correct TECH-005 pattern; status updated to [REFINED]
 - **Consequences:** TECH-005 awaiting ACCEPTED/REJECTED decision. If accepted, RULE 10.1 feature branch naming will change.
 
@@ -92,6 +110,20 @@
 - **Implementation Path:**
   - v2.14: Accept `--no-ff` only (1-sentence RULE 10 change)
   - v2.15: Implement TECH-004 branch types + refining workflow + TECH-005 hybrid naming
+
+## ADR-020: v2.15 Consistency Review Findings
+- **Date:** 2026-04-09
+- **Context:** Comprehensive review of v2.15 governance system consistency across rules, scripts, docs, and processes.
+- **Decision:** Identified 42 findings across 5 review phases:
+  - 13 CRITICAL issues including GitHub Actions triggers using wrong branch naming (`develop-v*` vs `stabilization/v*`), stale DOC-CURRENT pointers, missing test coverage
+  - 12 MAJOR issues including pre-receive hook bugs, IDEA-022 journey inconsistencies, checkpoint_heartbeat.py bugs
+  - 17 MINOR issues
+- **Consequences:**
+  - 9 P0 action items must be addressed before next release
+  - 10 P1 action items for v2.16
+  - 8 P2 action items when convenient
+  - Same `develop-v*` vs `stabilization/v*` issue persists from v2.13 without fix
+- **Status:** OPEN — P0 items pending
 - **Consequences:** RULE 10 will be updated in v2.14 with `--no-ff` mandate; TECH-005 created for naming pattern evaluation
 
 ## ADR-020: TECH-004/005 User Override — Full Acceptance
@@ -104,3 +136,76 @@
   - TECH-005: Timebox-first naming convention feature/{Timebox}/{IDEA-NNN}-{slug}
 - **Consequences:** RULE 10.1 branch type table will be updated; TECH-004/TECH-005 status updated to [ACCEPTED] in backlogs
 
+## ADR-006-AMEND-001: Naming Corrections — stabilization/vX.Y + main
+- **Date:** 2026-04-09
+- **Context:** TECH-004 (Master Traceability Tree) and ADR-006 (GitFlow/RULE 10) sync resolved as **MERGE with EXCISION**. Two naming corrections approved by human during sync session (see `docs/conversations/SYNC-TECH-004-ADR-006-2026-04-09.md`).
+- **Decision:**
+  1. **`develop-vX.Y` → `stabilization/vX.Y`** — The scoped release branch is renamed to `stabilization/vX.Y`. It is a **permanent artifact** (NOT timeboxed), kept after merge for traceability. The `stabilization/` prefix unambiguously signals release preparation, not active development.
+  2. **`master` → `main`** — Standard Git convention. `main` is the canonical production branch (renamed 2026-04-09).
+  3. **`release/vX.Y.Z` EXCISED** — The separate release stabilization buffer concept is removed. `stabilization/vX.Y` subsumes this role. No dual-buffer complexity.
+  4. **Refining Workflow (Strategy B) added** — `lab/{Timebox}/{slug}` → `feature/{Timebox}/{IDEA-NNN}-{slug}` → `develop` Z-pattern documented in `memory-bank/hot-context/systemPatterns.md`.
+- **Supersedes:** ADR-006 (2026-03-28) branch table and RULE 10.1 branch definitions
+- **Files Updated:**
+  - `.clinerules` RULE 10 (all `develop-vX.Y` → `stabilization/vX.Y`, `release/vX.Y.Z` row excised)
+  - `plans/governance/ADR-006-develop-main-branching.md` (renames applied throughout)
+  - `memory-bank/hot-context/systemPatterns.md` (Refining Workflow added — done by Architect)
+  - `docs/ideas/TECH-SUGGESTIONS-BACKLOG.md` (TECH-004 → [ACCEPTED-EXTENSION] — done by Architect)
+- **Consequences:**
+  - All agents MUST use `stabilization/vX.Y` (not `develop-vX.Y`) for scoped release branches
+  - `main` is the sole production branch name going forward
+  - `release/vX.Y.Z` pattern is deprecated and must not be created
+  - Refining Workflow (Strategy B) is now a documented pattern in systemPatterns.md
+  
+  ## ADR-019: TECH-007 Refinement — Option A Selected
+  - **Date:** 2026-04-09
+  - **Context:** TECH-007 refined — human selected Option A (GitHub Actions workflow only)
+  - **Decision:** Implement `.github/workflows/require-merge-commit.yml` — triggers on PR close, verifies merge commit has 2 parents
+  - **Rationale:** Simpler than pre-receive hook, works on GitHub.com, visible in PR checks
+  - **Consequences:** TECH-007 status updated to [REFINED], implementation specification added
+  
+  ## ADR-020: TECH-007 Implementation Complete
+  - **Date:** 2026-04-09
+  - **Context:** Developer mode implemented `.github/workflows/require-merge-commit.yml`
+  - **Decision:** Workflow created — triggers on PR close, verifies merge commit has exactly 2 parents
+  - **Consequences:** TECH-007 status updated to [IMPLEMENTED], RULE 10.3 now has mechanical enforcement
+
+## ADR-022: TECH-007 Human Directive Override (2026-04-09)
+
+**Decision:** Human chose [D] to accept TECH-007 implementation as-is.
+
+**Rationale:** Direct response to governance question "How do we enforce --no-ff?" — valid expedited path per RULE 13.2.
+
+**Note:** Normal sync detection with ADR-019/ADR-020 was bypassed. Human accepts this.
+
+**Status:** TECH-007 [IMPLEMENTED]
+
+## ADR-023: RELEASE.md Backlog Maintenance Failure — Post-v2.14.0 (2026-04-09)
+
+- **Date:** 2026-04-09
+- **Context:** Human identified that `memory-bank/hot-context/RELEASE.md` was never updated after the v2.14.0 release. The "Commits Since v2.14.0" and "Features in Scope" tables were empty despite 14 commits having landed on `develop` since the tag. This is a maintenance failure: TECH-002 (`scripts/detect-merged-features.py`) was implemented specifically to auto-detect merged features and prevent this gap, but the RELEASE.md update step was not triggered.
+- **Decision:**
+  1. Populate RELEASE.md v2.15 scope retroactively with all 14 commits (IDEA-027, TECH-006, TECH-004 extension, TECH-007, and 4 governance handoff commits).
+  2. Document this failure as an ADR to create institutional memory.
+  3. Identify root cause: TECH-002 detects commits but does NOT automatically write to RELEASE.md — the agent must do so manually per RULE 2. The agent failed to execute RULE 2 item 6 ("RELEASE.md update") after the v2.14.0 release session.
+- **Root Cause:** RULE 2 item 6 was not executed at the close of the v2.14.0 release task. The Scrum Master and Developer agents both closed their sessions without populating the v2.15 draft scope.
+- **Consequences:**
+  - RELEASE.md v2.15 scope is now populated (retroactive fix applied this session).
+  - All agents MUST execute RULE 2 item 6 at task close, especially after a release tag is created.
+  - TECH-002 auto-detection is a detection tool, not a write tool — human or agent must still update RELEASE.md.
+  - Future consideration: TECH-002 could be extended to auto-write RELEASE.md draft scope (new IDEA candidate).
+  
+  ## ADR-024: v2.11 Cumulative Docs Gap — Historical Issue (2026-04-09)
+  
+  - **Date:** 2026-04-09
+  - **Context:** QA REJECTED v2.15 due to P0-2: v2.11 cumulative docs (DOC-1, DOC-2) are missing. Investigation revealed:
+    - `docs/releases/v2.11/DOC-1-v2.11-PRD.md` — **DOES NOT EXIST**
+    - `docs/releases/v2.11/DOC-2-v2.11-Architecture.md` — **DOES NOT EXIST**
+    - `docs/releases/v2.11/DOC-3-v2.11-Implementation-Plan.md` — EXISTS (release-specific)
+    - `docs/releases/v2.11/DOC-4-v2.11-Operations-Guide.md` — EXISTS (cumulative)
+    - `docs/releases/v2.11/DOC-5-v2.11-Release-Notes.md` — EXISTS (release-specific)
+  - **Decision:** This is a **historical gap** — DOC-1 and DOC-2 for v2.11 were never created. Per RULE 8.2, frozen release docs must not be retroactively modified. This gap is documented as a known issue.
+  - **Consequences:**
+    - R-CANON-7 pointer consistency check (`DOC-1-CURRENT` → v2.13, `DOC-2-CURRENT` → v2.13, `DOC-4-CURRENT` → v2.12 → **FIXED to v2.13 by P0-1**) is now consistent.
+    - v2.11 cumulative docs gap cannot be remediated retroactively — frozen release docs are immutable.
+    - This gap represents a pre-IDEA-017 violation (before canonical docs cumulative requirement was established).
+    - No action required — the inconsistency is a closed historical case.

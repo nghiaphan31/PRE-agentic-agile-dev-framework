@@ -35,3 +35,20 @@ These files are **read-only after creation** — they are historical records, no
 | 2026-04-08 | Orchestrator | [2026-04-08-orchestrator-IDEA-026-enforcement-verification.md](2026-04-08-orchestrator-IDEA-026-enforcement-verification.md) | IDEA-026 verified | Not yet triaged |
 | 2026-04-08 | Code | [2026-04-08-code-2026-04-08-code-224322.md](2026-04-08-code-2026-04-08-code-224322.md) | s2026-04-08-code-224322 | Not yet triaged |
 | 2026-04-08 | Code | [2026-04-08-code-2026-04-08-code-225218.md](2026-04-08-code-2026-04-08-code-225218.md) | s2026-04-08-code-225218 | Not yet triaged |
+| 2026-04-08 | Code | [2026-04-08-code-2026-04-08-code-230213.md](2026-04-08-code-2026-04-08-code-230213.md) | s2026-04-08-code-230213 | Not yet triaged |
+| 2026-04-08 | Code | [2026-04-08-code-2026-04-08-code-232214.md](2026-04-08-code-2026-04-08-code-232214.md) | s2026-04-08-code-232214 | Not yet triaged |
+| 2026-04-09 | Human + AI | [SYNC-TECH-004-ADR-006-2026-04-09.md](SYNC-TECH-004-ADR-006-2026-04-09.md) | TECH-004 sync with ADR-006 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-085037.md](2026-04-09-code-2026-04-09-code-085037.md) | s2026-04-09-code-085037 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-085638.md](2026-04-09-code-2026-04-09-code-085638.md) | s2026-04-09-code-085638 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-092636.md](2026-04-09-code-2026-04-09-code-092636.md) | s2026-04-09-code-092636 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-093401.md](2026-04-09-code-2026-04-09-code-093401.md) | s2026-04-09-code-093401 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-095037.md](2026-04-09-code-2026-04-09-code-095037.md) | s2026-04-09-code-095037 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-103309.md](2026-04-09-code-2026-04-09-code-103309.md) | s2026-04-09-code-103309 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-104226.md](2026-04-09-code-2026-04-09-code-104226.md) | s2026-04-09-code-104226 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-141103.md](2026-04-09-code-2026-04-09-code-141103.md) | s2026-04-09-code-141103 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-141940.md](2026-04-09-code-2026-04-09-code-141940.md) | s2026-04-09-code-141940 | Not yet triaged |
+| 2026-04-09 | Orchestrator | [REFINEMENT-2026-04-09-IDEA-030.md](REFINEMENT-2026-04-09-IDEA-030.md) | IDEA-030 refined | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-162712.md](2026-04-09-code-2026-04-09-code-162712.md) | s2026-04-09-code-162712 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-173247.md](2026-04-09-code-2026-04-09-code-173247.md) | s2026-04-09-code-173247 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-175212.md](2026-04-09-code-2026-04-09-code-175212.md) | s2026-04-09-code-175212 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-180102.md](2026-04-09-code-2026-04-09-code-180102.md) | s2026-04-09-code-180102 | Not yet triaged |

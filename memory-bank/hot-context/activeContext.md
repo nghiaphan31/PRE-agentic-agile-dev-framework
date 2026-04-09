@@ -1,8 +1,8 @@
 # Active Context
 
-**Last updated:** 2026-04-08
+**Last updated:** 2026-04-09T17:50:00Z
 
-**Active mode:** developer
+**Active mode:** code
 
 **Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
 
@@ -14,19 +14,15 @@ Fallback State: Not triggered
 
 ## Current task
 
-TECH-004 intake completed — awaiting human refinement decision
+IDEA-030 fully complete - merged to stabilization/v2.16
 
 ## Last result
 
-TECH-004 Master Traceability Tree captured:
-1. Created docs/ideas/TECH-004-master-traceability-tree.md
-2. Updated TECH-SUGGESTIONS-BACKLOG.md with TECH-004 entry
-3. Identified overlap with ADR-006 (develop/main branching) — TECH-004 is additive
-4. Sync category: 🟠 SHARED_LAYER (both touch GitFlow/RULE 10)
+Feature branch merged to stabilization/v2.16 using --no-ff. All 6 files implemented and deployed.
 
 ## Next step(s)
 
-- [ ] Human chooses refinement option: [A] Refine now, [B] Park for later, [C] Sync first with ADR-006
+- [x] All tasks complete - IDEA-030 shipped to stabilization/v2.16
 
 ## Blockers / Open questions
 
@@ -34,13 +30,18 @@ None
 
 ## Last Git commit
 
-61318fe (chore: sync v2.13 release docs to archive)
+`fdca536` docs(ideas): add IDEA-030/031/032 for v2.15 future gaps - P0/P1/P2
 
 ## Release Summary
 
-**v2.13.0** — Latest released version (2026-04-08)
-- TECH-002: Auto-Detect Merged Features for Release Scope
-- TECH-003: Single Source of Truth for Release Tracking
+**v2.15.0** — Latest released version (2026-04-09)
+- IDEA-027: Orchestrator as Default Entry Point
+- TECH-006: Dummy Task Mode Switch (switch_mode autonomous)
+- TECH-004 (extension): ADR-006-AMEND-001 stabilization/vX.Y + main rename
+- TECH-007: --no-ff Merge Enforcement via GitHub Actions
 
-**v2.14** — Draft (in progress)
+**v2.16** — Next release (TBD)
+- IDEA-030: Fix Critical Gaps — GitHub Actions + Test Coverage [MERGED]
+- IDEA-022 journey documentation update
+- 9 P0 action items from v2.15 consistency review
 

@@ -4,7 +4,7 @@
 **Title:** Authoritative Orchestrator as Default Mode
 **Source:** Human (direct remark)
 **Captured:** 2026-04-02
-**Status:** [IMPLEMENTED]
+**Status:** [PARTIAL]
 **Type:** governance
 **Tier:** Major
 **Target Release:** v2.11
@@ -139,6 +139,6 @@ This refinement removes the incorrect assumption that Orchestrator mode needs to
 |------|--------|-------|
 | 2026-04-02 | [IDEA] | Captured from human remark |
 | 2026-04-08 | [ACCEPTED] | Corrected understanding — Orchestrator is built-in; focus on default config + handoff protocol |
-| 2026-04-08 | [IMPLEMENTED] | RULE 16 added with mandatory handoff protocol; handoff-state.md schema in place |
+| 2026-04-08 | [PARTIAL] | RULE 16 added with mandatory handoff protocol; handoff-state.md schema in place. Step #1 (Make Orchestrator Default Entry Point) was never completed. Gap tracked in IDEA-027 |
 
 ---

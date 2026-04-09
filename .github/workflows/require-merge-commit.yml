@@ -1,0 +1,41 @@
+name: Require Merge Commit
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  check-merge-commit:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Get target branch
+        run: |
+          echo "TARGET_BRANCH=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+          
+      - name: Check for merge commit
+        run: |
+          # Get the merge commit SHA
+          MERGE_SHA=${{ github.event.pull_request.merge_commit_sha }}
+          
+          if [[ -z "$MERGE_SHA" ]]; then
+            echo "::error::No merge commit SHA found. PR may have been fast-forwarded."
+            echo "::error::RULE 10.3 requires --no-ff merge strategy."
+            exit 1
+          fi
+          
+          # Verify it has exactly 2 parents
+          PARENT_COUNT=$(git cat-file -p "$MERGE_SHA" | grep -c "^parent")
+          
+          if [[ "$PARENT_COUNT" -ne 2 ]]; then
+            echo "::error::Merge commit $MERGE_SHA has $PARENT_COUNT parents (expected 2)."
+            echo "::error::This indicates a fast-forward merge, which violates RULE 10.3."
+            echo "::error::Please re-merge using --no-ff flag."
+            exit 1
+          fi
+          
+          echo "✓ Merge commit verified: $MERGE_SHA (2 parents)"

@@ -3,7 +3,7 @@ name: Release Gate — Pre-Tag Coherence Audit
 on:
   push:
     branches:
-      - 'develop-v*'
+      - 'stabilization/v*'
     paths:
       - '.github/workflows/release-gate.yml'
       - 'scripts/check-prompts-sync.ps1'
@@ -37,8 +37,8 @@ jobs:
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             VERSION="${{ inputs.release_version }}"
           else
-            # Extract version from branch name (develop-v2.11 -> 2.11)
-            VERSION="${GITHUB_REF#refs/heads/develop-v}"
+            # Extract version from branch name (stabilization/v2.16 -> 2.16)
+            VERSION="${GITHUB_REF#refs/heads/stabilization/v}"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "release_version=v$VERSION" >> $GITHUB_OUTPUT

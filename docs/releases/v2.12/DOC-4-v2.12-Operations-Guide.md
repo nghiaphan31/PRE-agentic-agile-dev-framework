@@ -33,6 +33,7 @@ cumulative: true
 10. [v2.9 Operations Additions](#10-v29-operations-additions)
 11. [Ideation-to-Release Journey](#11-ideation-to-release-journey)
 12. [v2.12 Requirement Verification Gate](#12-v212-requirement-verification-gate) ⬅ NEW in v2.12
+13. [v2.14 Orchestrator Default Mode](#13-v214-orchestrator-default-mode) ⬅ NEW in v2.14
 
 ---
 
@@ -837,6 +838,51 @@ next_action:
   suggested_mode: orchestrator
 ---
 ```
+
+---
+
+## 13. v2.14 Orchestrator Default Mode
+
+### 13.1 Background
+
+IDEA-020 established the Orchestrator as the **authoritative default mode** by convention and policy (RULE 16). However, there is a ** Roo Code limitation**: Roo Code does not provide a programmatic way to set a default mode that persists across sessions.
+
+### 13.2 Known Limitation
+
+**Roo Code does not support setting a default mode** through:
+- No `defaultMode` setting in VS Code preferences
+- `.vscode/settings.json` cannot control extension mode defaults
+- Orchestrator is a BUILT-IN mode (not defined in `.roomodes`) — no configuration file controls it
+- Mode selection is purely a runtime UI action
+
+This is a **known limitation** of the Roo Code extension itself, not a gap in the workbench implementation.
+
+### 13.3 Manual Procedure: Setting Orchestrator as Default
+
+To ensure Orchestrator is your default mode at session start:
+
+1. **Open VS Code** with the workbench project
+2. **Open the Command Palette**: `Ctrl+Shift+P` (Windows) / `Cmd+Shift+P` (Mac)
+3. **Type**: "Roo Code: Switch Mode" or "Roo Code: Select Mode"
+4. **Select**: "🪃 Orchestrator"
+5. **Verify**: The mode indicator in the Roo Code chat panel shows "Orchestrator"
+
+> **Note:** This must be done manually at the start of each session. There is no way to automate this.
+
+### 13.4 Workflow Recommendation
+
+Since the Orchestrator must be manually selected:
+
+1. **At session start**: Human manually switches to Orchestrator mode
+2. **Orchestrator drives**: The Orchestrator intakes the request and delegates to appropriate personas
+3. **After task completion**: Per RULE 16, the acting agent writes handoff state and returns control to Orchestrator
+4. **Human continues**: The human observes the Orchestrator managing the workflow
+
+### 13.5 Implementation Tracking
+
+This limitation is tracked in:
+- [IDEA-027](docs/ideas/IDEA-027-orchestrator-default-mode.md) — Orchestrator as Default Entry Point
+- [IDEA-020](docs/ideas/IDEA-020-orchestrator-authoritative-default.md) — Status: [PARTIAL] (step #1 incomplete)
 
 ---
 

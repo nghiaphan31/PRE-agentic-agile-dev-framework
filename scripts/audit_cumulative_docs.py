@@ -27,8 +27,23 @@ MIN_LINES = {
     "DOC-5": 50,   # Release-specific (was 200 cumulative)
 }
 
-# Releases to check (only v2.10+ per user request - historical releases pre-v2.10 are excluded)
-RELEASES = ["v2.10", "v2.11"]
+def get_all_releases() -> list[str]:
+    """Dynamically detect all releases from docs/releases/ directory."""
+    releases_dir = Path("docs/releases")
+    if not releases_dir.exists():
+        return []
+    
+    releases = []
+    for d in releases_dir.iterdir():
+        if d.is_dir() and d.name.startswith("v"):
+            releases.append(d.name)
+    
+    # Sort by version number (newest first)
+    releases.sort(key=lambda x: [int(p) for p in x[1:].split(".")], reverse=True)
+    return releases
+
+# Releases to check (dynamically detected from docs/releases/ directory)
+RELEASES = get_all_releases()
 
 # Doc types to check
 DOC_TYPES = ["DOC-1", "DOC-2", "DOC-3", "DOC-4", "DOC-5"]

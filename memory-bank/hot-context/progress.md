@@ -166,6 +166,10 @@
 
 ### IDEAS/TECH in Scope
 - [x] IDEA-030: Fix Critical Gaps — GitHub Actions + Test Coverage [IMPLEMENTED]
+- [x] IDEA-031: Fix Major Gaps — Scripts Reliability [IMPLEMENTED]
+  - Gap 1: checkpoint_heartbeat.py --content arg for actual conversation content
+  - Gap 2: audit_cumulative_docs.py dynamic release detection (v2.10-v2.16)
+  - Gap 3: .githooks/pre-receive cumulative thresholds fixed (DOC-3: 100, DOC-5: 50)
 
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

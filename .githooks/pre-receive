@@ -99,9 +99,9 @@ check_doc_format() {
     case "$doc_name" in
       DOC-1) min_lines=500 ;;
       DOC-2) min_lines=500 ;;
-      DOC-3) min_lines=300 ;;
+      DOC-3) min_lines=100 ;;
       DOC-4) min_lines=300 ;;
-      DOC-5) min_lines=200 ;;
+      DOC-5) min_lines=50 ;;
       *) min_lines=100 ;;
     esac
     if [[ "$line_count" -lt "$min_lines" ]]; then

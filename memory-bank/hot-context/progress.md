@@ -128,5 +128,17 @@
 - [x] IDEA-022: Ideation-to-Release Journey [IMPLEMENTED]
 - [x] IDEA-026: Session Lifecycle Automation — Wire Heartbeat and Conversation Logging [IMPLEMENTED]
 
+## v2.15 Release Scope
+
+### IDEAS/TECH in Scope
+- [x] IDEA-027: Orchestrator as Default Entry Point [IMPLEMENTED]
+- [x] TECH-006: Dummy Task Mode Switch — switch_mode autonomous [IMPLEMENTED]
+- [x] TECH-004 (extension): ADR-006-AMEND-001 stabilization/vX.Y + master rename [ACCEPTED-EXTENSION]
+- [x] TECH-007: --no-ff Merge Enforcement via GitHub Actions [IMPLEMENTED]
+
+### Release Status
+- [x] v2.15.0 tag created (2026-04-09)
+- [x] Released to origin
+
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

@@ -74,7 +74,12 @@
 | [IDEA-022](IDEA-022-ideation-to-release-journey.md) | Ideation-to-Release Journey — Operational Reference | Human request + Orchestrator intake | 2026-04-08 | [IMPLEMENTED] | governance | Medium | v2.12 | Administrative closure — Chapter 11 complete, IDEA-022 process documented in DOC-4 v2.12 |
 | [IDEA-025](IDEA-025-verify-refinement-requirements.md) | Verify Refinement Requirements Before Implementation Close | TECH-002 implementation gap (R-005) | 2026-04-08 | [IMPLEMENTED] | governance | Medium | v2.12 | Requirement verification gate - handoff-state.md schema v2.0, DOC-3/DOC-4 updated |
 | [IDEA-026](IDEA-026-session-lifecycle-automation.md) | Session Lifecycle Automation — Wire Heartbeat and Conversation Logging | Analysis gap (IDEA-019 exists but not automated) | 2026-04-08 | [IMPLEMENTED] | dev-tooling | Minor | v2.14 | Wire checkpoint_heartbeat.py automation: VS Code task, session-end trigger, CI workflows |
-| [IDEA-027](IDEA-027-orchestrator-default-mode.md) | Orchestrator as Default Entry Point | Human 2026-04-08 | 2026-04-08 | [ACCEPTED] | governance | Major | v2.14 | Document manual procedure + update RULE 16 |
+
+### v2.15 Scope (Frozen)
+
+| ID | Title | Trigger | Created | Status | Type | Priority | Release | Notes |
+|----|-------|---------|---------|--------|------|----------|---------|-------|
+| [IDEA-027](IDEA-027-orchestrator-default-mode.md) | Orchestrator as Default Entry Point | Human 2026-04-08 | 2026-04-08 | [IMPLEMENTED] | governance | Major | v2.15 | RULE 16.5 auto-switch implemented, limitation documented |
 
 ---
 

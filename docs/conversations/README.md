@@ -43,3 +43,5 @@ These files are **read-only after creation** — they are historical records, no
 | 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-092636.md](2026-04-09-code-2026-04-09-code-092636.md) | s2026-04-09-code-092636 | Not yet triaged |
 | 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-093401.md](2026-04-09-code-2026-04-09-code-093401.md) | s2026-04-09-code-093401 | Not yet triaged |
 | 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-095037.md](2026-04-09-code-2026-04-09-code-095037.md) | s2026-04-09-code-095037 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-103309.md](2026-04-09-code-2026-04-09-code-103309.md) | s2026-04-09-code-103309 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-104226.md](2026-04-09-code-2026-04-09-code-104226.md) | s2026-04-09-code-104226 | Not yet triaged |

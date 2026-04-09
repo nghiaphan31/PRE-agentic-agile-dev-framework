@@ -48,6 +48,12 @@
 ## ADR-017: TECH-005 Timebox-First Naming Correction
 - **Date:** 2026-04-08
 - **Context:** Original TECH-005 used wrong pattern `feature/{IDEA-NNN}/{YYYY}Q{N}-{slug}` — creates hundreds of single-branch folders. User correction: `feature/{Timebox}/{IDEA-NNN}-{slug}` groups by timebox instead.
+
+## ADR-018: TECH-007 `--no-ff` Enforcement Capture
+- **Date:** 2026-04-09
+- **Context:** RULE 10.3 mandates `--no-ff` but has zero mechanical enforcement. Human asked "How do we enforce --no-ff?"
+- **Decision:** Capture as TECH-007 [IDEA] with 3 options: GitHub Actions workflow (A), pre-receive hook (B), or both (C)
+- **Consequences:** TECH-007 created, backlog updated, awaiting human refinement choice
 - **Decision:** Correct TECH-005 pattern; status updated to [REFINED]
 - **Consequences:** TECH-005 awaiting ACCEPTED/REJECTED decision. If accepted, RULE 10.1 feature branch naming will change.
 
@@ -123,4 +129,17 @@
   - `main` is the sole production branch name going forward
   - `release/vX.Y.Z` pattern is deprecated and must not be created
   - Refining Workflow (Strategy B) is now a documented pattern in systemPatterns.md
+  
+  ## ADR-019: TECH-007 Refinement — Option A Selected
+  - **Date:** 2026-04-09
+  - **Context:** TECH-007 refined — human selected Option A (GitHub Actions workflow only)
+  - **Decision:** Implement `.github/workflows/require-merge-commit.yml` — triggers on PR close, verifies merge commit has 2 parents
+  - **Rationale:** Simpler than pre-receive hook, works on GitHub.com, visible in PR checks
+  - **Consequences:** TECH-007 status updated to [REFINED], implementation specification added
+  
+  ## ADR-020: TECH-007 Implementation Complete
+  - **Date:** 2026-04-09
+  - **Context:** Developer mode implemented `.github/workflows/require-merge-commit.yml`
+  - **Decision:** Workflow created — triggers on PR close, verifies merge commit has exactly 2 parents
+  - **Consequences:** TECH-007 status updated to [IMPLEMENTED], RULE 10.3 now has mechanical enforcement
 

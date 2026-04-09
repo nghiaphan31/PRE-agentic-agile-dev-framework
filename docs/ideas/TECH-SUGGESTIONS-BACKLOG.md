@@ -33,7 +33,8 @@ Technical suggestions ("How" proposals) are tracked separately from business req
 | TECH-006 | Dummy Task Mode Switch | 2026-04-08 | [IMPLEMENTED] | 2/10 | Implemented: Added auto-switch instruction to RULE 16.5 — invoke switch_mode("orchestrator") at session start |
 | TECH-004 | Master Traceability Tree — Enhanced Git Flow | 2026-04-08 | [ACCEPTED-EXTENSION] | 8/10 | Extension of ADR-006. stabilization/vX.Y replaces release/vX.Y.Z. Refining workflow (lab→feature→develop) documented. |
 | TECH-005 | Timebox-First Branch Naming Convention | 2026-04-08 | [IMPLEMENTED] | 3/10 | RULE 10 updated: feature/{Timebox}/{IDEA-NNN}-{slug} pattern. Implemented in v2.14 scope. |
+| TECH-007 | Mechanical `--no-ff` Merge Enforcement | 2026-04-09 | [IMPLEMENTED] | 3/10 | Option A: GitHub Actions workflow implemented. `.github/workflows/require-merge-commit.yml` creates merge commit with 2 parents verification. |
 
 ---
 
-*Generated 2026-04-08*
+*Generated 2026-04-09*

@@ -14,7 +14,11 @@ Fallback State: Not triggered
 
 ## Current task
 
-ADR-006 Amendment + RULE 10 update: `develop-vX.Y` → `stabilization/vX.Y`, `master` → `main`, `release/vX.Y.Z` excised (TECH-004 / ADR-006 sync resolution)
+TECH-007 Implementation completed
+- Created: `.github/workflows/require-merge-commit.yml`
+- Verifies merge commits have exactly 2 parents (no fast-forward)
+- Status: [IMPLEMENTED]
+- Pending: git commit
 
 ## Last result
 

@@ -140,5 +140,18 @@
 - [x] v2.15.0 tag created (2026-04-09)
 - [x] Released to origin
 
+## v2.15 Post-Release QA Reviews
+
+### QA Reports Completed (2026-04-09)
+- [x] QA-REPORT-v2.15-RULES-CONSISTENCY.md — Rules & Scripts consistency (F-001..F-007)
+- [x] QA-REPORT-v2.15-CANONICAL-DOCS-CONSISTENCY.md — Canonical docs consistency (F-01..F-06)
+- [x] QA-REPORT-v2.15-HUMAN-JOURNEY-GITFLOW.md — Human Journey & GitFlow (HJ-001..MS-003)
+
+### P0 Blockers Identified for v2.16
+- [ ] GF-001: Fix `release-gate.yml` trigger: `develop-v*` → `stabilization/v*`
+- [ ] GF-002: Fix `canonical-docs-check.yml` trigger: `develop-v*` → `stabilization/v*`
+- [ ] GF-003: Fix `release-consistency-check.yml` trigger: add `stabilization/v*`
+- [ ] GF-004: Fix `release-gate.yml` version extraction: `develop-v` → `stabilization/v`
+
 ## Legend
 - [ ] To do  |  [-] In progress  |  [x] Done

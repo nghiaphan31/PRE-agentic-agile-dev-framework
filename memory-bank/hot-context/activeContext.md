@@ -1,12 +1,12 @@
 # Active Context
 
-**Last updated:** 2026-04-09
+**Last updated:** 2026-04-09T14:09:00Z
 
-**Active mode:** developer
+**Active mode:** scrum-master
 
-**Active LLM backend:** MinMax M2.7 via OpenRouter (minimax/minimax-m2.7)
+**Active LLM backend:** Claude Sonnet 4.6
 
-LLM Backend: minmax (default via OpenRouter)
+LLM Backend: claude-sonnet-4-6
 
 Consecutive Errors: 0
 
@@ -14,29 +14,30 @@ Fallback State: Not triggered
 
 ## Current task
 
-Create v2.15.0 release tag — QA APPROVED.
+v2.15 Consistency Review: Human Journey & GitFlow — QA report delivered.
 
 ## Last result
 
-v2.15.0 release completed (2026-04-09):
-1. Tag v2.15.0 created on develop
-2. Tag pushed to origin
-3. Fast-forward merge develop ← master (already up to date)
-4. RELEASE.md updated: v2.15 moved to Released Versions, current = v2.15.0
-5. Draft area cleared
+Completed v2.15 Human Journey & GitFlow consistency review (2026-04-09):
+- Created `docs/qa/QA-REPORT-v2.15-HUMAN-JOURNEY-GITFLOW.md`
+- 21 findings total: 3 CRITICAL, 8 MAJOR, 10 MINOR
+- 17 new findings not in prior QA reports
+- Key issues: 3 GitHub Actions workflows still use `develop-v*` (GF-001/002/003), IDEA-022 uses stale branch names and phase structure, RULE 16.5 ambiguous scope
 
 ## Next step(s)
 
-- [ ] Commit release changes
-- [ ] Run checkpoint heartbeat
+- [ ] Developer to fix 3 CRITICAL GitHub Actions workflows (GF-001, GF-002, GF-003)
+- [ ] Architect to update IDEA-022 and PLAN-IDEA-022 with correct branch names and phase structure
+- [ ] Scrum Master to clarify RULE 16.5 scope in .clinerules
 
 ## Blockers / Open questions
 
-None
+- P0: 3 GitHub Actions workflows trigger on `develop-v*` instead of `stabilization/v*` — will not fire on next release branch
+- IDEA-022 primary deliverable (DOC-4 chapter) was never created despite being marked [IMPLEMENTED]
 
 ## Last Git commit
 
-v2.15.0 (tag created on develop)
+(pending — memory bank update + QA report commit)
 
 ## Release Summary
 
@@ -47,4 +48,6 @@ v2.15.0 (tag created on develop)
 - TECH-007: --no-ff Merge Enforcement via GitHub Actions
 
 **v2.16** — Next release (TBD)
+- P0 fixes for GitHub Actions workflows (GF-001, GF-002, GF-003)
+- IDEA-022 journey documentation update
 

@@ -125,6 +125,7 @@ Before closing any task (before attempt_completion), you MUST update:
    - RULE 8.3 Conversation Log Mandate requires all conversations be saved
 
 > **Note:** If SP-002 (.clinerules) was modified, increment its version per RULE 6.2 protocol.
+
 > **Clarification:** If an agent completes work on an IDEA (whether accepting, refining, implementing, etc.), it MUST update that IDEA's status in the backlog before closing the task.
 
 
@@ -547,6 +548,8 @@ This rule applies to ALL modes. It is NON-NEGOTIABLE.
 | bugfix/{Timebox}/{Ticket}-{slug} | Planned bug fix (not emergency). **Active Dev.** Timebox: `YYYY-QN` (Quarter) or `Sprint-NN`. | Branch from stabilization/vX.Y or develop, merge back via PR. Examples: `bugfix/2026-Q2/T-305-UI-Align`, `bugfix/Sprint-42/T-310-API-Timeout` |
 | hotfix/{Ticket} | Emergency production fix. **Production.** No timebox — tied to semantic version. | Branched from the production tag on main. Merged to main and develop, then deleted. Example: `hotfix/T-202-DB-Leak` |
 
+> **Note:** `main` is the canonical production branch (renamed from `master` on 2026-04-09). `stabilization/vX.Y` replaces both `develop-vX.Y` and `release/vX.Y.Z` (ADR-006-AMEND-001, 2026-04-09).
+
 ### 10.2 -- Forbidden Actions
 
 - **NEVER** commit directly on main after a release tag
@@ -664,9 +667,9 @@ Minimum line counts:
 
 **R-CANON-1**: Canonical docs on `develop`: Only via feature branch (`feature/canon-doc-*`)
 
-**R-CANON-2**: Canonical docs on `stabilization/vX.Y`: Only via feature branch scoped to that release
+**R-CANON-2**: Canonical docs on `develop-vX.Y`: Only via feature branch scoped to that release
 
-**R-CANON-3**: Direct commits on `develop` or `stabilization/vX.Y` to canonical docs are **FORBIDDEN**
+**R-CANON-3**: Direct commits on `develop` or `develop-vX.Y` to canonical docs are **FORBIDDEN**
 
 **R-CANON-4**: Exception: Governance-only commits (ADRs, RULE additions) MAY be committed directly per RULE 10.3 exception
 
@@ -675,7 +678,7 @@ Minimum line counts:
 
 **R-CANON-5**: All 3 cumulative docs (DOC-1, DOC-2, DOC-4) MUST be updated together for any release
 
-**R-CANON-6**: When merging to `stabilization/vX.Y`, the 3 cumulative DOC-*-vX.Y-*.md files must exist and be consistent. DOC-3 and DOC-5 are release-specific and updated independently per release.
+**R-CANON-6**: When merging to `develop-vX.Y`, the 3 cumulative DOC-*-vX.Y-*.md files must exist and be consistent. DOC-3 and DOC-5 are release-specific and updated independently per release.
 
 **R-CANON-7**: The `DOC-*-CURRENT.md` pointer files for cumulative docs (DOC-1, DOC-2, DOC-4) MUST all point to the same release version. DOC-3-CURRENT and DOC-5-CURRENT point to their respective latest release-specific files.
 

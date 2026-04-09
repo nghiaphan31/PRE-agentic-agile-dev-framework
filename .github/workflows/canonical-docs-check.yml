@@ -8,7 +8,7 @@ on:
   push:
     branches:
       - 'develop'
-      - 'develop-v*'
+      - 'stabilization/v*'
       - 'main'
     paths:
       - 'docs/DOC-*-CURRENT.md'

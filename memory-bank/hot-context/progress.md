@@ -98,6 +98,14 @@
 - [x] Implement: .clinerules RULE 2 update
 - [x] Fast-forward merge to develop: SUCCESS
 
+### TECH-004: Master Traceability Tree [ACCEPTED-EXTENSION]
+- [x] ADR-006 sync resolved via SYNC session (2026-04-09)
+- [x] TECH-004 → [ACCEPTED-EXTENSION] status confirmed (extension to RULE 10, not release-scoped)
+- [x] RULE 10.1 branch table updated: develop-vX.Y → stabilization/vX.Y, master → main
+- [x] `--no-ff` merge strategy accepted for all Planned Dev, Ad-Hoc, Cold Fix branches
+- [x] ADR-006 rebuilt from canonical sources
+- [x] SP-002 rebuilt via scripts/rebuild_sp002.py
+
 ## Product Features
 
 ### Epic 0: Release Governance Model

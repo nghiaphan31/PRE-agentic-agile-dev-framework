@@ -167,3 +167,19 @@
   - All agents MUST execute RULE 2 item 6 at task close, especially after a release tag is created.
   - TECH-002 auto-detection is a detection tool, not a write tool — human or agent must still update RELEASE.md.
   - Future consideration: TECH-002 could be extended to auto-write RELEASE.md draft scope (new IDEA candidate).
+  
+  ## ADR-024: v2.11 Cumulative Docs Gap — Historical Issue (2026-04-09)
+  
+  - **Date:** 2026-04-09
+  - **Context:** QA REJECTED v2.15 due to P0-2: v2.11 cumulative docs (DOC-1, DOC-2) are missing. Investigation revealed:
+    - `docs/releases/v2.11/DOC-1-v2.11-PRD.md` — **DOES NOT EXIST**
+    - `docs/releases/v2.11/DOC-2-v2.11-Architecture.md` — **DOES NOT EXIST**
+    - `docs/releases/v2.11/DOC-3-v2.11-Implementation-Plan.md` — EXISTS (release-specific)
+    - `docs/releases/v2.11/DOC-4-v2.11-Operations-Guide.md` — EXISTS (cumulative)
+    - `docs/releases/v2.11/DOC-5-v2.11-Release-Notes.md` — EXISTS (release-specific)
+  - **Decision:** This is a **historical gap** — DOC-1 and DOC-2 for v2.11 were never created. Per RULE 8.2, frozen release docs must not be retroactively modified. This gap is documented as a known issue.
+  - **Consequences:**
+    - R-CANON-7 pointer consistency check (`DOC-1-CURRENT` → v2.13, `DOC-2-CURRENT` → v2.13, `DOC-4-CURRENT` → v2.12 → **FIXED to v2.13 by P0-1**) is now consistent.
+    - v2.11 cumulative docs gap cannot be remediated retroactively — frozen release docs are immutable.
+    - This gap represents a pre-IDEA-017 violation (before canonical docs cumulative requirement was established).
+    - No action required — the inconsistency is a closed historical case.

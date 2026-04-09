@@ -143,3 +143,12 @@
   - **Decision:** Workflow created — triggers on PR close, verifies merge commit has exactly 2 parents
   - **Consequences:** TECH-007 status updated to [IMPLEMENTED], RULE 10.3 now has mechanical enforcement
 
+## ADR-022: TECH-007 Human Directive Override (2026-04-09)
+
+**Decision:** Human chose [D] to accept TECH-007 implementation as-is.
+
+**Rationale:** Direct response to governance question "How do we enforce --no-ff?" — valid expedited path per RULE 13.2.
+
+**Note:** Normal sync detection with ADR-019/ADR-020 was bypassed. Human accepts this.
+
+**Status:** TECH-007 [IMPLEMENTED]

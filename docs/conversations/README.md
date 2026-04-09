@@ -40,3 +40,5 @@ These files are **read-only after creation** — they are historical records, no
 | 2026-04-09 | Human + AI | [SYNC-TECH-004-ADR-006-2026-04-09.md](SYNC-TECH-004-ADR-006-2026-04-09.md) | TECH-004 sync with ADR-006 | Not yet triaged |
 | 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-085037.md](2026-04-09-code-2026-04-09-code-085037.md) | s2026-04-09-code-085037 | Not yet triaged |
 | 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-085638.md](2026-04-09-code-2026-04-09-code-085638.md) | s2026-04-09-code-085638 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-092636.md](2026-04-09-code-2026-04-09-code-092636.md) | s2026-04-09-code-092636 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-093401.md](2026-04-09-code-2026-04-09-code-093401.md) | s2026-04-09-code-093401 | Not yet triaged |

@@ -5,8 +5,8 @@
 **Title:** Ideation-to-Release Journey — Operational Reference
 **Type:** `governance`
 **Tier:** `Medium`
-**Status:** `[IDEA]`
-**Target Release:** `v2.10`
+**Status:** `[IMPLEMENTED]`
+**Target Release:** `v2.12`
 **Captured:** `2026-04-08`
 **Source:** Human request + Orchestrator intake
 **Disposition:** New documentation chapter in DOC-4

@@ -48,6 +48,20 @@
         ["command", { "allowedCommands": ["npm test", "npm run test", "pytest", "python -m pytest", "dotnet test", "go test", "git status", "git log"], "description": "Test commands and Git consultation" }]
       ],
       "source": "project"
+    },
+    {
+      "slug": "orchestrator",
+      "name": "🪃 Orchestrator",
+      "_version": "1.0.0",
+      "roleDefinition": "You are the Orchestrator Agent. You handle idea intake, classification, and sync detection. You route off-topic inputs to the correct specialist. You maintain the hot-context/handoff-state.md for mandatory handoffs. You invoke switch_mode() at session start per RULE 16.5. Your default LLM backend is MinMax M2.7 via OpenRouter.",
+      "groups": [
+        "read",
+        "edit",
+        "browser",
+        "command",
+        "mcp"
+      ],
+      "source": "builtin"
     }
   ]
 }

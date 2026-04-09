@@ -6,10 +6,11 @@ This script is the canonical, cross-platform way to synchronize SP-002
 (whose embedded code block must always match .clinerules byte-for-byte).
 
 Usage:
-    python scripts/rebuild_sp002.py [--check]
+    python scripts/rebuild_sp002.py [--check] [--dry-run]
 
 Options:
     --check   Verify SP-002 matches .clinerules without writing anything.
+    --dry-run Show what would be rebuilt without writing to disk.
 
 Exit codes:
     0  SP-002 is synchronized (--check) OR rebuild succeeded (default)
@@ -114,11 +115,26 @@ def rebuild() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Rebuild or verify prompts/SP-002-clinerules-global.md")
     parser.add_argument("--check", action="store_true", help="Verify SP-002 matches .clinerules without writing")
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be rebuilt without writing to disk")
     args = parser.parse_args()
 
     if args.check:
         success = check()
         sys.exit(0 if success else 1)
+    elif args.dry_run:
+        try:
+            header = extract_header(SP002_PATH)
+            footer = extract_footer(SP002_PATH)
+            clinerules = CLINERULES_PATH.read_text(encoding="utf-8")
+        except (FileNotFoundError, ValueError) as e:
+            print(f"ERROR: {e}", file=sys.stderr)
+            sys.exit(2)
+        result = header + clinerules + footer
+        print(f"DRY-RUN: Would rebuild SP-002 with {len(result)} total chars")
+        print(f"  header: {len(header)} chars")
+        print(f"  .clinerules: {len(clinerules)} chars")
+        print(f"  footer: {len(footer)} chars")
+        sys.exit(0)
     else:
         rebuild()
         # Verify after rebuild

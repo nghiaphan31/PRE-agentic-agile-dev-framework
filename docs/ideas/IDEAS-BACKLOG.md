@@ -78,7 +78,7 @@
 | IDEA-029 | Add Branch Naming Enforcement Tests | v2.15 consistency review (TC-008) | 2026-04-09 | [IDEA] | dev-tooling | Minor | v2.16 | No tests exist for branch naming enforcement — add comprehensive test coverage |
 | [IDEA-030](IDEA-030-fix-critical-gaps.md) | Fix Critical Gaps — GitHub Actions + Test Coverage | v2.15 consistency review (synthesis) | 2026-04-09 | [IMPLEMENTED] | fix | Major | v2.16 | 6 critical issues: GitHub Actions trigger wrong branch, no tests for critical paths (P0, XL) |
 | [IDEA-031](IDEA-031-scripts-reliability.md) | Fix Major Gaps — Scripts Reliability | v2.15 consistency review (synthesis) | 2026-04-09 | [REFINED] | fix | Major | v2.17 | 3 gaps: log_conversation placeholder, hardcoded releases, wrong thresholds (P1, L) |
-| [IDEA-032](IDEA-032-fix-minor-gaps.md) | Fix Minor Gaps — Documentation Consistency | v2.15 consistency review (synthesis) | 2026-04-09 | [IDEA] | fix | Minor | v2.16 | 17 minor issues: documentation inconsistencies across 11 files (P2, M) |
+| [IDEA-032](IDEA-032-documentation-consistency.md) | Fix Minor Gaps — Documentation Consistency | v2.15 consistency review (synthesis) | 2026-04-09 | [REFINED] | fix | Minor | v2.17 | 17 minor issues: documentation inconsistencies across 11 files (P2, M) |
 
 ### v2.15 Scope (Frozen)
 

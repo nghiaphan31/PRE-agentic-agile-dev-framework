@@ -49,3 +49,5 @@ These files are **read-only after creation** — they are historical records, no
 | 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-141940.md](2026-04-09-code-2026-04-09-code-141940.md) | s2026-04-09-code-141940 | Not yet triaged |
 | 2026-04-09 | Orchestrator | [REFINEMENT-2026-04-09-IDEA-030.md](REFINEMENT-2026-04-09-IDEA-030.md) | IDEA-030 refined | Not yet triaged |
 | 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-162712.md](2026-04-09-code-2026-04-09-code-162712.md) | s2026-04-09-code-162712 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-173247.md](2026-04-09-code-2026-04-09-code-173247.md) | s2026-04-09-code-173247 | Not yet triaged |
+| 2026-04-09 | Code | [2026-04-09-code-2026-04-09-code-175212.md](2026-04-09-code-2026-04-09-code-175212.md) | s2026-04-09-code-175212 | Not yet triaged |

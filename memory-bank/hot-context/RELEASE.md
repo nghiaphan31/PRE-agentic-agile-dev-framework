@@ -1,7 +1,7 @@
 # Release Tracking
 
 **Current Released Version:** v2.15.0
-**Current Draft Version:** None (next release TBD)
+**Current Draft Version:** v2.16 (stabilization/v2.16)
 
 ---
 
@@ -33,7 +33,7 @@
 
 | Version | Branch | Status | Target Release Date |
 |---------|--------|--------|---------------------|
-| None | — | — | — |
+| v2.16 | stabilization/v2.16 | In Progress | TBD |
 
 ---
 
@@ -42,7 +42,7 @@
 **Released version:** v2.15.0
 **Status:** Frozen
 **Base:** v2.14.0 (previous tag)
-**Branch:** master
+**Branch:** master 
 
 ### Commits Since v2.14.0
 
@@ -74,7 +74,27 @@
 
 ---
 
-**Last updated:** 2026-04-09T14:30:00Z
+## v2.16 Scope (Draft)
+
+**Version:** v2.16
+**Status:** Draft
+**Base:** v2.15.0
+**Branch:** stabilization/v2.16
+
+### Commits Since v2.15.0
+
+| Commit | Description | Date | IDEA/TECH |
+|--------|-------------|------|-----------|
+
+### Features in Scope
+
+| IDEA/TECH | Title | Status |
+|-----------|-------|--------|
+| IDEA-030 | Fix Critical Gaps — GitHub Actions + Test Coverage | [MERGED] |
+
+---
+
+**Last updated:** 2026-04-09T17:50:00Z
 
 **Source:** This is the operational source of truth for release tracking.
 
